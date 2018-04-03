@@ -1,9 +1,19 @@
 # wordpress-start
 Wordpress + Sage Theme + Base Plugins
 
-
 * [Fork Method](https://education.github.com/guide/forks)
 * [Sandboxing Method](https://education.github.com/guide/sandboxing)
+
+## Quick Start Guide
+
+1. Fork this Repository.
+2. Clone to your local development environment root.
+3. Complete Theme Setup.
+4. Run WordPress' Famous 5-Minute Installation.
+4. Work on Exercises.
+5. Commit your work.
+6. Submit Pull Request.
+7. Dance.
 
 
 ## Requirements
@@ -38,6 +48,15 @@ Install Sage using Composer from your WordPress themes directory (replace `your-
 # @ example.com/site/web/app/themes/
 $ composer create-project roots/sage your-theme-name 8.5.4
 ```
+
+## Plugins
+
+| Name                      | Plugin Link
+| ------------------------- | ------------- |
+| Beaver Builder            | [php.net](http://php.net/manual/en/install.php) |
+| Advanced Custom Fields    | [nodejs.org](http://nodejs.org/) |
+
+
 
 ### Available gulp commands
 
