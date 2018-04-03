@@ -53,10 +53,10 @@ $ composer create-project roots/sage your-theme-name 8.5.4
 
 | Name                      | Plugin Link
 | ------------------------- | ------------- |
-| Beaver Builder            | [php.net](http://php.net/manual/en/install.php) |
-| Advanced Custom Fields    | [nodejs.org](http://nodejs.org/) |
-
-
+| All-in-One WP Migration   |
+| Custom Post Type UI       |
+| Advanced Custom Fields    | [nodejs.org](http://nodejs.org/)
+| Beaver Builder            | [php.net](http://php.net/manual/en/install.php)
 
 ### Available gulp commands
 
