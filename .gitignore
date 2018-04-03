@@ -1,14 +1,9 @@
 # -----------------------------------------------------------------
-# .gitignore for WordPress
-# Bare Minimum Git
-# http://ironco.de/bare-minimum-git/
-# ver 20150227
+# .gitignore for RG WordPress
+# ver 20180227
 #
-# This file is tailored for a WordPress project 
-# using the default directory structure
-#
-# This file specifies intentionally untracked files to ignore
-# http://git-scm.com/docs/gitignore
+# This file is tailored for our WordPress projects
+# using the default directory structure.
 #
 # NOTES:
 # The purpose of gitignore files is to ensure that certain files not
@@ -22,11 +17,6 @@
 #
 # Change Log:
 # 20150227 Ignore hello.php plugin. props @damienfa
-# 20150227 Change theme ignore to wildcard twenty*. props @Z33
-# 20140606 Add .editorconfig as a tracked file
-# 20140404 Ignore database, compiled, and packaged files
-# 20140404 Header Information Updated
-# 20140402 Initially Published
 #
 # -----------------------------------------------------------------
 
