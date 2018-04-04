@@ -23,21 +23,22 @@ final class FLBuilderIcons {
 	 * @since 1.4.6
 	 * @return array An array of data for each icon set.
 	 */
-	static public function get_sets()
-	{
+	static public function get_sets() {
+		$switched = false;
 		// Return the sets if already registered.
 		if ( self::$sets ) {
 			return self::$sets;
 		}
-
+		global $blog_id;
 		// Check to see if we should pull sets from the main site.
-		if ( is_multisite()) {
+		if ( is_multisite() ) {
 
-			$blog_id		= defined( 'BLOG_ID_CURRENT_SITE' ) ? BLOG_ID_CURRENT_SITE : 1;
+			$id		= defined( 'BLOG_ID_CURRENT_SITE' ) ? BLOG_ID_CURRENT_SITE : 1;
 			$enabled_icons	= get_option( '_fl_builder_enabled_icons' );
 
-			if ( empty( $enabled_icons ) ) {
-				switch_to_blog( $blog_id );
+			if ( ( $id != $blog_id ) && empty( $enabled_icons ) ) {
+				switch_to_blog( $id );
+				$switched = true;
 			}
 		}
 
@@ -46,7 +47,7 @@ final class FLBuilderIcons {
 		self::register_core_sets();
 
 		// Revert to the current site if we pulled from the main site.
-		if ( is_multisite() && empty( $enabled_icons ) ) {
+		if ( is_multisite() && $switched ) {
 			restore_current_blog();
 		}
 
@@ -64,8 +65,7 @@ final class FLBuilderIcons {
 	 * @since 1.4.6
 	 * @return array An array of data for each icon set.
 	 */
-	static public function get_sets_for_current_site()
-	{
+	static public function get_sets_for_current_site() {
 		if ( ! is_multisite() ) {
 			return self::get_sets();
 		}
@@ -94,8 +94,7 @@ final class FLBuilderIcons {
 	 * @param string $key The key for the set to remove.
 	 * @return void
 	 */
-	static public function remove_set( $key )
-	{
+	static public function remove_set( $key ) {
 		if ( self::$sets && isset( self::$sets[ $key ] ) ) {
 			unset( self::$sets[ $key ] );
 		}
@@ -108,8 +107,7 @@ final class FLBuilderIcons {
 	 * @param string $path The path to retrieve a key for.
 	 * @return string The icon set key.
 	 */
-	static public function get_key_from_path( $path )
-	{
+	static public function get_key_from_path( $path ) {
 		$sets = self::get_sets();
 
 		foreach ( $sets as $key => $set ) {
@@ -126,22 +124,21 @@ final class FLBuilderIcons {
 	 * @access private
 	 * @return void
 	 */
-	static private function register_core_sets()
-	{
+	static private function register_core_sets() {
 		$enabled_icons = FLBuilderModel::get_enabled_icons();
 		$core_sets = apply_filters( 'fl_builder_core_icon_sets', array(
 			'font-awesome' => array(
 				'name'	 => 'Font Awesome',
-				'prefix' => 'fa'
+				'prefix' => 'fa',
 			),
 			'foundation-icons' => array(
 				'name'	 => 'Foundation Icons',
-				'prefix' => ''
+				'prefix' => '',
 			),
 			'dashicons' => array(
 				'name'	 => 'WordPress Dashicons',
-				'prefix' => 'dashicons dashicons-before'
-			)
+				'prefix' => 'dashicons dashicons-before',
+			),
 		) );
 
 		// Add the core sets.
@@ -150,9 +147,14 @@ final class FLBuilderIcons {
 				self::$sets[ $set_key ] = array(
 					'name'	 => $set_data['name'],
 					'prefix' => $set_data['prefix'],
-					'type'	 => 'core'
+					'type'	 => 'core',
 				);
 			}
+		}
+
+		// if there are no registered sets stop here.
+		if ( ! is_array( self::$sets ) ) {
+			return;
 		}
 
 		// Loop through core sets and add icons.
@@ -173,15 +175,14 @@ final class FLBuilderIcons {
 	 * @access private
 	 * @return void
 	 */
-	static private function register_custom_sets()
-	{
+	static private function register_custom_sets() {
 		// Get uploaded sets.
 		$enabled_icons = FLBuilderModel::get_enabled_icons();
 		$upload_info   = FLBuilderModel::get_cache_dir( 'icons' );
 		$folders	   = glob( $upload_info['path'] . '*' );
 
 		// Make sure we have an array.
-		if( ! is_array( $folders ) ) {
+		if ( ! is_array( $folders ) ) {
 			return;
 		}
 
@@ -189,16 +190,16 @@ final class FLBuilderIcons {
 		foreach ( $folders as $folder ) {
 
 			// Make sure we have a directory.
-			if ( ! is_dir( $folder ) ) {
+			if ( ! fl_builder_filesystem()->is_dir( $folder ) ) {
 				continue;
 			}
 
 			$folder = trailingslashit( $folder );
 
 			// This is an Icomoon font.
-			if ( file_exists( $folder . 'selection.json' ) ) {
+			if ( fl_builder_filesystem()->file_exists( $folder . 'selection.json' ) ) {
 
-				$data = json_decode( file_get_contents( $folder . 'selection.json' ) );
+				$data = json_decode( fl_builder_filesystem()->file_get_contents( $folder . 'selection.json' ) );
 				$key  = basename( $folder );
 				$url  = str_ireplace( $upload_info['path'], $upload_info['url'], $folder );
 
@@ -213,7 +214,7 @@ final class FLBuilderIcons {
 							'path'		 => $folder,
 							'url'		 => $url,
 							'stylesheet' => $url . 'style.css',
-							'icons'		 => array()
+							'icons'		 => array(),
 						);
 
 						foreach ( $data->icons as $icon ) {
@@ -222,9 +223,9 @@ final class FLBuilderIcons {
 							$postfix = isset( $prefs->postfix ) ? $prefs->postfix : '';
 
 							if ( isset( $prefs->selector ) && 'class' == $prefs->selector ) {
+								// @codingStandardsIgnoreLine
 								$selector = trim( str_replace( '.', ' ', $prefs->classSelector ) ) . ' ';
-							}
-							else {
+							} else {
 								$selector = '';
 							}
 
@@ -232,11 +233,10 @@ final class FLBuilderIcons {
 						}
 					}
 				}
-			}
-			// This is a Fontello font.
-			else if ( file_exists( $folder . 'config.json' ) ) {
+			} // End if().
+			elseif ( fl_builder_filesystem()->file_exists( $folder . 'config.json' ) ) {
 
-				$data  = json_decode( file_get_contents( $folder . 'config.json' ) );
+				$data  = json_decode( fl_builder_filesystem()->file_get_contents( $folder . 'config.json' ) );
 				$key   = basename( $folder );
 				$name  = empty( $data->name ) ? 'Fontello' : $data->name;
 				$url   = str_ireplace( $upload_info['path'], $upload_info['url'], $folder );
@@ -262,21 +262,20 @@ final class FLBuilderIcons {
 							'path'		 => $folder,
 							'url'		 => $url,
 							'stylesheet' => $url . 'css/' . $style . '.css',
-							'icons'		 => array()
+							'icons'		 => array(),
 						);
 
 						foreach ( $data->glyphs as $icon ) {
 							if ( $data->css_use_suffix ) {
 								self::$sets[ $key ]['icons'][] = $icon->css . $data->css_prefix_text;
-							}
-							else {
+							} else {
 								self::$sets[ $key ]['icons'][] = $data->css_prefix_text . $icon->css;
 							}
 						}
 					}
 				}
 			}
-		}
+		}// End foreach().
 	}
 
 	/**
@@ -285,8 +284,7 @@ final class FLBuilderIcons {
 	 * @since 1.4.6
 	 * @return void
 	 */
-	static public function enqueue_all_custom_icons_styles()
-	{
+	static public function enqueue_all_custom_icons_styles() {
 		$sets = self::get_sets();
 
 		foreach ( $sets as $key => $data ) {
@@ -308,16 +306,14 @@ final class FLBuilderIcons {
 	 * @param object $module The module to enqueue for.
 	 * @return void
 	 */
-	static public function enqueue_styles_for_module( $module )
-	{
+	static public function enqueue_styles_for_module( $module ) {
 		$fields = FLBuilderModel::get_settings_form_fields( $module->form );
 
 		foreach ( $fields as $name => $field ) {
 			if ( isset( $field['form'] ) ) {
 				$form = FLBuilderModel::$settings_forms[ $field['form'] ];
 				self::enqueue_styles_for_nested_module_form( $module, $form['tabs'], $name );
-			}
-			else if ( $field['type'] == 'icon' && isset( $module->settings->$name ) ) {
+			} elseif ( 'icon' == $field['type'] && isset( $module->settings->$name ) ) {
 				self::enqueue_styles_for_icon( $module->settings->$name );
 			}
 		}
@@ -333,17 +329,15 @@ final class FLBuilderIcons {
 	 * @param string $setting The nested form setting key.
 	 * @return void
 	 */
-	static private function enqueue_styles_for_nested_module_form( $module, $form, $setting )
-	{
+	static private function enqueue_styles_for_nested_module_form( $module, $form, $setting ) {
 		$fields = FLBuilderModel::get_settings_form_fields( $form );
 
 		foreach ( $fields as $name => $field ) {
-			if ( $field['type'] == 'icon' && ! empty( $module->settings->$setting ) ) {
+			if ( 'icon' == $field['type'] && ! empty( $module->settings->$setting ) ) {
 				foreach ( $module->settings->$setting as $key => $val ) {
 					if ( isset( $val->$name ) ) {
 						self::enqueue_styles_for_icon( $val->$name );
-					}
-					else if( $name == $key && ! empty( $val ) ) {
+					} elseif ( $name == $key && ! empty( $val ) ) {
 						self::enqueue_styles_for_icon( $val );
 					}
 				}
@@ -359,21 +353,17 @@ final class FLBuilderIcons {
 	 * @param string $icon The icon CSS classname.
 	 * @return void
 	 */
-	static private function enqueue_styles_for_icon( $icon )
-	{
+	static private function enqueue_styles_for_icon( $icon ) {
 		do_action( 'fl_builder_enqueue_styles_for_icon', $icon );
 
 		// Is this a core icon?
 		if ( stristr( $icon, 'fa-' ) ) {
 			wp_enqueue_style( 'font-awesome' );
-		}
-		else if ( stristr( $icon, 'fi-' ) ) {
+		} elseif ( stristr( $icon, 'fi-' ) ) {
 			wp_enqueue_style( 'foundation-icons' );
-		}
-		else if ( stristr( $icon, 'dashicon' ) ) {
+		} elseif ( stristr( $icon, 'dashicon' ) ) {
 			wp_enqueue_style( 'dashicons' );
-		}
-		// It must be a custom icon.
+		} // End if().
 		else {
 
 			$sets = self::get_sets();
@@ -394,8 +384,7 @@ final class FLBuilderIcons {
 	 * @param string $key The icon set key.
 	 * @return void
 	 */
-	static private function enqueue_custom_styles_by_key( $key )
-	{
+	static private function enqueue_custom_styles_by_key( $key ) {
 		if ( apply_filters( 'fl_builder_enqueue_custom_styles_by_key', true, $key ) ) {
 			$sets = self::get_sets();
 

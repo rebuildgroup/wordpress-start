@@ -12,14 +12,14 @@ class FLSubscribeFormModule extends FLBuilderModule {
 	 * @since 1.5.2
 	 * @return void
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		parent::__construct( array(
 			'name'          	=> __( 'Subscribe Form', 'fl-builder' ),
 			'description'   	=> __( 'Adds a simple subscribe form to your layout.', 'fl-builder' ),
-			'category'      	=> __( 'Advanced Modules', 'fl-builder' ),
+			'category'      	=> __( 'Actions', 'fl-builder' ),
 			'editor_export' 	=> false,
-			'partial_refresh'	=> true
+			'partial_refresh'	=> true,
+			'icon'				=> 'editor-table.svg',
 		));
 
 		add_action( 'wp_ajax_fl_builder_subscribe_form_submit', array( $this, 'submit' ) );
@@ -30,20 +30,17 @@ class FLSubscribeFormModule extends FLBuilderModule {
 	/**
 	 * @method enqueue_scripts
 	 */
-	public function enqueue_scripts()
-	{
+	public function enqueue_scripts() {
 		$settings = $this->settings;
-		if ( isset($settings->show_recaptcha) && $settings->show_recaptcha == 'show'
-			&& isset($settings->recaptcha_site_key) && !empty($settings->recaptcha_site_key)
-			){
+		if ( isset( $settings->show_recaptcha ) && 'show' == $settings->show_recaptcha
+			&& isset( $settings->recaptcha_site_key ) && ! empty( $settings->recaptcha_site_key )
+			) {
 
 			$site_lang = substr( get_locale(), 0, 2 );
-			$post_id    = FLBuilderModel::get_post_id();
-
 			$this->add_js(
 				'g-recaptcha',
-				'https://www.google.com/recaptcha/api.js?onload=onLoadFLReCaptcha&render=explicit&hl='.$site_lang,
-				array('fl-builder-layout-'. $post_id),
+				'https://www.google.com/recaptcha/api.js?onload=onLoadFLReCaptcha&render=explicit&hl=' . $site_lang,
+				array(),
 				'2.0',
 				true
 			);
@@ -55,12 +52,12 @@ class FLSubscribeFormModule extends FLBuilderModule {
 	 * @param string $tag    Script tag
 	 * @param string $handle Registered script handle
 	 */
-	public function add_async_attribute($tag, $handle) {
-		if ( ('g-recaptcha' !== $handle) || ('g-recaptcha' === $handle && strpos($tag, 'g-recaptcha-api') !== false ) ) {
-	        return $tag;
+	public function add_async_attribute( $tag, $handle ) {
+		if ( ('g-recaptcha' !== $handle) || ('g-recaptcha' === $handle && strpos( $tag, 'g-recaptcha-api' ) !== false ) ) {
+			return $tag;
 		}
 
-	    return str_replace( ' src', ' id="g-recaptcha-api" async="async" defer="defer" src', $tag );
+		return str_replace( ' src', ' id="g-recaptcha-api" async="async" defer="defer" src', $tag );
 	}
 
 	/**
@@ -69,10 +66,10 @@ class FLSubscribeFormModule extends FLBuilderModule {
 	 * @since 1.5.2
 	 * @return string The JSON encoded response.
 	 */
-	public function submit()
-	{
+	public function submit() {
 		$name       		= isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : false;
 		$email      		= isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : false;
+		$terms_checked	    = isset( $_POST['terms_checked'] ) && 1 == $_POST['terms_checked'] ? true : false;
 		$recaptcha     		= isset( $_POST['recaptcha'] ) ? $_POST['recaptcha'] : false;
 		$post_id     		= isset( $_POST['post_id'] ) ? $_POST['post_id'] : false;
 		$node_id    		= isset( $_POST['node_id'] ) ? sanitize_text_field( $_POST['node_id'] ) : false;
@@ -82,7 +79,7 @@ class FLSubscribeFormModule extends FLBuilderModule {
 			'action'    		=> false,
 			'error'     		=> false,
 			'message'   		=> false,
-			'url'       		=> false
+			'url'       		=> false,
 		);
 
 		if ( $email && $node_id ) {
@@ -92,25 +89,29 @@ class FLSubscribeFormModule extends FLBuilderModule {
 				$post_id  = FLBuilderModel::get_node_template_post_id( $template_id );
 				$data	  = FLBuilderModel::get_layout_data( 'published', $post_id );
 				$settings = $data[ $template_node_id ]->settings;
-			}
-			else {
+			} else {
 				$module   = FLBuilderModel::get_module( $node_id );
 				$settings = $module->settings;
 			}
 
-			// Validate reCAPTCHA first if enabled
-			if ( $recaptcha ) {
+			// Validate terms and conditions if enabled
+			if ( ( isset( $settings->terms_checkbox ) && 'show' == $settings->terms_checkbox ) && ! $terms_checked ) {
+				$result = array(
+					'error' => __( 'Terms and Conditions is required!', 'fl-builder' ),
+				);
+			}
 
-				if ( !empty($settings->recaptcha_secret_key) && !empty($settings->recaptcha_site_key) ) {
+			// Validate reCAPTCHA first if enabled
+			if ( $recaptcha && ! $result['error'] ) {
+
+				if ( ! empty( $settings->recaptcha_secret_key ) && ! empty( $settings->recaptcha_site_key ) ) {
 					if ( version_compare( phpversion(), '5.3', '>=' ) ) {
-						include $module->dir . 'includes/validate-recaptcha.php';
-					}
-					else {
+						include FLBuilderModel::$modules['subscribe-form']->dir . 'includes/validate-recaptcha.php';
+					} else {
 						$result['error'] = false;
 					}
-				}
-				else {
-					$result['error'] = __('Your reCAPTCHA Site or Secret Key is missing!', 'fl-builder');
+				} else {
+					$result['error'] = __( 'Your reCAPTCHA Site or Secret Key is missing!', 'fl-builder' );
 				}
 			}
 
@@ -123,28 +124,23 @@ class FLSubscribeFormModule extends FLBuilderModule {
 				// Check for an error from the service.
 				if ( $response['error'] ) {
 					$result['error'] = $response['error'];
-				}
-				// Setup the success data.
+				} // End if().
 				else {
 
 					$result['action'] = $settings->success_action;
 
 					if ( 'message' == $settings->success_action ) {
 						$result['message']  = $settings->success_message;
-					}
-					else {
+					} else {
 						$result['url']  = $settings->success_url;
 					}
-
 				}
 
 				do_action( 'fl_builder_subscribe_form_submission_complete', $response, $settings, $email, $name, $template_id, $post_id );
 			}
-
-		}
-		else {
+		} else {
 			$result['error'] = __( 'There was an error subscribing. Please try again.', 'fl-builder' );
-		}
+		}// End if().
 
 		echo json_encode( $result );
 
@@ -161,8 +157,11 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 		'sections'      => array(
 			'service'       => array(
 				'title'         => '',
-				'file'          => FL_BUILDER_DIR . 'includes/service-settings.php',
-				'services'      => 'autoresponder'
+				'services'      => 'autoresponder',
+				'template'		=> array(
+					'id'			=> 'fl-builder-service-settings',
+					'file'          => FL_BUILDER_DIR . 'includes/ui-service-settings.php',
+				),
 			),
 			'structure'        => array(
 				'title'         => __( 'Structure', 'fl-builder' ),
@@ -174,7 +173,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'options'       => array(
 							'stacked'       => __( 'Stacked', 'fl-builder' ),
 							'inline'        => __( 'Inline', 'fl-builder' ),
-						)
+						),
 					),
 					'show_name'     => array(
 						'type'          => 'select',
@@ -183,9 +182,39 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'options'       => array(
 							'show'          => __( 'Show', 'fl-builder' ),
 							'hide'          => __( 'Hide', 'fl-builder' ),
-						)
-					)
-				)
+						),
+					),
+					'terms_checkbox' => array(
+						'type'		  => 'select',
+						'label'		  => __( 'Terms and Conditions Checkbox', 'fl-builder' ),
+						'default'		  => 'hide',
+						'options'		  => array(
+							'show'	   => __( 'Show', 'fl-builder' ),
+							'hide'	   => __( 'Hide', 'fl-builder' ),
+						),
+						'toggle'		=> array(
+							'show'			=> array(
+								'fields'		=> array( 'terms_checkbox_text', 'terms_text' ),
+							),
+						),
+					),
+					'terms_checkbox_text'	=> array(
+						'type'		=> 'text',
+						'label'		=> __( 'Checkbox Text', 'fl-builder' ),
+						'default'	=> __( 'I Accept the Terms and Conditions', 'fl-builder' ),
+					),
+					'terms_text' => array(
+						'type'		  => 'editor',
+						'label'		  => 'Terms and Conditions',
+						'media_buttons' => false,
+						'rows'          => 8,
+						'preview'       => array(
+							'type'          => 'text',
+							'selector'      => '.fl-terms-checkbox-text',
+						),
+						'connections'   => array( 'string' ),
+					),
+				),
 			),
 			'success'       => array(
 				'title'         => __( 'Success', 'fl-builder' ),
@@ -200,19 +229,19 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'label'         => __( 'Success Action', 'fl-builder' ),
 						'options'       => array(
 							'message'       => __( 'Show Message', 'fl-builder' ),
-							'redirect'      => __( 'Redirect', 'fl-builder' )
+							'redirect'      => __( 'Redirect', 'fl-builder' ),
 						),
 						'toggle'        => array(
 							'message'       => array(
-								'fields'        => array( 'success_message' )
+								'fields'        => array( 'success_message' ),
 							),
 							'redirect'      => array(
-								'fields'        => array( 'success_url' )
-							)
+								'fields'        => array( 'success_url' ),
+							),
 						),
 						'preview'       => array(
-							'type'             => 'none'
-						)
+							'type'             => 'none',
+						),
 					),
 					'success_message' => array(
 						'type'          => 'editor',
@@ -221,21 +250,21 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'rows'          => 8,
 						'default'       => __( 'Thanks for subscribing! Please check your email for further instructions.', 'fl-builder' ),
 						'preview'       => array(
-							'type'             => 'none'
+							'type'             => 'none',
 						),
-						'connections'   => array( 'string' )
+						'connections'   => array( 'string' ),
 					),
 					'success_url'  => array(
 						'type'          => 'link',
 						'label'         => __( 'Success URL', 'fl-builder' ),
 						'preview'       => array(
-							'type'             => 'none'
+							'type'             => 'none',
 						),
-						'connections'   => array( 'url' )
-					)
-				)
-			)
-		)
+						'connections'   => array( 'url' ),
+					),
+				),
+			),
+		),
 	),
 	'button'        => array(
 		'title'         => __( 'Button', 'fl-builder' ),
@@ -246,32 +275,32 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 					'btn_text'      => array(
 						'type'          => 'text',
 						'label'         => __( 'Button Text', 'fl-builder' ),
-						'default'       => __( 'Subscribe!', 'fl-builder' )
+						'default'       => __( 'Subscribe!', 'fl-builder' ),
 					),
 					'btn_icon'      => array(
 						'type'          => 'icon',
 						'label'         => __( 'Button Icon', 'fl-builder' ),
-						'show_remove'   => true
+						'show_remove'   => true,
 					),
 					'btn_icon_position' => array(
 						'type'          => 'select',
-						'label'         => __('Icon Position', 'fl-builder'),
+						'label'         => __( 'Icon Position', 'fl-builder' ),
 						'default'       => 'before',
 						'options'       => array(
-							'before'        => __('Before Text', 'fl-builder'),
-							'after'         => __('After Text', 'fl-builder')
-						)
+							'before'        => __( 'Before Text', 'fl-builder' ),
+							'after'         => __( 'After Text', 'fl-builder' ),
+						),
 					),
 					'btn_icon_animation' => array(
 						'type'          => 'select',
-						'label'         => __('Icon Visibility', 'fl-builder'),
+						'label'         => __( 'Icon Visibility', 'fl-builder' ),
 						'default'       => 'disable',
 						'options'       => array(
-							'disable'        => __('Always Visible', 'fl-builder'),
-							'enable'         => __('Fade In On Hover', 'fl-builder')
-						)
-					)
-				)
+							'disable'        => __( 'Always Visible', 'fl-builder' ),
+							'enable'         => __( 'Fade In On Hover', 'fl-builder' ),
+						),
+					),
+				),
 			),
 			'btn_colors'     => array(
 				'title'         => __( 'Button Colors', 'fl-builder' ),
@@ -280,7 +309,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'type'          => 'color',
 						'label'         => __( 'Background Color', 'fl-builder' ),
 						'default'       => '',
-						'show_reset'    => true
+						'show_reset'    => true,
 					),
 					'btn_bg_hover_color' => array(
 						'type'          => 'color',
@@ -288,14 +317,14 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'default'       => '',
 						'show_reset'    => true,
 						'preview'       => array(
-							'type'          => 'none'
-						)
+							'type'          => 'none',
+						),
 					),
 					'btn_text_color' => array(
 						'type'          => 'color',
 						'label'         => __( 'Text Color', 'fl-builder' ),
 						'default'       => '',
-						'show_reset'    => true
+						'show_reset'    => true,
 					),
 					'btn_text_hover_color' => array(
 						'type'          => 'color',
@@ -303,10 +332,10 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'default'       => '',
 						'show_reset'    => true,
 						'preview'       => array(
-							'type'          => 'none'
-						)
-					)
-				)
+							'type'          => 'none',
+						),
+					),
+				),
 			),
 			'btn_style'     => array(
 				'title'         => __( 'Button Style', 'fl-builder' ),
@@ -318,13 +347,13 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'options'       => array(
 							'flat'          => __( 'Flat', 'fl-builder' ),
 							'gradient'      => __( 'Gradient', 'fl-builder' ),
-							'transparent'   => __( 'Transparent', 'fl-builder' )
+							'transparent'   => __( 'Transparent', 'fl-builder' ),
 						),
 						'toggle'        => array(
 							'transparent'   => array(
-								'fields'        => array( 'btn_bg_opacity', 'btn_bg_hover_opacity', 'btn_border_size' )
-							)
-						)
+								'fields'        => array( 'btn_bg_opacity', 'btn_bg_hover_opacity', 'btn_border_size' ),
+							),
+						),
 					),
 					'btn_border_size' => array(
 						'type'          => 'text',
@@ -333,7 +362,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'description'   => 'px',
 						'maxlength'     => '3',
 						'size'          => '5',
-						'placeholder'   => '0'
+						'placeholder'   => '0',
 					),
 					'btn_bg_opacity' => array(
 						'type'          => 'text',
@@ -342,27 +371,27 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'description'   => '%',
 						'maxlength'     => '3',
 						'size'          => '5',
-						'placeholder'   => '0'
+						'placeholder'   => '0',
 					),
 					'btn_bg_hover_opacity' => array(
 						'type'          => 'text',
-						'label'         => __('Background Hover Opacity', 'fl-builder'),
+						'label'         => __( 'Background Hover Opacity', 'fl-builder' ),
 						'default'       => '0',
 						'description'   => '%',
 						'maxlength'     => '3',
 						'size'          => '5',
-						'placeholder'   => '0'
+						'placeholder'   => '0',
 					),
 					'btn_button_transition' => array(
 						'type'          => 'select',
-						'label'         => __('Transition', 'fl-builder'),
+						'label'         => __( 'Transition', 'fl-builder' ),
 						'default'       => 'disable',
 						'options'       => array(
-							'disable'        => __('Disabled', 'fl-builder'),
-							'enable'         => __('Enabled', 'fl-builder')
-						)
-					)
-				)
+							'disable'        => __( 'Disabled', 'fl-builder' ),
+							'enable'         => __( 'Enabled', 'fl-builder' ),
+						),
+					),
+				),
 			),
 			'btn_structure' => array(
 				'title'         => __( 'Button Structure', 'fl-builder' ),
@@ -373,7 +402,8 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'default'       => '14',
 						'maxlength'     => '3',
 						'size'          => '4',
-						'description'   => 'px'
+						'description'   => 'px',
+						'sanitize'		=> 'absint',
 					),
 					'btn_padding'   => array(
 						'type'          => 'text',
@@ -381,7 +411,8 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'default'       => '10',
 						'maxlength'     => '3',
 						'size'          => '4',
-						'description'   => 'px'
+						'description'   => 'px',
+						'sanitize'		=> 'absint',
 					),
 					'btn_border_radius' => array(
 						'type'          => 'text',
@@ -389,11 +420,12 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'default'       => '4',
 						'maxlength'     => '3',
 						'size'          => '4',
-						'description'   => 'px'
-					)
-				)
-			)
-		)
+						'description'   => 'px',
+						'sanitize'		=> 'absint',
+					),
+				),
+			),
+		),
 	),
 	'reCAPTCHA'	=> array(
 		'title'         => __( 'reCAPTCHA', 'fl-builder' ),
@@ -409,27 +441,57 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 							'show'          => __( 'Show', 'fl-builder' ),
 							'hide'          => __( 'Hide', 'fl-builder' ),
 						),
-						'help' 			=> __('If you want to show this field, please provide valid Site and Secret Keys.', 'fl-builder')
+						'toggle' 		=> array(
+							'show'			=> array(
+								'fields' 		=> array( 'recaptcha_site_key', 'recaptcha_secret_key', 'recaptcha_validate_type', 'recaptcha_theme' ),
+							),
+						),
+						'help' 			=> __( 'If you want to show this field, please provide valid Site and Secret Keys.', 'fl-builder' ),
 					),
 					'recaptcha_site_key'	=> array(
 						'type'					=> 'text',
-						'label' 				=> __('Site Key', 'fl-builder'),
+						'label' 				=> __( 'Site Key', 'fl-builder' ),
 						'default'       		=> '',
 						'preview'      		 	=> array(
-							'type'          		=> 'none'
-						)
+							'type'          		=> 'none',
+						),
 					),
 					'recaptcha_secret_key'	=> array(
 						'type'					=> 'text',
-						'label' 				=> __('Secret Key', 'fl-builder'),
+						'label' 				=> __( 'Secret Key', 'fl-builder' ),
 						'default'       		=> '',
 						'preview'       		=> array(
-							'type'          		=> 'none'
-						)
-					)
+							'type'          		=> 'none',
+						),
+					),
+					'recaptcha_validate_type' => array(
+						'type'          		=> 'select',
+						'label'         		=> __( 'Validate Type', 'fl-builder' ),
+						'default'       		=> 'normal',
+						'options'       		=> array(
+							'normal'  				=> __( '"I\'m not a robot" checkbox', 'fl-builder' ),
+							'invisible'     		=> __( 'Invisible', 'fl-builder' ),
+						),
+						'help' 					=> __( 'Validate users with checkbox or in the background.', 'fl-builder' ),
+						'preview'      		 	=> array(
+							'type'          		=> 'none',
+						),
+					),
+					'recaptcha_theme'   => array(
+						'type'          	=> 'select',
+						'label'         	=> __( 'Theme', 'fl-builder' ),
+						'default'       	=> 'light',
+						'options'       	=> array(
+							'light'  			=> __( 'Light', 'fl-builder' ),
+							'dark'     			=> __( 'Dark', 'fl-builder' ),
+						),
+						'preview'      		 	=> array(
+							'type'          		=> 'none',
+						),
+					),
 				),
-			)
+			),
 		),
-		'description'   => sprintf( __( 'Please register keys for your website at the <a%s>Google Admin Console</a>', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank"' ),
-	)
+		'description'   => sprintf( __( 'Please register keys for your website at the <a%s>Google Admin Console</a>', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank" rel="noopener"' ),
+	),
 ));

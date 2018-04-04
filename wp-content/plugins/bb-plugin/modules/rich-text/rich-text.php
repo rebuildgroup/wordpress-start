@@ -5,16 +5,16 @@
  */
 class FLRichTextModule extends FLBuilderModule {
 
-	/** 
+	/**
 	 * @method __construct
-	 */  
-	public function __construct()
-	{
+	 */
+	public function __construct() {
 		parent::__construct(array(
-			'name'          	=> __('Text Editor', 'fl-builder'),
-			'description'   	=> __('A WYSIWYG text editor.', 'fl-builder'),
-			'category'      	=> __('Basic Modules', 'fl-builder'),
-			'partial_refresh'	=> true
+			'name'          	=> __( 'Text Editor', 'fl-builder' ),
+			'description'   	=> __( 'A WYSIWYG text editor.', 'fl-builder' ),
+			'category'      	=> __( 'Basic', 'fl-builder' ),
+			'partial_refresh'	=> true,
+			'icon'				=> 'text.svg',
 		));
 	}
 }
@@ -24,7 +24,7 @@ class FLRichTextModule extends FLBuilderModule {
  */
 FLBuilder::register_module('FLRichTextModule', array(
 	'general'       => array( // Tab
-		'title'         => __('General', 'fl-builder'), // Tab title
+		'title'         => __( 'General', 'fl-builder' ), // Tab title
 		'sections'      => array( // Tab Sections
 			'general'       => array( // Section
 				'title'         => '', // Section Title
@@ -36,12 +36,12 @@ FLBuilder::register_module('FLRichTextModule', array(
 						'wpautop'		=> false,
 						'preview'         => array(
 							'type'             => 'text',
-							'selector'         => '.fl-rich-text'  
+							'selector'         => '.fl-rich-text',
 						),
-						'connections'   => array( 'string' )
-					)
-				)
-			)
-		)
-	)
+						'connections'   => array( 'string' ),
+					),
+				),
+			),
+		),
+	),
 ));
