@@ -19,9 +19,9 @@ Our projects use [Sage Theme](https://roots.io/sage/). A WordPress starter theme
 
 ### Theme Setup
 
-Sage uses [gulp](http://gulpjs.com/) as its build system and [Bower](http://bower.io/) to manage front-end packages.
-
 Building the theme requires [node.js](http://nodejs.org/download/). We recommend you update to the latest version of npm: `npm install -g npm@latest`.
+
+Sage uses [gulp](http://gulpjs.com/) as its build system and [Bower](http://bower.io/) to manage front-end packages.
 
 From the command line in the theme directory:
 
@@ -54,12 +54,27 @@ Sage documentation is available at [https://roots.io/sage/docs/](https://roots.i
 * [Bootstrap](http://getbootstrap.com/)
 * [BrowserSync](http://www.browsersync.io/) for keeping multiple browsers and devices synchronized while testing, along with injecting updated CSS and JS into your browser while you're developing
 
-
 ## Additional Plugins
 
-| Name                      | Plugin Link
+| Name                      | Website
 | ------------------------- | ------------- |
-| All-in-One WP Migration   |
-| Custom Post Type UI       |
-| Advanced Custom Fields    | [nodejs.org](http://nodejs.org/)
-| Beaver Builder            | [php.net](http://php.net/manual/en/install.php)
+| All-in-One WP Migration   | [Servmask](https://servmask.com/)
+| Custom Post Type UI       | [Custom Post Type UI](https://wordpress.org/plugins/custom-post-type-ui/)
+| Advanced Custom Fields    | [Advanced Custom Fields](https://www.advancedcustomfields.com/)
+| Beaver Builder            | [Beaver Builder](https://www.wpbeaverbuilder.com/)
+
+### All In One WP Migration
+
+Export & Import WP data to an open source archive format (`.wpress`).
+
+### Custom Post Type UI
+
+Create and manage custom post types and taxonomies in WordPress.
+
+### Advanced Custom Fields
+
+Allows you to add extra content fields to your WordPress edit screens.
+
+### Beaver Builder
+
+A flexible drag and drop page builder that works on the front end of your WordPress website.
