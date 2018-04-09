@@ -7,6 +7,8 @@
       @include make-col($main-sm-columns - $sidebar-sm-columns);
     }
   }
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 .sidebar {
   @include make-col-ready();
