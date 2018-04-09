@@ -19,6 +19,9 @@ var runSequence  = require('run-sequence');
 var sass         = require('gulp-sass');
 var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
+var gulpinject   = require('gulp-inject');
+var svgstore     = require('gulp-svgstore');
+var svgmin       = require('gulp-svgmin');
 
 // See https://github.com/austinpray/asset-builder
 var manifest = require('asset-builder')('./assets/manifest.json');
@@ -232,6 +235,24 @@ gulp.task('images', function() {
     .pipe(browserSync.stream());
 });
 
+// ### SVG
+// `gulp svg` - Compiles, combines, and optimizes SVGs.
+gulp.task('svg', function() {
+  var svgs = gulp
+    .src(path.source + 'svg/*.svg')
+    .pipe(svgmin())
+    .pipe(svgstore({ inlineSvg:true }));
+
+  function fileContents(filePath, file) {
+    return file.contents.toString();
+  }
+
+  return gulp
+    .src(path.source + 'svg/_svg-library.php')
+    .pipe(gulpinject(svgs, {transform: fileContents }))
+    .pipe(gulp.dest('templates'));
+});
+
 // ### JSHint
 // `gulp jshint` - Lints configuration JSON and project JS.
 gulp.task('jshint', function() {
@@ -266,6 +287,7 @@ gulp.task('watch', function() {
   gulp.watch([path.source + 'scripts/**/*'], ['jshint', 'scripts']);
   gulp.watch([path.source + 'fonts/**/*'], ['fonts']);
   gulp.watch([path.source + 'images/**/*'], ['images']);
+  gulp.watch([path.source + 'svg/**/*.svg'], ['svg']);
   gulp.watch(['bower.json', 'assets/manifest.json'], ['build']);
 });
 
@@ -275,7 +297,7 @@ gulp.task('watch', function() {
 gulp.task('build', function(callback) {
   runSequence('styles',
               'scripts',
-              ['fonts', 'images'],
+              ['fonts', 'images', 'svg'],
               callback);
 });
 
