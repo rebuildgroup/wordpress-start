@@ -1,1 +1,34 @@
 
+/** LINKS 
+***********/
+a,
+a:focus,
+a:active,
+a:hover,
+object,
+embed {
+    outline: none; 
+    //text-decoration: none;
+    //color: $green;
+}
+:-moz-any-link:focus {
+    outline: none;
+}
+input::-moz-focus-inner {
+    border: 0;
+}
+:-moz-any-link:focus {
+    outline: none;
+}
+input::-moz-focus-inner {
+    border: 0;
+}
+:focus {
+    outline: 0;
+}
+
+.fl-rich-text {
+    a {
+    	text-decoration: underline;
+    }
+}

@@ -1,3 +1,18 @@
 // Grid settings
 $main-sm-columns:       12;
 $sidebar-sm-columns:    4;
+
+// Transitions
+$base-transition: all 300ms ease;
+$fast-transition: all 120ms ease;
+$slow-transition: all 1200ms ease;
+
+$bezier-transition: all 100ms cubic-bezier(.17,.67,.83,.67);
+
+// Media Queries
+//@media screen and (max-width: $break-large) {}
+$break-small: 	640px;
+$break-medium: 	768px;
+$break-large: 	960px;
+$break-xlarge: 	1200px;
+$break-xxlarge: 1380px;
