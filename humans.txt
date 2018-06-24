@@ -1,0 +1,18 @@
+/* TEAM */
+Developer: Jasen Wyatt
+Twitter: @jas3n
+
+/* COMPANY */
+Company: Rebuild Group
+Website: rebuild.group
+Email: info@rebuild.group
+
+/* THANKS */
+
+/* SITE */
+URL: http://domain.com
+Last update: 2018/06/24
+Doctype: HTML5
+Standards: HTML5, CSS3
+Components: jQuery, PHP, gulp, SaSS
+Software: WordPress
