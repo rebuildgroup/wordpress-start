@@ -26,6 +26,7 @@
 class Ai1wm_Import_Confirm {
 
 	public static function execute( $params ) {
+
 		$messages = array();
 
 		// Read package.json file
@@ -57,7 +58,7 @@ class Ai1wm_Import_Confirm {
 		}
 
 		// Set progress
-		Ai1wm_Status::confirm( implode( null, $messages ) );
+		Ai1wm_Status::confirm( implode( $messages ) );
 		exit;
 	}
 }

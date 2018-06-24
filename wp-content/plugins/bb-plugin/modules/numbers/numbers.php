@@ -44,10 +44,14 @@ class FLNumbersModule extends FLBuilderModule {
 
 		$html = '<div class="svg-container">';
 		$html .= '<svg class="svg" viewBox="0 0 ' . $width . ' ' . $width . '" version="1.1" preserveAspectRatio="xMinYMin meet">
-			<circle class="fl-bar-bg" r="' . $radius . '" cx="' . $pos . '" cy="' . $pos . '" fill="transparent" stroke-dasharray="' . $dash . '" stroke-dashoffset="0"></circle>
-			<circle class="fl-bar" r="' . $radius . '" cx="' . $pos . '" cy="' . $pos . '" fill="transparent" stroke-dasharray="' . $dash . '" stroke-dashoffset="' . $dash . '" transform="rotate(-90 ' . $pos . ' ' . $pos . ')"></circle>
-		</svg>';
-		$html .= '</div>';
+					<circle class="fl-bar-bg" r="' . $radius . '" cx="' . $pos . '" cy="' . $pos . '" fill="transparent" stroke-dasharray="' . $dash . '" stroke-dashoffset="0"></circle>
+					';
+
+		if ( 0 != $this->settings->number ) {
+			$html .= '<circle class="fl-bar" r="' . $radius . '" cx="' . $pos . '" cy="' . $pos . '" fill="transparent" stroke-dasharray="' . $dash . '" stroke-dashoffset="' . $dash . '" transform="rotate(-90 ' . $pos . ' ' . $pos . ')" data-bbtest="sample-lang"></circle>';
+		}
+
+		$html .= '</svg></div>';
 
 		echo $html;
 	}
@@ -131,6 +135,10 @@ FLBuilder::register_module('FLNumbersModule', array(
 						'default'		=> '100',
 						'placeholder'	=> '100',
 						'connections'   => array( 'custom_field' ),
+						'preview'		=> array(
+							'type'			=> 'text',
+							'selector'		=> '.fl-number-int',
+						),
 					),
 					'max_number' => array(
 						'type'          => 'text',
@@ -155,6 +163,10 @@ FLBuilder::register_module('FLNumbersModule', array(
 						'size'          => '20',
 						'help'			=> __( 'Text to appear above the number. Leave it empty for none.', 'fl-builder' ),
 						'connections'   => array( 'custom_field' ),
+						'preview'		=> array(
+							'type'			=> 'text',
+							'selector'		=> '.fl-number-before-text',
+						),
 					),
 					'after_number_text' => array(
 						'type'          => 'text',
@@ -162,6 +174,10 @@ FLBuilder::register_module('FLNumbersModule', array(
 						'size'          => '20',
 						'help'			=> __( 'Text to appear after the number. Leave it empty for none.', 'fl-builder' ),
 						'connections'   => array( 'custom_field' ),
+						'preview'		=> array(
+							'type'			=> 'text',
+							'selector'		=> '.fl-number-after-text',
+						),
 					),
 					'number_prefix' => array(
 						'type'          => 'text',

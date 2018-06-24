@@ -23,6 +23,8 @@ class FLVideoModule extends FLBuilderModule {
 		));
 
 		$this->add_js( 'jquery-fitvids' );
+
+		add_filter( 'wp_video_shortcode', __CLASS__ . '::mute_video', 10, 4 );
 	}
 
 	/**
@@ -65,10 +67,30 @@ class FLVideoModule extends FLBuilderModule {
 
 			if ( $video ) {
 				$settings->data = $video;
+			} else {
+				$settings->data = null;
 			}
 		}
 
 		return $settings;
+	}
+
+	/**
+	 * Temporary fix for autoplay in Chrome & Safari. Video shortcode doesn't support `muted` parameter.
+	 * Bug report: https://core.trac.wordpress.org/ticket/42718.
+	 *
+	 * @since 2.1.3
+	 * @param string $output  Video shortcode HTML output.
+	 * @param array  $atts    Array of video shortcode attributes.
+	 * @param string $video   Video file.
+	 * @param int    $post_id Post ID.
+	 * @return string
+	 */
+	static public function mute_video( $output, $atts, $video, $post_id ) {
+		if ( false !== strpos( $output, 'autoplay="1"' ) && FLBuilderModel::get_post_id() == $post_id ) {
+			$output = str_replace( '<video', '<video muted', $output );
+		}
+		return $output;
 	}
 }
 
@@ -103,6 +125,7 @@ FLBuilder::register_module('FLVideoModule', array(
 						'type'          => 'video',
 						'label'         => __( 'Video (MP4)', 'fl-builder' ),
 						'help'          => __( 'A video in the MP4 format. Most modern browsers support this format.', 'fl-builder' ),
+						'show_remove'   => true,
 					),
 					'video_webm' => array(
 						'type'          => 'video',

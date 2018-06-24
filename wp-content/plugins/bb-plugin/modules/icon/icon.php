@@ -59,6 +59,18 @@ FLBuilder::register_module('FLIconModule', array(
 							'type'          => 'none',
 						),
 					),
+					'link_nofollow'   => array(
+						'type'          => 'select',
+						'label'         => __( 'Link - No Follow?', 'fl-builder' ),
+						'default'       => 'no',
+						'options'       => array(
+							'no'        	=> __( 'No', 'fl-builder' ),
+							'yes'        	=> __( 'Yes', 'fl-builder' ),
+						),
+						'preview'       => array(
+							'type'          => 'none',
+						),
+					),
 				),
 			),
 			'text'          => array(
@@ -69,6 +81,10 @@ FLBuilder::register_module('FLIconModule', array(
 						'label'         => '',
 						'media_buttons' => false,
 						'connections'   => array( 'string' ),
+						'preview'		=> array(
+							'type'			=> 'text',
+							'selector'		=> '.fl-icon-text',
+						),
 					),
 				),
 			),

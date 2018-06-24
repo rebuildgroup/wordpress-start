@@ -17,8 +17,17 @@ class FLTestimonialsModule extends FLBuilderModule {
 			'icon' 				=> 'format-quote.svg',
 		));
 
+	}
+
+
+	/**
+ * @method enqueue_scripts
+ */
+	public function enqueue_scripts() {
+		if ( $this->settings && 'compact' == $this->settings->layout && $this->settings->arrows ) {
+			$this->add_css( 'font-awesome-5' );
+		}
 		$this->add_css( 'jquery-bxslider' );
-		$this->add_css( 'font-awesome' );
 		$this->add_js( 'jquery-bxslider' );
 	}
 }
@@ -93,7 +102,7 @@ FLBuilder::register_module('FLTestimonialsModule', array(
 						'default'       => '4',
 						'maxlength'     => '4',
 						'size'          => '5',
-						'sanitize'		=> 'absint',
+						'sanitize'			=> 'FLBuilderUtils::sanitize_non_negative_number',
 						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
 					),
 					'transition'    => array(
@@ -111,7 +120,7 @@ FLBuilder::register_module('FLTestimonialsModule', array(
 						'default'       => '0.5',
 						'maxlength'     => '4',
 						'size'          => '5',
-						'sanitize'		=> 'floatval',
+						'sanitize'			=> 'FLBuilderUtils::sanitize_non_negative_number',
 						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
 					),
 					'direction'   => array(

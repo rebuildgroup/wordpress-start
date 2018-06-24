@@ -3,7 +3,8 @@ Contributors: yani.iliev, bangelov, pimjitsawang
 Tags: move, transfer, copy, migrate, backup, clone, restore, db migration, wordpress migration, website migration, database export, database import, apoyo, sauvegarde, di riserva, バックアップ
 Requires at least: 3.3
 Tested up to: 4.9
-Stable tag: 6.65
+Requires PHP: 5.2.17
+Stable tag: 6.70
 License: GPLv2 or later
 
 Move, transfer, copy, migrate, and backup a site with 1-click. Quick, easy, and reliable.
@@ -53,10 +54,13 @@ Mobile device compatible: All in One WP Plugin is the first plugin to offer true
 * [OneDrive](https://servmask.com/products/onedrive-extension)
 * [Box](https://servmask.com/products/box-extension)
 * [Mega](https://servmask.com/products/mega-extension)
+* [DigitalOcean Spaces](https://servmask.com/products/digitalocean-spaces-extension)
+* [Backblaze B2](https://servmask.com/products/backblaze-b2-extension)
 
 = Supported hosting providers =
 **The plugin does not have any dependancies, making it compatible with all PHP hosting providers. We support a vast range of hosting providers. Some of the most popular include:**
 
+* DigitalOcean
 * Bluehost
 * InMotion
 * Web Hosting Hub
@@ -93,7 +97,49 @@ Alternatively you can download the plugin using the download button on this page
 2. Mobile Import page
 3. Plugin Menu
 
+== Privacy Policy ==
+All-in-One WP Migration **asks for your consent** to collect **requester's email address** when filling plugin's contact form. [GDPR Compliant Privacy Policy](https://www.iubenda.com/privacy-policy/946881)
+
 == Changelog ==
+= 6.70 =
+**Added**
+
+* Support for Backblaze B2
+
+**Fixed**
+
+* Small improvements to the export process
+
+= 6.69 =
+**Added**
+
+* Support for RTL languages
+* Disable My Custom Widgets, WPS Hide Login and Endurance Page Cache plugins after restoring a backup
+
+**Changed**
+
+* Text on import steps
+
+= 6.68 =
+**Added**
+
+* Privacy policy section and link to GDPR Compliant Privacy Policy
+
+= 6.67 =
+**Changed**
+
+* Rename DigitalOcean to DigitalOcean Spaces Extension
+
+= 6.66 =
+**Added**
+
+* Notification class for sending emails on error (export/import)
+* Support for DigitalOcean Extension
+
+**Fixed**
+
+* Database regex pattern for parsing SQL queries
+
 = 6.65 =
 **Added**
 

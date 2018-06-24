@@ -103,6 +103,7 @@
 .fl-row-bg-video .fl-bg-video video {
 	bottom: 0;
 	left: 0px;
+	max-width: none;
 	position: absolute;
 	right: 0;
 	top: 0px;
@@ -118,6 +119,8 @@
   	top: 50%;
   	left: 50%;
   	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%); /* IE 9 */
+	-webkit-transform: translate(-50%, -50%); /* Chrome, Safari, Opera */
 }
 .fl-bg-video-fallback {
 	background-position: 50% 50%;
@@ -256,6 +259,13 @@
 .fl-builder-ie-11 .fl-row-full-height.fl-row-align-bottom .fl-row-content-wrap {
 	justify-content: flex-start;
 	-webkit-justify-content: flex-start;
+}
+
+/* Fix parallax issue in chrome 67/68 */
+html:not(.fl-builder-edit) .fl-row-bg-parallax > .fl-row-content-wrap,
+html:not(.fl-builder-edit) .fl-row-bg-overlay > .fl-row-content-wrap {
+    -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
 }
 
 /* Full height iPad with portrait orientation. */

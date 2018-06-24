@@ -35,8 +35,8 @@
 			var label       = $(e.target).closest('.fl-tabs-label'),
 				index       = label.data('index'),
 				wrap        = label.closest('.fl-tabs'),
-				allIcons    = wrap.find('.fl-tabs-panels .fl-tabs-label .fa'),
-				icon        = wrap.find('.fl-tabs-panels .fl-tabs-label[data-index="' + index + '"] .fa');
+				allIcons    = wrap.find('.fl-tabs-panels .fl-tabs-label .fas'),
+				icon        = wrap.find('.fl-tabs-panels .fl-tabs-label[data-index="' + index + '"] .fas');
 
 			// Click or keyboard (enter or space) input?
 			if(!this._validClick(e)) {
@@ -50,7 +50,7 @@
 			// Toggle the tabs.
 			wrap.find('.fl-tabs-labels:first > .fl-tab-active').removeClass('fl-tab-active').attr('aria-selected', 'false').attr('aria-expanded', 'false');
 			wrap.find('.fl-tabs-panels:first > .fl-tabs-panel > .fl-tab-active').removeClass('fl-tab-active');
-			wrap.find('.fl-tabs-panels:first > .fl-tabs-panel > .fl-tabs-panel-content').attr('aria-hidden', 'true');
+			wrap.find('.fl-tabs-panels:first > .fl-tabs-panel > .fl-tabs-panel-content').attr('aria-hidden', 'true').css('display', '');
 
 			wrap.find('.fl-tabs-labels:first > .fl-tabs-label[data-index="' + index + '"]').addClass('fl-tab-active').attr('aria-selected', 'true').attr('aria-expanded', 'true');
 			wrap.find('.fl-tabs-panels:first > .fl-tabs-panel > .fl-tabs-panel-content[data-index="' + index + '"]').addClass('fl-tab-active').attr('aria-hidden', 'false');
@@ -79,8 +79,8 @@
 				content         = label.siblings('.fl-tabs-panel-content'),
 				activeContent   = wrap.find('.fl-tabs-panel-content.fl-tab-active'),
 				activeIndex     = activeContent.data('index'),
-				allIcons        = wrap.find('.fl-tabs-panels .fl-tabs-label > .fa'),
-				icon            = label.find('.fa');
+				allIcons        = wrap.find('.fl-tabs-panels .fl-tabs-label > .fas'),
+				icon            = label.find('.fas');
 
 			// Click or keyboard (enter or space) input?
 			if(!this._validClick(e)) {

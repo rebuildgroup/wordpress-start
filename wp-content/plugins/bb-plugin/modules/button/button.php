@@ -24,6 +24,7 @@ class FLButtonModule extends FLBuilderModule {
 	public function enqueue_scripts() {
 		if ( $this->settings && 'lightbox' == $this->settings->click_action ) {
 			$this->add_js( 'jquery-magnificpopup' );
+			$this->add_css( 'font-awesome-5' );
 			$this->add_css( 'jquery-magnificpopup' );
 		}
 	}
@@ -366,29 +367,44 @@ FLBuilder::register_module('FLButtonModule', array(
 					'font_size'     => array(
 						'type'          => 'text',
 						'label'         => __( 'Font Size', 'fl-builder' ),
-						'default'       => '16',
+						'default'       => '',
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
-						'sanitize'		=> 'absint',
 					),
 					'padding'       => array(
 						'type'          => 'text',
 						'label'         => __( 'Padding', 'fl-builder' ),
-						'default'       => '12',
+						'default'       => '',
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
-						'sanitize'		=> 'absint',
 					),
 					'border_radius' => array(
 						'type'          => 'text',
 						'label'         => __( 'Round Corners', 'fl-builder' ),
-						'default'       => '4',
+						'default'       => '',
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
-						'sanitize'		=> 'absint',
+					),
+				),
+			),
+			'responsive_style' 	=> array(
+				'title'         		=> __( 'Responsive Style', 'fl-builder' ),
+				'fields'        		=> array(
+					'mobile_align' => array(
+						'type'          => 'select',
+						'label'         => __( 'Alignment', 'fl-builder' ),
+						'default'       => 'center',
+						'options'       => array(
+							'center'        => __( 'Center', 'fl-builder' ),
+							'left'          => __( 'Left', 'fl-builder' ),
+							'right'         => __( 'Right', 'fl-builder' ),
+						),
+						'preview'       => array(
+							'type'          => 'none',
+						),
 					),
 				),
 			),

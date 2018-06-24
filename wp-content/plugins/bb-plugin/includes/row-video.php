@@ -40,7 +40,18 @@ data-fallback="<?php if ( isset( $row->settings->bg_video_fallback_src ) ) { ech
 data-<?php echo $video_data['type']; ?>="<?php echo $row->settings->bg_video_service_url; ?>"
 data-video-id="<?php echo $video_data['video_id']; ?>"
 data-enable-audio="<?php echo $row->settings->bg_video_audio; ?>"
+<?php if ( isset( $video_data['params'] ) ) : ?>
+	<?php foreach ( $video_data['params'] as $key => $val ) : ?>
+		data-<?php echo $key . '="' . $val . '"'; ?>
+	<?php endforeach; ?>
+<?php endif; ?>
 <?php endif; ?>>
 <div class="fl-bg-video-player"></div>
+<?php if ( $row->settings->bg_video_audio ) : ?>
+<div class="fl-bg-video-audio"><span>
+	<i class="fas fl-audio-control fa-volume-off"></i>
+	<i class="fas fa-times"></i>
+</span></div>
+<?php endif; ?>
 </div>
 <?php } ?>

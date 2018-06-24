@@ -178,11 +178,27 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 						'size'          => '5',
 						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
 					),
+					'direction'   => array(
+						'type'          => 'select',
+						'label'         => __( 'Transition Direction', 'fl-builder' ),
+						'default'       => 'next',
+						'options'       => array(
+							'next'    		=> __( 'Right To Left', 'fl-builder' ),
+							'prev'          => __( 'Left To Right', 'fl-builder' ),
+						),
+					),
 					'posts_per_page' => array(
 						'type'          => 'text',
 						'label'         => __( 'Number of Posts', 'fl-builder' ),
 						'default'       => '10',
 						'size'          => '4',
+					),
+
+					'move_slides' => array(
+						'type'          => 'text',
+						'label'         => __( 'Number of slides to move at a time', 'fl-builder' ),
+						'default'       => '1',
+						'size'          => '2',
 					),
 				),
 			),

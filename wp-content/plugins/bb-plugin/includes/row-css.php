@@ -2,7 +2,7 @@
 .fl-node-<?php echo $row->node; ?> {
 	color: #<?php echo $row->settings->text_color; ?>;
 }
-.fl-builder-content .fl-node-<?php echo $row->node; ?> *:not(input):not(textarea):not(select):not(a):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fl-heading-text):not(.fl-menu-mobile-toggle) {
+.fl-builder-content .fl-node-<?php echo $row->node; ?> *:not(input):not(textarea):not(select):not(a):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fl-menu-mobile-toggle) {
 	color: inherit;
 }
 <?php endif; ?>
@@ -125,3 +125,26 @@ if ( $has_max_width && ! $are_both_full_width ) {
 	print "}\n";
 }
 ?>
+
+<?php if ( $row->settings->bg_video_audio ) : ?>
+.fl-node-<?php echo $row->node; ?> .fl-bg-video-audio {
+	display: none;
+	cursor: pointer;
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	z-index: 5;
+	width: 20px;
+}
+.fl-node-<?php echo $row->node; ?> .fl-bg-video-audio .fl-audio-control {
+	font-size: 20px;
+}
+.fl-node-<?php echo $row->node; ?> .fl-bg-video-audio .fa-times {
+	font-size: 10px;
+	vertical-align: middle;
+	position: absolute;
+	top: 5px;
+	left: 11px;
+	bottom: 0;
+}
+<?php endif; ?>

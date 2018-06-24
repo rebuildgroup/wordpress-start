@@ -68,10 +68,10 @@ class FLCalloutModule extends FLBuilderModule {
 
 		$this->render_image( 'left-title' );
 
-		echo '<span>';
+		echo '<span' . ( empty( $this->settings->link ) ? ' class="fl-callout-title-text"' : '' ) . '>';
 
 		if ( ! empty( $this->settings->link ) ) {
-			echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" class="fl-callout-title-link">';
+			echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" class="fl-callout-title-link fl-callout-title-text">';
 		}
 
 		echo $this->settings->title;
@@ -188,7 +188,7 @@ class FLCalloutModule extends FLBuilderModule {
 			);
 
 			FLBuilder::render_module_html( 'icon', $icon_settings );
-		}// End if().
+		}
 	}
 }
 
@@ -207,7 +207,7 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'label'         => __( 'Heading', 'fl-builder' ),
 						'preview'       => array(
 							'type'          => 'text',
-							'selector'      => '.fl-callout-title',
+							'selector'      => '.fl-callout-title-text',
 						),
 						'connections'   => array( 'string' ),
 					),
@@ -495,7 +495,7 @@ FLBuilder::register_module('FLCalloutModule', array(
 							),
 							'button'        => array(
 								'fields'        => array( 'cta_text', 'btn_icon', 'btn_icon_position', 'btn_icon_animation' ),
-								'sections'      => array( 'btn_style', 'btn_colors', 'btn_structure' ),
+								'sections'      => array( 'btn_style', 'btn_colors', 'btn_structure', 'btn_responsive_style' ),
 							),
 						),
 					),
@@ -504,6 +504,10 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'label'         => __( 'Text', 'fl-builder' ),
 						'default'		=> __( 'Read More', 'fl-builder' ),
 						'connections'   => array( 'string' ),
+						'preview'		=> array(
+							'type'			=> 'text',
+							'selector'		=> '.fl-callout-cta-link, .fl-button-text',
+						),
 					),
 					'btn_icon'      => array(
 						'type'          => 'icon',
@@ -656,6 +660,24 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
+					),
+				),
+			),
+			'btn_responsive_style' 	=> array(
+				'title'         		=> __( 'Responsive Button Style', 'fl-builder' ),
+				'fields'        		=> array(
+					'btn_mobile_align' => array(
+						'type'          => 'select',
+						'label'         => __( 'Alignment', 'fl-builder' ),
+						'default'       => 'center',
+						'options'       => array(
+							'center'        => __( 'Center', 'fl-builder' ),
+							'left'          => __( 'Left', 'fl-builder' ),
+							'right'         => __( 'Right', 'fl-builder' ),
+						),
+						'preview'       => array(
+							'type'          => 'none',
+						),
 					),
 				),
 			),

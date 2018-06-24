@@ -32,11 +32,7 @@ class Ai1wm_Import_Controller {
 	public static function import( $params = array() ) {
 		global $wp_filter;
 
-		// Set error handler
-		@set_error_handler( 'Ai1wm_Handler::error' );
-
-		// Set shutdown handler
-		@register_shutdown_function( 'Ai1wm_Handler::shutdown' );
+		ai1wm_setup_environment();
 
 		// Set params
 		if ( empty( $params ) ) {
@@ -89,7 +85,8 @@ class Ai1wm_Import_Controller {
 							echo json_encode( array( 'errors' => array( array( 'code' => $e->getCode(), 'message' => $e->getMessage() ) ) ) );
 							exit;
 						} catch ( Exception $e ) {
-							Ai1wm_Status::error( $e->getMessage() );
+							Ai1wm_Status::error( __( 'Unable to import', AI1WM_PLUGIN_NAME ), $e->getMessage() );
+							Ai1wm_Notification::error( __( 'Unable to import', AI1WM_PLUGIN_NAME ), $e->getMessage() );
 							Ai1wm_Directory::delete( ai1wm_storage_path( $params ) );
 							exit;
 						}
@@ -125,9 +122,11 @@ class Ai1wm_Import_Controller {
 			apply_filters( 'ai1wm_import_dropbox', Ai1wm_Template::get_content( 'import/button-dropbox' ) ),
 			apply_filters( 'ai1wm_import_gdrive', Ai1wm_Template::get_content( 'import/button-gdrive' ) ),
 			apply_filters( 'ai1wm_import_s3', Ai1wm_Template::get_content( 'import/button-s3' ) ),
+			apply_filters( 'ai1wm_import_b2', Ai1wm_Template::get_content( 'import/button-b2' ) ),
 			apply_filters( 'ai1wm_import_onedrive', Ai1wm_Template::get_content( 'import/button-onedrive' ) ),
 			apply_filters( 'ai1wm_import_box', Ai1wm_Template::get_content( 'import/button-box' ) ),
 			apply_filters( 'ai1wm_import_mega', Ai1wm_Template::get_content( 'import/button-mega' ) ),
+			apply_filters( 'ai1wm_import_digitalocean', Ai1wm_Template::get_content( 'import/button-digitalocean' ) ),
 		);
 	}
 

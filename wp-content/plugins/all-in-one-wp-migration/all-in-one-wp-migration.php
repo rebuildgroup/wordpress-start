@@ -5,7 +5,7 @@
  * Description: Migration tool for all your blog data. Import or Export your blog content with a single click.
  * Author: ServMask
  * Author URI: https://servmask.com/
- * Version: 6.65
+ * Version: 6.70
  * Text Domain: all-in-one-wp-migration
  * Domain Path: /languages
  * Network: True
@@ -32,10 +32,6 @@
  * ███████║███████╗██║  ██║ ╚████╔╝ ██║ ╚═╝ ██║██║  ██║███████║██║  ██╗
  * ╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
  */
-
-@ignore_user_abort( true );
-@set_time_limit( 0 );
-@ini_set( 'max_input_time', '-1' );
 
 // Check SSL Mode
 if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && ( $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ) ) {
@@ -75,7 +71,7 @@ require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'exceptions.php';
 // Include loader
 require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'loader.php';
 
-// ==========================================================================
-// = All app initialization is done in Ai1wm_Main_Controller __constructor. =
-// ==========================================================================
+// =========================================================================
+// = All app initialization is done in Ai1wm_Main_Controller __constructor =
+// =========================================================================
 $main_controller = new Ai1wm_Main_Controller();

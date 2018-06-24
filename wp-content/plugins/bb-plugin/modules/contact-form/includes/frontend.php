@@ -1,5 +1,8 @@
 <form class="fl-contact-form" <?php if ( isset( $module->template_id ) ) { echo 'data-template-id="' . $module->template_id . '" data-template-node-id="' . $module->template_node_id . '"';} ?>>
 
+	<?php global $post; ?>
+	<input type="hidden" name="fl-layout-id" value="<?php echo $post->ID; ?>" />
+
 	<?php if ( 'show' == $settings->name_toggle ) : ?>
 	<div class="fl-input-group fl-name">
 		<label for="fl-name"><?php _ex( 'Name', 'Contact form field label.', 'fl-builder' );?></label>
@@ -46,7 +49,7 @@
 			<label for="fl-terms-checkbox-<?php echo $id; ?>">
 				<input type="checkbox" class="checkbox-inline" id="fl-terms-checkbox-<?php echo $id; ?>" name="fl-terms-checkbox" value="1" /> <?php echo $settings->terms_checkbox_text; ?>
 			</label>
-			<span class="fl-contact-error"><?php _e( 'Terms and Conditions checkbox is required.', 'fl-builder' );?></span>
+			<span class="fl-contact-error"><?php _e( 'You must accept the Terms and Conditions.', 'fl-builder' );?></span>
 		</div>
 	<?php endif; ?>
 
