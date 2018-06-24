@@ -159,7 +159,7 @@
                 'event'          => array(
                     'title'         => __( 'GA Event', 'fl-builder' ),
                     'fields'        => array(
-                        'link_type' => array(
+                        'event_flag' => array(
                             'type'          => 'select',
                             'label'         => __( 'Enable GA Event?', 'fl-builder' ),
                             'default'       => 'false',
