@@ -31,10 +31,6 @@ Deny from all
 Allow from all
 </Files>
 
-<Files humans.txt>
-Allow from all
-</Files>
-
 ############ RESTRICT WP-ADMIN BY IP ############
 <IfModule mod_rewrite.c>
 RewriteEngine on
