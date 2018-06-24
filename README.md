@@ -19,7 +19,10 @@ Our projects use [Sage Theme](https://roots.io/sage/). A WordPress starter theme
 
 ### Theme Setup
 
-Building the theme requires [node.js](http://nodejs.org/download/). We recommend you update to the latest version of npm: `npm install -g npm@latest`.
+Building the theme requires [node.js](http://nodejs.org/download/). 
+_We recommend you use a node version > 8 [7.10.1]._
+
+We recommend you update to the latest version of npm: `npm install -g npm@latest`.
 
 Sage uses [gulp](http://gulpjs.com/) as its build system and [Bower](http://bower.io/) to manage front-end packages.
 
