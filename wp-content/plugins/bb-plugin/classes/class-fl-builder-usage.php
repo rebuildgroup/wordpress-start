@@ -194,7 +194,7 @@ final class FLBuilderUsage {
 			),
 			'mu' => array(
 				'name' => __( 'WP Multisite', 'fl-builder' ),
-				'data' => ( $data['data']['multisite'] ) ? 'Yes' : 'No',
+				'data' => $data['data']['multisite'],
 			),
 			'locale' => array(
 				'name' => __( 'Locale', 'fl-builder' ),
@@ -397,7 +397,7 @@ final class FLBuilderUsage {
 		*/
 		$data['server'] = $_SERVER['SERVER_SOFTWARE'];
 		$data['database'] = ( ! empty( $wpdb->is_mysql ) ? $wpdb->db_version() : 'Unknown' );
-		$data['multisite'] = is_multisite() ? 'yes' : 'no';
+		$data['multisite'] = is_multisite() ? 'Yes' : 'No';
 		$data['subsites']  = is_multisite() ? get_blog_count() : '';
 		$data['locale'] = get_locale();
 		$data['users'] = $users['total_users'];

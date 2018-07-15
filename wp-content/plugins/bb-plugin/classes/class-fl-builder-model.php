@@ -2132,7 +2132,7 @@ final class FLBuilderModel {
 			foreach ( $cols as $col_id => $col ) {
 
 				// Set the new size.
-				$data[ $col_id ]->settings->size = round( $new_width, 2 );
+				$data[ $col_id ]->settings->size = round( $new_width, 3 );
 			}
 
 			// Update the layout data.
@@ -2242,7 +2242,7 @@ final class FLBuilderModel {
 		}
 
 		// Save new sibling size.
-		$data[ $sibling->node ]->settings->size = round( 100 - $siblings_width - $new_width, 2 );
+		$data[ $sibling->node ]->settings->size = round( 100 - $siblings_width - $new_width, 3 );
 
 		// Save new column size.
 		$data[ $col->node ]->settings->size = $new_width;
@@ -2295,7 +2295,7 @@ final class FLBuilderModel {
 		$data 			= self::get_layout_data();
 		$post_data		= self::get_post_data();
 		$cols			= self::get_nodes( 'column', $group_id );
-		$width			= round( 100 / count( $cols ), 2 );
+		$width			= round( 100 / count( $cols ), 3 );
 
 		foreach ( $cols as $col_id => $col ) {
 			$data[ $col_id ]->settings->size = $width;
@@ -2377,7 +2377,7 @@ final class FLBuilderModel {
 		} elseif ( 7 === $num_cols ) {
 			$new_width = 14.28;
 		} else {
-			$new_width = round( 100 / $num_cols, 2 );
+			$new_width = round( 100 / $num_cols, 3 );
 		}
 
 		// Get the new column position.
