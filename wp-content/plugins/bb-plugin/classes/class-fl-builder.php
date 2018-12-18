@@ -49,6 +49,12 @@ final class FLBuilder {
 	static private $enqueued_global_assets = array();
 
 	/**
+	 * @since 2.1.6
+	 */
+	static private $enqueued_module_js_assets  = array();
+	static private $enqueued_module_css_assets = array();
+
+	/**
 	 * Used to store JS that is to be rendered inline on the wp_footer
 	 * action when the fl_builder_render_assets_inline filter is true.
 	 *
@@ -62,7 +68,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-	static public $fa5_url = 'https://use.fontawesome.com/releases/v5.0.13/css/all.css';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.6.1/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -377,17 +383,15 @@ final class FLBuilder {
 		$js_url  = plugins_url( '/js/', FL_BUILDER_FILE );
 		$min     = ( self::is_debug() ) ? '' : '.min';
 
-		$fa5_url = ( apply_filters( 'fl_enable_fa5_pro', false ) ) ? str_replace( 'use', 'pro', self::$fa5_url ) : self::$fa5_url;
-
 		// Register additional CSS
 		wp_register_style( 'fl-slideshow',           $css_url . 'fl-slideshow.css', array( 'yui3' ), $ver );
 		wp_register_style( 'jquery-bxslider',        $css_url . 'jquery.bxslider.css', array(), $ver );
-		wp_register_style( 'jquery-magnificpopup',   $css_url . 'jquery.magnificpopup.css', array(), $ver );
-		wp_register_style( 'yui3',           		 $css_url . 'yui3.css', array(), $ver );
+		wp_register_style( 'jquery-magnificpopup',   $css_url . 'jquery.magnificpopup' . $min . '.css', array(), $ver );
+		wp_register_style( 'yui3',                   $css_url . 'yui3.css', array(), $ver );
 
 		// Register icon CDN CSS
 		wp_register_style( 'font-awesome',           self::$fa4_url, array(), $ver );
-		wp_register_style( 'font-awesome-5',         $fa5_url, array(), $ver );
+		wp_register_style( 'font-awesome-5',         self::get_fa5_url(), array(), $ver );
 		wp_register_style( 'foundation-icons',       'https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css', array(), $ver );
 
 		// Register additional JS
@@ -396,16 +400,16 @@ final class FLBuilder {
 		wp_register_script( 'jquery-bxslider',       $js_url . 'jquery.bxslider.js', array( 'jquery-easing', 'jquery-fitvids' ), $ver, true );
 		wp_register_script( 'jquery-easing',         $js_url . 'jquery.easing.min.js', array( 'jquery' ), '1.4', true );
 		wp_register_script( 'jquery-fitvids',        $js_url . 'jquery.fitvids.min.js', array( 'jquery' ), '1.2', true );
-		wp_register_script( 'jquery-imagesloaded',   $js_url . 'jquery.imagesloaded.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'jquery-infinitescroll', $js_url . 'jquery.infinitescroll.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'jquery-magnificpopup',  $js_url . 'jquery.magnificpopup.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'jquery-mosaicflow',     $js_url . 'jquery.mosaicflow.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'jquery-waypoints',      $js_url . 'jquery.waypoints.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'jquery-wookmark',       $js_url . 'jquery.wookmark.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'yui3',                  $js_url . 'yui3.min.js', array(), $ver, true );
-
 		wp_register_script( 'youtube-player',        'https://www.youtube.com/iframe_api', array(), $ver, true );
 		wp_register_script( 'vimeo-player',          'https://player.vimeo.com/api/player.js', array(), $ver, true );
+		wp_deregister_script( 'imagesloaded' );
+		wp_register_script( 'imagesloaded', includes_url( 'js/imagesloaded.min.js' ), array( 'jquery' ) );
 	}
 
 	/**
@@ -466,10 +470,10 @@ final class FLBuilder {
 				if ( 'slideshow' == $row->settings->bg_type ) {
 					wp_enqueue_script( 'yui3' );
 					wp_enqueue_script( 'fl-slideshow' );
-					wp_enqueue_script( 'jquery-imagesloaded' );
+					wp_enqueue_script( 'imagesloaded' );
 					wp_enqueue_style( 'fl-slideshow' );
 				} elseif ( 'video' == $row->settings->bg_type ) {
-					wp_enqueue_script( 'jquery-imagesloaded' );
+					wp_enqueue_script( 'imagesloaded' );
 					if ( 'video_service' == $row->settings->bg_video_source ) {
 
 						$video_data = FLBuilderUtils::get_video_data( $row->settings->bg_video_service_url );
@@ -502,7 +506,7 @@ final class FLBuilder {
 			}
 
 			// Enqueue Google Fonts
-			FLBuilderFonts::enqueue_styles();
+			FLBuilderFonts::enqueue_google_fonts();
 
 			// Enqueue layout CSS
 			self::enqueue_layout_cached_asset( 'css', $rerender );
@@ -542,6 +546,11 @@ final class FLBuilder {
 		$active		= FLBuilderModel::is_builder_active();
 		$preview	= FLBuilderModel::is_builder_draft_preview();
 		$handle		= 'fl-builder-layout-' . $post_id;
+		/**
+		 * Use this filter to add dependencies to the dependency array when the main builder layout CSS file is enqueued using wp_enqueue_style.
+		 * @see fl_builder_layout_style_dependencies
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$css_deps 	= apply_filters( 'fl_builder_layout_style_dependencies', array() );
 		$css_media 	= apply_filters( 'fl_builder_layout_style_media', 'all' );
 
@@ -558,20 +567,22 @@ final class FLBuilder {
 		}
 
 		// Render the asset inline instead of enqueuing the file?
-		if ( ! $active && apply_filters( 'fl_builder_render_assets_inline', false ) ) {
+		if ( 'inline' === FLBuilderModel::get_asset_enqueue_method() ) {
 
 			// Bail if we've already rendered this.
 			if ( in_array( $path, self::$rendered_assets ) ) {
 				return;
+			} else {
+				self::$rendered_assets[] = $path;
 			}
 
 			// Enqueue inline.
 			if ( 'css' === $type ) {
 				wp_register_style( $handle, false, $css_deps, $asset_ver, $css_media );
 				wp_enqueue_style( $handle );
-				wp_add_inline_style( $handle, self::render_css( $global, false ) );
+				wp_add_inline_style( $handle, self::render_css( $global ) );
 			} else {
-				self::$inline_js .= self::render_js( $global, false );
+				self::$inline_js .= self::render_js( $global );
 				if ( ! has_action( 'wp_footer', __CLASS__ . '::render_inline_js' ) ) {
 					add_action( 'wp_footer', __CLASS__ . '::render_inline_js', PHP_INT_MAX );
 				}
@@ -883,11 +894,11 @@ final class FLBuilder {
 		// Enable editing if the builder is active.
 		if ( FLBuilderModel::is_builder_active() && ! FLBuilderAJAX::doing_ajax() ) {
 
-			// Tell W3TC not to minify while the builder is active.
-			define( 'DONOTMINIFY', true );
-
-			// Tell Autoptimize not to minify while the builder is active.
-			add_filter( 'autoptimize_filter_noptimize', '__return_true' );
+			/**
+			 * Fire an action as the builder inits.
+			 * @see fl_builder_init_ui
+			 */
+			do_action( 'fl_builder_init_ui' );
 
 			// Remove 3rd party editor buttons.
 			remove_all_actions( 'media_buttons', 999999 );
@@ -1829,10 +1840,16 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_row_attributes( $row ) {
+		/**
+		 * Use this filter to work with the custom class a user adds to a row under Row Settings > Advanced > Class.
+		 * @see fl_builder_row_custom_class
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$custom_class = apply_filters( 'fl_builder_row_custom_class', $row->settings->class, $row );
 		$overlay_bgs  = array( 'photo', 'parallax', 'slideshow', 'video' );
 		$active		  = FLBuilderModel::is_builder_active();
 		$visible 	  = FLBuilderModel::is_node_visible( $row );
+		$has_rules 	  = FLBuilderModel::node_has_visibility_rules( $row );
 		$attrs        = array(
 			'id'          => $row->settings->id,
 			'class'       => array(
@@ -1864,6 +1881,9 @@ final class FLBuilder {
 		}
 		if ( $active && ! $visible ) {
 			$attrs['class'][] = 'fl-node-hidden';
+		}
+		if ( $active && $has_rules ) {
+			$attrs['class'][] = 'fl-node-has-rules';
 		}
 
 		// Data
@@ -2020,11 +2040,17 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_column_attributes( $col ) {
+		/**
+		 * Use this filter to work with the custom class a user adds to a column under Column Settings > Advanced > Class.
+		 * @see fl_builder_column_custom_class
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$custom_class = apply_filters( 'fl_builder_column_custom_class', $col->settings->class, $col );
 		$overlay_bgs  = array( 'photo' );
 		$nested       = FLBuilderModel::get_nodes( 'column-group', $col );
 		$active		  = FLBuilderModel::is_builder_active();
 		$visible 	  = FLBuilderModel::is_node_visible( $col );
+		$has_rules 	  = FLBuilderModel::node_has_visibility_rules( $col );
 		$attrs        = array(
 			'id'          => $col->settings->id,
 			'class'       => array(
@@ -2053,6 +2079,9 @@ final class FLBuilder {
 		}
 		if ( $active && ! $visible ) {
 			$attrs['class'][] = 'fl-node-hidden';
+		}
+		if ( $active && $has_rules ) {
+			$attrs['class'][] = 'fl-node-has-rules';
 		}
 
 		// Style
@@ -2167,9 +2196,15 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_module_attributes( $module ) {
+		/**
+		 * Use this filter to work with the custom class a user adds to a module in the Class field on the Advanced tab.
+		 * @see fl_builder_module_custom_class
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$custom_class = apply_filters( 'fl_builder_module_custom_class', $module->settings->class, $module );
 		$active		  = FLBuilderModel::is_builder_active();
 		$visible 	  = FLBuilderModel::is_node_visible( $module );
+		$has_rules 	  = FLBuilderModel::node_has_visibility_rules( $module );
 		$attrs        = array(
 			'id'          => esc_attr( $module->settings->id ),
 			'class'       => array(
@@ -2193,6 +2228,9 @@ final class FLBuilder {
 		}
 		if ( $active && ! $visible ) {
 			$attrs['class'][] = 'fl-node-hidden';
+		}
+		if ( $active && $has_rules ) {
+			$attrs['class'][] = 'fl-node-has-rules';
 		}
 
 		// Data
@@ -2260,7 +2298,8 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_custom_css_for_editing() {
-		if ( ! FLBuilderModel::is_builder_active() ) {
+
+		if ( ! FLBuilderModel::is_builder_active() && ! isset( $_GET['fl_builder_preview'] ) ) {
 			return;
 		}
 
@@ -2276,15 +2315,15 @@ final class FLBuilder {
 	 *
 	 * @since 1.0
 	 * @param bool $include_global
-	 * @param bool $save
 	 * @return string
 	 */
-	static public function render_css( $include_global = true, $save = true ) {
+	static public function render_css( $include_global = true ) {
 		// Get info on the new file.
 		$nodes 				= FLBuilderModel::get_categorized_nodes();
 		$node_status		= FLBuilderModel::get_node_status();
 		$global_settings    = FLBuilderModel::get_global_settings();
 		$asset_info         = FLBuilderModel::get_asset_info();
+		$enqueuemethod		= FLBuilderModel::get_asset_enqueue_method();
 		$post_id            = FLBuilderModel::get_post_id();
 		$post               = get_post( $post_id );
 		$css 				= '';
@@ -2365,7 +2404,8 @@ final class FLBuilder {
 			$settings   = $module->settings;
 			$id         = $module->node;
 
-			if ( fl_builder_filesystem()->file_exists( $file ) ) {
+			if ( ! in_array( $id, self::$enqueued_module_css_assets ) && fl_builder_filesystem()->file_exists( $file ) ) {
+				self::$enqueued_module_css_assets[] = $id;
 				ob_start();
 				include $file;
 				$css .= ob_get_clean();
@@ -2392,7 +2432,11 @@ final class FLBuilder {
 			$css .= FLBuilderModel::get_layout_settings()->css;
 		}
 
-		// Filter the CSS.
+		/**
+		 * Use this filter to modify the CSS that is compiled and cached for each builder layout.
+		 * @see fl_builder_render_css
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$css = apply_filters( 'fl_builder_render_css', $css, $nodes, $global_settings, $include_global );
 
 		// Minify the CSS.
@@ -2402,7 +2446,7 @@ final class FLBuilder {
 		}
 
 		// Save the CSS.
-		if ( $save ) {
+		if ( 'file' === $enqueuemethod ) {
 			fl_builder_filesystem()->file_put_contents( $path, $css );
 		}
 
@@ -2500,7 +2544,9 @@ final class FLBuilder {
 		}
 
 		// Default page heading
-		if ( FLBuilderModel::is_builder_enabled() ) {
+		global $post;
+		$post_id = isset( $post->ID ) ? $post->ID : false;
+		if ( FLBuilderModel::is_builder_enabled( $post_id ) ) {
 			if ( ! $global_settings->show_default_heading && ! empty( $global_settings->default_heading_selector ) ) {
 				$heading_selector = esc_attr( $global_settings->default_heading_selector );
 
@@ -2778,16 +2824,16 @@ final class FLBuilder {
 	 *
 	 * @since 1.0
 	 * @param bool $include_global
-	 * @param bool $save
 	 * @return string
 	 */
-	static public function render_js( $include_global = true, $save = true ) {
+	static public function render_js( $include_global = true ) {
 		// Get info on the new file.
 		$nodes 		   		= FLBuilderModel::get_categorized_nodes();
 		$global_settings    = FLBuilderModel::get_global_settings();
 		$layout_settings 	= FLBuilderModel::get_layout_settings();
 		$rows          		= FLBuilderModel::get_nodes( 'row' );
 		$asset_info    		= FLBuilderModel::get_asset_info();
+		$enqueuemethod		= FLBuilderModel::get_asset_enqueue_method();
 		$js            		= '';
 		$path               = $include_global ? $asset_info['js'] : $asset_info['js_partial'];
 
@@ -2822,7 +2868,11 @@ final class FLBuilder {
 			include FL_BUILDER_DIR . 'classes/class-fl-jsmin.php';
 		}
 
-		// Filter the JS.
+		/**
+		 * Use this filter to modify the JavaScript that is compiled and cached for each builder layout.
+		 * @see fl_builder_render_js
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$js = apply_filters( 'fl_builder_render_js', $js, $nodes, $global_settings, $include_global );
 
 		// Only proceed if we have JS.
@@ -2834,13 +2884,13 @@ final class FLBuilder {
 					$min = FLJSMin::minify( $js );
 				} catch ( Exception $e ) {}
 
-				if ( $min ) {
+				if ( isset( $min ) ) {
 					$js = $min;
 				}
 			}
 
 			// Save the JS.
-			if ( $save ) {
+			if ( 'file' === $enqueuemethod ) {
 				fl_builder_filesystem()->file_put_contents( $path, $js );
 			}
 
@@ -2975,7 +3025,8 @@ final class FLBuilder {
 		$settings   = $module->settings;
 		$id         = $module->node;
 
-		if ( fl_builder_filesystem()->file_exists( $file ) ) {
+		if ( ! in_array( $id, self::$enqueued_module_js_assets ) && fl_builder_filesystem()->file_exists( $file ) ) {
+			self::$enqueued_module_js_assets[] = $id;
 			ob_start();
 			include $file;
 			$js .= ob_get_clean();
@@ -3090,6 +3141,15 @@ final class FLBuilder {
 		}
 
 		return apply_filters( 'fl_is_debug', $debug );
+	}
+
+	/**
+	 * Get the fa5 url.
+	 * @since 2.2
+	 * @return string url
+	 */
+	static public function get_fa5_url() {
+		return ( apply_filters( 'fl_enable_fa5_pro', false ) ) ? self::$fa5_pro_url : plugins_url( '/fonts/fontawesome/css/all.min.css', FL_BUILDER_FILE );
 	}
 
 	/**

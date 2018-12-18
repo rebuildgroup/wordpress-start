@@ -30,6 +30,9 @@
 			</div>
 			<div class="fl-clear"></div>
 		</div>
+		<# if ( data.hasRules ) { #>
+		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This row has visibility rules.', 'fl-builder' ); ?>"></i>
+		<# } #>
 	</div>
 </script>
 <!-- #tmpl-fl-row-overlay -->
@@ -77,6 +80,9 @@
 			</div>
 			<div class="fl-clear"></div>
 		</div>
+		<# if ( data.hasRules ) { #>
+		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This column has visibility rules.', 'fl-builder' ); ?>"></i>
+		<# } #>
 		<?php if ( ! $simple_ui ) : ?>
 		<# if ( ! data.groupLoading ) { #>
 			<# if ( ( ! data.first && data.contentWidth > 40 ) || ( data.hasParentCol && data.first && ! data.parentFirst ) ) { #>
@@ -168,6 +174,11 @@
 			</div>
 			<div class="fl-clear"></div>
 		</div>
+		<# if ( data.colHasRules ) { #>
+		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This column has visibility rules.', 'fl-builder' ); ?>"></i>
+		<# } else if ( data.hasRules ) { #>
+		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This module has visibility rules.', 'fl-builder' ); ?>"></i>
+		<# } #>
 		<?php if ( ! FLBuilderModel::is_post_user_template( 'module' ) && ! $simple_ui ) : ?>
 		<# if ( ! data.groupLoading && ! data.isRootCol ) { #>
 			<# if ( ( ! data.colFirst && data.contentWidth > 40 ) || ( data.hasParentCol && data.colFirst && ! data.parentFirst ) ) { #>
@@ -618,6 +629,13 @@
 			}
 		}
 
+		// Sort categorized modules in alphabetical order before render.
+		Object.keys(groupedModules.categorized).sort().forEach(function(key) {
+			var value = groupedModules.categorized[key];
+			delete groupedModules.categorized[key];
+			groupedModules.categorized[key] = value;
+		});
+
 		// Render any sections that were not already rendered in the ordered set
 		for( var title in groupedModules.categorized) {
 			var modules = groupedModules.categorized[title],
@@ -664,7 +682,7 @@
 						var template = templates[i],
 							image = template.image,
 							id = _.isNumber( template.postId ) ? template.postId : template.id,
-							hasImage = !_.isUndefined(image) && !image.endsWith('blank.jpg'),
+							hasImage = image && !image.endsWith('blank.jpg'),
 							hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 					#>
 					<span class="fl-builder-block fl-builder-block-template fl-builder-block-module-template {{hasImageClass}}" data-id="{{id}}" data-type="{{template.type}}">
@@ -814,7 +832,7 @@
 							var template = templates[i],
 								image = template.image,
 								id = _.isNumber( template.postId ) ? template.postId : template.id,
-								hasImage = !_.isUndefined(image) && !image.endsWith('blank.jpg'),
+								hasImage = image && !image.endsWith('blank.jpg'),
 								hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '';
 						#>
 						<span class="fl-builder-block fl-builder-block-template fl-builder-block-row-template {{hasImageClass}}" data-id="{{id}}" data-type="{{template.type}}">
@@ -865,7 +883,7 @@
 							var template = templates[i],
 								image = template.image,
 								id = _.isNumber( template.postId ) ? template.postId : template.id,
-								hasImage = !_.Undefined(image) && !image.endsWith('blank.jpg'),
+								hasImage = image && !image.endsWith('blank.jpg'),
 								hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '';
 						#>
 						<span class="fl-builder-block fl-builder-block-template fl-builder-block-module-template {{hasImageClass}}" data-id="{{id}}" data-type="{{template.type}}">

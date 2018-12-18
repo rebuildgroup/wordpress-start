@@ -1,3 +1,237 @@
+<h4>2.1.7.1 - 12/12/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Update Font Awesome to 5.6.1</li>
+	<li>Fixed hidden editor when ACF is active on post/page edit screen.</li>
+	<li>Fixed PHP fatal error caused by SEO Press plugin when adding layouts/templates.</li>
+	<li>Fixed a JS error when using Cloudfront platform.</li>
+	<li>Fixed missing excerpts for posts module in WP 5.0</li>
+</ul>
+
+<h4>2.1.7 - 11/26/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated Font Awesome to 5.5 which includes 208 new icons!</li>
+	<li>Updated Google Fonts.</li>
+	<li>Added general theme logo support to publisher logo in post-grid module.</li>
+	<li>Added support for auto parent in Woocommerce categories.</li>
+	<li>Tweaked Gutenberg support for latest API changes in WP5.</li>
+	<li>Remove <code>popup</code> from list of editable post-types.</li>
+	<li>New module settings filters added:</li>
+	<ul>
+		<li><code>fl_builder_module_settings_css_file_path_{$module->slug}</code></li>
+		<li><code>fl_builder_module_settings_css_file_uri_{$module->slug}</code></li>
+		<li><code>fl_builder_module_settings_js_file_path_{$module->slug}</code></li>
+		<li><code>fl_builder_module_settings_js_file_uri_{$module->slug}</code></li>
+	</ul>
+	<li>New actions and filters for custom icons:</li>
+	<ul>
+		<li>Action <code>fl_builder_admin_settings_remove_icon_set</code></li>
+		<li>Action <code>fl_builder_before_unzip_icon_set</code></li>
+		<li>Action <code>fl_builder_after_unzip_icon_set</code></li>
+		<li>Filter <code>fl_builder_icon_set_upload_path</code></li>
+		<li>Filter <code>fl_builder_icon_set_new_path</code></li>
+		<li>Filter <code>fl_builder_icon_set_check_path</code></li>
+		<li>Filter <code>fl_builder_current_site_icon_sets</code></li>
+	</ul>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Make sure module css/js php files are only used once when compiling.</li>
+	<li>Removed border left and right being set to none from small screen CSS.</li>
+	<li>Using post:content shortcode inside post content can cause infinite loop.</li>
+	<li>Fixed missing rounded corner CSS for hover in button module.</li>
+	<li>Removed toggle from featured image in Gallery module, so image size and crop are available for both layout types.</li>
+	<li>Disabled the tab/comma key in auto-suggest field to avoid selection issue.</li>
+	<li>Fixed contact firstname and lastname attributes not saving when subscribed for sendinblue.</li>
+	<li>Fixed issue with saved rows and WPML.</li>
+	<li>Fixed issue with layout shortcodes in Wocommerce description not rendering their assets.</li>
+</ul>
+
+
+<h4>2.1.6.3 - 10/30/2018</h4>
+<p><strong>Halloween Hot Fix</strong></p>
+<ul>
+	<li>Update Font Awesome to 5.4.2</li>
+	<li>Fix PHP error with Hummingbird cache plugin.</li>
+	<li>Force Imagesloaded to have jQuery as a dependency.</li>
+</ul>
+
+<h4>2.1.6.2 - 10/23/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed an issue with shortcodes in rich text module.</li>
+</ul>
+
+<h4>2.1.6.1 - 10/22/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Revert ImageLoaded fix, its breaking row backgrounds.</li>
+</ul>
+
+<h4>2.1.6 - 10/22/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated Font Awesome to 5.4.1 which includes nearly 400 new icons!</li>
+	<li>Add Product ID As a "Sort By" Field in the WooCommerce Module</li>
+	<li>Accordion labels can now be navigated and receive focus by tapping the Tab key.</li>
+	<li>Added Kinsta, Godaddy and Hummingbird to supported caches.</li>
+	<li>Set aria-hidden for row background slideshow images for screenreader users.</li>
+	<li>Improved anonymous statistics.</li>
+	<li>Show if MODSEC fix is enabled on the debug screen.</li>
+	<li>Added support for 5 & 6 columns in woocommerce module.</li>
+	<li>Whitelist files that will throw false positives in PHP Compatibility Checker plugin.</li>
+	<li>Minify magnificpopup css file.</li>
+	<li>Increase memory limit for the settings_config JS.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Global and layout css was not being applied in preview mode.</li>
+	<li>Fix ImagesLoaded and ultimate member issue.</li>
+	<li>Fix page headings issue on pages with themer layouts.</li>
+	<li>Fixed the pagination on first posts module where it inherits the main WP query which results to 404</li>
+	<li>Fixed Multiple Select Field not showing defaults when Add Item is clicked.</li>
+	<li>Fix Posts module's title alignment on some themes.</li>
+	<li>Fixed JS error thrown if two or more Video modules with embedded video code on same layout.</li>
+	<li>Fixed slideshow embedded in accordion via shortcode.</li>
+	<li>Fixed node templates without featured image throwing a JS error in the content panel.</li>
+	<li>Fixed module alias settings not being rendered when dropping on a page.</li>
+	<li>Renamed class MailChimp to FLBuilderMailChimp to avoid conflict with other plugins.</li>
+	<li>Fixed the menu item spacing caused by inline-block in menu module.</li>
+	<li>Fixed undefined font weight strings in the theme.</li>
+	<li>Fixed issue with Templator, Prevent Direct Access Gold and wp-smush-it plugins.</li>
+</ul>
+
+<h4>2.1.5.2 - 10/04/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed Pagely cache clear code.</li>
+	<li>Fixed small issue with Google italic fonts.</li>
+	<li>Fixed issue with Enfold theme causing javascript error when builder is open.</li>
+	<li>Updated Events Calender Widget compatibility code.</li>
+	<li>New filter added <code>fl_get_edit_url</code>.</li>
+	<li>New filter added <code>fl_widget_module_args</code>.</li>
+</ul>
+
+<h4>2.1.5.1 - 09/26/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed ImagesLoaded script not being enqueued in Gallery Module.</li>
+	<li>Fixed a PHP warning when using Events shortcodes.</li>
+	<li>Added Swift to list of supported cache plugins.</li>
+</ul>
+
+<h4>2.1.5 - 09/24/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+  <li>Revisions are now saved whenever any rows, columns, modules or layouts are published and are limited to 25.</li>
+  <li>Cache helper plugin is now merged into Beaver Builder. See https://kb.wpbeaverbuilder.com/article/549-cache-clearing-tool for details.</li>
+  <li>Update bundled Font Awesome to version 5.3.1.</li>
+  <li>Native Google italics are now supported.</li>
+  <li>Pre-connect to Google fonts to speed up font rendering.</li>
+  <li>Added caption on lightbox of the Photo Module.</li>
+  <li>More fl_builder_render_assets_inline fixes.</li>
+  <li>Changed delete_users capability to manage_options for builder UI and added <code>fl_builder_admin_settings_capability</code> filter.</li>
+  <li>Changed connections type to photo for row’s background fallback photo.</li>
+  <li>Added aria-hidden attribute to icons for better screenreader experience.</li>
+  <li>Added placeholder support for link field type.</li>
+  <li>New filter <code>fl_builder_google_fonts_pre_enqueue</code> makes it possible to dequeue any fonts added by modules.</li>
+  <li>New filter <code>fl_builder_load_modules_paths</code> to add/remove modules before they are loaded.</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Fixed javascript error if invalid color preset is saved.</li>
+  <li>Fixed license not saving properly if pasted licence contains non-alphanumeric chars.</li>
+  <li>Fixed compatibility with lodash >4 contains is not a function error.</li>
+  <li>Fixed post icon color option incorrectly appearing for grid layout in Posts Carousel module.</li>
+  <li>Fixed Subscribe Module: Active Campaign - When form is the type, user does not get re-subscribed.</li>
+  <li>Fixed Event Calendar widget not loading assets when added as a widget module.</li>
+  <li>Fixed Audio Module not properly refreshing when adding multiple items.</li>
+  <li>Fixed nodes being duplicated turning into global when they shouldn't be.</li>
+  <li>Fixed margin issue on media library thumbnails.</li>
+  <li>Fixed attachment JS config doesn't account for fields with multiple set to true.</li>
+  <li>Fixed issue with post-grid infinite scroll if post slug contains numbers.</li>
+  <li>Fixed Subscribe Form module - mailchimp only shows 10 groups within a list, limit changed to 50.</li>
+  <li>Fixed 404 pagination on archive when taxonomy has custom slug.</li>
+  <li>Fixed blurry checkbox in Subscribe and Contact Form modules.</li>
+  <li>Fixed thumbs layout in gallery module.</li>
+  <li>Fixed video where it keeps playing even if not in an active slide in Content Slider.</li>
+  <li>Fixed menu module spacing when there are multiple menu items.</li>
+  <li>Fixed colors and fonts affecting the media uploader popup.</li>
+  <li>Fixed CORS issue on Pantheon hosting.</li>
+</ul>
+
+
+<h4>2.1.4.5 - 09/10/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fix image settings apparently reverting to thumbnail in rare cases.</li>
+</ul>
+
+<h4>2.1.4.4 - 09/04/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed issue when duplicating with multiple copies of a module appearing after refreshing.</li>
+</ul>
+
+<h4>2.1.4.3 - 08/20/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed compatibility with Gutenberg.</li>
+	<li>Added editor variable to fl_builder_photo_cropped action.</li>
+</ul>
+
+<h4>2.1.4.2 - 08/06/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed text editors losing formatting when publishing because of WP 4.9.8 update.</li>
+</ul>
+
+<h4>2.1.4.1 - 08/02/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed switching between Gutenberg and Beaver Builder.</li>
+	<li>Fixed <code>fl_schema_meta_publisher_image_url</code> filter.</li>
+	<li>Updated translation files.</li>
+</ul>
+
+<h4>2.1.4 - 07/30/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Font Awesome updated to 5.2! The font is now part of the plugin package, no more glitchy CDN.</li>
+	<li>Visible indicator added if a node has visibility rules applied.</li>
+	<li>Add repeater support to <code>fl_builder_before_control</code> and <code>fl_builder_after_control</code>. Props Ian Forrest.</li>
+	<li>Allow users to select/deselect all modules. Show a warning if all modules are disabled.</li>
+	<li>Allow users to filter the default config for the ace editor using filter <code>fl_ace_editor_settings</code>.</li>
+	<li>Contact Form Module: Add field connection to module subject field.</li>
+	<li>Add 'Selection Order' to loop orderby options in Posts Module.</li>
+	<li>New filter <code>fl_builder_field_js_config</code> makes it possible to add predefined text field support. Props Oliver Juhas.</li>
+	<li>Add Aria labels to Mobile Menu button.</li>
+	<li>New actions/filters added to post-grid module schema function.
+		<ul>
+			<li>Actions: <code>fl_before_schema_meta</code>, <code>fl_after_schema_meta</code></li>
+			<li>Filters: <code>fl_schema_meta_general</code>, <code>fl_schema_meta_publisher_image_url</code>, <code>fl_schema_meta_publisher</code>, <code>fl_schema_meta_author</code></li>
+		</ul>
+	</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed issue with paginated category archives not correctly returning a 404 when there are no posts.</li>
+	<li>Fixed saved column settings reverting to default when first dropped in.</li>
+	<li>Fixed a compatibility With TinyMCE Advanced.</li>
+	<li>Fixed media modal close issue in Firefox and Safari.</li>
+	<li>Fixed Google fonts not loading in saved rows/modules inserted via shortcode.</li>
+	<li>Added field Cycle Day for GetResponse to fix autoresponder issue.</li>
+	<li>Fix Content Slider Delay and Transition Speed to accept positive float value.</li>
+	<li>Increase height of the multi-select element in the Settings UI.</li>
+	<li>Modified logic for listing Ontraport campaigns so all display in the dropdown.</li>
+	<li>Fixed a "connections" JS error when using layout shortcode.</li>
+	<li>Fixed an issue with Subscribe Form and AWeber.</li>
+	<li>Fixed a Themer layout CSS issue, CSS would sometimes fail to load and a refresh was required.</li>
+</ul>
+
 <h4>2.1.3.5 - 07/12/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>
@@ -35,6 +269,7 @@
 	<li>Fixed PHP error if using php 5.2.</li>
 </ul>
 
+<h4>2.1.3 - 06/19/2018</h4>
 <p><strong>Enhancements</strong></p>
 <ul>
 	<li>Better support for translating global rows using WPML.</li>

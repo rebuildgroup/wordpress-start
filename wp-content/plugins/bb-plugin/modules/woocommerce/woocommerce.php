@@ -80,7 +80,21 @@ FLBuilder::register_module('FLWooCommerceModule', array(
 								'fields'        => array( 'product_id' ),
 							),
 							'categories'    => array(
-								'fields'        => array( 'parent_cat_id', 'cat_columns' ),
+								'fields'        => array( 'autoparent', 'parent_cat_id', 'cat_columns' ),
+							),
+						),
+					),
+					'autoparent'    => array(
+						'type'    => 'select',
+						'label'   => __( 'Autoselect Parent', 'fl-builder' ),
+						'default' => 'false',
+						'options' => array(
+							'true'  => __( 'true', 'fl-builder' ),
+							'false' => __( 'false', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'false' => array(
+								'fields' => array( 'parent_cat_id' ),
 							),
 						),
 					),
@@ -178,6 +192,8 @@ FLBuilder::register_module('FLWooCommerceModule', array(
 							'2'             => '2',
 							'3'             => '3',
 							'4'             => '4',
+							'5'             => '5',
+							'6'             => '6',
 						),
 					),
 					'orderby'       => array(
@@ -190,6 +206,7 @@ FLBuilder::register_module('FLWooCommerceModule', array(
 							'rating'        => __( 'Rating', 'fl-builder' ),
 							'date'          => __( 'Date', 'fl-builder' ),
 							'price'         => __( 'Price', 'fl-builder' ),
+							'id'			=> __( 'Product ID', 'fl-builder' ),
 						),
 					),
 					'order'         => array(

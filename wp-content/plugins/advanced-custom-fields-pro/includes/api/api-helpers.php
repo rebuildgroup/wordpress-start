@@ -431,6 +431,24 @@ function acf_include( $file ) {
 	
 }
 
+/**
+*  acf_include_once
+*
+*  Includes a file one time only.
+*
+*  @date	24/8/18
+*  @since	5.7.4
+*
+*  @param	string $file The relative file path.
+*  @return	void
+*/
+
+function acf_include_once( $file = '' ) {
+	$path = acf_get_path( $file );
+	if( file_exists($path) ) {
+		include_once( $path );
+	}
+}
 
 /*
 *  acf_get_external_path
@@ -993,29 +1011,18 @@ function acf_verify_nonce( $value) {
 function acf_verify_ajax() {
 	
 	// vars
-	$action = acf_maybe_get_POST('action');
-	$nonce = acf_maybe_get_POST('nonce');
-	
-	
-	// bail early if not acf action
-	if( !$action || substr($action, 0, 3) !== 'acf' ) {
-		return false;
-	}
-	
+	$nonce = isset($_REQUEST['nonce']) ? $_REQUEST['nonce'] : '';
 	
 	// bail early if not acf nonce
 	if( !$nonce || !wp_verify_nonce($nonce, 'acf_nonce') ) {
 		return false;
 	}
 	
-	
 	// action for 3rd party customization
 	do_action('acf/verify_ajax');
 	
-	
 	// return
 	return true;
-	
 }
 
 
@@ -1221,129 +1228,20 @@ function acf_get_locale() {
 
 function acf_get_terms( $args ) {
 	
-	// global
-	global $wp_version;
+	// defaults
+	$args = wp_parse_args($args, array(
+		'taxonomy'					=> null,
+		'hide_empty'				=> false,
+		'update_term_meta_cache'	=> false,
+	));
 	
-	
-	// vars
-	$terms = array();
-	
-		
-	// WP 4.5+
-	if( version_compare($wp_version, '4.5', '>=' ) ) {
-		
-		$terms = get_terms( $args );
-
-	// WP < 4.5
-	} else {
-		
-		$terms = get_terms( $args['taxonomy'], $args );
-	
+	// parameters changed in version 4.5
+	if( acf_version_compare('wp', '<', '4.5') ) {
+		return get_terms( $args['taxonomy'], $args );
 	}
-	
 	
 	// return
-	return $terms;
-	
-}
-
-
-/*
-*  acf_get_taxonomies
-*
-*  This function will return an array of available taxonomies
-*
-*  @type	function
-*  @date	7/10/13
-*  @since	5.0.0
-*
-*  @param	n/a
-*  @return	(array)
-*/
-
-function acf_get_taxonomies() {
-
-	// get all taxonomies
-	$taxonomies = get_taxonomies( false, 'objects' );
-	$ignore = array( 'nav_menu', 'link_category' );
-	$r = array();
-	
-	
-	// populate $r
-	foreach( $taxonomies as $taxonomy )
-	{
-		if( in_array($taxonomy->name, $ignore) )
-		{
-			continue;
-		
-		}
-		
-		$r[ $taxonomy->name ] = $taxonomy->name; //"{$taxonomy->labels->singular_name}"; // ({$taxonomy->name})
-	}
-	
-	
-	// return
-	return $r;
-	
-}
-
-
-function acf_get_pretty_taxonomies( $taxonomies = array() ) {
-	
-	// get post types
-	if( empty($taxonomies) ) {
-		
-		// get all custom post types
-		$taxonomies = acf_get_taxonomies();
-		
-	}
-	
-	
-	// get labels
-	$ref = array();
-	$r = array();
-	
-	foreach( array_keys($taxonomies) as $i ) {
-		
-		// vars
-		$taxonomy = acf_extract_var( $taxonomies, $i);
-		$obj = get_taxonomy( $taxonomy );
-		$name = $obj->labels->singular_name;
-		
-		
-		// append to r
-		$r[ $taxonomy ] = $name;
-		
-		
-		// increase counter
-		if( !isset($ref[ $name ]) ) {
-			
-			$ref[ $name ] = 0;
-			
-		}
-		
-		$ref[ $name ]++;
-	}
-	
-	
-	// get slugs
-	foreach( array_keys($r) as $i ) {
-		
-		// vars
-		$taxonomy = $r[ $i ];
-		
-		if( $ref[ $taxonomy ] > 1 ) {
-			
-			$r[ $i ] .= ' (' . $i . ')';
-			
-		}
-		
-	}
-	
-	
-	// return
-	return $r;
-	
+	return get_terms( $args );
 }
 
 
@@ -1415,36 +1313,6 @@ function acf_get_taxonomy_terms( $taxonomies = array() ) {
 	
 	// return
 	return $r;
-	
-}
-
-
-function acf_get_term_title( $term ) {
-	
-	// title
-	$title = $term->name;
-	
-	
-	// empty
-	if( $title === '' ) {
-		
-		$title = __('(no title)', 'acf');
-		
-	}
-	
-	
-	// ancestors
-	if( is_taxonomy_hierarchical($term->taxonomy) ) {
-		
-		$ancestors = get_ancestors( $term->term_id, $term->taxonomy );
-		
-		$title = str_repeat('- ', count($ancestors)) . $title;
-		
-	}
-	
-	
-	// return
-	return $title;
 	
 }
 
@@ -3736,50 +3604,62 @@ function acf_get_truncated( $text, $length = 64 ) {
 
 function acf_get_current_url() {
 	
-	// vars
-	$home = home_url();
+	// Get url to current request.
 	$url = home_url($_SERVER['REQUEST_URI']);
 	
-	
-	// test
-	//$home = 'http://acf5/dev/wp-admin';
-	//$url = $home . '/dev/wp-admin/api-template/acf_form';
-	
-	
-	// explode url (4th bit is the sub folder)
-	$bits = explode('/', $home, 4);
-	
-	
-	/*
-	Array (
-	    [0] => http:
-	    [1] => 
-	    [2] => acf5
-	    [3] => dev
-	)
-	*/
-	
-	
-	// handle sub folder
-	if( !empty($bits[3]) ) {
-		
-		$find = '/' . $bits[3];
-		$pos = strpos($url, $find);
-		$length = strlen($find);
-		
-		if( $pos !== false ) {
-			
-		    $url = substr_replace($url, '', $pos, $length);
-		    
-		}
-				
+	// Fix bug where multisite sub-directory path segment is repeated.
+	// Eg. http://multisite.local/sub1/sub1/sample-page/
+	if( is_multisite() ) {
+		$url = acf_str_join( home_url(), $_SERVER['REQUEST_URI'] );
 	}
 	
-	
-	// return
+	// Return url.
 	return $url;
-	
 }
+
+/**
+*  acf_str_join
+*
+*  Joins together 2 strings removing any overlapping characters.
+*  Useful for urls. Eg: 'test.local/foo/' + '/foo/bar/' = 'test.local/foo/bar/'
+*
+*  @date	19/11/18
+*  @since	5.8.0
+*
+*  @param	string $s1 The first string.
+*  @param	string $s2 The seccond string.
+*  @return	string
+*/
+function acf_str_join( $s1 = '', $s2 = '' ) {
+	
+	// Remember number of chars that overlap.
+	$overlap = 0;
+	
+	// Find shortest word length.
+	$length = min( strlen($s1), strlen($s2) );
+	
+	// Find number of chars that overlap.
+	for( $i = 0; $i < $length; $i++ ) {
+		if( substr($s1, -$i) === substr($s2, 0, $i) ) {
+			$overlap = $i;
+		}
+	}
+	
+	// shorten $s2 based on overlap
+	if( $overlap ) {
+		$s2 = substr($s2, $overlap);
+	}
+	
+	// Return joined string.
+	return $s1 . $s2;
+}
+
+// Tests.
+//acf_test( acf_str_join('http://multisite.local/sub1/', '/sample-page/'), 'http://multisite.local/sub1/sample-page/' );
+//acf_test( acf_str_join('http://multisite.local/sub1/', 'sample-page/'), 'http://multisite.local/sub1/sample-page/' );
+//acf_test( acf_str_join('http://multisite.local/sub1/', '/sub1'), 'http://multisite.local/sub1/sub1' );
+//acf_test( acf_str_join('http://multisite.local/sub1/', '/sub1/sample-page/'), 'http://multisite.local/sub1/sample-page/' );
+//acf_test( acf_str_join('http://multisite.local/', '/sub1/sample-page/'), 'http://multisite.local/sub1/sample-page/' );
 
 
 /*
@@ -4173,11 +4053,22 @@ function acf_validate_attachment( $attachment, $field, $context = 'prepare' ) {
 	}
 	
 	
-	// filter for 3rd party customization
-	$errors = apply_filters("acf/validate_attachment", $errors, $file, $attachment, $field, $context);
-	$errors = apply_filters("acf/validate_attachment/type={$field['type']}", $errors, $file, $attachment, $field, $context );
-	$errors = apply_filters("acf/validate_attachment/name={$field['name']}", $errors, $file, $attachment, $field, $context );
-	$errors = apply_filters("acf/validate_attachment/key={$field['key']}", $errors, $file, $attachment, $field, $context );
+	/**
+	*  Filters the errors for a file before it is uploaded or displayed in the media modal.
+	*
+	*  @date	3/07/2015
+	*  @since	5.2.3
+	*
+	*  @param	array $errors An array of errors.
+	*  @param	array $file An array of data for a single file.
+	*  @param	array $attachment An array of attachment data which differs based on the context.
+	*  @param	array $field The field array.
+	*  @param	string $context The curent context (uploading, preparing)
+	*/
+	$errors = apply_filters( "acf/validate_attachment/type={$field['type']}",	$errors, $file, $attachment, $field, $context );
+	$errors = apply_filters( "acf/validate_attachment/name={$field['_name']}", 	$errors, $file, $attachment, $field, $context );
+	$errors = apply_filters( "acf/validate_attachment/key={$field['key']}", 	$errors, $file, $attachment, $field, $context );
+	$errors = apply_filters( "acf/validate_attachment", 						$errors, $file, $attachment, $field, $context );
 	
 	
 	// return
@@ -4647,33 +4538,43 @@ function acf_format_date( $value, $format ) {
 function acf_log() {
 	
 	// vars
-	$log = '';
 	$args = func_get_args();
-	
 	
 	// loop
 	foreach( $args as $i => $arg ) {
 		
+		// array | object
 		if( is_array($arg) || is_object($arg) ) {
-			
 			$arg = print_r($arg, true);
-			
-		} elseif( is_bool($arg) ) {
-			
-			$arg = ( $arg ? 'true' : 'false' ) . ' (bool)';
-			
-		}
 		
+		// bool	
+		} elseif( is_bool($arg) ) {
+			$arg = 'bool(' . ( $arg ? 'true' : 'false' ) . ')';
+		}
 		
 		// update
 		$args[ $i ] = $arg;
-		
 	}
-	
 	
 	// log
 	error_log( implode(' ', $args) );
-	
+}
+
+/**
+*  acf_dev_log
+*
+*  Used to log variables only if ACF_DEV is defined
+*
+*  @date	25/8/18
+*  @since	5.7.4
+*
+*  @param	mixed
+*  @return	void
+*/
+function acf_dev_log() {
+	if( defined('ACF_DEV') && ACF_DEV ) {
+		call_user_func_array('acf_log', func_get_args());
+	}
 }
 
 
@@ -4969,7 +4870,7 @@ function acf_send_ajax_results( $response ) {
 	
 	// validate
 	$response = wp_parse_args($response, array(
-		'results'	=> false,
+		'results'	=> array(),
 		'more'		=> false,
 		'limit'		=> 0
 	));
@@ -5187,43 +5088,54 @@ function acf_strip_protocol( $url ) {
 *
 *  @type	function
 *  @date	11/01/2017
+*  @since	5.8.0 Added filter to prevent connection.
 *  @since	5.5.4
 *
-*  @param	$attachment_id (int)
-*  @param	$post_id (int)
-*  @return	(boolean) 
+*  @param	int $attachment_id The attachment ID.
+*  @param	int $post_id The post ID.
+*  @return	bool True if attachment was connected.
 */
-
 function acf_connect_attachment_to_post( $attachment_id = 0, $post_id = 0 ) {
 	
-	// bail ealry if $attachment_id is not valid
-	if( !$attachment_id || !is_numeric($attachment_id) ) return false;
+	// Bail ealry if $attachment_id is not valid.
+	if( !$attachment_id || !is_numeric($attachment_id) ) {
+		return false;
+	}
 	
+	// Bail ealry if $post_id is not valid.
+	if( !$post_id || !is_numeric($post_id) ) {
+		return false;
+	}
 	
-	// bail ealry if $post_id is not valid
-	if( !$post_id || !is_numeric($post_id) ) return false;
-	
+	/**
+	*  Filters whether or not to connect the attachment.
+	*
+	*  @date	8/11/18
+	*  @since	5.8.0
+	*
+	*  @param	bool $bool Returning false will prevent the connection. Default true.
+	*  @param	int $attachment_id The attachment ID.
+	*  @param	int $post_id The post ID.
+	*/
+	if( !apply_filters('acf/connect_attachment_to_post', true, $attachment_id, $post_id) ) {
+		return false;
+	}
 	
 	// vars 
 	$post = get_post( $attachment_id );
 	
-	
-	// check if valid post
+	// Check if is valid post.
 	if( $post && $post->post_type == 'attachment' && $post->post_parent == 0 ) {
 		
 		// update
 		wp_update_post( array('ID' => $post->ID, 'post_parent' => $post_id) );
 		
-		
 		// return
 		return true;
-		
 	}
-	
 	
 	// return
 	return true;
-
 }
 
 
@@ -5333,6 +5245,142 @@ function acf_get_post_templates() {
 	// return
 	return $post_templates;
 	
+}
+
+/**
+*  acf_parse_markdown
+*
+*  A very basic regex-based Markdown parser function based off [slimdown](https://gist.github.com/jbroadway/2836900).
+*
+*  @date	6/8/18
+*  @since	5.7.2
+*
+*  @param	string $text The string to parse.
+*  @return	string
+*/
+
+function acf_parse_markdown( $text = '' ) {
+	
+	// trim
+	$text = trim($text);
+	
+	// rules
+	$rules = array (
+		'/=== (.+?) ===/'				=> '<h2>$1</h2>',					// headings
+		'/== (.+?) ==/'					=> '<h3>$1</h3>',					// headings
+		'/= (.+?) =/'					=> '<h4>$1</h4>',					// headings
+		'/\[([^\[]+)\]\(([^\)]+)\)/' 	=> '<a href="$2">$1</a>',			// links
+		'/(\*\*)(.*?)\1/' 				=> '<strong>$2</strong>',			// bold
+		'/(\*)(.*?)\1/' 				=> '<em>$2</em>',					// intalic
+		'/`(.*?)`/'						=> '<code>$1</code>',				// inline code
+		'/\n\*(.*)/'					=> "\n<ul>\n\t<li>$1</li>\n</ul>",	// ul lists
+		'/\n[0-9]+\.(.*)/'				=> "\n<ol>\n\t<li>$1</li>\n</ol>",	// ol lists
+		'/<\/ul>\s?<ul>/'				=> '',								// fix extra ul
+		'/<\/ol>\s?<ol>/'				=> '',								// fix extra ol
+	);
+	foreach( $rules as $k => $v ) {
+		$text = preg_replace($k, $v, $text);
+	}
+		
+	// autop
+	$text = wpautop($text);
+	
+	// return
+	return $text;
+}
+
+/**
+*  acf_get_sites
+*
+*  Returns an array of sites for a network.
+*
+*  @date	29/08/2016
+*  @since	5.4.0
+*
+*  @param	void
+*  @return	array
+*/
+function acf_get_sites() {
+	
+	// vars
+	$results = array();
+	
+	// function get_sites() was added in WP 4.6
+	if( function_exists('get_sites') ) {
+		
+		$_sites = get_sites(array(
+			'number' => 0
+		));
+		
+		if( $_sites ) {
+		foreach( $_sites as $_site ) {
+			$_site = get_site( $_site );
+	        $results[] = $_site->to_array();
+	    }}
+		
+	// function wp_get_sites() returns in the desired output
+	} else {
+		$results = wp_get_sites(array(
+			'limit' => 0
+		));
+	}
+	
+	// return
+	return $results;
+}
+
+/**
+*  acf_convert_rules_to_groups
+*
+*  Converts an array of rules from ACF4 to an array of groups for ACF5
+*
+*  @date	25/8/18
+*  @since	5.7.4
+*
+*  @param	array $rules An array of rules.
+*  @param	string $anyorall The anyorall setting used in ACF4. Defaults to 'any'.
+*  @return	array
+*/
+function acf_convert_rules_to_groups( $rules, $anyorall = 'any' ) {
+	
+	// vars
+	$groups = array();
+	$index = 0;
+	
+	// loop
+	foreach( $rules as $rule ) {
+		
+		// extract vars
+		$group = acf_extract_var( $rule, 'group_no' );
+		$order = acf_extract_var( $rule, 'order_no' );
+		
+		// calculate group if not defined
+		if( $group === null ) {
+			$group = $index;
+			
+			// use $anyorall to determine if a new group is needed
+			if( $anyorall == 'any' ) {
+				$index++;
+			}
+		}
+		
+		// calculate order if not defined
+		if( $order === null ) {
+			$order = isset($groups[ $group ]) ? count($groups[ $group ]) : 0;
+		}
+		
+		// append to group
+		$groups[ $group ][ $order ] = $rule;
+		
+		// sort groups
+		ksort( $groups[ $group ] );
+	}
+	
+	// sort groups
+	ksort( $groups );
+	
+	// return
+	return $groups;
 }
 
 ?>

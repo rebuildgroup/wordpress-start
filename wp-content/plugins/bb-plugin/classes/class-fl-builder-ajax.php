@@ -55,7 +55,7 @@ final class FLBuilderAJAX {
 		self::$actions[ $action ] = array(
 			'action' => $action,
 			'method' => $method,
-			'args'	 => $args,
+			'args'   => $args,
 		);
 	}
 
@@ -138,6 +138,8 @@ final class FLBuilderAJAX {
 		// FLBuilderAutoSuggest
 		self::add_action( 'fl_builder_autosuggest', 'FLBuilderAutoSuggest::init' );
 		self::add_action( 'get_autosuggest_values', 'FLBuilderAutoSuggest::get_values', array( 'fields' ) );
+
+		self::add_action( 'save_browser_stats', 'FLBuilderUsage::browser_stats', array( 'browser_data' ) );
 	}
 
 	/**
@@ -183,7 +185,10 @@ final class FLBuilderAJAX {
 			return;
 		}
 
-		// Allow developers to modify actions before they are called.
+		/**
+		 * Allow developers to modify actions before they are called.
+		 * @see fl_ajax_before_call_action
+		 */
 		do_action( 'fl_ajax_before_call_action', $action );
 
 		// Make sure the action exists.
@@ -192,9 +197,9 @@ final class FLBuilderAJAX {
 		}
 
 		// Get the action data.
-		$action 	= self::$actions[ $action ];
-		$args   	= array();
-		$keys_args  = array();
+		$action    = self::$actions[ $action ];
+		$args      = array();
+		$keys_args = array();
 
 		// Build the args array.
 		foreach ( $action['args'] as $arg ) {
@@ -207,13 +212,24 @@ final class FLBuilderAJAX {
 			define( 'DOING_AJAX', true );
 		}
 
-		// Allow developers to hook before the action runs.
+		/**
+		 * Allow developers to hook before the action runs.
+		 * @see fl_ajax_before_
+		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 */
 		do_action( 'fl_ajax_before_' . $action['action'], $keys_args );
 
-		// Call the action and allow developers to filter the result.
+		/**
+		 * Call the action and allow developers to filter the result.
+		 * @see fl_ajax_
+		 */
 		$result = apply_filters( 'fl_ajax_' . $action['action'], call_user_func_array( $action['method'], $args ), $keys_args );
 
-		// Allow developers to hook after the action runs.
+		/**
+		 * Allow developers to hook after the action runs.
+		 * @see fl_ajax_after_
+		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 */
 		do_action( 'fl_ajax_after_' . $action['action'], $keys_args );
 
 		// JSON encode the result.
@@ -231,8 +247,8 @@ final class FLBuilderAJAX {
 	 * @return bool
 	 */
 	static private function verify_nonce() {
-		$post_data 	= FLBuilderModel::get_post_data();
-		$nonce 		= false;
+		$post_data = FLBuilderModel::get_post_data();
+		$nonce     = false;
 
 		if ( isset( $post_data['_wpnonce'] ) ) {
 			$nonce = $post_data['_wpnonce'];

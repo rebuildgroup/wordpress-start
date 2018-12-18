@@ -57,7 +57,7 @@ class Ai1wm_Export_Download {
 			Ai1wm_Status::download(
 				sprintf(
 					__(
-						'<a href="%s" class="ai1wm-button-green ai1wm-emphasize">' .
+						'<a href="%s" class="ai1wm-button-green ai1wm-emphasize" title="%s">' .
 						'<span>Download %s</span>' .
 						'<em>Size: %s</em>' .
 						'</a>',
@@ -65,6 +65,7 @@ class Ai1wm_Export_Download {
 					),
 					$link,
 					$name,
+					strlen( $name ) > 25 ? substr( $name, 0, 24 ) . '&hellip;' : $name,
 					$size
 				)
 			);
