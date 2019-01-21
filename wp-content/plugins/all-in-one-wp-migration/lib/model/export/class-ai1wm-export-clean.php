@@ -27,6 +27,9 @@ class Ai1wm_Export_Clean {
 
 	public static function execute( $params ) {
 		Ai1wm_Directory::delete( ai1wm_storage_path( $params ) );
+		if ( defined( 'WP_CLI' ) ) {
+			return $params;
+		}
 		exit;
 	}
 }

@@ -31,7 +31,7 @@ define( 'AI1WM_DEBUG', false );
 // ==================
 // = Plugin Version =
 // ==================
-define( 'AI1WM_VERSION', '6.81' );
+define( 'AI1WM_VERSION', '6.83' );
 
 // ===============
 // = Plugin Name =
@@ -292,6 +292,16 @@ define( 'AI1WM_MAX_CHUNK_SIZE', 5 * 1024 * 1024 );
 // = Max Chunk Retries =
 // =====================
 define( 'AI1WM_MAX_CHUNK_RETRIES', 10 );
+
+// ===========================
+// = Max Transaction Queries =
+// ===========================
+define( 'AI1WM_MAX_TRANSACTION_QUERIES', 1000 );
+
+// ======================
+// = Max Select Records =
+// ======================
+define( 'AI1WM_MAX_SELECT_RECORDS', 1000 );
 
 // ===========================
 // = WP_CONTENT_DIR Constant =

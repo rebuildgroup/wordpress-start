@@ -35,7 +35,19 @@ class Ai1wm_Recursive_Exclude_Filter extends RecursiveFilterIterator {
 	}
 
 	public function accept() {
-		return ! in_array( $this->getInnerIterator()->getSubPathname(), $this->exclude );
+		if ( in_array( $this->getInnerIterator()->getSubPathname(), $this->exclude ) ) {
+			return false;
+		}
+
+		if ( strpos( $this->getInnerIterator()->getSubPathname(), "\n" ) !== false ) {
+			return false;
+		}
+
+		if ( strpos( $this->getInnerIterator()->getSubPathname(), "\r" ) !== false ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public function getChildren() {
