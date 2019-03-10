@@ -1,3 +1,21 @@
+<h4>2.2.1.4 - 03/05/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed PHP notice in WPML global node filter.</li>
+	<li>Fixed fatal JS error with SumoMe plugin.</li>
+	<li>Fixed PHP notice if a deleted font is registered.</li>
+	<li>Run fl_builder_cache_cleared after plugin update.</li>
+</ul>
+
+<h4>2.2.1.3 - 02/27/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Updated translations, introduced de_formal and finally fixed de_de.</li>
+	<li>Fixed the form filter for settings presets throwing an error when sections or fields aren't defined.</li>
+	<li>Fixed a recursion bug when rendering WPML translated global columns.</li>
+	<li>Fixed more issues with SiteGround plugin.</li>
+</ul>
+
 <h4>2.2.1.2 - 02/20/2019</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

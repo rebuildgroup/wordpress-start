@@ -15,12 +15,12 @@ final class FLBuilderAdminPosts {
 	 */
 	static public function init() {
 		/* Actions */
-		add_action( 'current_screen',                __CLASS__ . '::init_rendering' );
+		add_action( 'current_screen', __CLASS__ . '::init_rendering' );
 
 		/* Filters */
-		add_filter( 'redirect_post_location',        __CLASS__ . '::redirect_post_location' );
-		add_filter( 'page_row_actions',              __CLASS__ . '::render_row_actions_link' );
-		add_filter( 'post_row_actions',              __CLASS__ . '::render_row_actions_link' );
+		add_filter( 'redirect_post_location', __CLASS__ . '::redirect_post_location' );
+		add_filter( 'page_row_actions', __CLASS__ . '::render_row_actions_link' );
+		add_filter( 'post_row_actions', __CLASS__ . '::render_row_actions_link' );
 		add_action( 'pre_get_posts', __CLASS__ . '::sort_builder_enabled' );
 	}
 
@@ -92,14 +92,14 @@ final class FLBuilderAdminPosts {
 
 		if ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 
-			$render_ui = apply_filters( 'fl_builder_render_admin_edit_ui', true );
-			$post_type = self::get_post_type();
+			$render_ui  = apply_filters( 'fl_builder_render_admin_edit_ui', true );
+			$post_type  = self::get_post_type();
 			$post_types = FLBuilderModel::get_post_types();
 
 			if ( $render_ui && in_array( $post_type, $post_types ) ) {
-				add_filter( 'admin_body_class',         __CLASS__ . '::body_class', 99 );
-				add_action( 'admin_enqueue_scripts',    __CLASS__ . '::styles_scripts' );
-				add_action( 'edit_form_after_title',    __CLASS__ . '::render' );
+				add_filter( 'admin_body_class', __CLASS__ . '::body_class', 99 );
+				add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
+				add_action( 'edit_form_after_title', __CLASS__ . '::render' );
 			}
 		}
 
@@ -189,9 +189,9 @@ final class FLBuilderAdminPosts {
 	static public function render() {
 		global $post;
 
-		$post_type_obj 	= get_post_type_object( $post->post_type );
+		$post_type_obj  = get_post_type_object( $post->post_type );
 		$post_type_name = strtolower( $post_type_obj->labels->singular_name );
-		$enabled 		= FLBuilderModel::is_builder_enabled();
+		$enabled        = FLBuilderModel::is_builder_enabled();
 
 		include FL_BUILDER_DIR . 'includes/admin-posts.php';
 	}
@@ -209,12 +209,12 @@ final class FLBuilderAdminPosts {
 		if ( 'trash' != $post->post_status && current_user_can( 'edit_post', $post->ID ) && wp_check_post_lock( $post->ID ) === false ) {
 
 			$is_post_editable = (bool) apply_filters( 'fl_builder_is_post_editable', true, $post );
-			$user_access = FLBuilderUserAccess::current_user_can( 'builder_access' );
-			$post_types = FLBuilderModel::get_post_types();
+			$user_access      = FLBuilderUserAccess::current_user_can( 'builder_access' );
+			$post_types       = FLBuilderModel::get_post_types();
 
 			if ( in_array( $post->post_type, $post_types ) && $is_post_editable && $user_access ) {
-				$enabled = get_post_meta( $post->ID, '_fl_builder_enabled', true );
-				$dot = ' <span style="color:' . ( $enabled ? '#6bc373' : '#d9d9d9' ) . '; font-size:18px;">&bull;</span>';
+				$enabled               = get_post_meta( $post->ID, '_fl_builder_enabled', true );
+				$dot                   = ' <span style="color:' . ( $enabled ? '#6bc373' : '#d9d9d9' ) . '; font-size:18px;">&bull;</span>';
 				$actions['fl-builder'] = '<a href="' . FLBuilderModel::get_edit_url() . '">' . FLBuilderModel::get_branding() . $dot . '</a>';
 			}
 		}

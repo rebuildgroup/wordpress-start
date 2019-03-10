@@ -58,8 +58,8 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
 	'inlineEnabled'              => FLBuilderModel::is_inline_enabled(),
 	'CheckCodeErrors'            => FLBuilderModel::is_codechecking_enabled(),
 	'AceEditorSettings'          => FLBuilderModel::ace_editor_settings(),
-	'optionSets'				 => apply_filters( 'fl_builder_shared_option_sets', array() ),
-	'presets'					 => FLBuilderSettingsPresets::get_presets(),
+	'optionSets'                 => apply_filters( 'fl_builder_shared_option_sets', array() ),
+	'presets'                    => FLBuilderSettingsPresets::get_presets(),
 	'FontWeights'                => FLBuilderFonts::get_font_weight_strings(),
 	'statsEnabled'               => get_site_option( 'fl_builder_usage_enabled', false ),
 ) ) ) . ';';

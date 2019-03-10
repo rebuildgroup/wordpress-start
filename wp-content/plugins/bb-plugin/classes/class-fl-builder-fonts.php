@@ -327,7 +327,7 @@ final class FLBuilderFonts {
 		$recent_fonts_db = get_option( 'fl_builder_recent_fonts', array() );
 		$recent_fonts    = array();
 
-		if ( is_array( $font ) && 'Default' != $font['family'] ) {
+		if ( is_array( $font ) && isset( $font['family'] ) && isset( $font['weight'] ) && 'Default' != $font['family'] ) {
 
 			$system_fonts = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
 
@@ -633,7 +633,7 @@ final class FLBuilderFontFamilies {
 		if ( ! empty( self::$_google_json ) ) {
 			$json = self::$_google_json;
 		} else {
-			$json = (array) json_decode( file_get_contents( trailingslashit( FL_BUILDER_DIR ) . 'json/fonts.json' ), true );
+			$json               = (array) json_decode( file_get_contents( trailingslashit( FL_BUILDER_DIR ) . 'json/fonts.json' ), true );
 			self::$_google_json = $json;
 		}
 		/**

@@ -246,26 +246,26 @@ final class FLBuilderUsage {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		 $data                   = array(
-			 'modules' => array(),
-			 'license' => array(),
-			 'themer'  => array(
-				 'header'   => 0,
-				 'footer'   => 0,
-				 'part'     => 0,
-				 '404'      => 0,
-				 'singular' => 0,
-			 ),
-			 'pinned'  => array(
-				 'left'     => 0,
-				 'right'    => 0,
-				 'unpinned' => 0,
-			 ),
-		 );
-		 $users                  = count_users();
-		 $plugins_data           = get_plugins();
-		 $data['plugins']        = count( $plugins_data );
-		 $data['plugins_active'] = 0;
+		$data                   = array(
+			'modules' => array(),
+			'license' => array(),
+			'themer'  => array(
+				'header'   => 0,
+				'footer'   => 0,
+				'part'     => 0,
+				'404'      => 0,
+				'singular' => 0,
+			),
+			'pinned'  => array(
+				'left'     => 0,
+				'right'    => 0,
+				'unpinned' => 0,
+			),
+		);
+		$users                  = count_users();
+		$plugins_data           = get_plugins();
+		$data['plugins']        = count( $plugins_data );
+		$data['plugins_active'] = 0;
 
 		foreach ( (array) $plugins_data as $plugin_slug => $plugin ) {
 			if ( is_plugin_active( $plugin_slug ) ) {
@@ -388,23 +388,23 @@ final class FLBuilderUsage {
 				$meta                  = get_user_meta( $user->ID, 'fl_builder_browser_stats', true );
 				$browsers[ $user->ID ] = $meta;
 			}
-			$data['browsers']      = $browsers;
+			$data['browsers'] = $browsers;
 		}
 
 		/**
 		* General data
 		*/
-		$data['server']        = $_SERVER['SERVER_SOFTWARE'];
-		$data['database']      = ( ! empty( $wpdb->is_mysql ) ? $wpdb->db_version() : 'Unknown' );
-		$data['multisite']     = is_multisite() ? 'Yes' : 'No';
-		$data['subsites']      = is_multisite() ? get_blog_count() : '';
-		$data['locale']        = get_locale();
-		$data['users']         = $users['total_users'];
-		$data['php']           = phpversion();
-		$data['wp']            = $wp_version;
-		$data['fl-builder']    = FL_BUILDER_VERSION;
-		$data['fl-theme']      = ( defined( 'FL_THEME_VERSION' ) ) ? FL_THEME_VERSION : false;
-		$data['fl-themer']     = ( defined( 'FL_THEME_BUILDER_VERSION' ) ) ? FL_THEME_BUILDER_VERSION : false;
+		$data['server']     = $_SERVER['SERVER_SOFTWARE'];
+		$data['database']   = ( ! empty( $wpdb->is_mysql ) ? $wpdb->db_version() : 'Unknown' );
+		$data['multisite']  = is_multisite() ? 'Yes' : 'No';
+		$data['subsites']   = is_multisite() ? get_blog_count() : '';
+		$data['locale']     = get_locale();
+		$data['users']      = $users['total_users'];
+		$data['php']        = phpversion();
+		$data['wp']         = $wp_version;
+		$data['fl-builder'] = FL_BUILDER_VERSION;
+		$data['fl-theme']   = ( defined( 'FL_THEME_VERSION' ) ) ? FL_THEME_VERSION : false;
+		$data['fl-themer']  = ( defined( 'FL_THEME_BUILDER_VERSION' ) ) ? FL_THEME_BUILDER_VERSION : false;
 
 		$settings_orig = FLBuilderModel::get_global_settings();
 

@@ -153,52 +153,52 @@ final class FLBuilderAdminSettings {
 	 */
 	static public function render_nav_items() {
 		$item_data = apply_filters( 'fl_builder_admin_settings_nav_items', array(
-			'welcome' => array(
-				'title' 	=> __( 'Welcome', 'fl-builder' ),
-				'show'		=> ! FLBuilderModel::is_white_labeled() && ( is_network_admin() || ! self::multisite_support() ),
-				'priority'	=> 50,
+			'welcome'     => array(
+				'title'    => __( 'Welcome', 'fl-builder' ),
+				'show'     => ! FLBuilderModel::is_white_labeled() && ( is_network_admin() || ! self::multisite_support() ),
+				'priority' => 50,
 			),
-			'license' => array(
-				'title' 	=> __( 'License', 'fl-builder' ),
-				'show'		=> FL_BUILDER_LITE !== true && ( is_network_admin() || ! self::multisite_support() ),
-				'priority'	=> 100,
+			'license'     => array(
+				'title'    => __( 'License', 'fl-builder' ),
+				'show'     => FL_BUILDER_LITE !== true && ( is_network_admin() || ! self::multisite_support() ),
+				'priority' => 100,
 			),
-			'upgrade' => array(
-				'title' 	=> __( 'Upgrade', 'fl-builder' ),
-				'show'		=> FL_BUILDER_LITE === true,
-				'priority'	=> 200,
+			'upgrade'     => array(
+				'title'    => __( 'Upgrade', 'fl-builder' ),
+				'show'     => FL_BUILDER_LITE === true,
+				'priority' => 200,
 			),
-			'modules' => array(
-				'title' 	=> __( 'Modules', 'fl-builder' ),
-				'show'		=> true,
-				'priority'	=> 300,
+			'modules'     => array(
+				'title'    => __( 'Modules', 'fl-builder' ),
+				'show'     => true,
+				'priority' => 300,
 			),
-			'post-types' => array(
-				'title' 	=> __( 'Post Types', 'fl-builder' ),
-				'show'		=> true,
-				'priority'	=> 400,
+			'post-types'  => array(
+				'title'    => __( 'Post Types', 'fl-builder' ),
+				'show'     => true,
+				'priority' => 400,
 			),
 			'user-access' => array(
-				'title' 	=> __( 'User Access', 'fl-builder' ),
-				'show'		=> true,
-				'priority'	=> 500,
+				'title'    => __( 'User Access', 'fl-builder' ),
+				'show'     => true,
+				'priority' => 500,
 			),
-			'icons' => array(
-				'title' 	=> __( 'Icons', 'fl-builder' ),
-				'show'		=> FL_BUILDER_LITE !== true,
-				'priority'	=> 600,
+			'icons'       => array(
+				'title'    => __( 'Icons', 'fl-builder' ),
+				'show'     => FL_BUILDER_LITE !== true,
+				'priority' => 600,
 			),
-			'tools' => array(
-				'title' 	=> __( 'Tools', 'fl-builder' ),
-				'show'		=> true,
-				'priority'	=> 700,
+			'tools'       => array(
+				'title'    => __( 'Tools', 'fl-builder' ),
+				'show'     => true,
+				'priority' => 700,
 			),
 		) );
 
 		$sorted_data = array();
 
 		foreach ( $item_data as $key => $data ) {
-			$data['key'] = $key;
+			$data['key']                      = $key;
 			$sorted_data[ $data['priority'] ] = $data;
 		}
 
@@ -465,10 +465,10 @@ final class FLBuilderAdminSettings {
 			// Upload a new set?
 			if ( ! empty( $_POST['fl-new-icon-set'] ) ) {
 
-				$dir		 = FLBuilderModel::get_cache_dir( 'icons' );
-				$id			 = (int) $_POST['fl-new-icon-set'];
-				$path		 = apply_filters( 'fl_builder_icon_set_upload_path', get_attached_file( $id ) );
-				$new_path	 = apply_filters( 'fl_builder_icon_set_new_path', $dir['path'] . 'icon-' . time() . '/' );
+				$dir      = FLBuilderModel::get_cache_dir( 'icons' );
+				$id       = (int) $_POST['fl-new-icon-set'];
+				$path     = apply_filters( 'fl_builder_icon_set_upload_path', get_attached_file( $id ) );
+				$new_path = apply_filters( 'fl_builder_icon_set_new_path', $dir['path'] . 'icon-' . time() . '/' );
 
 				fl_builder_filesystem()->get_filesystem();
 
@@ -478,7 +478,7 @@ final class FLBuilderAdminSettings {
 				 */
 				do_action( 'fl_builder_before_unzip_icon_set', $id, $path, $new_path );
 
-				$unzipped	 = unzip_file( $path, $new_path );
+				$unzipped = unzip_file( $path, $new_path );
 
 				// unzip returned a WP_Error
 				if ( is_wp_error( $unzipped ) ) {
@@ -497,9 +497,9 @@ final class FLBuilderAdminSettings {
 
 				if ( 1 == count( $files ) ) {
 
-					$values			= array_values( $files );
+					$values         = array_values( $files );
 					$subfolder_info = array_shift( $values );
-					$subfolder		= $new_path . $subfolder_info['name'] . '/';
+					$subfolder      = $new_path . $subfolder_info['name'] . '/';
 
 					if ( fl_builder_filesystem()->file_exists( $subfolder ) && fl_builder_filesystem()->is_dir( $subfolder ) ) {
 
@@ -524,7 +524,7 @@ final class FLBuilderAdminSettings {
 				$check_path = apply_filters( 'fl_builder_icon_set_check_path', $new_path );
 
 				// Check for supported sets.
-				$is_icomoon	 = fl_builder_filesystem()->file_exists( $check_path . 'selection.json' );
+				$is_icomoon  = fl_builder_filesystem()->file_exists( $check_path . 'selection.json' );
 				$is_fontello = fl_builder_filesystem()->file_exists( $check_path . 'config.json' );
 
 				// Show an error if we don't have a supported icon set.
@@ -546,7 +546,7 @@ final class FLBuilderAdminSettings {
 
 				// Enable the new set.
 				if ( is_array( $enabled_icons ) ) {
-					$key = FLBuilderIcons::get_key_from_path( $check_path );
+					$key             = FLBuilderIcons::get_key_from_path( $check_path );
 					$enabled_icons[] = $key;
 				}
 			}

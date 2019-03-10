@@ -9,7 +9,7 @@
 <?php
 
 FLBuilderCSS::typography_field_rule( array(
-	'settings'		=> $settings,
-	'setting_name' 	=> 'typography',
-	'selector' 		=> ".fl-node-$id.fl-module-heading .fl-heading",
+	'settings'     => $settings,
+	'setting_name' => 'typography',
+	'selector'     => ".fl-node-$id.fl-module-heading .fl-heading",
 ) );

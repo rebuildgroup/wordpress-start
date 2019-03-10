@@ -9,7 +9,7 @@
 <?php
 if ( $settings->arrows ) :
 	if ( isset( $settings->arrows_bg_color ) && ! empty( $settings->arrows_bg_color ) ) :
-?>
+		?>
 	.fl-node-<?php echo $id; ?> .fl-content-slider-svg-container {
 		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_bg_color ); ?>;
 		width: 40px;
@@ -28,15 +28,15 @@ if ( $settings->arrows ) :
 		width: 100%;
 		padding: 5px;
 	}
-	<?php
+		<?php
 	endif;
 
 	if ( isset( $settings->arrows_text_color ) && ! empty( $settings->arrows_text_color ) ) :
-	?>
+		?>
 	.fl-node-<?php echo $id; ?> .fl-content-slider-navigation path {
 		fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_text_color ); ?>;
 	}
-	<?php
+		<?php
 	endif;
 endif;
 

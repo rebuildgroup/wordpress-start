@@ -15,8 +15,8 @@ final class FLBuilderUserTemplatesAdminAdd {
 	 */
 	static public function init() {
 		/* Actions */
-		add_action( 'init',                		 __CLASS__ . '::process_form', 11 );
-		add_action( 'admin_enqueue_scripts',     __CLASS__ . '::admin_enqueue_scripts' );
+		add_action( 'init', __CLASS__ . '::process_form', 11 );
+		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
 	}
 
 	/**
@@ -44,10 +44,10 @@ final class FLBuilderUserTemplatesAdminAdd {
 			wp_localize_script( $slug . 'add', 'FLBuilderConfig', apply_filters( 'fl_builder_user_templates_add_new_config', array(
 				'strings' => array(
 					'addButton' => array(
-						'add'       => _x( 'Add', 'Generic add button label for adding new content.', 'fl-builder' ),
-						'layout'    => sprintf( _x( '%s Saved Template', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action ),
-						'row'       => sprintf( _x( '%s Saved Row', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action ),
-						'module'    => sprintf( _x( '%s Saved Module', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action ),
+						'add'    => _x( 'Add', 'Generic add button label for adding new content.', 'fl-builder' ),
+						'layout' => sprintf( _x( '%s Saved Template', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action ),
+						'row'    => sprintf( _x( '%s Saved Row', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action ),
+						'module' => sprintf( _x( '%s Saved Module', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action ),
 					),
 				),
 			) ) );
@@ -107,10 +107,10 @@ final class FLBuilderUserTemplatesAdminAdd {
 
 		// Insert the post.
 		$post_id = wp_insert_post( array(
-			'post_title'	 => $title,
-			'post_type'		 => $post_type,
-			'post_status'	 => 'draft',
-			'ping_status'	 => 'closed',
+			'post_title'     => $title,
+			'post_type'      => $post_type,
+			'post_status'    => 'draft',
+			'ping_status'    => 'closed',
 			'comment_status' => 'closed',
 		) );
 
@@ -180,7 +180,7 @@ final class FLBuilderUserTemplatesAdminAdd {
 					$data[ $node_id ]->template_root_node = true;
 				}
 
-				$data[ $node_id ]->template_id = $template_id;
+				$data[ $node_id ]->template_id      = $template_id;
 				$data[ $node_id ]->template_node_id = $node_id;
 			}
 

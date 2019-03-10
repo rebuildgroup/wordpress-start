@@ -23,15 +23,15 @@ class FLBuilderSettingsPresets {
 	* @return void
 	*/
 	static public function register( $type = '', $args = array() ) {
-		$defaults = array(
-			'name' => '',
-			'label' => __( 'Untitled Preset', 'fl-builder' ),
-			'type' => $type,
+		$defaults                        = array(
+			'name'     => '',
+			'label'    => __( 'Untitled Preset', 'fl-builder' ),
+			'type'     => $type,
 			'settings' => array(), /* the settings to set when preset is selected */
-			'data' => array(), /* arbitrary data to pass along to the frontend */
+			'data'     => array(), /* arbitrary data to pass along to the frontend */
 		);
-		$args = wp_parse_args( $args, $defaults );
-		$name = $args['name'];
+		$args                            = wp_parse_args( $args, $defaults );
+		$name                            = $args['name'];
 		self::$presets[ $type ][ $name ] = $args;
 	}
 
@@ -57,8 +57,8 @@ class FLBuilderSettingsPresets {
 		if ( $type ) {
 			$presets = self::$presets[ $type ];
 			foreach ( $presets as $preset ) {
-				$handle = $preset['name'];
-				$label = $preset['label'];
+				$handle             = $preset['name'];
+				$label              = $preset['label'];
 				$options[ $handle ] = $label;
 			}
 		}
@@ -89,10 +89,16 @@ class FLBuilderSettingsPresets {
 
 		if ( isset( $form['tabs'] ) ) {
 			foreach ( $form['tabs'] as $i => $tab ) {
+				if ( ! isset( $tab['sections'] ) ) {
+					continue;
+				}
 
 				foreach ( $tab['sections'] as $j => $section ) {
-					foreach ( $section['fields'] as $k => $field ) {
+					if ( ! isset( $section['fields'] ) ) {
+						continue;
+					}
 
+					foreach ( $section['fields'] as $k => $field ) {
 						if ( 'preset' === $field['type'] ) {
 							$form['tabs'][ $i ]['sections'][ $j ]['fields'][ $k ]['preview'] = array(
 								'type' => 'none',

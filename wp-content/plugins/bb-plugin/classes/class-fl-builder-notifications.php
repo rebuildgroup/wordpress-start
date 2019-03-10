@@ -66,14 +66,14 @@ final class FLBuilderNotifications {
 	public static function fetch_notifications() {
 
 		$defaults = array(
-			'read' => false,
+			'read'     => false,
 			'checksum' => '',
-			'data' => '{}',
+			'data'     => '{}',
 		);
 
-		$url          = self::$url;
-		$stored_data  = get_option( self::$option, $defaults );
-		$response     = wp_remote_get( $url );
+		$url         = self::$url;
+		$stored_data = get_option( self::$option, $defaults );
+		$response    = wp_remote_get( $url );
 
 		$response_code = wp_remote_retrieve_response_code( $response );
 		$body          = wp_remote_retrieve_body( $response );
@@ -95,9 +95,9 @@ final class FLBuilderNotifications {
 			$unread = self::compare_checksums( $stored_checksum, $latest_checksum );
 
 			$stored_data = array(
-				'read' => true,
+				'read'     => true,
 				'checksum' => $latest_checksum,
-				'data' => wp_json_encode( $body ),
+				'data'     => wp_json_encode( $body ),
 			);
 
 			if ( $unread ) {
@@ -156,10 +156,10 @@ final class FLBuilderNotifications {
 	 */
 	public static function get_notifications() {
 
-		$defaults = array(
-			'read' => false,
+		$defaults      = array(
+			'read'     => false,
 			'checksum' => '',
-			'data' => '{}',
+			'data'     => '{}',
 		);
 		$notifications = get_option( self::$option, $defaults );
 
@@ -175,12 +175,12 @@ final class FLBuilderNotifications {
 	 * @since 2.1
 	 */
 	public static function update_state( $state ) {
-		$defaults = array(
-			'read' => false,
+		$defaults              = array(
+			'read'     => false,
 			'checksum' => '',
-			'data' => '{}',
+			'data'     => '{}',
 		);
-		$notifications = get_option( self::$option, $defaults );
+		$notifications         = get_option( self::$option, $defaults );
 		$notifications['read'] = $state;
 		update_option( self::$option, $notifications );
 	}
