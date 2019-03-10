@@ -667,6 +667,14 @@
 		for( var title in groupedModules.categorized) {
 			var modules = groupedModules.categorized[title],
 				slug = title.replace(/\s+/g, '-').toLowerCase();
+
+				modules.sort(function(a, b) {
+					if (a.name < b.name)
+						return -1;
+					if (a.name > b.name)
+						return 1;
+					return 0;
+				});
 			#>
 			<div id="fl-builder-blocks-{{slug}}" class="fl-builder-blocks-section">
 				<div class="fl-builder-blocks-section-header">

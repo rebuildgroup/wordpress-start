@@ -404,6 +404,11 @@ if ( 'always' != $module->get_media_breakpoint() ) : ?>
 		box-shadow: none;
 	}
 
+	.fl-node-<?php echo $id; ?> .mega-menu.fl-active .hide-heading > .sub-menu,
+	.fl-node-<?php echo $id; ?> .mega-menu-disabled.fl-active .hide-heading > .sub-menu {
+		display: block !important;
+	}
+
 <?php if ( 'always' != $module->get_media_breakpoint() ) : ?>
 	} <?php // close media max-width ?>
 

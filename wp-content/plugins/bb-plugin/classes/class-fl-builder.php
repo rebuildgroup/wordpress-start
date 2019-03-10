@@ -68,7 +68,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.6.1/css/all.css';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.7.1/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -714,6 +714,10 @@ final class FLBuilder {
 			wp_enqueue_script( 'jquery-ui-widget' );
 			wp_enqueue_script( 'jquery-ui-position' );
 
+			/**
+			 * Before jquery.ui.sortable.js is enqueued.
+			 * @see fl_before_sortable_enqueue
+			 */
 			do_action( 'fl_before_sortable_enqueue' );
 
 			wp_enqueue_script( 'jquery-ui-sortable',   	$js_url . 'jquery.ui.sortable.js', array( 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse' ), $ver );
@@ -1517,15 +1521,26 @@ final class FLBuilder {
 		// Prevent the builder's render_content filter from running.
 		add_filter( 'fl_builder_do_render_content', '__return_false' );
 
-		// Fire the render content start action.
+		/**
+		 * Fire the render content start action.
+		 * @see fl_builder_render_content_start
+		 */
 		do_action( 'fl_builder_render_content_start' );
 
 		// Render the content.
 		ob_start();
+		/**
+		 * Before render content
+		 * @see fl_builder_before_render_content
+		 */
 		do_action( 'fl_builder_before_render_content' );
 		echo '<' . $tag . ' class="' . self::render_content_classes() . '" data-post-id="' . $post_id . '"' . $attr_string . '>';
 		self::render_nodes();
 		echo '</' . $tag . '>';
+		/**
+		 * After render content
+		 * @see fl_builder_after_render_content
+		 */
 		do_action( 'fl_builder_after_render_content' );
 		$content = ob_get_clean();
 
@@ -1547,7 +1562,10 @@ final class FLBuilder {
 			$content = wp_make_content_images_responsive( $content );
 		}
 
-		// Fire the render content complete action.
+		/**
+		 * Fire the render content complete action.
+		 * @see fl_builder_render_content_complete
+		 */
 		do_action( 'fl_builder_render_content_complete' );
 
 		// Stop forcing the builder to use this post ID.
@@ -1647,12 +1665,20 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_nodes() {
+		/**
+		 * Before render nodes.
+		 * @see fl_builder_before_render_nodes
+		 */
 		do_action( 'fl_builder_before_render_nodes' );
 
 		if ( apply_filters( 'fl_builder_render_nodes', true ) ) {
 			self::render_rows();
 		}
 
+		/**
+		 * After render nodes.
+		 * @see fl_builder_after_render_nodes
+		 */
 		do_action( 'fl_builder_after_render_nodes' );
 	}
 
@@ -1840,12 +1866,20 @@ final class FLBuilder {
 	static public function render_rows() {
 		$rows = FLBuilderModel::get_nodes( 'row' );
 
+		/**
+		 * Before rendering the markup for all of the rows in a layout.
+		 * @see fl_builder_before_render_rows
+		 */
 		do_action( 'fl_builder_before_render_rows', $rows );
 
 		foreach ( $rows as $row ) {
 			self::render_row( $row );
 		}
 
+		/**
+		 * After rendering the markup for all of the rows in a layout.
+		 * @see fl_builder_after_render_rows
+		 */
 		do_action( 'fl_builder_after_render_rows', $rows );
 	}
 
@@ -1866,6 +1900,10 @@ final class FLBuilder {
 
 		if ( $active || $visible ) {
 
+			/**
+			 * Before rendering a row
+			 * @see fl_builder_before_render_row
+			 */
 			do_action( 'fl_builder_before_render_row', $row, $groups );
 
 			$template_file = self::locate_template_file(
@@ -1877,6 +1915,10 @@ final class FLBuilder {
 				include $template_file;
 			}
 
+			/**
+			 * After rendering a row.
+			 * @see fl_builder_after_render_row
+			 */
 			do_action( 'fl_builder_after_render_row', $row, $groups );
 		}
 	}
@@ -1974,6 +2016,10 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_row_bg( $row ) {
+		/**
+		 * Before rendering a row background
+		 * @see fl_builder_before_render_row_bg
+		 */
 		do_action( 'fl_builder_before_render_row_bg', $row );
 
 		if ( 'video' == $row->settings->bg_type ) {
@@ -1994,6 +2040,10 @@ final class FLBuilder {
 			echo '<div class="fl-bg-slideshow"></div>';
 		}
 
+		/**
+		 * After rendering a row background
+		 * @see fl_builder_after_render_row_bg
+		 */
 		do_action( 'fl_builder_after_render_row_bg', $row );
 	}
 
@@ -2020,6 +2070,10 @@ final class FLBuilder {
 	static public function render_column_group( $group ) {
 		$cols = FLBuilderModel::get_nodes( 'column', $group );
 
+		/**
+		 * Before rendering a column group
+		 * @see fl_builder_before_render_column_group
+		 */
 		do_action( 'fl_builder_before_render_column_group', $group, $cols );
 
 		$template_file = self::locate_template_file(
@@ -2030,7 +2084,10 @@ final class FLBuilder {
 		if ( $template_file ) {
 			include $template_file;
 		}
-
+		/**
+		 * After rendering a column group.
+		 * @see fl_builder_after_render_column_group
+		 */
 		do_action( 'fl_builder_after_render_column_group', $group, $cols );
 	}
 
@@ -2171,7 +2228,10 @@ final class FLBuilder {
 			$attrs['style'][] = 'width: ' . $col->settings->size . '%;';
 		}
 
-		// Render the attrs
+		/**
+		 * Column attributes.
+		 * @see fl_builder_column_attributes
+		 */
 		self::render_node_attributes( apply_filters( 'fl_builder_column_attributes', $attrs, $col ) );
 	}
 
@@ -2185,6 +2245,10 @@ final class FLBuilder {
 	static public function render_modules( $col_id = null ) {
 		$nodes = FLBuilderModel::get_nodes( null, $col_id );
 
+		/**
+		 * Before rendering modules in a column
+		 * @see fl_builder_before_render_modules
+		 */
 		do_action( 'fl_builder_before_render_modules', $nodes, $col_id );
 
 		foreach ( $nodes as $node ) {
@@ -2195,7 +2259,10 @@ final class FLBuilder {
 				self::render_column_group( $node );
 			}
 		}
-
+		/**
+		 * After rendering modules in a column
+		 * @see fl_builder_after_render_modules
+		 */
 		do_action( 'fl_builder_after_render_modules', $nodes, $col_id );
 	}
 
@@ -2218,6 +2285,10 @@ final class FLBuilder {
 
 		if ( $active || $visible ) {
 
+			/**
+			 * Before single module is rendered via ajax.
+			 * @see fl_builder_before_render_module
+			 */
 			do_action( 'fl_builder_before_render_module', $module );
 
 			$template_file = self::locate_template_file(
@@ -2229,6 +2300,10 @@ final class FLBuilder {
 				include $template_file;
 			}
 
+			/**
+			 * After single module is rendered via ajax.
+			 * @see fl_builder_after_render_module
+			 */
 			do_action( 'fl_builder_after_render_module', $module );
 		}
 	}
@@ -2257,16 +2332,30 @@ final class FLBuilder {
 		// Shorthand reference to the module's id.
 		$id = $module->node;
 
+		/**
+		 * Before single module html is rendered.
+		 * used by render_module_html()
+		 * @see fl_builder_render_module_html_before
+		 */
 		do_action( 'fl_builder_render_module_html_before', $type, $settings, $module );
 
 		ob_start();
 
-		include apply_filters( 'fl_builder_render_module_html', $module->dir . 'includes/frontend.php', $type, $settings, $module );
+		if ( has_filter( 'fl_builder_module_frontend_custom_' . $module->slug ) ) {
+			echo apply_filters( 'fl_builder_module_frontend_custom_' . $module->slug, (array) $module->settings, $module );
+		} else {
+			include apply_filters( 'fl_builder_render_module_html', $module->dir . 'includes/frontend.php', $type, $settings, $module );
+		}
 
 		$content = ob_get_clean();
 
 		echo apply_filters( 'fl_builder_render_module_html_content', $content, $type, $settings, $module );
 
+		/**
+		 * Before single module html is rendered.
+		 * used by render_module_html()
+		 * @see fl_builder_render_module_html_after
+		 */
 		do_action( 'fl_builder_render_module_html_after', $type, $settings, $module );
 	}
 
@@ -2325,7 +2414,10 @@ final class FLBuilder {
 			$attrs['data-name'] = $module->name;
 		}
 
-		// Render the attrs
+		/**
+		 * Module attributes.
+		 * @see fl_builder_module_attributes
+		 */
 		self::render_node_attributes( apply_filters( 'fl_builder_module_attributes', $attrs, $module ) );
 	}
 
@@ -2549,6 +2641,10 @@ final class FLBuilder {
 			fl_builder_filesystem()->file_put_contents( $path, $css );
 		}
 
+		/**
+		 * After CSS is compiled.
+		 * @see fl_builder_after_render_css
+		 */
 		do_action( 'fl_builder_after_render_css' );
 
 		return $css;
@@ -2565,16 +2661,16 @@ final class FLBuilder {
 		$global_settings = FLBuilderModel::get_global_settings();
 
 		// Core layout css
-		$css = fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . '/css/fl-builder-layout.css' );
+		$css = fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . 'css/fl-builder-layout.css' );
 
 		// Core button defaults
 		if ( ! defined( 'FL_THEME_VERSION' ) ) {
-			$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . '/css/fl-builder-layout-button-defaults.css' );
+			$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . 'css/fl-builder-layout-button-defaults.css' );
 		}
 
 		// Core layout RTL css
 		if ( is_rtl() ) {
-			$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . '/css/fl-builder-layout-rtl.css' );
+			$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . 'css/fl-builder-layout-rtl.css' );
 		}
 
 		// Global node css
@@ -2600,7 +2696,7 @@ final class FLBuilder {
 			$css .= '@media (max-width: ' . $global_settings->medium_breakpoint . 'px) { ';
 
 			// Core medium layout css
-			$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . '/css/fl-builder-layout-medium.css' );
+			$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . 'css/fl-builder-layout-medium.css' );
 
 			// Global node medium css
 			foreach ( array(
@@ -2623,11 +2719,11 @@ final class FLBuilder {
 			$css .= '@media (max-width: ' . $global_settings->responsive_breakpoint . 'px) { ';
 
 			// Core responsive layout css
-			$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . '/css/fl-builder-layout-responsive.css' );
+			$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . 'css/fl-builder-layout-responsive.css' );
 
 			// Auto spacing
 			if ( ! isset( $global_settings->auto_spacing ) || $global_settings->auto_spacing ) {
-				$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . '/css/fl-builder-layout-auto-spacing.css' );
+				$css .= fl_builder_filesystem()->file_get_contents( FL_BUILDER_DIR . 'css/fl-builder-layout-auto-spacing.css' );
 			}
 
 			// Global node responsive css
@@ -3033,6 +3129,10 @@ final class FLBuilder {
 				fl_builder_filesystem()->file_put_contents( $path, $js );
 			}
 
+			/**
+			 * After JS is compiled.
+			 * @see fl_builder_after_render_js
+			 */
 			do_action( 'fl_builder_after_render_js' );
 		}
 
@@ -3326,7 +3426,20 @@ final class FLBuilder {
 	 * @return string url
 	 */
 	static public function get_fa5_url() {
-		return ( apply_filters( 'fl_enable_fa5_pro', false ) ) ? self::$fa5_pro_url : plugins_url( '/fonts/fontawesome/css/all.min.css', FL_BUILDER_FILE );
+
+		/**
+		 * Enable the PRO font-awesome-5 icon set.
+		 * This will also enqueue the CSS from the CDN.
+		 * @see fl_enable_fa5_pro
+		 */
+		$url = ( apply_filters( 'fl_enable_fa5_pro', false ) ) ? self::$fa5_pro_url : plugins_url( '/fonts/fontawesome/css/all.min.css', FL_BUILDER_FILE );
+
+		/**
+		 * Filter FA5 URL for enqueue.
+		 * @see fl_get_fa5_url
+		 * @since 2.2.1
+		 */
+		return apply_filters( 'fl_get_fa5_url', $url );
 	}
 
 	/**

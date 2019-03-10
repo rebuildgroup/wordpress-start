@@ -117,7 +117,10 @@ final class FLBuilderUserTemplatesAdminAdd {
 		// Enable the builder.
 		update_post_meta( $post_id, '_fl_builder_enabled', true );
 
-		// Let extensions hook additional logic for custom types.
+		/**
+		 * Let extensions hook additional logic for custom types.
+		 * @see fl_builder_user_templates_add_new_submit
+		 */
 		do_action( 'fl_builder_user_templates_add_new_submit', $type, $title, $post_id );
 
 		// Setup a new layout, row or module template if we have one.

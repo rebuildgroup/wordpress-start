@@ -27,6 +27,15 @@ class FLMenuModule extends FLBuilderModule {
 	}
 
 	/**
+	 * @method enqueue_scripts
+	 */
+	public function enqueue_scripts() {
+		if ( ! FLBuilderModel::is_builder_active() && $this->is_responsive_menu_flyout() ) {
+			$this->add_css( 'font-awesome-5' );
+		}
+	}
+
+	/**
 	 * Ensure backwards compatibility with old settings.
 	 *
 	 * @since 2.2

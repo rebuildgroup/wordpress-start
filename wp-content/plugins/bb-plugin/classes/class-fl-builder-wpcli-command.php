@@ -77,6 +77,10 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 					WP_CLI::success( __( 'Rebuilt the theme cache', 'fl-builder' ) );
 				}
 			}
+			/**
+			 * After cache is cleared.
+			 * @see fl_builder_cache_cleared
+			 */
 			do_action( 'fl_builder_cache_cleared' );
 		}
 	}

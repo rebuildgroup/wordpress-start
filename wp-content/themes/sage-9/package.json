@@ -22,6 +22,9 @@
     "android 4",
     "opera 12"
   ],
+  "stylelint": {
+    "rules": {}
+  },
   "scripts": {
     "build": "webpack --progress --config resources/assets/build/webpack.config.js",
     "build:production": "webpack --env.production --progress --config resources/assets/build/webpack.config.js",

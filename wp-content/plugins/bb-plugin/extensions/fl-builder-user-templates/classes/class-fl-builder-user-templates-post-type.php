@@ -81,10 +81,13 @@ final class FLBuilderUserTemplatesPostType {
 	 * @return void
 	 */
 	static public function register_taxonomies() {
-		// Register the template category tax.
+		/**
+		 * Register the template category taxonomy.
+		 * @see fl_builder_register_template_category_args
+		 */
 		$args = apply_filters( 'fl_builder_register_template_category_args', array(
 			'labels'            => array(
-				'name'              => _x( 'Categories', 'Custom taxonomy label.', 'fl-builder' ),
+				'name'              => _x( 'Categories ( Beaver Builder )', 'Custom taxonomy label.', 'fl-builder' ),
 				'singular_name'     => _x( 'Category', 'Custom taxonomy label.', 'fl-builder' ),
 				'search_items'      => _x( 'Search Categories', 'Custom taxonomy label.', 'fl-builder' ),
 				'all_items'         => _x( 'All Categories', 'Custom taxonomy label.', 'fl-builder' ),
@@ -103,7 +106,10 @@ final class FLBuilderUserTemplatesPostType {
 
 		register_taxonomy( 'fl-builder-template-category', array( 'fl-builder-template', 'fl-theme-layout' ), $args );
 
-		// Register the template type tax.
+		/**
+		 * Register the template type taxonomy.
+		 * @see fl_builder_register_template_type_args
+		 */
 		$args = apply_filters( 'fl_builder_register_template_type_args', array(
 			'label'             => _x( 'Type', 'Custom taxonomy label.', 'fl-builder' ),
 			'hierarchical'      => false,

@@ -73,8 +73,8 @@ final class FLBuilderServiceMailPoet extends FLBuilderService {
 				// MailPoet 3.0
 			} elseif ( defined( 'MAILPOET_INITIALIZED' ) && true === MAILPOET_INITIALIZED ) {
 
-				$listing = new MailPoet\Listing\Handler( '\MailPoet\Models\Segment' );
-				$listing_data = $listing->get();
+				$listing = new MailPoet\Listing\Handler();
+				$listing_data = $listing->get( '\MailPoet\Models\Segment', array() );
 
 				if ( isset( $listing_data['items'] ) ) {
 					foreach ( $listing_data['items'] as $segment ) {

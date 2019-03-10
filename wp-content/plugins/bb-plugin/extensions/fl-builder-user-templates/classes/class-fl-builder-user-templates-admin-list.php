@@ -162,6 +162,8 @@ final class FLBuilderUserTemplatesAdminList {
 			$columns['fl_global'] = __( 'Global', 'fl-builder' );
 		}
 
+		$columns['taxonomy-fl-builder-template-category'] = __( 'Categories', 'fl-builder' );
+
 		unset( $columns['date'] );
 
 		return $columns;

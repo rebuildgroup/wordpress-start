@@ -61,8 +61,20 @@ final class FLBuilderFonts {
 	static public function display_select_font( $font ) {
 		$system_fonts = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
 		$google_fonts = apply_filters( 'fl_builder_font_families_google', FLBuilderFontFamilies::google() );
+		$recent_fonts = get_option( 'fl_builder_recent_fonts', array() );
 
 		echo '<option value="Default" ' . selected( 'Default', $font, false ) . '>' . __( 'Default', 'fl-builder' ) . '</option>';
+
+		if ( is_array( $recent_fonts ) && ! empty( $recent_fonts ) ) {
+			echo '<optgroup label="Recently Used" class="recent-fonts">';
+			foreach ( $recent_fonts as $name => $variants ) {
+				if ( 'Default' == $name ) {
+					continue;
+				}
+				echo '<option value="' . $name . '">' . $name . '</option>';
+			}
+		}
+
 		echo '<optgroup label="System">';
 
 		foreach ( $system_fonts as $name => $variants ) {
@@ -312,6 +324,9 @@ final class FLBuilderFonts {
 	 */
 	static public function add_font( $font ) {
 
+		$recent_fonts_db = get_option( 'fl_builder_recent_fonts', array() );
+		$recent_fonts    = array();
+
 		if ( is_array( $font ) && 'Default' != $font['family'] ) {
 
 			$system_fonts = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
@@ -332,7 +347,17 @@ final class FLBuilderFonts {
 
 				}
 			}
+			if ( ! isset( $recent_fonts_db[ $font['family'] ] ) ) {
+				$recent_fonts[ $font['family'] ] = $font['weight'];
+			}
 		}
+
+		$recent = array_merge( $recent_fonts, $recent_fonts_db );
+
+		if ( isset( $_GET['fl_builder'] ) && ! empty( $recent ) && serialize( $recent ) !== serialize( $recent_fonts_db ) ) {
+			update_option( 'fl_builder_recent_fonts', array_slice( $recent, -11 ) );
+		}
+
 	}
 
 	/**

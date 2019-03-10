@@ -283,7 +283,8 @@ final class FLBuilderCSS {
 	 * @return array
 	 */
 	static public function typography_field_props( $setting = array() ) {
-		$props = array();
+		$props    = array();
+		$settings = FLBuilderModel::get_global_settings();
 
 		if ( isset( $setting['font_family'] ) && 'Default' !== $setting['font_family'] ) {
 			$fallback             = FLBuilderFonts::get_font_fallback( $setting['font_family'] );
@@ -297,7 +298,11 @@ final class FLBuilderCSS {
 			$props['font-weight'] = $setting['font_weight'];
 		}
 		if ( isset( $setting['font_size'] ) && ! empty( $setting['font_size']['length'] ) ) {
-			$props['font-size'] = $setting['font_size']['length'] . $setting['font_size']['unit'];
+			if ( 'vw' == $setting['font_size']['unit'] && isset( $settings->responsive_base_fontsize ) ) {
+				$props['font-size'] = sprintf( 'calc(%spx + %svw)', $settings->responsive_base_fontsize, $setting['font_size']['length'] );
+			} else {
+				$props['font-size'] = $setting['font_size']['length'] . $setting['font_size']['unit'];
+			}
 		}
 		if ( isset( $setting['line_height'] ) && ! empty( $setting['line_height']['length'] ) ) {
 			$props['line-height'] = $setting['line_height']['length'] . $setting['line_height']['unit'];

@@ -305,7 +305,10 @@ function fl_export_wp( $post_ids = array() ) {
 <?php wxr_authors_list( $post_ids ); ?>
 
 	<?php
-	/** This action is documented in wp-includes/feed-rss2.php */
+	/**
+	 * This action is documented in wp-includes/feed-rss2.php
+	 * @see rss2_head
+	 */
 	do_action( 'rss2_head' );
 	?>
 

@@ -107,7 +107,11 @@ class FLBuilderArt {
 			'render' => $art_dir . 'rect.svg.php',
 		));
 
-		// Trigger registration process for external shapes
+		/**
+		 * Trigger registration process for external shapes.
+		 * @see fl_register_art
+		 * @link https://kb.wpbeaverbuilder.com/article/687-add-custom-shape-art
+		 */
 		do_action( 'fl_register_art' );
 	}
 

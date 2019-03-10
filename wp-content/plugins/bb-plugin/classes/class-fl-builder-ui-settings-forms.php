@@ -777,7 +777,10 @@ class FLBuilderUISettingsForms {
 			'settings'	=> $settings,
 		);
 
-		// Legacy filter for the config.
+		/**
+		 * Legacy filter for the config.
+		 * @see fl_builder_settings_form_config
+		 */
 		$form = apply_filters( 'fl_builder_settings_form_config', array_merge( $defaults, $form ) );
 
 		// Setup the class var to be safe in JS.

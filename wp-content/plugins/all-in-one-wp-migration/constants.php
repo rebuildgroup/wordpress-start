@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014-2018 ServMask Inc.
+ * Copyright (C) 2014-2019 ServMask Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ define( 'AI1WM_DEBUG', false );
 // ==================
 // = Plugin Version =
 // ==================
-define( 'AI1WM_VERSION', '6.83' );
+define( 'AI1WM_VERSION', '6.85' );
 
 // ===============
 // = Plugin Name =
@@ -182,6 +182,11 @@ define( 'AI1WM_ENDURANCE_BROWSER_CACHE_NAME', 'endurance-browser-cache.php' );
 // = GD System Plugin Name =
 // =========================
 define( 'AI1WM_GD_SYSTEM_PLUGIN_NAME', 'gd-system-plugin.php' );
+
+// =======================
+// = Wp Stack Cache Name =
+// =======================
+define( 'AI1WM_WP_STACK_CACHE_NAME', 'wp-stack-cache.php' );
 
 // ===================
 // = Export Log Name =

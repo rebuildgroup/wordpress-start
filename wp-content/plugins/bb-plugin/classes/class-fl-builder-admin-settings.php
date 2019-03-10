@@ -248,7 +248,10 @@ final class FLBuilderAdminSettings {
 		// Tools
 		self::render_form( 'tools' );
 
-		// Let extensions hook into form rendering.
+		/**
+		 * Let extensions hook into form rendering.
+		 * @see fl_builder_admin_settings_render_forms
+		 */
 		do_action( 'fl_builder_admin_settings_render_forms' );
 	}
 
@@ -347,7 +350,10 @@ final class FLBuilderAdminSettings {
 		self::debug();
 		self::uninstall();
 
-		// Let extensions hook into saving.
+		/**
+		 * Let extensions hook into saving.
+		 * @see fl_builder_admin_settings_save
+		 */
 		do_action( 'fl_builder_admin_settings_save' );
 	}
 
@@ -449,7 +455,10 @@ final class FLBuilderAdminSettings {
 					fl_builder_filesystem()->rmdir( $sets[ $key ]['path'], true );
 					FLBuilderIcons::remove_set( $key );
 				}
-
+				/**
+				 * After set is deleted.
+				 * @see fl_builder_admin_settings_remove_icon_set
+				 */
 				do_action( 'fl_builder_admin_settings_remove_icon_set', $key );
 			}
 
@@ -463,6 +472,10 @@ final class FLBuilderAdminSettings {
 
 				fl_builder_filesystem()->get_filesystem();
 
+				/**
+				 * Before set is unziped.
+				 * @see fl_builder_before_unzip_icon_set
+				 */
 				do_action( 'fl_builder_before_unzip_icon_set', $id, $path, $new_path );
 
 				$unzipped	 = unzip_file( $path, $new_path );
@@ -502,6 +515,10 @@ final class FLBuilderAdminSettings {
 					}
 				}
 
+				/**
+				 * After set is unzipped.
+				 * @see fl_builder_after_unzip_icon_set
+				 */
 				do_action( 'fl_builder_after_unzip_icon_set', $new_path );
 
 				$check_path = apply_filters( 'fl_builder_icon_set_check_path', $new_path );
@@ -586,6 +603,10 @@ final class FLBuilderAdminSettings {
 					FLCustomizer::clear_all_css_cache();
 				}
 			}
+			/**
+			 * Fires after cache is cleared.
+			 * @see fl_builder_cache_cleared
+			 */
 			do_action( 'fl_builder_cache_cleared' );
 		}
 	}

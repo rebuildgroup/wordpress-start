@@ -334,6 +334,10 @@ class FLPostGridModule extends FLBuilderModule {
 	 */
 	static public function schema_meta() {
 
+		/**
+		 * Before schema meta
+		 * @see fl_before_schema_meta
+		 */
 		do_action( 'fl_before_schema_meta' );
 
 		// General Schema Meta
@@ -344,6 +348,10 @@ class FLPostGridModule extends FLBuilderModule {
 		echo '<meta itemprop="datePublished" content="' . get_the_time( 'Y-m-d' ) . '" />';
 		echo '<meta itemprop="dateModified" content="' . get_the_modified_date( 'Y-m-d' ) . '" />';
 
+		/**
+		 * General meta
+		 * @see fl_schema_meta_general
+		 */
 		echo apply_filters( 'fl_schema_meta_general', ob_get_clean() );
 
 		// Publisher Schema Meta
@@ -361,6 +369,10 @@ class FLPostGridModule extends FLBuilderModule {
 			$image          = $logo[0];
 		}
 
+		/**
+		 * Publisher image url.
+		 * @see fl_schema_meta_publisher_image_url
+		 */
 		$image = apply_filters( 'fl_schema_meta_publisher_image_url', $image );
 		if ( $image ) {
 			echo '<div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">';
@@ -369,6 +381,10 @@ class FLPostGridModule extends FLBuilderModule {
 		}
 
 		echo '</div>';
+		/**
+		 * Publisher meta.
+		 * @see fl_schema_meta_publisher
+		 */
 		echo apply_filters( 'fl_schema_meta_publisher', ob_get_clean() );
 
 		// Author Schema Meta
@@ -377,6 +393,10 @@ class FLPostGridModule extends FLBuilderModule {
 		echo '<meta itemprop="url" content="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '" />';
 		echo '<meta itemprop="name" content="' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '" />';
 		echo '</div>';
+		/**
+		 * Author meta.
+		 * @see fl_schema_meta_author
+		 */
 		echo apply_filters( 'fl_schema_meta_author', ob_get_clean() );
 
 		// Image Schema Meta
@@ -398,8 +418,16 @@ class FLPostGridModule extends FLBuilderModule {
 		echo '<meta itemprop="interactionType" content="https://schema.org/CommentAction" />';
 		echo '<meta itemprop="userInteractionCount" content="' . wp_count_comments( get_the_ID() )->approved . '" />';
 		echo '</div>';
+		/**
+		 * Comments meta
+		 * @see fl_schema_meta_comments
+		 */
 		echo apply_filters( 'fl_schema_meta_comments', ob_get_clean() );
 
+		/**
+		 * After schema meta.
+		 * @see fl_after_schema_meta
+		 */
 		do_action( 'fl_after_schema_meta' );
 	}
 
@@ -622,6 +650,20 @@ FLBuilder::register_module('FLPostGridModule', array(
 							'beside-content'		=> __( 'Left Content', 'fl-builder' ),
 							'beside-right'			=> __( 'Right', 'fl-builder' ),
 							'beside-content-right'	=> __( 'Right Content', 'fl-builder' ),
+						),
+						'toggle' => array(
+							'beside' => array(
+								'fields' => array( 'image_width' ),
+							),
+							'beside-content' => array(
+								'fields' => array( 'image_width' ),
+							),
+							'beside-right' => array(
+								'fields' => array( 'image_width' ),
+							),
+							'beside-content-right' => array(
+								'fields' => array( 'image_width' ),
+							),
 						),
 					),
 					'image_size'    => array(

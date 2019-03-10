@@ -21,6 +21,7 @@ final class FLBuilderAdminPosts {
 		add_filter( 'redirect_post_location',        __CLASS__ . '::redirect_post_location' );
 		add_filter( 'page_row_actions',              __CLASS__ . '::render_row_actions_link' );
 		add_filter( 'post_row_actions',              __CLASS__ . '::render_row_actions_link' );
+		add_action( 'pre_get_posts', __CLASS__ . '::sort_builder_enabled' );
 	}
 
 	/**
@@ -64,6 +65,22 @@ final class FLBuilderAdminPosts {
 	}
 
 	/**
+	 * Allow sorting by builder enabled in pages list.
+	 * @since 2.2.1
+	 */
+	static public function sort_builder_enabled( $query ) {
+		global $pagenow;
+		if ( is_admin()
+		&& 'edit.php' == $pagenow
+		&& ! isset( $_GET['orderby'] )
+		&& isset( $_GET['post_type'] )
+		&& isset( $_GET['bbsort'] ) ) {
+			$query->set( 'meta_key', '_fl_builder_enabled' );
+			$query->set( 'meta_value', '1' );
+		}
+	}
+
+	/**
 	 * Sets the body class, loads assets and renders the UI
 	 * if we are on a post type that supports the builder.
 	 *
@@ -78,12 +95,42 @@ final class FLBuilderAdminPosts {
 			$render_ui = apply_filters( 'fl_builder_render_admin_edit_ui', true );
 			$post_type = self::get_post_type();
 			$post_types = FLBuilderModel::get_post_types();
-			$supports_blocks = self::post_type_supports_block_editor( $post_type );
 
-			if ( $render_ui && in_array( $post_type, $post_types ) && ! $supports_blocks ) {
+			if ( $render_ui && in_array( $post_type, $post_types ) ) {
 				add_filter( 'admin_body_class',         __CLASS__ . '::body_class', 99 );
 				add_action( 'admin_enqueue_scripts',    __CLASS__ . '::styles_scripts' );
 				add_action( 'edit_form_after_title',    __CLASS__ . '::render' );
+			}
+		}
+
+		if ( 'edit.php' == $pagenow && true === apply_filters( 'fl_builder_admin_edit_sort_bb_enabled', true ) ) {
+			$post_types = FLBuilderModel::get_post_types();
+			$post_type  = self::get_post_type();
+			if ( in_array( $post_type, $post_types ) ) {
+				wp_enqueue_script( 'fl-builder-admin-posts-list', FL_BUILDER_URL . 'js/fl-builder-admin-posts-list.js', array( 'jquery' ), FL_BUILDER_VERSION );
+				$args    = array(
+					'post_type'      => $post_type,
+					'posts_per_page' => -1,
+					'meta_query'     => array(
+						array(
+							'key'     => '_fl_builder_enabled',
+							'compare' => '!=',
+							'value'   => '',
+						),
+					),
+				);
+				$result  = new WP_Query( $args );
+				$count   = is_array( $result->posts ) ? count( $result->posts ) : 0;
+				$clicked = isset( $_GET['bbsort'] ) ? true : false;
+				wp_localize_script( 'fl-builder-admin-posts-list',
+					'fl_builder_enabled_count',
+					array(
+						'count'   => $count,
+						'brand'   => FLBuilderModel::get_branding(),
+						'clicked' => $clicked,
+						'type'    => $post_type,
+					)
+				);
 			}
 		}
 	}

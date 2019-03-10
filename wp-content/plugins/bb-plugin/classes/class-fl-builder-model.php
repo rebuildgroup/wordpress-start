@@ -656,7 +656,10 @@ final class FLBuilderModel {
 			require_once ABSPATH . 'wp-admin/includes/post.php';
 			wp_set_post_lock( $post->ID );
 
-			// Allow devs to hook into when editing is enabled.
+			/**
+			 * Allow devs to hook into when editing is enabled.
+			 * @see fl_builder_editing_enabled
+			 */
 			do_action( 'fl_builder_editing_enabled' );
 		}
 	}
@@ -2688,6 +2691,10 @@ final class FLBuilderModel {
 	 */
 	static public function load_modules() {
 		$paths = glob( FL_BUILDER_DIR . 'modules/*' );
+		/**
+		 * Filter the modules paths.
+		 * @see fl_builder_load_modules_paths
+		 */
 		$paths = apply_filters( 'fl_builder_load_modules_paths', $paths );
 		$module_path = '';
 
@@ -2722,7 +2729,10 @@ final class FLBuilderModel {
 				require_once $builder_path;
 			}
 		}
-
+		/**
+		 * After modules are included.
+		 * @see fl_builder_register_extensions
+		 */
 		do_action( 'fl_builder_register_extensions' );
 	}
 
@@ -2780,7 +2790,11 @@ final class FLBuilderModel {
 			_doing_it_wrong( __CLASS__ . '::register_module_alias', sprintf( _x( 'The module alias %s already exists! Please namespace your module aliases to ensure compatibility with Beaver Builder.', '%s stands for the module alias key', 'fl-builder' ), $alias ), '1.10' );
 			return;
 		}
+		if ( ! $config['module'] || ! isset( self::$modules[ $config['module'] ] ) ) {
+			return;
+		}
 
+		$module 				 = self::$modules[ $config['module'] ];
 		$instance                = new stdClass;
 		$instance->alias         = $alias;
 		$instance->slug          = isset( $config['module'] ) ? $config['module'] : null;
@@ -2790,7 +2804,7 @@ final class FLBuilderModel {
 		$instance->group	     = isset( $config['group'] ) ? $config['group'] : null;
 		$instance->settings      = isset( $config['settings'] ) ? $config['settings'] : array();
 		$instance->enabled       = isset( $config['enabled'] ) ? $config['enabled'] : true;
-		$instance->icon       = isset( $config['icon'] ) ? $config['icon'] : FLBuilderModule::get_default_icon();
+		$instance->icon       	 = isset( $config['icon'] ) ? $module->get_icon( $config['icon'] ) : FLBuilderModule::get_default_icon();
 
 		self::$module_aliases[ $alias ] = $instance;
 	}
@@ -2900,6 +2914,20 @@ final class FLBuilderModel {
 
 			if ( ! isset( $groups[ $slug ] ) ) {
 				$groups[ $slug ] = $module->group;
+			}
+		}
+
+		// Add module alias groups.
+		foreach ( self::$module_aliases as $alias => $config ) {
+
+			if ( ! $config->group || ! $config->enabled ) {
+				continue;
+			}
+
+			$slug = sanitize_key( $config->group );
+
+			if ( ! isset( $groups[ $slug ] ) ) {
+				$groups[ $slug ] = $config->group;
 			}
 		}
 
@@ -3499,7 +3527,10 @@ final class FLBuilderModel {
 
 		$widgets = array();
 
-		// These are known widgets that won't work in the builder.
+		/**
+		 * Array of known widgets that won't work in the builder.
+		 * @see fl_get_wp_widgets_exclude
+		 */
 		$exclude = apply_filters( 'fl_get_wp_widgets_exclude', array(
 			'WP_Widget_Media_Audio',
 			'WP_Widget_Media_Image',
@@ -4284,7 +4315,10 @@ final class FLBuilderModel {
 			}
 		}
 
-		// Return the data.
+		/**
+		 * Return the data.
+		 * @see fl_builder_layout_data
+		 */
 		return apply_filters( 'fl_builder_layout_data', $data, $status, $post_id );
 	}
 
@@ -4624,6 +4658,10 @@ final class FLBuilderModel {
 			self::save_layout( false );
 		}
 
+		/**
+		 * After draft is saved.
+		 * @see fl_builder_after_save_draft
+		 */
 		do_action( 'fl_builder_after_save_draft', $post_id, $post_status );
 	}
 
@@ -4746,7 +4784,10 @@ final class FLBuilderModel {
 		// Enable the builder for this template.
 		update_post_meta( $post_id, '_fl_builder_enabled', true );
 
-		// Allow extensions to hook into saving a user template.
+		/**
+		 * Allow extensions to hook into saving a user template.
+		 * @see fl_builder_after_save_user_template
+		 */
 		do_action( 'fl_builder_after_save_user_template', $post_id );
 
 		$response = array(
@@ -5621,7 +5662,10 @@ final class FLBuilderModel {
 		$template_post_id = self::get_node_template_post_id( $template_id );
 		$is_col_template  = false;
 
-		// Allow extensions to hook into applying a node template.
+		/**
+		 * Allow extensions to hook into applying a node template.
+		 * @see fl_builder_override_apply_node_template
+		 */
 		$override = apply_filters( 'fl_builder_override_apply_node_template', false, array(
 			'template_id'      => $template_id,
 			'parent_id'        => $parent_id,
@@ -5802,7 +5846,10 @@ final class FLBuilderModel {
 	 * @return void
 	 */
 	static public function apply_template( $index = 0, $append = false, $type = 'layout' ) {
-		// Allow extensions to hook into applying a template.
+		/**
+		 * Allow extensions to hook into applying a template.
+		 * @see fl_builder_override_apply_template
+		 */
 		$override = apply_filters( 'fl_builder_override_apply_template', false, array(
 			'index'  => $index,
 			'append' => $append,
@@ -6107,7 +6154,10 @@ final class FLBuilderModel {
 			$templates[ $i ] = $template;
 		}
 
-		// Return both the templates and categorized templates array.
+		/**
+		 * Return both the templates and categorized templates array.
+		 * @see fl_builder_template_selector_data
+		 */
 		return apply_filters( 'fl_builder_template_selector_data', array(
 			'templates'  	=> $templates,
 			'categorized' 	=> $categorized,

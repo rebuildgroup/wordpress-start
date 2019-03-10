@@ -2,7 +2,7 @@
 
 $menu_classes = 'fl-menu';
 
-if ( $settings->collapse ) {
+if ( $settings->collapse && 'accordion' == $settings->menu_layout ) {
 	$menu_classes .= ' fl-menu-accordion-collapse';
 }
 if ( $settings->mobile_breakpoint && 'expanded' != $settings->mobile_toggle ) {

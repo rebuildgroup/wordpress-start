@@ -318,7 +318,10 @@ final class FLBuilderTemplateDataExporter {
 				$template->image      = apply_filters( 'fl_builder_exporter_template_thumb_src', $attachment_image_src[0], $post, $template );
 			}
 
-			// Add the template to the templates array.
+			/**
+			 * Add the template to the templates array.
+			 * @see fl_builder_exporter_template
+			 */
 			$templates[] = apply_filters( 'fl_builder_exporter_template', $template, $post );
 		}
 

@@ -84,8 +84,16 @@ final class FLBuilderLoop {
 	 * @return object A WP_Query instance.
 	 */
 	static public function query( $settings ) {
+		/**
+		 * Filter the settings variable before query is performed.
+		 * @see fl_builder_loop_before_query_settings
+		 */
 		$settings = apply_filters( 'fl_builder_loop_before_query_settings', $settings );
 
+		/**
+		 * Before query is performed.
+		 * @see fl_builder_loop_before_query
+		 */
 		do_action( 'fl_builder_loop_before_query', $settings );
 
 		// Count how many times this method has been called
@@ -97,8 +105,16 @@ final class FLBuilderLoop {
 			$query = self::custom_query( $settings );
 		}
 
+		/**
+		 * Aftert the query is performed.
+		 * @see fl_builder_loop_after_query
+		 */
 		do_action( 'fl_builder_loop_after_query', $settings );
 
+		/**
+		 * Filter the query results.
+		 * @see fl_builder_loop_query
+		 */
 		return apply_filters( 'fl_builder_loop_query', $query, $settings );
 	}
 

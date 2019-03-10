@@ -274,11 +274,11 @@ class FLPhotoModule extends FLBuilderModule {
 
 		if ( 'url' == $this->settings->link_type ) {
 			$link = $this->settings->link_url;
-		} elseif ( 'lightbox' == $this->settings->link_type ) {
+		} elseif ( isset( $photo ) && 'lightbox' == $this->settings->link_type ) {
 			$link = $photo->url;
-		} elseif ( 'file' == $this->settings->link_type ) {
+		} elseif ( isset( $photo ) && 'file' == $this->settings->link_type ) {
 			$link = $photo->url;
-		} elseif ( 'page' == $this->settings->link_type ) {
+		} elseif ( isset( $photo ) && 'page' == $this->settings->link_type ) {
 			$link = $photo->link;
 		} else {
 			$link = '';

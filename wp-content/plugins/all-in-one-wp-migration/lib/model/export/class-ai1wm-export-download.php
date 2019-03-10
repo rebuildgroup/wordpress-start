@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014-2018 ServMask Inc.
+ * Copyright (C) 2014-2019 ServMask Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ class Ai1wm_Export_Download {
 			}
 
 			// Set archive details
+			$file = ai1wm_archive_name( $params );
 			$link = ai1wm_backup_url( $params );
 			$size = ai1wm_backup_size( $params );
 			$name = ai1wm_site_name( $blog_id );
@@ -57,7 +58,7 @@ class Ai1wm_Export_Download {
 			Ai1wm_Status::download(
 				sprintf(
 					__(
-						'<a href="%s" class="ai1wm-button-green ai1wm-emphasize" title="%s">' .
+						'<a href="%s" class="ai1wm-button-green ai1wm-emphasize ai1wm-button-download" title="%s" download="%s">' .
 						'<span>Download %s</span>' .
 						'<em>Size: %s</em>' .
 						'</a>',
@@ -65,7 +66,8 @@ class Ai1wm_Export_Download {
 					),
 					$link,
 					$name,
-					strlen( $name ) > 25 ? substr( $name, 0, 24 ) . '&hellip;' : $name,
+					$file,
+					$name,
 					$size
 				)
 			);

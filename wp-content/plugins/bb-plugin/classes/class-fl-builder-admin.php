@@ -43,7 +43,10 @@ final class FLBuilderAdmin {
 			self::show_activate_error( __( 'The <strong>Page Builder</strong> plugin requires WordPress version 3.5 or greater. Please update WordPress before activating the plugin.', 'fl-builder' ) );
 		}
 
-		// Allow extensions to hook activation.
+		/**
+		 * Allow extensions to hook activation.
+		 * @see fl_builder_activate
+		 */
 		$activate = apply_filters( 'fl_builder_activate', true );
 
 		// Should we continue with activation?
@@ -65,7 +68,10 @@ final class FLBuilderAdmin {
 			// Trigger the activation notice.
 			self::trigger_activate_notice();
 
-			// Allow add-ons to hook into activation.
+			/**
+			 * Allow add-ons to hook into activation.
+			 * @see fl_builder_activated
+			 */
 			do_action( 'fl_builder_activated' );
 
 			// Flush the rewrite rules.

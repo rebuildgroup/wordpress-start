@@ -152,12 +152,15 @@ class FLContactFormModule extends FLBuilderModule {
 				$settings = $module->settings;
 			}
 
+			if ( class_exists( 'FLThemeBuilderFieldConnections' ) ) {
+				$settings = FLThemeBuilderFieldConnections::connect_settings( $settings );
+			}
+
 			if ( isset( $settings->mailto_email ) && ! empty( $settings->mailto_email ) ) {
 				$mailto	  = $settings->mailto_email;
 			} else {
 				$mailto   = $admin_email;
 			}
-
 			if ( isset( $settings->subject_toggle ) && ( 'hide' == $settings->subject_toggle ) && isset( $settings->subject_hidden ) && ! empty( $settings->subject_hidden ) ) {
 				$subject   = $settings->subject_hidden;
 			}
@@ -216,6 +219,8 @@ class FLContactFormModule extends FLBuilderModule {
 			// Double check the mailto email is proper and no validation error found, then send.
 			if ( $mailto && false === $response['error'] ) {
 
+				$subject = esc_html( do_shortcode( $subject ) );
+				$mailto  = esc_html( do_shortcode( $mailto ) );
 				/**
 				 * Before sending with wp_mail()
 				 * @see fl_module_contact_form_before_send

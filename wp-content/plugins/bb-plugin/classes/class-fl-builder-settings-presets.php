@@ -8,6 +8,10 @@ class FLBuilderSettingsPresets {
 		add_filter( 'fl_builder_shared_option_sets', 'FLBuilderSettingsPresets::filter_shared_option_sets' );
 		add_filter( 'fl_builder_register_settings_form', 'FLBuilderSettingsPresets::filter_settings_form' );
 
+		/**
+		 * Register presets action.
+		 * @see fl_register_presets
+		 */
 		do_action( 'fl_register_presets' );
 	}
 

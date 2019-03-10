@@ -8,6 +8,14 @@ Options All -Indexes
 </IfModule>
 FileETag None
 
+######### PHP VARS #########
+php_value upload_max_filesize 128M
+php_value post_max_size 128M
+
+php_value max_input_vars 5000
+php_value suhosin.post.max_vars 5000
+php_value suhosin.request.max_vars 5000
+
 ########### REDIRECT TRAFFIC TO non-WWW ############ 
 #RewriteEngine On
 #RewriteBase /
@@ -128,11 +136,6 @@ ExpiresDefault A2592000
  
 </IfModule>
 ######### OPTIMIZE SETTINGS END ############
-
-## PHP MAX VARS ##
-php_value max_input_vars 5000
-php_value suhosin.post.max_vars 5000
-php_value suhosin.request.max_vars 5000
 
 #<IfModule mod_rewrite.c>
 #RewriteEngine On
