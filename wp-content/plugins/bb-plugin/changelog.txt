@@ -1,3 +1,17 @@
+<h4>2.2.1.5 - 03/20/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Updated Font Awesome to 5.8.0!</li>
+	<li>Patched bxslider to fix link problem in latest Chrome release.</li>
+	<li>Fixed issue with Caldera Forms widget.</li>
+	<li>Fixed undefined height/width in photo module if using non images like SVGs.</li>
+	<li>Fixed issue with disappearing content when switching from the Builder to Gutenberg.</li>
+	<li>Fixed CSS issue with connections toggle being hidden.</li>
+	<li>Fixed white label issue with template categories.</li>
+	<li>Updated jQuery Mosaic to fix Gallery Module issue.</li>
+	<li>Fixed PHP notices in Infusionsoft and Mailerlite subscribe services.</li>
+</ul>
+
 <h4>2.2.1.4 - 03/05/2019</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

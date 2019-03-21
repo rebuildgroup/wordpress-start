@@ -554,6 +554,7 @@
 		 */
 		_addNewScriptsStyles: function()
 		{
+
 			if ( this._data.scriptsStyles && '' !== this._data.scriptsStyles ) {
 				this._body.append( this._data.scriptsStyles );
 			}

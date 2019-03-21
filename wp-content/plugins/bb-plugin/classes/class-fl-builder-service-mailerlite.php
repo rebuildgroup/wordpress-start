@@ -132,7 +132,7 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		$get_lists = json_decode( $api->getAll() );
 		$lists     = array();
 
-		if ( $get_lists && count( $get_lists ) > 0 ) {
+		if ( $get_lists && ! isset( $get_lists->error ) && count( $get_lists ) > 0 ) {
 			$lists = $get_lists;
 		}
 

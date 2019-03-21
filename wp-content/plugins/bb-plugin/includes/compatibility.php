@@ -672,3 +672,12 @@ function fl_fix_sumo( $option ) {
 	}
 	return $option;
 }
+
+add_filter( 'fl_widget_module_output_disabled', 'fl_caldera_widget', 10, 3 );
+function fl_caldera_widget( $disabled, $module, $class ) {
+	if ( isset( $_GET['fl_builder'] ) && 'Caldera_Forms_Widget' === $class ) {
+		$out = '<script>(function($){$(document).ready(function(){FLBuilderConfig.shouldRefreshOnPublish=true})})(jQuery)</script>';
+		return $out . '<h3>Caldera Form Widget cannot be displayed while builder is open</h3>';
+	}
+	return $disabled;
+}

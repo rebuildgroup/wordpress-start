@@ -35,9 +35,13 @@ if ( isset( $widget_class ) && class_exists( $widget_class ) ) {
 		'widget_id' => 'fl_builder_widget_' . $module->node,
 	), $module );
 
-	// Render the widget
-	the_widget( $widget_class, $widget_settings, $widget_args );
+	$disabled = apply_filters( 'fl_widget_module_output_disabled', false, $module, $widget_class );
 
+	if ( false !== $disabled ) {
+		echo $disabled;
+	} else {
+		the_widget( $widget_class, $widget_settings, $widget_args );
+	}
 } elseif ( isset( $widget_class ) && FLBuilderModel::is_builder_active() ) {
 
 	// Widget doesn't exist!

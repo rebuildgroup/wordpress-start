@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bb-plugin\n"
 "Report-Msgid-Bugs-To: hello@wpbeaverbuilder.com\n"
-"POT-Creation-Date: 2019-03-05 21:05:13+00:00\n"
+"POT-Creation-Date: 2019-03-20 21:23:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1571,12 +1571,12 @@ msgstr ""
 msgid "Select A Preset"
 msgstr ""
 
-#: classes/class-fl-builder-timezones.php:78
+#: classes/class-fl-builder-timezones.php:75
 msgid "Select a city"
 msgstr ""
 
-#: classes/class-fl-builder-timezones.php:123
-#: classes/class-fl-builder-timezones.php:127
+#: classes/class-fl-builder-timezones.php:120
+#: classes/class-fl-builder-timezones.php:125
 msgid "UTC"
 msgstr ""
 
@@ -7991,7 +7991,7 @@ msgstr ""
 
 #: extensions/fl-builder-user-templates/classes/class-fl-builder-user-templates-post-type.php:90
 msgctxt "Custom taxonomy label."
-msgid "Categories ( Beaver Builder )"
+msgid "%s Categories"
 msgstr ""
 
 #: extensions/fl-builder-user-templates/classes/class-fl-builder-user-templates-post-type.php:91
@@ -8708,7 +8708,7 @@ msgctxt "Video preview/fallback image."
 msgid "Poster"
 msgstr ""
 
-#: modules/widget/includes/frontend.php:44
+#: modules/widget/includes/frontend.php:48
 #: modules/widget/includes/settings-general.php:43
 msgctxt "%s stands for widget slug."
 msgid "%s no longer exists."

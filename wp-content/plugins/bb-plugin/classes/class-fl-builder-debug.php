@@ -366,7 +366,7 @@ final class FL_Debug {
 			$subscription = FLUpdater::get_subscription_info();
 			$args         = array(
 				'name' => 'Beaver Builder License',
-				'data' => ( $subscription->active ) ? 'Active' : 'Not Active',
+				'data' => ( isset( $subscription->active ) ) ? 'Active' : 'Not Active',
 			);
 			self::register( 'bb_sub', $args );
 

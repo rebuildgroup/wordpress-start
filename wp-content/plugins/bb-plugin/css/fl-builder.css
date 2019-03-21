@@ -5038,6 +5038,14 @@ span.select2-container.select2-container--open {
 .has-scrollbar .fl-field-connections-toggle {
 	right: -22px;
 }
+.fl-lightbox-width-slim tr[data-type='code'] .fl-field-connections-toggle {
+	right: 10px;
+}
+
+.fl-lightbox-width-slim .fl-code-field {
+	width: 90%;
+}
+
 .fl-field-connections-toggle-open {
 	transform: none !important;
 }

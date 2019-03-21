@@ -187,6 +187,7 @@
 				wrap.imagesLoaded( $.proxy( function() {
 					this._gridLayoutMatchHeight();
 					wrap.masonry('appended', elements);
+					wrap.masonry();
 					elements.css('visibility', 'visible');
 				}, this ) );
 			}

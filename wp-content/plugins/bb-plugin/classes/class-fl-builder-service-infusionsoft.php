@@ -196,6 +196,10 @@ final class FLBuilderServiceInfusionsoft extends FLBuilderService {
 		);
 
 		foreach ( $lists as $list ) {
+			if ( ! isset( $list['GroupName'] ) ) {
+				continue;
+			}
+
 			$options[ $list['Id'] ] = $list['GroupName'];
 		}
 

@@ -6470,12 +6470,12 @@
 				preview   = FLBuilder.preview;
 
 			// Default to true for render.
-			if ( _.isUndefined( render ) || ! _.isBoolean( render ) ) {
+			if ( FLBuilder.isUndefined( render ) || ! FLBuilder.isBoolean( render ) ) {
 				render = true;
 			}
 
 			// Only proceed if the settings have changed.
-			if ( preview && ! preview._settingsHaveChanged() && _.isUndefined( newModule ) ) {
+			if ( preview && ! preview._settingsHaveChanged() && FLBuilder.isUndefined( newModule ) ) {
 				FLBuilder._lightbox.close();
 				return;
 			}
@@ -9803,6 +9803,22 @@
 				FLBuilder.log( '************************************************************************' );
 			}
 		},
+
+		/**
+		 * Helper taken from lodash
+		 * @since 2.2.2
+		 */
+		isUndefined: function(obj) {
+			return obj === void 0;
+		},
+
+		/**
+		 * Helper taken from lodash
+		 * @since 2.2.2
+		 */
+		isBoolean: function(value) {
+			return value === true || value === false
+		}
 	};
 
 	/* Start the party!!! */
