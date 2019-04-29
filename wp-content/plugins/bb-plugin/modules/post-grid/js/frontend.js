@@ -84,6 +84,11 @@
 				this._gridLayoutMatchHeight();
 				wrap.masonry();
 			}, this ) );
+
+			$(window).scroll($.debounce( 25, function(){
+				wrap.masonry()
+			}));
+
 		},
 
 		_gridLayoutMatchHeight: function()

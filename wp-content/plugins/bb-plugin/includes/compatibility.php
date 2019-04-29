@@ -355,7 +355,9 @@ function fl_imember_shortcode_fix( $content ) {
 add_action( 'plugins_loaded', 'fl_fix_nextgen_gallery' );
 function fl_fix_nextgen_gallery() {
 	if ( isset( $_GET['fl_builder'] ) || isset( $_POST['fl_builder_data'] ) || FLBuilderAJAX::doing_ajax() ) {
-		define( 'NGG_DISABLE_RESOURCE_MANAGER', true );
+		if ( ! defined( 'NGG_DISABLE_RESOURCE_MANAGER' ) ) {
+			define( 'NGG_DISABLE_RESOURCE_MANAGER', true );
+		}
 	}
 }
 
@@ -397,37 +399,6 @@ function fl_render_ninja_forms_js( $response ) {
 	}
 	return $response;
 }
-
-/**
- * Reorder font awesome css.
- * @since 2.1
- */
-function fl_builder_fa_fix() {
-
-	global $wp_styles;
-
-	$queue = $wp_styles->queue;
-
-	$fa4 = array_search( 'font-awesome', $queue );
-	$fa5 = array_search( 'font-awesome-5', $queue );
-
-	// if fa4 is disabled and both are detected, load fa4 FIRST.
-	if ( false !== $fa4 && false !== $fa5 && $fa4 > $fa5 && ! in_array( 'font-awesome', FLBuilderModel::get_enabled_icons() ) ) {
-		unset( $wp_styles->queue[ $fa4 ] );
-		array_unshift( $wp_styles->queue, 'font-awesome' );
-	}
-	// If fa4 is detected, add a compatibility layer in the footer.
-	// This fixes various theme/themer issues.
-	if ( false !== $fa4 ) {
-			add_action( 'wp_footer', 'fl_builder_fa_fix_callback' );
-	}
-}
-add_action( 'wp_enqueue_scripts', 'fl_builder_fa_fix', 99999 );
-
-function fl_builder_fa_fix_callback() {
-	echo '<style>[class*="fa fa-"]{font-family: FontAwesome !important;}</style>';
-}
-
 
 /**
  * Turn off Hummingbird minification
@@ -573,12 +544,12 @@ function fl_fix_woo_short_description( $content ) {
 	global $post, $fl_woo_description_fix;
 
 	// if there is a short description no need to carry on.
-	if ( '' != $content ) {
+	if ( '' !== $content ) {
 		return $content;
 	}
 
 	// if the product content contains a layout shortcode then extract any css to add to footer later.
-	if ( false !== strpos( $post->post_content, '[fl_builder_insert_layout' ) ) {
+	if ( isset( $post->post_content ) && false !== strpos( $post->post_content, '[fl_builder_insert_layout' ) ) {
 		$dummy   = do_shortcode( $post->post_content );
 		$scripts = preg_match_all( "#<link rel='stylesheet'.*#", $dummy, $out );
 		if ( is_array( $out ) ) {
@@ -671,13 +642,4 @@ function fl_fix_sumo( $option ) {
 		return false;
 	}
 	return $option;
-}
-
-add_filter( 'fl_widget_module_output_disabled', 'fl_caldera_widget', 10, 3 );
-function fl_caldera_widget( $disabled, $module, $class ) {
-	if ( isset( $_GET['fl_builder'] ) && 'Caldera_Forms_Widget' === $class ) {
-		$out = '<script>(function($){$(document).ready(function(){FLBuilderConfig.shouldRefreshOnPublish=true})})(jQuery)</script>';
-		return $out . '<h3>Caldera Form Widget cannot be displayed while builder is open</h3>';
-	}
-	return $disabled;
 }

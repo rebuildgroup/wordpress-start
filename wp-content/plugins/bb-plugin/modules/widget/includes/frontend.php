@@ -45,6 +45,7 @@ if ( isset( $widget_class ) && class_exists( $widget_class ) ) {
 } elseif ( isset( $widget_class ) && FLBuilderModel::is_builder_active() ) {
 
 	// Widget doesn't exist!
+	/* translators: %s: widget slug */
 	printf( _x( '%s no longer exists.', '%s stands for widget slug.', 'fl-builder' ), $widget_class );
 
 }

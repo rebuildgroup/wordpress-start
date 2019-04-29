@@ -4,7 +4,7 @@ if ( ! empty( $settings->color ) ) {
 	FLBuilderCSS::rule( array(
 		'selector' => ".fl-node-$id .fl-rich-text, .fl-node-$id .fl-rich-text *",
 		'props'    => array(
-			'color' => $settings->color . '!important',
+			'color' => $settings->color . ' !important',
 		),
 	) );
 }

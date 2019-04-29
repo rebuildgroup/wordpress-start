@@ -14,7 +14,7 @@ final class FLUpdater {
 	 * @access private
 	 * @var string $_updates_api_url
 	 */
-	static private $_updates_api_url = 'http://updates.wpbeaverbuilder.com/';
+	static private $_updates_api_url = 'https://updates.wpbeaverbuilder.com/';
 
 	/**
 	 * An internal array of data for each product.
@@ -376,9 +376,11 @@ final class FLUpdater {
 
 			if ( ! $license ) {
 				$link = sprintf( '<a href="%s" target="_blank" style="color: #fff; text-decoration: underline;">%s &raquo;</a>', admin_url( '/options-general.php?page=fl-builder-settings#license' ), __( 'Enter License Key', 'fl-builder' ) );
+				/* translators: %s: link to license tab */
 				$text = sprintf( __( 'Please enter a valid license key to enable automatic updates. %s', 'fl-builder' ), $link );
 			} else {
 				$link = sprintf( '<a href="%s" target="_blank" style="color: #fff; text-decoration: underline;">%s &raquo;</a>', $plugin_data['PluginURI'], __( 'Subscribe Now', 'fl-builder' ) );
+				/* translators: %s: subscribe link */
 				$text = sprintf( __( 'Please subscribe to enable automatic updates for this plugin. %s', 'fl-builder' ), $link );
 			}
 

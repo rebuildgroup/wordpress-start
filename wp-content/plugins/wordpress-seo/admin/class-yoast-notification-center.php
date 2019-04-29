@@ -370,7 +370,7 @@ class Yoast_Notification_Center {
 				$notification_json[] = $notification->render();
 			}
 
-			echo wp_json_encode( $notification_json );
+			echo WPSEO_Utils::format_json_encode( $notification_json );
 
 			return;
 		}
@@ -384,7 +384,7 @@ class Yoast_Notification_Center {
 	 * Remove notification after it has been displayed
 	 *
 	 * @param Yoast_Notification $notification Notification to remove.
-	 * @param bool               $resolve Resolve as fixed.
+	 * @param bool               $resolve      Resolve as fixed.
 	 */
 	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 

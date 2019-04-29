@@ -285,10 +285,13 @@ final class FLBuilderCSS {
 	static public function typography_field_props( $setting = array() ) {
 		$props    = array();
 		$settings = FLBuilderModel::get_global_settings();
-
+		$pattern  = '%s, %s';
 		if ( isset( $setting['font_family'] ) && 'Default' !== $setting['font_family'] ) {
-			$fallback             = FLBuilderFonts::get_font_fallback( $setting['font_family'] );
-			$props['font-family'] = sprintf( '%s, %s', $setting['font_family'], $fallback );
+			$fallback = FLBuilderFonts::get_font_fallback( $setting['font_family'] );
+			if ( preg_match( '#[0-9]#', $setting['font_family'] ) ) {
+				$pattern = '"%s", %s';
+			}
+			$props['font-family'] = sprintf( $pattern, $setting['font_family'], $fallback );
 		}
 		if ( isset( $setting['font_weight'] ) && 'i' == substr( $setting['font_weight'], -1 ) ) {
 			$props['font-weight'] = substr( $setting['font_weight'], 0, -1 );
@@ -340,8 +343,15 @@ final class FLBuilderCSS {
 	 * @return void
 	 */
 	static public function render() {
-		$rendered = array();
-		$css      = '';
+		$rendered    = array();
+		$breakpoints = array( 'default', 'medium', 'responsive' );
+		$css         = '';
+
+		// Setup system breakpoints here to ensure proper order.
+		foreach ( $breakpoints as $breakpoint ) {
+			$media              = self::media_value( $breakpoint );
+			$rendered[ $media ] = array();
+		}
 
 		foreach ( self::$rules as $args ) {
 			$defaults = array(

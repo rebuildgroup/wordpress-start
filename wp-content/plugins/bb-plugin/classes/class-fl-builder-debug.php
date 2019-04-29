@@ -5,11 +5,11 @@ final class FL_Debug {
 	static private $tests = array();
 
 	public static function init() {
-		if ( isset( $_GET['fldebug'] ) && get_option( 'fl_debug_mode', false ) === $_GET['fldebug'] ) {
+		if ( isset( $_GET['fldebug'] ) && get_transient( 'fl_debug_mode', false ) === $_GET['fldebug'] ) {
 			add_action( 'init', array( 'FL_Debug', 'display_tests' ) );
 		}
 
-		if ( get_option( 'fl_debug_mode', false ) ) {
+		if ( get_transient( 'fl_debug_mode' ) ) {
 			self::enable_logging();
 		}
 	}
@@ -157,6 +157,31 @@ final class FL_Debug {
 			'data' => WP_MAX_MEMORY_LIMIT,
 		);
 		self::register( 'wp_max_mem', $args );
+
+		$args = array(
+			'name' => 'Post Counts',
+			'data' => self::divider(),
+		);
+		self::register( 'post_counts', $args );
+
+		$templates = wp_count_posts( 'fl-builder-template' );
+
+		$post_types = get_post_types( null, 'object' );
+
+		foreach ( $post_types as $type => $type_object ) {
+
+			if ( in_array( $type, array( 'wp_block', 'user_request', 'oembed_cache', 'customize_changeset', 'custom_css', 'nav_menu_item' ) ) ) {
+				continue;
+			}
+
+			$count = wp_count_posts( $type );
+
+			$args = array(
+				'name' => ( 'fl-builder-template' == $type ) ? 'Builder Templates' : 'WordPress ' . $type_object->label,
+				'data' => ( $count->inherit > 0 ) ? $count->inherit : $count->publish,
+			);
+			self::register( 'wp_type_count_' . $type, $args );
+		}
 
 		$args = array(
 			'name' => 'Themes',
