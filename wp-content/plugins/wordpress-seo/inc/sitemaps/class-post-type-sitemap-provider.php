@@ -150,12 +150,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$total_count = $this->get_post_type_count( $post_type );
 
-			if ( $total_count === 0 ) {
-				continue;
-			}
-
 			$max_pages = 1;
-
 			if ( $total_count > $max_entries ) {
 				$max_pages = (int) ceil( $total_count / $max_entries );
 			}
@@ -163,12 +158,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$all_dates = array();
 
 			if ( $max_pages > 1 ) {
+				$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
 
 				$sql = "
 				SELECT post_modified_gmt
 				    FROM ( SELECT @rownum:=0 ) init 
 				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
-				    WHERE post_status IN ( 'publish', 'inherit' )
+				    WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
 				      AND post_type = %s
 				      AND ( @rownum:=@rownum+1 ) %% %d = 0
 				    ORDER BY post_modified_gmt ASC
@@ -209,6 +205,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
+	 * @throws OutOfBoundsException When an invalid page is requested.
+	 *
 	 * @return array
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
@@ -224,18 +222,22 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 		$total  = ( $offset + $max_entries );
 
-		$typecount = $this->get_post_type_count( $post_type );
+		$post_type_entries = $this->get_post_type_count( $post_type );
 
-		if ( $total > $typecount ) {
-			$total = $typecount;
+		if ( $total > $post_type_entries ) {
+			$total = $post_type_entries;
 		}
 
 		if ( $current_page === 1 ) {
 			$links = array_merge( $links, $this->get_first_links( $post_type ) );
 		}
 
-		if ( $typecount === 0 ) {
+		// If total post type count is lower than the offset, an invalid page is requested.
+		if ( $post_type_entries < $offset ) {
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
+		}
 
+		if ( $post_type_entries === 0 ) {
 			return $links;
 		}
 
@@ -543,7 +545,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * Also see {@link http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/}.
 		 */
 		$sql = "
-			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_modified_gmt, post_date, post_date_gmt
+			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_status, post_modified_gmt, post_date, post_date_gmt
 			FROM (
 				SELECT {$wpdb->posts}.ID
 				FROM {$wpdb->posts}
@@ -561,7 +563,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		foreach ( $posts as $post ) {
 			$post->post_type   = $post_type;
-			$post->post_status = 'publish';
 			$post->filter      = 'sample';
 			$post->ID          = (int) $post->ID;
 			$post->post_parent = (int) $post->post_parent;
@@ -583,21 +584,23 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		$join   = '';
-		$status = "{$wpdb->posts}.post_status = 'publish'";
+		$join          = '';
+		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
+		$status_where  = "{$wpdb->posts}.post_status IN ('" . implode( "','", $post_statuses ) . "')";
 
 		// Based on WP_Query->get_posts(). R.
 		if ( 'attachment' === $post_type ) {
-			$join   = " LEFT JOIN {$wpdb->posts} AS p2 ON ({$wpdb->posts}.post_parent = p2.ID) ";
-			$status = "p2.post_status = 'publish' AND p2.post_password = ''";
+			$join            = " LEFT JOIN {$wpdb->posts} AS p2 ON ({$wpdb->posts}.post_parent = p2.ID) ";
+			$parent_statuses = array_diff( $post_statuses, array( 'inherit' ) );
+			$status_where    = "p2.post_status IN ('" . implode( "','", $parent_statuses ) . "') AND p2.post_password = ''";
 		}
 
 		$where_clause = "
-		{$join}
-		WHERE {$status}
-			AND {$wpdb->posts}.post_type = %s
-			AND {$wpdb->posts}.post_password = ''
-			AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
+			{$join}
+			WHERE {$status_where}
+				AND {$wpdb->posts}.post_type = %s
+				AND {$wpdb->posts}.post_password = ''
+				AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
 		";
 
 		return $wpdb->prepare( $where_clause, $post_type );
