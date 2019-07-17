@@ -30,7 +30,7 @@ wp-config.php
 
 # ignore all files starting with .
 .*
-!.htaccess
+!sample.htaccess
 
 # track this file humans.txt (i.e. do NOT ignore it)
 !humans.txt
