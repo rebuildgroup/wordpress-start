@@ -1,12 +1,15 @@
-<header class="banner">
+<?php get_template_part('templates/header/nav' , 'mobile'); ?>
+<header class="site-header shadow">
   <div class="container">
-    <a class="brand" href="<?= esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a>
-    <nav class="nav-primary">
-      <?php
-      if (has_nav_menu('primary_navigation')) :
-        wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav']);
-      endif;
-      ?>
-    </nav>
+    <div class="row">
+      <div class="col-md-4">
+        <?php get_template_part('templates/header/logo'); ?>
+      </div>
+      <div class="col-md-8">
+        <?php get_template_part('templates/header/nav' , 'utility'); ?>
+        <?php get_template_part('templates/header/nav' , 'primary'); ?>
+        <?php get_template_part('templates/header/toggle' , 'button'); ?>
+      </div>
+    </div>
   </div>
 </header>

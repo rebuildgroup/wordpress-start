@@ -1,0 +1,37 @@
+header.site-header {
+    z-index: 100;
+    border-bottom: 1px solid $gray-md;
+    position: sticky;
+    top: 0;
+    padding: 0.5rem 0;
+    background-color: $gray-lt;
+
+    .shadow {
+        box-shadow: 0 .5rem 1rem rgba($blue, 0.15) !important;
+    }
+
+    // Utility Nav
+    nav ul#menu-utility-navigation {
+        align-items: center;
+
+        li {
+            margin: 0 0.5rem;
+
+            a {
+                color: $blue-dk;
+            }
+        }
+    }
+
+    // Primary Nav
+    nav ul#menu-primary-navigation {
+        align-items: center;
+
+        li {            
+            a {
+                color: $blue-dk;
+                font-size: 1.25rem;
+            }
+        }
+    }
+}

@@ -18,6 +18,7 @@ function bb_rg_modules() {
         // Include custom modules here.
         require_once 'brand-button/brand-button.php';
         require_once 'icons-grid/icons-grid.php';
+        require_once 'card-offset/card-offset.php';
     }
 }
 add_action( 'init', 'bb_rg_modules' );
