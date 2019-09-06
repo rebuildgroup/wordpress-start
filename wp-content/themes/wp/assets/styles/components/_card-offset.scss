@@ -1,0 +1,25 @@
+.card {
+    border: 0;
+}
+
+.card-offset-module {
+    position: relative;
+
+    .card-body {
+        margin-top: -55%;
+        z-index: 5;
+        background: white;
+        border-radius: 2rem;
+        padding: 2rem;
+
+        &.left {
+            margin-left: -2rem;
+            margin-right: 2rem;
+        }
+
+        &.right {
+            margin-left: 2rem;
+            margin-right: -2rem;
+        }
+    }
+}

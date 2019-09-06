@@ -17,7 +17,7 @@ $sage_includes = [
   'lib/wrapper.php',        // Theme wrapper class
   'lib/customizer.php',     // Theme customizer
   'lib/head-cleaner.php',   // Removes Junk from head
-  //'lib/wp-navwalker.php'    // WP Bootstrap Navwalker
+  'lib/wp-navwalker.php'    // WP Bootstrap Navwalker
 ];
 
 foreach ($sage_includes as $file) {
@@ -28,3 +28,9 @@ foreach ($sage_includes as $file) {
   require_once $filepath;
 }
 unset($file, $filepath);
+
+
+function register_my_menu() {
+  register_nav_menu('utility_navigation',__( 'Utility Navigation' ));
+}
+add_action( 'init', 'register_my_menu' );

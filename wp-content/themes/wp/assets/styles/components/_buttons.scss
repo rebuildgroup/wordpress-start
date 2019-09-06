@@ -2,18 +2,27 @@
 	color: white;
 	text-decoration: none;
 	border: 0;
-	border-radius: 0;
+	border-radius: 5rem;
 	padding: 0.5rem 2.5rem;
-	font-size: 1.25rem;
+	font-size: 1rem;
 	font-weight: 600;
 	text-align: center;
-	text-transform: uppercase;
-	letter-spacing: 0.1rem;
+	letter-spacing: 0.05rem;
 	margin: 0.5rem 0;
     cursor: pointer;
 
-    // States
+	// States
 	&:hover, &:focus, &:active {}
+
+	a {
+		color: white !important;
+		font-weight: 600 !important;
+
+		// States
+		&:hover, &:focus, &:active {
+			text-decoration: none;
+		}
+	}
 
 	// Mobile Only
 	@media only screen and (max-width: $break-small) {}
@@ -40,10 +49,10 @@
 
 	&.btn-default,
 	&.btn-primary {
-		@include button-style($blue);
+		@include button-style($red);
 	}
 	&.btn-secondary {
-		@include button-style($red);
+		@include button-style($blue);
 	}
     
 	&-xs-block,
