@@ -73,7 +73,7 @@ $row_settings = array(
 								'full'    => __( 'Full Height', 'fl-builder' ),
 								'custom'  => __( 'Minimum Height', 'fl-builder' ),
 							),
-							'help'    => __( 'Full height rows fill the height of the browser window. Minimum height rows are no taller than the value entered.', 'fl-builder' ),
+							'help'    => __( 'Full height rows fill the height of the browser window. Minimum height rows are at least as tall as the value entered.', 'fl-builder' ),
 							'toggle'  => array(
 								'full'   => array(
 									'fields' => array( 'content_alignment' ),
@@ -199,6 +199,7 @@ $row_settings = array(
 								),
 								'photo'     => array(
 									'sections' => array( 'bg_color', 'bg_photo', 'bg_overlay' ),
+									'fields'   => array( 'bg_x_position', 'bg_y_position' ),
 								),
 								'video'     => array(
 									'sections' => array( 'bg_color', 'bg_video', 'bg_overlay' ),
@@ -222,7 +223,38 @@ $row_settings = array(
 				'bg_photo'     => array(
 					'title'  => __( 'Background Photo', 'fl-builder' ),
 					'fields' => array(
-						'bg_image'      => array(
+						'bg_image_source' => array(
+							'type'    => 'select',
+							'label'   => __( 'Photo Source', 'fl-builder' ),
+							'default' => 'library',
+							'options' => array(
+								'library' => __( 'Media Library', 'fl-builder' ),
+								'url'     => __( 'URL', 'fl-builder' ),
+							),
+							'toggle'  => array(
+								'library' => array(
+									'fields' => array( 'bg_image' ),
+								),
+								'url'     => array(
+									'fields' => array( 'bg_image_url', 'caption' ),
+								),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+						'bg_image_url'    => array(
+							'type'        => 'text',
+							'label'       => __( 'Photo URL', 'fl-builder' ),
+							'placeholder' => __( 'https://www.example.com/my-photo.jpg', 'fl-builder' ),
+							'connections' => array( 'photo' ),
+							'preview'     => array(
+								'type'     => 'css',
+								'selector' => '> .fl-row-content-wrap',
+								'property' => 'background-image',
+							),
+						),
+						'bg_image'        => array(
 							'type'        => 'photo',
 							'show_remove' => true,
 							'label'       => __( 'Photo', 'fl-builder' ),
@@ -234,7 +266,7 @@ $row_settings = array(
 								'property' => 'background-image',
 							),
 						),
-						'bg_repeat'     => array(
+						'bg_repeat'       => array(
 							'type'       => 'select',
 							'label'      => __( 'Repeat', 'fl-builder' ),
 							'default'    => 'none',
@@ -251,7 +283,7 @@ $row_settings = array(
 								'property' => 'background-repeat',
 							),
 						),
-						'bg_position'   => array(
+						'bg_position'     => array(
 							'type'       => 'select',
 							'label'      => __( 'Position', 'fl-builder' ),
 							'default'    => 'center center',
@@ -266,6 +298,12 @@ $row_settings = array(
 								'center top'    => __( 'Center Top', 'fl-builder' ),
 								'center center' => __( 'Center', 'fl-builder' ),
 								'center bottom' => __( 'Center Bottom', 'fl-builder' ),
+								'custom_pos'    => __( 'Custom Position', 'fl-builder' ),
+							),
+							'toggle'     => array(
+								'custom_pos' => array(
+									'fields' => array( 'bg_x_position', 'bg_y_position' ),
+								),
 							),
 							'preview'    => array(
 								'type'     => 'css',
@@ -273,7 +311,41 @@ $row_settings = array(
 								'property' => 'background-position',
 							),
 						),
-						'bg_attachment' => array(
+						'bg_x_position'   => array(
+							'type'         => 'unit',
+							'label'        => __( 'X Position', 'fl-builder' ),
+							'units'        => array( 'px', '%' ),
+							'default_unit' => '%',
+							'responsive'   => true,
+							'slider'       => array(
+								'min'  => 0,
+								'max'  => 1000,
+								'step' => 10,
+							),
+							'preview'      => array(
+								'type'     => 'css',
+								'selector' => '> .fl-row-content-wrap',
+								'property' => 'background-position-x',
+							),
+						),
+						'bg_y_position'   => array(
+							'type'         => 'unit',
+							'label'        => __( 'Y Position', 'fl-builder' ),
+							'units'        => array( 'px', '%' ),
+							'default_unit' => '%',
+							'responsive'   => true,
+							'slider'       => array(
+								'min'  => 0,
+								'max'  => 1000,
+								'step' => 10,
+							),
+							'preview'      => array(
+								'type'     => 'css',
+								'selector' => '> .fl-row-content-wrap',
+								'property' => 'background-position-y',
+							),
+						),
+						'bg_attachment'   => array(
 							'type'       => 'select',
 							'label'      => __( 'Attachment', 'fl-builder' ),
 							'default'    => 'scroll',
@@ -288,7 +360,7 @@ $row_settings = array(
 								'property' => 'background-attachment',
 							),
 						),
-						'bg_size'       => array(
+						'bg_size'         => array(
 							'type'       => 'select',
 							'label'      => __( 'Scale', 'fl-builder' ),
 							'default'    => 'cover',
@@ -326,7 +398,7 @@ $row_settings = array(
 									'fields' => array( 'bg_video_url_mp4', 'bg_video_url_webm' ),
 								),
 								'video_service' => array(
-									'fields' => array( 'bg_video_service_url', 'bg_video_audio' ),
+									'fields' => array( 'bg_video_service_url' ),
 								),
 							),
 							'preview' => array(
@@ -388,6 +460,19 @@ $row_settings = array(
 							),
 							'preview' => array(
 								'type' => 'refresh',
+							),
+						),
+						'bg_video_mobile'      => array(
+							'type'    => 'select',
+							'label'   => __( 'Enable Video in Mobile', 'fl-builder' ),
+							'help'    => __( 'If set to "Yes", audio is disabled on mobile devices.', 'fl-builder' ),
+							'default' => 'no',
+							'options' => array(
+								'no'  => __( 'No', 'fl-builder' ),
+								'yes' => __( 'Yes', 'fl-builder' ),
+							),
+							'preview' => array(
+								'type' => 'none',
 							),
 						),
 						'bg_video_fallback'    => array(
@@ -538,10 +623,10 @@ $row_settings = array(
 							),
 							'toggle'  => array(
 								'color'    => array(
-									'fields' => array( 'bg_overlay_color' ),
+									'fields' => array( 'bg_overlay_color', 'bg_x_position', 'bg_y_position' ),
 								),
 								'gradient' => array(
-									'fields' => array( 'bg_overlay_gradient' ),
+									'fields' => array( 'bg_overlay_gradient', 'bg_x_position', 'bg_y_position' ),
 								),
 							),
 							'preview' => array(
@@ -746,6 +831,10 @@ $row_settings = array(
 							'type'    => 'select',
 							'label'   => __( 'Container Element', 'fl-builder' ),
 							'default' => apply_filters( 'fl_builder_row_container_element_default', 'div' ),
+							/**
+							 * Filter to add/remove container types.
+							 * @see fl_builder_node_container_element_options
+							 */
 							'options' => apply_filters( 'fl_builder_node_container_element_options', array(
 								'div'     => '&lt;div&gt;',
 								'section' => '&lt;section&gt;',
@@ -753,7 +842,7 @@ $row_settings = array(
 								'aside'   => '&lt;aside&gt;',
 								'header'  => '&lt;header&gt;',
 								'footer'  => '&lt;footer&gt;',
-							) ),
+							)),
 							'help'    => __( 'Optional. Choose an appropriate HTML5 content sectioning element to use for this row to improve accessibility and machine-readability.', 'fl-builder' ),
 							'preview' => array(
 								'type' => 'none',

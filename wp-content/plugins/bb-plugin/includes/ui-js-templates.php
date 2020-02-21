@@ -31,7 +31,7 @@
 			<div class="fl-clear"></div>
 		</div>
 		<# if ( data.hasRules ) { #>
-		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This row has visibility rules.', 'fl-builder' ); ?>"></i>
+		<i class="fas fa-eye fl-tip fl-block-has-rules {{data.rulesTypeRow}}" title="<?php _e( 'This row has visibility rules', 'fl-builder' ); ?>: {{data.rulesTextRow}}"></i>
 		<# } #>
 	</div>
 </script>
@@ -51,8 +51,10 @@
 					<i class="fl-block-copy fl-block-col-copy far fa-clone fl-tip" title="<?php _e( 'Duplicate', 'fl-builder' ); ?>"></i>
 					<# } #>
 				<# } #>
+				<?php endif; ?>
 				<span class="fl-builder-has-submenu">
 					<i class="fl-block-settings fas fa-columns fl-tip" title="<?php _e( 'Edit Column', 'fl-builder' ); ?>"></i>
+					<?php if ( ! $simple_ui ) : ?>
 					<# if ( ! data.global || ( data.global && FLBuilderConfig.userTemplateType ) ) { #>
 					<ul class="fl-builder-submenu fl-block-col-submenu">
 						<li><a class="fl-block-col-edit" href="javascript:void(0);"><?php _e( 'Column Settings', 'fl-builder' ); ?></a></li>
@@ -71,7 +73,9 @@
 						<# } #>
 					</ul>
 					<# } #>
+					<?php endif; ?>
 				</span>
+				<?php if ( ! $simple_ui ) : ?>
 				<# if ( ! data.isRootCol ) { #>
 				<i class="fl-block-remove fas fa-times fl-tip" title="<?php _e( 'Remove', 'fl-builder' ); ?>"></i>
 				<# } #>
@@ -176,9 +180,9 @@
 			<div class="fl-clear"></div>
 		</div>
 		<# if ( data.colHasRules ) { #>
-		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This column has visibility rules.', 'fl-builder' ); ?>"></i>
+		<i class="fas fa-eye fl-tip fl-block-has-rules {{data.rulesTypeCol}}" title="<?php _e( 'This column has visibility rules', 'fl-builder' ); ?>: {{data.rulesTextCol}}"></i>
 		<# } else if ( data.hasRules ) { #>
-		<i class="fas fa-eye fl-tip fl-block-has-rules" title="<?php _e( 'This module has visibility rules.', 'fl-builder' ); ?>"></i>
+		<i class="fas fa-eye fl-tip fl-block-has-rules {{data.rulesTypeModule}}" title="<?php _e( 'This module has visibility rules', 'fl-builder' ); ?>: {{data.rulesTextModule}}"></i>
 		<# } #>
 		<?php if ( ! FLBuilderModel::is_post_user_template( 'module' ) && ! $simple_ui ) : ?>
 		<# if ( ! data.groupLoading && ! data.isRootCol ) { #>
@@ -808,7 +812,7 @@
 	<# if (FLBuilderConfig.lite) { #>
 	<div class="fl-builder--panel-message">
 		<p><?php _ex( 'Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.', 'Upgrade message that displays in the templates tab in lite installs.', 'fl-builder' ); ?></p>
-		<a class="fl-builder-upgrade-button fl-builder-button" href="{{FLBuilderConfig.upgradeUrl}}" target="_blank"><?php _ex( 'Learn More', 'Link to learn more about premium page builder', 'fl-builder' ); ?> <i class="fas fa-external-link-alt"></i></a>
+		<a class="fl-builder-upgrade-button fl-builder-button" href="{{FLBuilderConfig.upgradeUrl}}" target="_blank"><?php _ex( 'Learn More', 'Link to learn more about premium Beaver Builder', 'fl-builder' ); ?> <i class="fas fa-external-link-alt"></i></a>
 	</div>
 	<# } #>
 	<#
@@ -992,7 +996,7 @@
 <script type="text/html" id="tmpl-fl-content-lite-templates-upgrade-view">
 	<div class="fl-builder--panel-message">
 		<p><?php _ex( 'Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.', 'Upgrade message that displays in the templates tab in lite installs.', 'fl-builder' ); ?></p>
-		<a class="fl-builder-upgrade-button fl-builder-button" href="{{FLBuilderConfig.upgradeUrl}}" target="_blank"><?php _ex( 'Learn More', 'Link to learn more about premium page builder', 'fl-builder' ); ?> <i class="fas fa-external-link-alt"></i></a>
+		<a class="fl-builder-upgrade-button fl-builder-button" href="{{FLBuilderConfig.upgradeUrl}}" target="_blank"><?php _ex( 'Learn More', 'Link to learn more about premium Beaver Builder', 'fl-builder' ); ?> <i class="fas fa-external-link-alt"></i></a>
 	</div>
 </script>
 <!-- #tmpl-fl-content-lite-templates-upgrade-view -->
@@ -1031,6 +1035,16 @@
 	</div>
 </script>
 <!-- #tmpl-fl-no-revisions-message -->
+
+<script type="text/html" id="tmpl-fl-history-list-item">
+	<div class="fl-history-list-item" data-position="{{data.position}}" data-current="{{data.current}}">
+		<div class="fl-history-list-item-label">
+			{{{data.label}}}
+		</div>
+		<i class="fas fa-check-circle"></i>
+	</div>
+</script>
+<!-- #tmpl-fl-history-list-item -->
 
 <script type="text/html" id="tmpl-fl-keyboard-shortcuts">
 	<div class="fl-builder-ui-keyboard-shortcuts">

@@ -14,10 +14,103 @@ class FLBuilderImporter extends WP_Import {
 	 * @return array
 	 */
 	function parse( $file ) {
-		$parser = new FLBuilderImportParserRegex();
-		return $parser->parse( $file );
+		$data = file_get_contents( $file );
+		$bad  = preg_match( '#[^\x00-\x7F]#', $data );
+
+		/**
+		 * If XML parser is not available or there are illegal chars in the file
+		 * fallback to regex parser and attempt to fix.
+		 */
+		if ( extension_loaded( 'xml' ) && ! $bad ) {
+			$parser = new FLBuilderImportParserXML();
+			return $parser->parse( $file );
+		} else {
+			$parser = new FLBuilderImportParserRegex();
+			return $parser->parse( $file );
+		}
 	}
 }
+
+class FLBuilderImportParserXML extends WXR_Parser_XML {
+
+	function tag_close( $parser, $tag ) {
+		switch ( $tag ) {
+			case 'wp:comment':
+				unset( $this->sub_data['key'], $this->sub_data['value'] ); // remove meta sub_data
+				if ( ! empty( $this->sub_data ) ) {
+					$this->data['comments'][] = $this->sub_data;
+				}
+				$this->sub_data = false;
+				break;
+			case 'wp:commentmeta':
+				$this->sub_data['commentmeta'][] = array(
+					'key'   => $this->sub_data['key'],
+					'value' => $this->sub_data['value'],
+				);
+				break;
+			case 'category':
+				if ( ! empty( $this->sub_data ) ) {
+					$this->sub_data['name'] = $this->cdata;
+					$this->data['terms'][]  = $this->sub_data;
+				}
+				$this->sub_data = false;
+				break;
+			case 'wp:postmeta':
+				if ( ! empty( $this->sub_data ) ) {
+					if ( stristr( $this->sub_data['key'], '_fl_builder_' ) ) {
+						$this->set_pcre_limit( apply_filters( 'fl_builder_importer_pcre', '23001337' ) );
+						$data = FLBuilderImporterDataFix::run( $this->sub_data['value'] );
+						if ( is_object( $data ) || is_array( $data ) ) {
+							$data = serialize( $data );
+						}
+						$this->sub_data['value'] = $data;
+					}
+					$this->data['postmeta'][] = $this->sub_data;
+				}
+				$this->sub_data = false;
+				break;
+			case 'item':
+				$this->posts[] = $this->data;
+				$this->data    = false;
+				break;
+			case 'wp:category':
+			case 'wp:tag':
+			case 'wp:term':
+				$n = substr( $tag, 3 );
+				array_push( $this->$n, $this->data );
+				$this->data = false;
+				break;
+			case 'wp:author':
+				if ( ! empty( $this->data['author_login'] ) ) {
+					$this->authors[ $this->data['author_login'] ] = $this->data;
+				}
+				$this->data = false;
+				break;
+			case 'wp:base_site_url':
+				$this->base_url = $this->cdata;
+				break;
+			case 'wp:wxr_version':
+				$this->wxr_version = $this->cdata;
+				break;
+			default:
+				if ( $this->in_sub_tag ) {
+					$this->sub_data[ $this->in_sub_tag ] = ! empty( $this->cdata ) ? $this->cdata : '';
+					$this->in_sub_tag                    = false;
+				} elseif ( $this->in_tag ) {
+					$this->data[ $this->in_tag ] = ! empty( $this->cdata ) ? $this->cdata : '';
+					$this->in_tag                = false;
+				}
+		}
+		$this->cdata = false;
+	}
+
+	function set_pcre_limit( $value ) {
+
+		@ini_set( 'pcre.backtrack_limit', $value ); // @codingStandardsIgnoreLine
+		@ini_set( 'pcre.recursion_limit', $value ); // @codingStandardsIgnoreLine
+	}
+}
+
 
 /**
  * The Regex parser is the only parser we have found that
@@ -35,6 +128,7 @@ class FLBuilderImportParserRegex extends WXR_Parser_Regex {
 	 * @return array
 	 */
 	function parse( $file ) {
+
 		// @codingStandardsIgnoreLine
 		$wxr_version = $in_post = false;
 
@@ -91,8 +185,6 @@ class FLBuilderImportParserRegex extends WXR_Parser_Regex {
 
 					$this->set_pcre_limit( apply_filters( 'fl_builder_importer_pcre', '23001337' ) );
 					$this->posts[] = $this->process_post( $post );
-					$this->set_pcre_limit( 'default' );
-
 					continue;
 				}
 				if ( $in_post ) {
@@ -109,7 +201,11 @@ class FLBuilderImportParserRegex extends WXR_Parser_Regex {
 				}
 				foreach ( $post['postmeta'] as $postmeta_index => $postmeta ) {
 					if ( stristr( $postmeta['key'], '_fl_builder_' ) ) {
-						$this->posts[ $post_index ]['postmeta'][ $postmeta_index ]['value'] = FLBuilderImporterDataFix::run( $postmeta['value'] );
+						$data = FLBuilderImporterDataFix::run( $postmeta['value'] );
+						if ( is_object( $data ) || is_array( $data ) ) {
+							$data = serialize( $data );
+						}
+						$this->posts[ $post_index ]['postmeta'][ $postmeta_index ]['value'] = $data;
 					}
 				}
 			}
@@ -130,6 +226,7 @@ class FLBuilderImportParserRegex extends WXR_Parser_Regex {
 		);
 	}
 
+
 	/**
 	 * Try increasing PCRE limit to avoid failing of importing huge postmeta data.
 	 *
@@ -137,25 +234,8 @@ class FLBuilderImportParserRegex extends WXR_Parser_Regex {
 	 * @param string $value
 	 */
 	function set_pcre_limit( $value ) {
-
-		if ( ! isset( $this->default_backtrack_limit ) ) {
-			$this->default_backtrack_limit = @ini_get( 'pcre.backtrack_limit' ); // @codingStandardsIgnoreLine
-			$this->default_recursion_limit = @ini_get( 'pcre.recursion_limit' ); // @codingStandardsIgnoreLine
-		}
-
-		if ( 'default' != $value ) {
-			@ini_set( 'pcre.backtrack_limit', $value ); // @codingStandardsIgnoreLine
-			@ini_set( 'pcre.recursion_limit', $value ); // @codingStandardsIgnoreLine
-		} else {
-			// Reset limit back to default.
-			if ( is_numeric( $this->default_backtrack_limit ) ) {
-				@ini_set( 'pcre.backtrack_limit', $this->default_backtrack_limit ); // @codingStandardsIgnoreLine
-			}
-
-			if ( is_numeric( $this->default_recursion_limit ) ) {
-				@ini_set( 'pcre.recursion_limit', $this->default_recursion_limit ); // @codingStandardsIgnoreLine
-			}
-		}
+		@ini_set( 'pcre.backtrack_limit', $value ); // @codingStandardsIgnoreLine
+		@ini_set( 'pcre.recursion_limit', $value ); // @codingStandardsIgnoreLine
 	}
 }
 
@@ -178,6 +258,18 @@ final class FLBuilderImporterDataFix {
 			return $data;
 		}
 
+		if ( is_object( $data ) || is_array( $data ) ) {
+			return $data;
+		}
+
+		if ( ! is_serialized( $data ) ) {
+			return $data;
+		}
+
+		$data = preg_replace_callback('!s:(\d+):"(.*?)";!', function( $m ) {
+			return 's:' . strlen( $m[2] ) . ':"' . $m[2] . '";';
+		}, self::sanitize_from_word( $data ) );
+
 		$data = maybe_unserialize( $data );
 
 		// return if maybe_unserialize() returns an object or array, this is good.
@@ -187,6 +279,40 @@ final class FLBuilderImporterDataFix {
 
 		return preg_replace_callback( '!s:(\d+):([\\\\]?"[\\\\]?"|[\\\\]?"((.*?)[^\\\\])[\\\\]?");!', 'FLBuilderImporterDataFix::regex_callback', $data );
 	}
+
+	/**
+	 * Remove quotes etc pasted from a certain word processor.
+	 */
+	public static function sanitize_from_word( $content ) {
+		// Convert microsoft special characters
+		$replace = array(
+			'‘'  => "\'",
+			'’'  => "\'",
+			'”'  => '\"',
+			'“'  => '\"',
+			'–'  => '-',
+			'—'  => '-',
+			'…'  => '&#8230;',
+			"\n" => '<br />',
+		);
+
+		foreach ( $replace as $k => $v ) {
+			$content = str_replace( $k, $v, $content );
+		}
+
+		/**
+		 * Optional strip all illegal chars, defaults to false
+		 * @see fl_import_strip_all
+		 * @since 2.3
+		 */
+		if ( true === apply_filters( 'fl_import_strip_all', false ) ) {
+			// Remove any non-ascii character
+			$content = preg_replace( '/[^\x20-\x7E]*/', '', $content );
+		}
+
+		return $content;
+	}
+
 
 	/**
 	 * @since 1.8

@@ -95,6 +95,25 @@ class FLContactFormModule extends FLBuilderModule {
 	}
 
 	/**
+	 * Render reCaptcha attributes.
+	 * @return string
+	 */
+	public function recaptcha_data_attributes() {
+		$settings               = $this->settings;
+		$attrs['data-sitekey']  = $settings->recaptcha_site_key;
+		$attrs['data-validate'] = 'invisible_v3' == $settings->recaptcha_validate_type ? 'invisible' : $settings->recaptcha_validate_type;
+		$attrs['data-theme']    = $settings->recaptcha_theme;
+
+		if ( 'invisible_v3' == $settings->recaptcha_validate_type && ! empty( $settings->recaptcha_action ) ) {
+			$attrs['data-action'] = $settings->recaptcha_action;
+		}
+
+		foreach ( $attrs as $attr_key => $attr_val ) {
+			echo ' ' . $attr_key . '="' . $attr_val . '"';
+		}
+	}
+
+	/**
 	 * Connects Beaver Themer field connections before sending mail
 	 * as those won't be connected during a wp_ajax call.
 	 *
@@ -489,6 +508,32 @@ FLBuilder::register_module('FLContactFormModule', array(
 							'fields' => array( 'btn_icon_position', 'btn_icon_animation' ),
 						),
 					),
+					'btn_duo_color1'     => array(
+						'label'      => __( 'DuoTone Primary Color', 'fl-builder' ),
+						'type'       => 'color',
+						'default'    => '#5b5b5b',
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => 'i.fl-button-icon.fad:before',
+							'property'  => 'color',
+							'important' => true,
+						),
+					),
+					'btn_duo_color2'     => array(
+						'label'      => __( 'DuoTone Secondary Color', 'fl-builder' ),
+						'type'       => 'color',
+						'default'    => '#757575',
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => 'i.fl-button-icon.fad:after',
+							'property'  => 'color',
+							'important' => true,
+						),
+					),
 					'btn_icon_position'  => array(
 						'type'    => 'select',
 						'label'   => __( 'Button Icon Position', 'fl-builder' ),
@@ -690,6 +735,34 @@ FLBuilder::register_module('FLContactFormModule', array(
 						),
 						'help'    => __( 'If you want to show this field, please provide valid Site and Secret Keys.', 'fl-builder' ),
 					),
+					'recaptcha_validate_type' => array(
+						'type'    => 'select',
+						'label'   => __( 'Validate Type', 'fl-builder' ),
+						'default' => 'normal',
+						'options' => array(
+							'normal'       => __( '"I\'m not a robot" checkbox (V2)', 'fl-builder' ),
+							'invisible'    => __( 'Invisible (V2)', 'fl-builder' ),
+							'invisible_v3' => __( 'Invisible (V3)', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'invisible_v3' => array(
+								'fields' => array( 'recaptcha_action' ),
+							),
+						),
+						'help'    => __( 'Validate users with checkbox or in the background.<br />Note: Checkbox and Invisible types use separate API keys.', 'fl-builder' ),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'recaptcha_action'        => array(
+						'type'        => 'text',
+						'label'       => __( 'Action', 'fl-builder' ),
+						'help'        => __( 'Optional advanced feature to make use of Google’s v3 analytical capabilities.', 'fl-builder' ),
+						'preview'     => array(
+							'type' => 'none',
+						),
+						'placeholder' => __( 'Optional', 'fl-builder' ),
+					),
 					'recaptcha_site_key'      => array(
 						'type'    => 'text',
 						'label'   => __( 'Site Key', 'fl-builder' ),
@@ -702,19 +775,6 @@ FLBuilder::register_module('FLContactFormModule', array(
 						'type'    => 'text',
 						'label'   => __( 'Secret Key', 'fl-builder' ),
 						'default' => '',
-						'preview' => array(
-							'type' => 'none',
-						),
-					),
-					'recaptcha_validate_type' => array(
-						'type'    => 'select',
-						'label'   => __( 'Validate Type', 'fl-builder' ),
-						'default' => 'normal',
-						'options' => array(
-							'normal'    => __( '"I\'m not a robot" checkbox', 'fl-builder' ),
-							'invisible' => __( 'Invisible', 'fl-builder' ),
-						),
-						'help'    => __( 'Validate users with checkbox or in the background.<br />Note: Checkbox and Invisible types use seperate API keys.', 'fl-builder' ),
 						'preview' => array(
 							'type' => 'none',
 						),
@@ -735,6 +795,6 @@ FLBuilder::register_module('FLContactFormModule', array(
 			),
 		),
 		/* translators: %s: url to google admin */
-		'description' => sprintf( __( 'Please register keys for your website at the <a%s>Google Admin Console</a>.', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank"' ),
+		'description' => sprintf( __( 'Register keys for your website at the <a%1$s>Google Admin Console</a>. You need a different key pair for each reCAPTCHA validation type. <br /><br /><a%2$s>More info about v3 reCAPTCHA.</a>', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank" rel="noopener"', ' href="https://developers.google.com/recaptcha/docs/v3" target="_blank" rel="noopener"' ),
 	),
 ));

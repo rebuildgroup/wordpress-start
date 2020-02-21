@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c
+class ComposerStaticInit9973f4a9b68b21e37244a03350406a76
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -196,6 +196,7 @@ class ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c
         'Composer\\Installers\\MagentoInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MagentoInstaller.php',
         'Composer\\Installers\\MajimaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MajimaInstaller.php',
         'Composer\\Installers\\MakoInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MakoInstaller.php',
+        'Composer\\Installers\\MantisBTInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MantisBTInstaller.php',
         'Composer\\Installers\\MauticInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MauticInstaller.php',
         'Composer\\Installers\\MayaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MayaInstaller.php',
         'Composer\\Installers\\MediaWikiInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/MediaWikiInstaller.php',
@@ -227,6 +228,7 @@ class ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c
         'Composer\\Installers\\SilverStripeInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SilverStripeInstaller.php',
         'Composer\\Installers\\SiteDirectInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SiteDirectInstaller.php',
         'Composer\\Installers\\SyDESInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SyDESInstaller.php',
+        'Composer\\Installers\\SyliusInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/SyliusInstaller.php',
         'Composer\\Installers\\Symfony1Installer' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/Symfony1Installer.php',
         'Composer\\Installers\\TYPO3CmsInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TYPO3CmsInstaller.php',
         'Composer\\Installers\\TYPO3FlowInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/TYPO3FlowInstaller.php',
@@ -373,6 +375,8 @@ class ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c
         'Monolog\\Handler\\FirePHPHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FirePHPHandler.php',
         'Monolog\\Handler\\FleepHookHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FleepHookHandler.php',
         'Monolog\\Handler\\FlowdockHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FlowdockHandler.php',
+        'Monolog\\Handler\\FormattableHandlerInterface' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FormattableHandlerInterface.php',
+        'Monolog\\Handler\\FormattableHandlerTrait' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FormattableHandlerTrait.php',
         'Monolog\\Handler\\GelfHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/GelfHandler.php',
         'Monolog\\Handler\\GroupHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/GroupHandler.php',
         'Monolog\\Handler\\HandlerInterface' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/HandlerInterface.php',
@@ -390,6 +394,8 @@ class ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c
         'Monolog\\Handler\\NewRelicHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/NewRelicHandler.php',
         'Monolog\\Handler\\NullHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/NullHandler.php',
         'Monolog\\Handler\\PHPConsoleHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/PHPConsoleHandler.php',
+        'Monolog\\Handler\\ProcessableHandlerInterface' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ProcessableHandlerInterface.php',
+        'Monolog\\Handler\\ProcessableHandlerTrait' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ProcessableHandlerTrait.php',
         'Monolog\\Handler\\PsrHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/PsrHandler.php',
         'Monolog\\Handler\\PushoverHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/PushoverHandler.php',
         'Monolog\\Handler\\RavenHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/RavenHandler.php',
@@ -637,6 +643,8 @@ class ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c
         'calderawp\\calderaforms\\cf2\\CalderaFormsV2Contract' => __DIR__ . '/../..' . '/cf2/CalderaFormsV2Contract.php',
         'calderawp\\calderaforms\\cf2\\Exception' => __DIR__ . '/../..' . '/cf2/Exception.php',
         'calderawp\\calderaforms\\cf2\\Exceptions\\NotFoundInContainerException' => __DIR__ . '/../..' . '/cf2/Exceptions/NotFoundInContainerException.php',
+        'calderawp\\calderaforms\\cf2\\Factories\\Processor' => __DIR__ . '/../..' . '/cf2/Factories/Processor.php',
+        'calderawp\\calderaforms\\cf2\\Factories\\ProcessorFactory' => __DIR__ . '/../..' . '/cf2/Factories/ProcessorFactory.php',
         'calderawp\\calderaforms\\cf2\\Fields\\FieldType' => __DIR__ . '/../..' . '/cf2/Fields/FieldType.php',
         'calderawp\\calderaforms\\cf2\\Fields\\FieldTypeContract' => __DIR__ . '/../..' . '/cf2/Fields/FieldTypeContract.php',
         'calderawp\\calderaforms\\cf2\\Fields\\FieldTypeFactory' => __DIR__ . '/../..' . '/cf2/Fields/FieldTypeFactory.php',
@@ -653,6 +661,8 @@ class ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c
         'calderawp\\calderaforms\\cf2\\Fields\\RegisterFieldsContract' => __DIR__ . '/../..' . '/cf2/Fields/RegisterFieldsContract.php',
         'calderawp\\calderaforms\\cf2\\Fields\\RenderField' => __DIR__ . '/../..' . '/cf2/Fields/RenderField.php',
         'calderawp\\calderaforms\\cf2\\Fields\\RenderFieldContract' => __DIR__ . '/../..' . '/cf2/Fields/RenderFieldContract.php',
+        'calderawp\\calderaforms\\cf2\\Forms\\Collection' => __DIR__ . '/../..' . '/cf2/Forms/Collection.php',
+        'calderawp\\calderaforms\\cf2\\Forms\\FormCollection' => __DIR__ . '/../..' . '/cf2/Forms/FormCollection.php',
         'calderawp\\calderaforms\\cf2\\Hooks' => __DIR__ . '/../..' . '/cf2/Hooks.php',
         'calderawp\\calderaforms\\cf2\\Jobs\\DatabaseConnection' => __DIR__ . '/../..' . '/cf2/Jobs/DatabaseConnection.php',
         'calderawp\\calderaforms\\cf2\\Jobs\\DeleteFileJob' => __DIR__ . '/../..' . '/cf2/Jobs/DeleteFileJob.php',
@@ -666,6 +676,8 @@ class ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c
         'calderawp\\calderaforms\\cf2\\RestApi\\File\\File' => __DIR__ . '/../..' . '/cf2/RestApi/File/File.php',
         'calderawp\\calderaforms\\cf2\\RestApi\\Queue\\RunQueue' => __DIR__ . '/../..' . '/cf2/RestApi/Queue/RunQueue.php',
         'calderawp\\calderaforms\\cf2\\RestApi\\Register' => __DIR__ . '/../..' . '/cf2/RestApi/Register.php',
+        'calderawp\\calderaforms\\cf2\\Services\\FormsService' => __DIR__ . '/../..' . '/cf2/Services/FormsService.php',
+        'calderawp\\calderaforms\\cf2\\Services\\ProcessorService' => __DIR__ . '/../..' . '/cf2/Services/ProcessorService.php',
         'calderawp\\calderaforms\\cf2\\Services\\QueueSchedulerService' => __DIR__ . '/../..' . '/cf2/Services/QueueSchedulerService.php',
         'calderawp\\calderaforms\\cf2\\Services\\QueueService' => __DIR__ . '/../..' . '/cf2/Services/QueueService.php',
         'calderawp\\calderaforms\\cf2\\Services\\Service' => __DIR__ . '/../..' . '/cf2/Services/Service.php',
@@ -708,11 +720,11 @@ class ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit6dbd6838f77c1d3191e69e0b429ff89c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$classMap;
 
         }, null, ClassLoader::class);
     }

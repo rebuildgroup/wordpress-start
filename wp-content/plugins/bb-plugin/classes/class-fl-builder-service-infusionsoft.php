@@ -201,14 +201,14 @@ final class FLBuilderServiceInfusionsoft extends FLBuilderService {
 				continue;
 			}
 
-			$options[ $list['Id'] ] = $list['GroupName'];
+			$options[ $list['Id'] ] = esc_attr( $list['GroupName'] );
 		}
 
 		FLBuilder::render_settings_field( 'list_id', array(
 			'row_class' => 'fl-builder-service-field-row',
 			'class'     => 'fl-builder-service-list-select',
 			'type'      => 'select',
-			'label'     => _x( 'List', 'An email list from a third party provider.', 'fl-builder' ),
+			'label'     => _x( 'Select Tag', 'An email list from a third party provider.', 'fl-builder' ),
 			'options'   => $options,
 			'preview'   => array(
 				'type' => 'none',

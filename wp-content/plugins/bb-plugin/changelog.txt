@@ -1,3 +1,390 @@
+<h4>2.3.1.2 - 02/05/2020</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Prevent script and iframe code being added to layout and global css/js settings.</li>
+	<li>Added warning to admin license page if wrong version is installed for license which prevents updates.</li>
+	<li>Fixed global row settings not opening in new window to edit row.</li>
+	<li>Fixed per-node CSS rendering when it doesn't need to.</li>
+	<li>Fixed subscribe module tags/lists when tags contain invalid characters.</li>
+	<li>Allow shortcodes in row background image setting when set to url.</li>
+	<li>Fixed issue with Smush Pro iframe lazyload.</li>
+</ul>
+
+<h4>2.3.1.1 - 01/21/2020</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Fixed Icon Group spacing issue.</li>
+</ul>
+
+<h4>2.3.1 - 01/16/2020</h4>
+<strong>Enhancements</strong>
+<ul>
+	<li>Added responsive alignment controls to Icon Group.</li>
+	<li>Added available downloads to debug info.</li>
+	<li>Whe using Youtube video for row background, use fallback as start image then fade in when video loads.</li>
+	<li>Respect <code>fl_builder_render_admin_edit_ui</code> filter if using Block Editor.</li>
+</ul>
+<strong>Bug Fixes</strong>
+<ul>
+	<li>Fixed cache clearing on Kinsta.</li>
+	<li>Fixed Block Editor builder links broken in WP 5.0-5.2</li>
+	<li>Style hardening in Builder UI.</li>
+	<li>Fixed Font Awesome Pro multisite issue on subsites.</li>
+	<li>Added missing Node ID to the Callout Module's icon.</li>
+	<li>Fixed submenu toggle on mobile devices.</li>
+	<li>Fixed background-clip issue on row borders.</li>
+	<li>Fixed post slider thumbnails disappearing if you exclude a post.</li>
+	<li>Fixed safemode JS error FLBuilderLayout not defined.</li>
+</ul>
+
+<h4>2.3.0.3 - 01/09/2020</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Fixed typography slider controls when using touch enabled devices.</li>
+	<li>Fixed fatal PHP error if using slideshow row background and slideshow module is disabled.</li>
+	<li>Fixed rare PHP error when determining template type. </li>
+	<li>Fixed Builder not opening issue when using Yoast and Block Editor.</li>
+	<li>Added dependency checks for disabled modules.</li>
+	<li>Added <code>fl_select2_enabled</code> filter to disable select2.</li>
+</ul>
+
+<h4>2.3.0.2 - 01/02/2020</h4>
+<strong>Hot Fix</strong>
+<ul>
+  <li>Use Select2 library for font selection.</li>
+  <li>Update Font Awesome to 5.12</li>
+  <li>Fixed PHP warning to make sure the post object is an instance of WP_Post.</li>
+	<li>Fixed <code>fl_builder_pre_render_css_rules</code> filter.</li>
+  <li>Style hardening for builder UI when using 2020 theme.</li>
+</ul>
+
+<h4>2.3.0.1 - 12/11/2019</h4>
+<strong>Hot Fix</strong>
+<ul>
+    <li>Fix Launch BB button so that it does not prompt you to leave/cancel when using WordPress 5.3</li>
+    <li>Subscribe Module: Update for compatibility with Sendy 4</li>
+</ul>
+
+<h4>2.3 - 12/3/2019</h4>
+<strong>Enhancements</strong>
+<ul>
+ 	<li>You can now re-arrange your color presets</li>
+ 	<li>New filter <code>fl_remember_settings_tabs_enabled</code> to disable the UI remembering the last tab</li>
+</ul>
+<strong>Bug Fixes</strong>
+<ul>
+ 	<li>Reduce memory consumption in WP admin by limiting the scope of data we request for the sorting feature</li>
+ 	<li>Prevent our data validation inside the UI from applying to widgets</li>
+	<li>Fixed recently used fonts not being applied properly.</li>
+</ul>
+
+<h4>2.3 Beta 3 - 11/27/2019</h4>
+<strong>Bug Fix</strong>
+<ul>
+ 	<li>Fixed Importer issues.</li>
+ 	<li>Fixed Font Awesome Shim CSS.</li>
+</ul>
+<h4>2.3 Beta 2 - 11/25/2019</h4>
+<strong>Enhancements</strong>
+<ul>
+ 	<li>Remember which settings tab was last open when opening new settings windows.</li>
+ 	<li>Debug Info: Show modules and includes folder paths if used in child theme and what modules are being overridden.</li>
+ 	<li>Sort the Template Category in the Page Builder UI when override is enabled</li>
+</ul>
+<strong>Bug Fixes</strong>
+<ul>
+ 	<li>Fixed DuoTone icon issues with Icon Group Module
+Fixed default text still appearing even after being removed</li>
+ 	<li>Fixed Accordion label background icon css issue</li>
+ 	<li>Fixed Accordion issue where DuoTone options were showing when they shouldn't be</li>
+</ul>
+<strong>Compatibility</strong>
+<ul>
+ 	<li>Fixed issue where EventEspresso stylesheet hides Text Editor module tabs and Add Media Button</li>
+</ul>
+<h4>2.3 Beta 1 - 11/13/2019</h4>
+<a href="https://kb.wpbeaverbuilder.com/category/769-23-beta">Please review the docs</a>
+
+<strong>Enhancements</strong>
+<ul>
+ 	<li>Undo/Redo</li>
+ 	<li>History Manager</li>
+ 	<li>Touch Support: Use BB on a mobile device.</li>
+ 	<li>Module Copy/Paste Settings (in Advanced tab)</li>
+ 	<li>New BigCommerce module to display content from BigCommerce (<strong>BigCommerce plugin required</strong>)</li>
+ 	<li>Body classes added based on device size <code>fl-builder-breakpoint-small</code></li>
+ 	<li>New filter to completely disable modules from loading <code>is_module_disable_enabled</code></li>
+ 	<li>Visibility icon now shows what rule is active (e.g. logged in / out)</li>
+ 	<li>FontAwesome: Update FontAwesome icons and Enable Pro in settings as well as added support for Kits and the DuoTone icon set</li>
+ 	<li>Added new filter to enable shortcodes in layout/global CSS and JS <code>fl_enable_shortcode_css_js</code></li>
+ 	<li>Decreased page load by approximately 20% by caching internal variables.</li>
+</ul>
+<strong>Bug Fixes</strong>
+<ul>
+ 	<li>Fixed scrolling not working when trying to move elements while Responsive Editing is enabled</li>
+ 	<li>Subscribe Form Module: Fixed HTML being stripped out of success message</li>
+</ul>
+
+<h4>2.2.6.2 - 11/18/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed importer issue.</li>
+	<li>Fixed Accordian active/focus CSS issue.</li>
+	<li>Removed Wrapper.php from phpxmlrpc vendor package as it flagged up a false positive for malware and isnt actually used.</li>
+	<li>Fixed JS error with Yoast integration if Yoast meta box is disabled for post-type.</li>
+	<li>Fixed add media modal CSS issue introduced in WP 5.3</li>
+	<li>Fixed HTML being stripped in subscribe module success message.</li>
+	<li>Fixed typo in video background markup.</li>
+	<li>Fixed MODSEC issue with partial layout rendering.</li>
+</ul>
+
+<h4>2.2.6.1 - 11/04/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>New filter <code>fl_builder_module_groups</code>.</li>
+	<li>New JS hooks <code>didCancelNodeSettings</code> and <code>didTriggerSettingsSave</code>.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed XML import issue where illegal characters pasted from MSWord will break the importer.</li>
+	<li>Fixed some CDNs breaking the builder UI when responsive preview is active.</li>
+	<li>Fixed issue with spaces in font families not having quotes added in css.</li>
+	<li>Fixed multisite issue with Cache Enabler plugin during publish.</li>
+</ul>
+
+<h4>2.2.6 - 10/18/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added support for flushing Cloudflare if official plugin is installed.</li>
+	<li>Photo Module: Added option to show/hide title attribute.</li>
+	<li>Minified slideshow CSS file.</li>
+	<li>Added workflow support for Drip email service in subscribe form.</li>
+	<li>Row Background Images: Added support for custom positions.</li>
+	<li>New filter <code>fl_builder_photo_data</code> added.</li>
+	<li>Added URL as a Row Background Photo option with optional title.</li>
+	<li>Added reCAPTCHA v3 support to Contact and Subscribe modules.</li>
+	<li>Post Module excerpt length slider increased from 100 to 1000.</li>
+	<li>Added aria-label to Content Slider background links for accessibility.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed bxslider issues.</li>
+	<li>Fixed schema output in Video module even when schema disabled.</li>
+	<li>Fixed issue with multiple/repeater form limits.</li>
+	<li>Fixed various serialised data issues in template dat files.</li>
+	<li>Show message if user already subscribed to Mailchimp.</li>
+	<li>Fixed settings display issues when using Twenty Nineteen theme.</li>
+	<li>Fixed empty H3 in Testimonial module.</li>
+	<li>Content slider: If transition speed is not lower than delay show a warning.</li>
+	<li>Fixed BG Row Video still showing video even when already removed from the Settings UI.</li>
+	<li>Fixed reverse stacking columns going fullwidth on responsive layout.</li>
+	<li>Fixed issues with Cookiebot plugin.</li>
+</ul>
+
+<h4>2.2.5.3 - 09/25/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed Content Slider: Style tab disappears once slides are edited.</li>
+	<li>Fixed another equal heights column with responsive visibility issue.</li>
+	<li>Fixed issue on with ace code editor on SiteGround if their ForceSSL option is enabled.</li>
+</ul>
+
+<h4>2.2.5.2 - 09/11/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed unescaped alt tag in slideshow javascript.</li>
+	<li>Fixed row content layout when margin-top is set to negative value.</li>
+</ul>
+
+<h4>2.2.5.1 - 09/05/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed background video issues.</li>
+	<li>Fixed responsive visibility issue with equal heights column.</li>
+	<li>Fixed vertical tabs display issue.</li>
+</ul>
+
+<h4>2.2.5 - 09/04/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Accessibility: Added title attribute setting for iframe in Map module.</li>
+	<li>Accessibility: Added TAB functionaility to Menu module.</li>
+	<li>Accessibility: Improved accessibility of Tabs and Accordion modules.</li>
+	<li>Accessibility: Added alt attribute to slideshow images.</li>
+	<li>Accessibility: Always show label setting as it is also used for aria attribute in Menu module.</li>
+	<li>Added maxlength setting for Textarea fields.</li>
+	<li>Row videos can now use shortcodes for url.</li>
+	<li>Added an option to enable video background in mobile.</li>
+	<li>Added Collection Schema to Posts module when not post post-type.</li>
+	<li>Added new filter <code>fl_builder_get_asset_info_post_id</code>.</li>
+	<li>Added new filter <code>fl_render_featured_image_fallback</code>.</li>
+	<li>Added global option to disable column max-width on responsive layout.</li>
+	<li>Added preload="none" to self hosted videos.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed issue with settings lightbox if off the screen last time it was saved.</li>
+	<li>Fixed template post type links showing as results in Gutenberg suggested links.</li>
+	<li>Fixed PHP notice when post types option is not empty in the network admin settings.</li>
+	<li>Fixed updater logic clearing caches for all subsites when not needed on multisites.</li>
+	<li>Fixed bullet point css issue in Pricing module.</li>
+	<li>Fixed equal height issue on columns when visibility is set to medium.</li>
+	<li>Fixed FireFox bug for row with negative margins not working on equal height columns.</li>
+	<li>Fixed circle cut-off on Number Counter when the Stroke Size value is large.</li>
+	<li>Fixed saved column settings update/save error.</li>
+	<li>Fixed Mobile Menu not closing when clicked outside the toggle button.</li>
+	<li>Fixed row bg disappearing with ACF field connection and Yoast active</li>
+	<li>Fixed inline editor issues when WPML is enabled.</li>
+	<li>Fixed responsive issue in post carousel when equal height is enabled and parent row is set to full height or custom.</li>
+</ul>
+
+<h4>2.2.4.5 - 08/28/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>New filter added <code>fl_builder_art_register_shape</code>.</li>
+	<li>Added support for Nginx Helper plugin in cache extension.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed Infusionsoft fatal error due to missing library folder.</li>
+	<li>Fixed jQuery Validate issue if no messages object is setup in settings.js</li>
+</ul>
+
+<h4>2.2.4.4 - 08/21/2019</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed fallback image and text alignment on Posts module List Layout.</li>
+	<li>Fixed Numbers Module if float value is used.</li>
+	<li>Fixed Subscribe Form module's URL Redirect.</li>
+	<li>Fixed Editor tab missing when using Classic Editor and Yoast plugins.</li>
+	<li>Fixed Beaver Builder sorting link appearing in EDD main settings.</li>
+</ul>
+
+
+<h4>2.2.4.3 - 07/31/2019</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed issue when json_encode returns no output stopping module settings from displaying.</li>
+	<li>Fixed possible JS issue and PHP buffer issue when editing pages when SEO plugins are enabled.</li>
+</ul>
+
+<h4>2.2.4.2 - 07/24/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added support for Yoast and RankMath to analyse layout contents for SEO in post edit screen.</li>
+	<li>Removed template post-type from Yoast and RankMath sitemaps.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed database query issue when duplicating layouts on MariaDB 10.3+</li>
+	<li>Fixed issue with ThirstyAffiliates plugin.</li>
+</ul>
+
+<h4>2.2.4.1 - 07/20/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed AJAX response 0 error popup for 3rd party extensions.</li>
+</ul>
+
+<h4>2.2.4 - 07/19/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added support for ACF to clear cache when ACF fields are updated.</li>
+	<li>Added detection for 403 errors in ajax with link to KB.</li>
+	<li>Removed deprecated functions like_escape and wp_get_sites.</li>
+	<li>Added Themer connection for max number in Number Module.</li>
+	<li>New filter <code>fl_builder_after_render_shortcodes</code>.</li>
+	<li>New action <code>fl_builder_hidden_node</code>.</li>
+	<li>Added responsive support for match height option in the posts module.</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed relative url issues in text editor and inline editor for links and images.</li>
+	<li>Fixed issue with Pipedrive Chat plugin.</li>
+	<li>Fixed issue with Post Type Switcher plugin.</li>
+	<li>Fixed issue with Google Reviews Business Plugin.</li>
+	<li>Fixed PHP notice in posts grid module.</li>
+	<li>Fixed multisite issue with wp-super-cache, only active site cache is cleared not entire cache.</li>
+	<li>Fixed branding on Tools settings page.</li>
+	<li>Fixed icon-group CSS issues and removed empty element when there is no text.</li>
+	<li>Fixed Gallery collage impacting animations in other modules.</li>
+	<li>Fixed background/border CSS issue in Accordion module.</li>
+	<li>Fixed mobile menu icon missing at 993px in Menu module.</li>
+	<li>Fixed expanded mobile menu not closing when clicked outside of the module.</li>
+	<li>Fixed missing quotes in Accordian module markup.</li>
+	<li>Removed flpaging query string in pagination.</li>
+	<li>Keep initial $post object and reset globals after loop.</li>
+	<li>Various branding updates to error messages.</li>
+	<li>Updated Infusionsoft xmlrpc library for PHP7.2 support.</li>
+</ul>
+
+<h4>2.2.3.3 - 06/19/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fix unclosed element in icon markup.</li>
+</ul>
+
+<h4>2.2.3.2 - 06/19/2019</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed wrong CSS when in preview mode and typography is set to vw.</li>
+	<li>Fixed Featured Image size missing in List layout.</li>
+	<li>Fixed text field not working on Icon module when using render_module_html function.</li>
+</ul>
+
+<h4>2.2.3.1 - 06/13/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated Font Awesome to 5.9.0</li>
+	<li>Added comments to layout.js when in debug mode to show user/global JS.</li>
+	<li>New filter <code>fl_builder_google_font_args</code> to pass args to google font url See: <code>https://developers.google.com/fonts/docs/getting_started#enabling_font_effects_beta</code> for examples.</li>
+	<li>Updated language files.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed JS error caused by um-switcher plugin.</li>
+	<li>Fixed user level issue when adding global modules and user does not have edit permissions.</li>
+	<li>Fixed typos in global settings and contact form help texts.</li>
+	<li>Fixed relative urls issue in rich-text module.</li>
+	<li>Fixed PHP warning in font system if font is still being used but is no longer registered in the system.</li>
+	<li>Fixed fatal error when clearing cache if Hummingbird cache is still installed but not active.</li>
+</ul>
+
+<h4>2.2.3 - 05/08/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>New option for post grid, featured image fallback image.</li>
+	<li>Added ability to disable ALL schema via <code>fl_builder_disable_schema</code> filter.</li>
+	<li>Added support for Pantheon cache.</li>
+	<li>Crash message now uses white label product name.</li>
+	<li>New filter <code>fl_builder_crash_white_label_text</code> to change info text.</li>
+	<li>Added url field connection to pricing table button.</li>
+	<li>New filter <code>fl_builder_photo_attributes</code> added to Photo module.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Show warning popup if Max Input Vars is exceeded during save action.</li>
+	<li>Fixed the missing bottom border at certain screen sizes for post carousel.</li>
+	<li>Fixed layout CSS for layouts other than the one being actively edited not rendering in the builder.</li>
+	<li>Fixed global settings not refreshing for nodes after saving.</li>
+	<li>Fixed importer issue.</li>
+	<li>Removed HTML added by a chrome extension in template dat files.</li>
+	<li>Fix icon issues with Frontend Dashboard version 1.3.4+</li>
+	<li>Fixed date dropdown being hidden when adding media.</li>
+	<li>Fixed no follow not being used in icon group module.</li>
+	<li>Fixed duplicate posts when paginating random order with scroll or load more pagination.</li>
+	<li>Fixed TinyMCE colors not overriding style tab colors in the Text Editor module.</li>
+	<li>Fixed strong tags not showing as bold when a weight is set in the Text Editor module.</li>
+	<li>Fixed gallery lightbox pagination issue when an image caption contain links.</li>
+	<li>Make sure global column is clickable when restrict editing is enabled.</li>
+	<li>Added width to photo container so it works with shrink header in Themer.</li>
+	<li>Fixed saved columns categories not showing in the builder panel.</li>
+	<li>Fixed flashing behaviour when using insert layout shortcode</li>
+	<li>Fixed WP-Rocket lazyload issue on Themer layouts</li>
+	<li>Fixed issue on multisite if the old fa4 set was enabled on main site you could not use any other sets.</li>
+</ul>
+
 <h4>2.2.2.6 - 04/25/2019</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

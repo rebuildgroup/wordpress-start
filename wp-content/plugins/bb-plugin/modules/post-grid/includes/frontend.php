@@ -1,4 +1,7 @@
 <?php
+// Save the current post, so that it can be restored later (see the end of this file).
+global $post;
+$initial_current_post = $post;
 
 // Get the query data.
 $query = FLBuilderLoop::query( $settings );
@@ -8,10 +11,11 @@ if ( $query->have_posts() ) :
 
 	do_action( 'fl_builder_posts_module_before_posts', $settings, $query );
 
-	$paged = ( FLBuilderLoop::get_paged() > 0 ) ? ' fl-paged-scroll-to' : '';
-
+	$data_source = isset( $settings->data_source ) ? $settings->data_source : 'custom_query';
+	$post_type   = isset( $settings->post_type ) ? $settings->post_type : 'post';
+	$paged       = ( FLBuilderLoop::get_paged() > 0 ) ? ' fl-paged-scroll-to' : '';
 	?>
-	<div class="fl-post-<?php echo $module->get_layout_slug() . $paged; ?>"<?php echo FLPostGridModule::print_schema( ' itemscope="itemscope" itemtype="https://schema.org/Blog"' ); ?>>
+	<div class="fl-post-<?php echo $module->get_layout_slug() . $paged; ?>"<?php echo FLPostGridModule::print_schema( ' itemscope="itemscope" itemtype="' . FLPostGridModule::schema_collection_type( $data_source, $post_type ) . '"' ); ?>>
 	<?php
 
 	if ( 'li' == $module->get_posts_container() ) :
@@ -87,3 +91,13 @@ if ( ! $query->have_posts() ) :
 endif;
 
 wp_reset_postdata();
+
+// Restore the original current post.
+//
+// Note that wp_reset_postdata() isn't enough because it resets the current post by using the main
+// query, but it doesn't take into account the possibility that it might have been overridden by a
+// third-party plugin in the meantime.
+//
+// Specifically, this used to cause problems with Toolset Views, when its Content Templates were used.
+$post = $initial_current_post;
+setup_postdata( $initial_current_post );

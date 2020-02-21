@@ -9,8 +9,19 @@
 	border-top-right-radius: 0;
 }
 <?php endif; ?>
-<?php
+<?php if ( $settings->duo_color1 && ( false !== strpos( $settings->label_icon, 'fad fa' ) || false !== strpos( $settings->label_active_icon, 'fad fa' ) ) ) : ?>
+.fl-node-<?php echo $id; ?> .fl-module-content .fl-accordion-button-icon.fad:before {
+	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->duo_color1 ); ?>;
+}
+<?php endif; ?>
 
+<?php if ( $settings->duo_color2 && ( false !== strpos( $settings->label_icon, 'fad fa' ) || false !== strpos( $settings->label_active_icon, 'fad fa' ) ) ) : ?>
+.fl-node-<?php echo $id; ?> .fl-module-content .fl-accordion-button-icon.fad:after {
+	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->duo_color2 ); ?>;
+	opacity: 1;
+}
+<?php endif; ?>
+<?php
 // Item Spacing
 FLBuilderCSS::responsive_rule( array(
 	'settings'     => $settings,
@@ -27,12 +38,27 @@ FLBuilderCSS::border_field_rule( array(
 	'selector'     => ".fl-node-$id .fl-accordion-item",
 ) );
 
-// Label Colors
+// Label BG Colors
 FLBuilderCSS::rule( array(
 	'selector' => ".fl-node-$id .fl-accordion-button",
 	'props'    => array(
 		'background-color' => $settings->label_bg_color,
-		'color'            => $settings->label_text_color,
+	),
+) );
+
+// Label Text Color
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-accordion-button-label",
+	'props'    => array(
+		'color' => $settings->label_text_color,
+	),
+) );
+
+// Icon Colors
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-accordion-button-icon",
+	'props'    => array(
+		'color' => $settings->label_text_color,
 	),
 ) );
 

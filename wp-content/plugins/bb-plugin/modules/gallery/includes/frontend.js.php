@@ -5,7 +5,7 @@
 		<?php if ( 'lightbox' == $settings->click_action ) : ?>
 		if (typeof $.fn.magnificPopup !== 'undefined') {
 			$('.fl-node-<?php echo $id; ?> .fl-mosaicflow-content, .fl-node-<?php echo $id; ?> .fl-gallery').magnificPopup({
-				delegate: '.fl-photo-content a',
+				delegate: '.fl-photo-content > a',
 				closeBtnInside: false,
 				type: 'image',
 				gallery: {
@@ -52,7 +52,7 @@
 		<?php endif; ?>
 
 		<?php if ( 'collage' == $settings->layout ) : ?>
-		$('.fl-node-<?php echo $id; ?> .fl-mosaicflow-content').one( 'filled', function(){
+		$('.fl-node-<?php echo $id; ?> .fl-mosaicflow-content').one( 'mosaicflow-filled', function(){
 			var hash = window.location.hash.replace( '#', '' );
 			if ( hash != '' ) {
 				FLBuilderLayout._scrollToElement( $( '#' + hash ) );

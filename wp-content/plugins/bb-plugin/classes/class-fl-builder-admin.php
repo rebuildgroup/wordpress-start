@@ -41,8 +41,8 @@ final class FLBuilderAdmin {
 		global $wp_version;
 
 		// Check for WordPress 3.5 and above.
-		if ( ! version_compare( $wp_version, '3.5', '>=' ) ) {
-			self::show_activate_error( __( 'The <strong>Page Builder</strong> plugin requires WordPress version 3.5 or greater. Please update WordPress before activating the plugin.', 'fl-builder' ) );
+		if ( ! version_compare( $wp_version, '4.6', '>=' ) ) {
+			self::show_activate_error( __( 'The <strong>Beaver Builder</strong> plugin requires WordPress version 4.6 or greater. Please update WordPress before activating the plugin.', 'fl-builder' ) );
 		}
 
 		/**
@@ -62,7 +62,7 @@ final class FLBuilderAdmin {
 					'utm_campaign' => 'no-multisite-support',
 				) );
 				/* translators: %s: upgrade url */
-				self::show_activate_error( sprintf( __( 'This version of the <strong>Page Builder</strong> plugin is not compatible with WordPress Multisite. <a%s>Please upgrade</a> to the Multisite version of this plugin.', 'fl-builder' ), ' href="' . $url . '" target="_blank"' ) );
+				self::show_activate_error( sprintf( __( 'This version of the <strong>Beaver Builder</strong> plugin is not compatible with WordPress Multisite. <a%s>Please upgrade</a> to the Multisite version of this plugin.', 'fl-builder' ), ' href="' . $url . '" target="_blank"' ) );
 			}
 
 			// Success! Run the install.
@@ -99,6 +99,10 @@ final class FLBuilderAdmin {
 	 * @return string
 	 */
 	static public function admin_settings_capability() {
+		/**
+		 * Default admin settings capability ( manage_options )
+		 * @see fl_builder_admin_settings_capability
+		 */
 		return apply_filters( 'fl_builder_admin_settings_capability', 'manage_options' );
 	}
 
@@ -185,13 +189,17 @@ final class FLBuilderAdmin {
 		if ( FL_BUILDER_LITE !== true ) {
 			$hash = '#license';
 			/* translators: %s: link to licence page */
-			$message = __( 'Page Builder activated! <a%s>Click here</a> to enable remote updates.', 'fl-builder' );
+			$message = __( 'Beaver Builder activated! <a%s>Click here</a> to enable remote updates.', 'fl-builder' );
 		} else {
 			$hash = '#welcome';
 			/* translators: %s: link to welcome page */
-			$message = __( 'Page Builder activated! <a%s>Click here</a> to get started.', 'fl-builder' );
+			$message = __( 'Beaver Builder activated! <a%s>Click here</a> to get started.', 'fl-builder' );
 		}
 
+		/**
+		 * Url to redirect to on activation
+		 * @see fl_builder_activate_redirect_url
+		 */
 		$url = apply_filters( 'fl_builder_activate_redirect_url', admin_url( '/options-general.php?page=fl-builder-settings' . $hash ) );
 
 		echo '<div class="updated" style="background: #d3ebc1;">';

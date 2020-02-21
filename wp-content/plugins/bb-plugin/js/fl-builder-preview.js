@@ -681,6 +681,12 @@
 			// Abort an existing preview request.
 			this._cancelPreview();
 
+			settings      = FLBuilder._inputVarsCheck( settings );
+
+			if ( 'error' === settings  ) {
+				return 0;
+			}
+
 			// Make a new preview request.
 			this._xhr = FLBuilder.ajax({
 				action          : 'render_layout',
@@ -2327,7 +2333,7 @@
 				val = ''
 
 			// If the selected font is a Google Font, build the font stylesheet
-			if( fontGroup == 'Google' ){
+			if( fontGroup == 'Google' || fontGroup == 'Recently Used' ){
 				this._buildFontStylesheet( uniqueID, font.val(), weight.val() );
 			}
 
@@ -2887,9 +2893,13 @@
 			} else {
 
 				if ( unit.length && '' !== value ) {
-					value += 'SELECT' === unit.prop( 'tagName' ) ? unit.val() : 'px';
+					if ( 'vw' === unit.val() ) {
+						// calc(14px + 5vw);
+						value = 'calc(' + FLBuilderConfig.global.responsive_base_fontsize + 'px + ' + value + 'vw)'
+					} else {
+						value += 'SELECT' === unit.prop( 'tagName' ) ? unit.val() : 'px';
+					}
 				}
-
 				this.updateCSSRule( selector, property, value + important, responsive );
 			}
 		},

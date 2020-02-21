@@ -74,7 +74,7 @@ final class FLBuilderExport {
 			);
 		}
 
-		echo json_encode( $data );
+		echo FLBuilderUtils::json_encode( $data );
 
 		die();
 	}
@@ -87,10 +87,19 @@ final class FLBuilderExport {
 	 * @return void
 	 */
 	static public function export( $args ) {
+		/**
+		 * Allowed types for export
+		 * @see fl_builder_export_allowed_post_types
+		 */
+		$allowed_types = apply_filters( 'fl_builder_export_allowed_post_types', array(
+			'fl-builder-template',
+			'fl-theme-layout',
+		) );
+
 		if ( ! current_user_can( 'export' ) ) {
 			return;
 		}
-		if ( ! in_array( $args['content'], array( 'fl-builder-template', 'fl-theme-layout' ) ) ) {
+		if ( ! in_array( $args['content'], $allowed_types, true ) ) {
 			return;
 		}
 		if ( ! isset( $_REQUEST['fl-builder-template-export-select'] ) ) {

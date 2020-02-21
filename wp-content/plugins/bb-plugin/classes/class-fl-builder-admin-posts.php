@@ -92,6 +92,10 @@ final class FLBuilderAdminPosts {
 
 		if ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 
+			/**
+			 * Enable/disable builder edit UI buttons
+			 * @see fl_builder_render_admin_edit_ui
+			 */
 			$render_ui  = apply_filters( 'fl_builder_render_admin_edit_ui', true );
 			$post_type  = self::get_post_type();
 			$post_types = FLBuilderModel::get_post_types();
@@ -102,15 +106,28 @@ final class FLBuilderAdminPosts {
 				add_action( 'edit_form_after_title', __CLASS__ . '::render' );
 			}
 		}
-
+		/**
+		 * Enable/disable sorting by BB enabled.
+		 * @see fl_builder_admin_edit_sort_bb_enabled
+		 */
 		if ( 'edit.php' == $pagenow && true === apply_filters( 'fl_builder_admin_edit_sort_bb_enabled', true ) ) {
 			$post_types = FLBuilderModel::get_post_types();
 			$post_type  = self::get_post_type();
-			if ( 'fl-builder-template' !== $post_type && 'fl-theme-layout' !== $post_type && in_array( $post_type, $post_types ) ) {
+			$block      = array(
+				'fl-builder-template',
+				'fl-theme-layout',
+			);
+
+			/**
+			 * Array of types to not show filtering on.
+			 * @see fl_builder_admin_edit_sort_blocklist
+			 */
+			if ( ! in_array( $post_type, apply_filters( 'fl_builder_admin_edit_sort_blocklist', $block ) ) && in_array( $post_type, $post_types ) ) {
 				wp_enqueue_script( 'fl-builder-admin-posts-list', FL_BUILDER_URL . 'js/fl-builder-admin-posts-list.js', array( 'jquery' ), FL_BUILDER_VERSION );
 				$args    = array(
 					'post_type'      => $post_type,
 					'posts_per_page' => -1,
+					'fields'         => 'ids',
 					'meta_query'     => array(
 						array(
 							'key'     => '_fl_builder_enabled',
@@ -125,7 +142,7 @@ final class FLBuilderAdminPosts {
 				wp_localize_script( 'fl-builder-admin-posts-list',
 					'fl_builder_enabled_count',
 					array(
-						'count'   => $count,
+						'count'   => number_format_i18n( $count ),
 						'brand'   => FLBuilderModel::get_branding(),
 						'clicked' => $clicked,
 						'type'    => $post_type,
@@ -208,6 +225,10 @@ final class FLBuilderAdminPosts {
 
 		if ( 'trash' != $post->post_status && current_user_can( 'edit_post', $post->ID ) && wp_check_post_lock( $post->ID ) === false ) {
 
+			/**
+			 * Is post editable from admin post list
+			 * @see fl_builder_is_post_editable
+			 */
 			$is_post_editable = (bool) apply_filters( 'fl_builder_is_post_editable', true, $post );
 			$user_access      = FLBuilderUserAccess::current_user_can( 'builder_access' );
 			$post_types       = FLBuilderModel::get_post_types();

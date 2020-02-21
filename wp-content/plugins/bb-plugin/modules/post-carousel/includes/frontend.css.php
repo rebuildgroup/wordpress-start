@@ -3,6 +3,7 @@
 	$layout         = isset( $settings->layout ) ? $settings->layout : 'grid';
 	$posts_per_view = ! empty( $settings->posts_per_view ) ? $settings->posts_per_view : 3;
 	$icon_position  = isset( $settings->post_icon_position ) ? $settings->post_icon_position : 'above';
+	$parent_row     = FLBuilderModel::get_node_parent_by_type( $id, 'row' );
 
 ?>
 
@@ -11,7 +12,19 @@
 		display: -webkit-flex;
 		display: -ms-flexbox;
 		display: flex;
+		height: 100%;
 	}
+
+	<?php
+	if ( ! empty( $parent_row->settings->full_height ) && 'default' != $parent_row->settings->full_height ) {
+		if ( 'fixed' == $parent_row->settings->content_width ) {
+			echo '.fl-node-' . $parent_row->node . ' .fl-row-content {';
+			echo '	 width: 100%;';
+			echo '}';
+		}
+	}
+	?>
+
 <?php endif; ?>
 
 .fl-node-<?php echo $id; ?> .fl-post-carousel .fl-post-carousel-post {
@@ -126,6 +139,19 @@
 				color: <?php echo FLBuilderColor::hex_or_rgb( $settings->post_icon_color ); ?>;
 			<?php endif; ?>
 			}
+		<?php endif; ?>
+
+		<?php if ( $settings->duo_color1 && false !== strpos( $settings->post_icon, 'fad fa' ) ) : ?>
+		.fl-node-<?php echo $id; ?> .fl-post-carousel-gallery .fl-carousel-icon i.fad:before {
+			color: <?php echo FLBuilderColor::hex_or_rgb( $settings->duo_color1 ); ?>;
+		}
+		<?php endif; ?>
+
+		<?php if ( $settings->duo_color2 && false !== strpos( $settings->post_icon, 'fad fa' ) ) : ?>
+		.fl-node-<?php echo $id; ?> .fl-post-carousel-gallery .fl-carousel-icon i.fad::after {
+			color: <?php echo FLBuilderColor::hex_or_rgb( $settings->duo_color2 ); ?>;
+			opacity: 1;
+		}
 		<?php endif; ?>
 
 	<?php endif; ?>
