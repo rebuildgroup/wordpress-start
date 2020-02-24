@@ -19,6 +19,7 @@ function bb_rg_modules() {
         require_once 'brand-button/brand-button.php';
         require_once 'icons-grid/icons-grid.php';
         require_once 'card-offset/card-offset.php';
+        require_once 'photo-duotone/photo-duotone.php';
     }
 }
 add_action( 'init', 'bb_rg_modules' );
