@@ -18,8 +18,11 @@
     <a  class="btn btn-xs-block <?php echo $settings->button_style; ?> btn-primary module-button__link" 
         href="<?php echo $file; ?>"
         style="background-color: #<?php echo $settings->background_color; ?>;"  
-        target="<?php echo $settings->link_target; ?>">
-
+        target="<?php echo $settings->link_target; ?>"
+        <?php if($settings->event_flag) : ?>
+        onclick="ga('send', 'event', '<?php echo $settings->event_category; ?>', '<?php echo $settings->event_action; ?>', '<?php echo $settings->event_label; ?>', '<?php echo $settings->event_value; ?>');"
+        <?php endif; ?>
+    >
         <span class="module-button__text" style="color: #<?php echo $settings->text_color; ?>"><?php echo $settings->button_text; ?></span>
     </a>
 </div>
