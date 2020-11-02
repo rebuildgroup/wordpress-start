@@ -2,7 +2,10 @@
   "dependencies": {
     "main.js": {
       "files": [
-        "scripts/main.js"
+        "scripts/main.js",
+        "scripts/lib/hamburger.js",
+        "scripts/lib/match-height.js"
+
       ],
       "main": true
     },

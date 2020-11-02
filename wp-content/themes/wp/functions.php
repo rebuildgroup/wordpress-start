@@ -17,7 +17,8 @@ $sage_includes = [
   'lib/wrapper.php',        // Theme wrapper class
   'lib/customizer.php',     // Theme customizer
   'lib/head-cleaner.php',   // Removes Junk from head
-  'lib/wp-navwalker.php'    // WP Bootstrap Navwalker
+  'lib/wp-navwalker.php',   // WP Bootstrap Navwalker
+  'lib/beaverbuilder.php'   // Beaver Builder specific add ons: color & Font Awesome 5 cdn
 ];
 
 foreach ($sage_includes as $file) {

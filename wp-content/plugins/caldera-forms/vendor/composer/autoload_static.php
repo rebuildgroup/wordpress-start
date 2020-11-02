@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9973f4a9b68b21e37244a03350406a76
+class ComposerStaticInitbccec45760ba935f025c106202cc3c63
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -518,7 +518,7 @@ class ComposerStaticInit9973f4a9b68b21e37244a03350406a76
         'Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerInterface.php',
         'Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerTrait.php',
         'Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/NullLogger.php',
-        'Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
+        'Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/DummyTest.php',
         'Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'Psr\\Log\\Test\\TestLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/TestLogger.php',
         'Symfony\\Component\\Translation\\Catalogue\\AbstractOperation' => __DIR__ . '/..' . '/symfony/translation/Catalogue/AbstractOperation.php',
@@ -720,11 +720,11 @@ class ComposerStaticInit9973f4a9b68b21e37244a03350406a76
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit9973f4a9b68b21e37244a03350406a76::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitbccec45760ba935f025c106202cc3c63::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitbccec45760ba935f025c106202cc3c63::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitbccec45760ba935f025c106202cc3c63::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitbccec45760ba935f025c106202cc3c63::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitbccec45760ba935f025c106202cc3c63::$classMap;
 
         }, null, ClassLoader::class);
     }
