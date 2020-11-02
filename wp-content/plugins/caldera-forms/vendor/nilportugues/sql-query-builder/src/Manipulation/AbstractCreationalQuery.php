@@ -50,7 +50,12 @@ abstract class AbstractCreationalQuery extends AbstractBaseQuery
      */
     public function setValues(array $values)
     {
-        $this->values = $values;
+        $this->values = \array_filter($values, function($value) {
+            if (is_int($value)) {
+                return true;
+            }
+            return $value;
+        });
         
         return $this;
     }

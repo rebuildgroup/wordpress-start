@@ -50,12 +50,6 @@ $tabs->add_tab(
 );
 $tabs->add_tab(
 	new WPSEO_Option_Tab(
-		'integrations',
-		__( 'Integrations', 'wordpress-seo' )
-	)
-);
-$tabs->add_tab(
-	new WPSEO_Option_Tab(
 		'webmaster-tools',
 		__( 'Webmaster Tools', 'wordpress-seo' )
 	)

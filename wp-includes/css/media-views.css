@@ -41,7 +41,7 @@
 
 .media-frame a:hover,
 .media-frame a:active {
-	color: #006799;
+	color: #00a0d2;
 }
 
 .media-frame a:focus {
@@ -236,11 +236,11 @@
 
 .media-modal-close:hover,
 .media-modal-close:active {
-	color: #006799;
+	color: #00a0d2;
 }
 
 .media-modal-close:focus {
-	color: #006799;
+	color: #00a0d2;
 	border-color: #5b9dd9;
 	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 	/* Only visible in Windows High Contrast mode */
@@ -307,7 +307,7 @@
 
 .media-frame-toolbar .media-toolbar {
 	top: auto;
-	bottom: -47px;
+	bottom: -45px;
 	height: auto;
 	overflow: visible;
 	border-top: 1px solid #ddd;
@@ -346,23 +346,12 @@
 	right: 0;
 	bottom: 0;
 	width: 267px;
-	padding: 0 16px;
+	padding: 0 16px 24px;
 	z-index: 75;
 	background: #f3f3f3;
 	border-left: 1px solid #ddd;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
-}
-
-/*
- * Implementation of bottom padding in overflow content differs across browsers.
- * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
- */
-.media-sidebar::after {
-	content: "";
-	display: flex;
-	clear: both;
-	height: 24px;
 }
 
 .hide-toolbar .media-sidebar {
@@ -455,26 +444,6 @@
 
 .media-sidebar .checkbox-label-inline {
 	font-size: 12px;
-}
-
-.media-sidebar .copy-to-clipboard-container,
-.attachment-details .copy-to-clipboard-container {
-	flex-wrap: wrap;
-	margin-top: 10px;
-	margin-left: calc( 35% - 1px );
-	padding-top: 10px;
-}
-
-/* Needs high specificity. */
-.attachment-details .attachment-info .copy-to-clipboard-container {
-	float: none;
-}
-
-.media-sidebar .copy-to-clipboard-container .success,
-.attachment-details .copy-to-clipboard-container .success {
-	padding: 0;
-	min-height: 0;
-	text-align: left;
 }
 
 .compat-item label span {
@@ -777,6 +746,8 @@
 	position: absolute;
 	left: 200px;
 	right: 0;
+	bottom: 0;
+	height: 60px;
 	z-index: 100;
 	bottom: 60px;
 	height: auto;
@@ -1597,7 +1568,7 @@
 
 .media-selection .button-link:hover,
 .media-selection .button-link:focus {
-	color: #006799;
+	color: #00a0d2;
 }
 
 .media-selection .button-link:last-child {
@@ -1879,7 +1850,7 @@
 }
 
 .media-modal .imgedit-wrap .imgedit-panel-content {
-	padding: 16px 16px 0 16px;
+	padding: 16px;
 	position: absolute;
 	top: 0;
 	right: 282px;
@@ -1888,32 +1859,16 @@
 	overflow: auto;
 }
 
-/*
- * Implementation of bottom padding in overflow content differs across browsers.
- * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
- */
-.media-modal .imgedit-wrap .imgedit-submit {
-	margin-bottom: 16px;
-}
-
 .media-modal .imgedit-wrap .imgedit-settings {
 	background: #f3f3f3;
 	border-left: 1px solid #ddd;
-	padding: 20px 16px 0;
+	padding: 20px 16px 16px;
 	position: absolute;
 	top: 0;
 	right: 0;
 	bottom: 0;
 	width: 250px;
 	overflow: auto;
-}
-
-/*
- * Implementation of bottom padding in overflow content differs across browsers.
- * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
- */
-.media-modal .imgedit-wrap .imgedit-save-target {
-	margin: 8px 0 24px;
 }
 
 .media-modal .imgedit-group {
@@ -1998,8 +1953,7 @@
 	display: block;
 }
 
-.media-modal .imgedit-wrap div.updated, /* Back-compat for pre-5.5 */
-.media-modal .imgedit-wrap .notice {
+.media-modal .imgedit-wrap div.updated {
 	margin: 0;
 	margin-bottom: 16px;
 }
@@ -2047,20 +2001,8 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	padding: 0 16px;
+	padding: 0 16px 32px;
 	overflow: auto;
-}
-
-/*
- * Implementation of bottom padding in overflow content differs across browsers.
- * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
- */
-.embed-link-settings::after,
-.embed-media-settings::after {
-	content: "";
-	display: flex;
-	clear: both;
-	height: 24px;
 }
 
 .media-embed .embed-link-settings {
@@ -2105,10 +2047,6 @@
 	top: 0;
 	overflow: visible;
 	padding: 0;
-}
-
-.image-details .embed-media-settings::after {
-	content: none;
 }
 
 .image-details .embed-media-settings,
@@ -2560,18 +2498,6 @@
 		padding: 8px 2px 2px;
 	}
 
-	/* Needs high specificity. */
-	.media-sidebar .setting .copy-to-clipboard-container,
-	.attachment-details .attachment-info .copy-to-clipboard-container {
-		margin-left: 0;
-		padding-top: 0;
-	}
-
-	.media-sidebar .setting .copy-attachment-url,
-	.attachment-details .attachment-info .copy-attachment-url {
-		margin: 0 1px;
-	}
-
 	.media-sidebar .setting .value,
 	.attachment-details .setting .value {
 		float: none;
@@ -2743,17 +2669,13 @@
 	}
 
 	.media-frame-toolbar .media-toolbar {
-		bottom: -54px;
+		bottom: -48px;
 	}
+}
 
+@media screen and (max-width: 782px) {
 	.mode-grid .attachments-browser .media-toolbar-primary {
 		display: block;
-	}
-
-	.media-sidebar .copy-to-clipboard-container .success,
-	.attachment-details .copy-to-clipboard-container .success {
-		font-size: 14px;
-		line-height: 2.71428571;
 	}
 }
 

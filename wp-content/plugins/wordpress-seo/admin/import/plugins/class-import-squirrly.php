@@ -187,16 +187,11 @@ class WPSEO_Import_Squirrly extends WPSEO_Plugin_Importer {
 		if ( ! is_numeric( $post_identifier ) ) {
 			$query_where = 'URL = %s';
 		}
-
-		$replacements = [
-			get_current_blog_id(),
-			$post_identifier,
-		];
-
 		$data = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT seo FROM {$this->table_name} WHERE blog_id = %d AND " . $query_where,
-				$replacements
+				get_current_blog_id(),
+				$post_identifier
 			)
 		);
 		if ( ! $data || is_wp_error( $data ) ) {

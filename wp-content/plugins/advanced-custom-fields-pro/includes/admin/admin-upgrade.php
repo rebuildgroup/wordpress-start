@@ -21,9 +21,7 @@ class ACF_Admin_Upgrade {
 		
 		// actions
 		add_action( 'admin_menu', 			array($this,'admin_menu'), 20 );
-		if( is_multisite() ) {
-			add_action( 'network_admin_menu',	array($this,'network_admin_menu'), 20 );
-		}
+		add_action( 'network_admin_menu',	array($this,'network_admin_menu'), 20 );
 	}
 	
 	/**
@@ -133,8 +131,8 @@ class ACF_Admin_Upgrade {
 		// remove prompt 
 		remove_action('admin_notices', array($this, 'admin_notices'));
 		
-		// Enqueue core script.
-		acf_enqueue_script( 'acf' );
+		// load acf scripts
+		acf_enqueue_scripts();
 	}
 	
 	/**
@@ -153,8 +151,8 @@ class ACF_Admin_Upgrade {
 		// remove prompt 
 		remove_action('network_admin_notices', array($this, 'network_admin_notices'));
 		
-		// Enqueue core script.
-		acf_enqueue_script( 'acf' );
+		// load acf scripts
+		acf_enqueue_scripts();
 	}
 	
 	/**

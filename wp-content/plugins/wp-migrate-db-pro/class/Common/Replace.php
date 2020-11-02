@@ -70,41 +70,23 @@ class Replace {
 	/**
 	 * @var
 	 */
-	protected $table;
+	private $table;
 	/**
 	 * @var
 	 */
-	protected $column;
+	private $column;
 	/**
 	 * @var
 	 */
-	protected $row;
+	private $row;
 	/**
 	 * @var ErrorLog
 	 */
-	protected $error_log;
+	private $error_log;
 	/**
 	 * @var Util\Util
 	 */
-	protected $util;
-	/**
-	 * @var array
-	 */
-	protected $json_search;
-	/**
-	 * @var array
-	 */
-	protected $json_replace;
-	/**
-	 * @var array
-	 */
-	protected $json_replace_tables;
-	/**
-	 * @var array
-	 */
-	protected $json_replace_columns;
-
-	protected $json_merged;
+	private $util;
 
 	function __construct(
 		MigrationStateManager $migration_state_manager,
@@ -112,18 +94,11 @@ class Replace {
 		ErrorLog $error_log,
 		Util $util
 	) {
+
 		$this->migration_state_manager = $migration_state_manager;
 		$this->table_helper            = $table_helper;
 		$this->error_log               = $error_log;
 		$this->util                    = $util;
-	}
-
-	public function get($prop){
-		return $this->$prop;
-	}
-
-	public function set($prop, $value){
-		return $this->$prop = $value;
 	}
 
 	public function register( $args ) {
@@ -148,28 +123,16 @@ class Replace {
 			}
 		}
 
-		$this->table                = $args['table'];
-		$this->search               = $args['search'];
-		$this->replace              = $args['replace'];
-		$this->intent               = $args['intent'];
-		$this->base_domain          = $args['base_domain'];
-		$this->site_domain          = $args['site_domain'];
-		$this->site_details         = $args['site_details'];
-		$this->json_search          = '';
-		$this->json_replace         = '';
-		$this->json_replace_tables  = '';
-		$this->json_replace_columns = '';
-		$this->json_merged          = false;
-
-		global $wpdb;
-
-		$prefix = $wpdb->base_prefix;
-
-		$this->json_replaces( $prefix );
+		$this->table        = $args['table'];
+		$this->search       = $args['search'];
+		$this->replace      = $args['replace'];
+		$this->intent       = $args['intent'];
+		$this->base_domain  = $args['base_domain'];
+		$this->site_domain  = $args['site_domain'];
+		$this->site_details = $args['site_details'];
 
 		// Detect a protocol mismatch between the remote and local sites involved in the migration
 		$this->detect_protocol_mismatch();
-
 		return $this;
 	}
 
@@ -318,46 +281,9 @@ class Replace {
 
 		$protocol_search  = $this->source_protocol . '://' . implode( '', $parsed_destination );
 		$protocol_replace = $destination_url;
-
-		// JSON search & replace
-		if ( in_array( $this->table, $this->json_replace_tables )
-		     && in_array( $this->column, $this->json_replace_columns )
-		) {
-			$protocol_search  = [ $protocol_search, Util::json_encode_trim( $protocol_search ) ];
-			$protocol_replace = [ $protocol_replace, Util::json_encode_trim( $protocol_replace ) ];
-		}
-
-		$new = str_ireplace( $protocol_search, $protocol_replace, $new, $count );
+		$new              = str_ireplace( $protocol_search, $protocol_replace, $new, $count );
 
 		return $new;
-	}
-
-
-	public function maybe_merge_json_replaces()
-	{
-		if ( $this->json_merged ) {
-			return false;
-		}
-
-		if ( !in_array( $this->table, $this->json_replace_tables ) ||
-		     !in_array( $this->column, $this->json_replace_columns ) ) {
-			return false;
-		}
-
-		if ( empty( $this->search ) && empty( $this->replace ) ) {
-			return false;
-		}
-
-		if ( !is_array( $this->json_search ) || !is_array( $this->json_replace ) ) {
-			return false;
-		}
-
-		//Only add json replacements once
-		$this->search      = array_merge( $this->search, $this->json_search );
-		$this->replace     = array_merge( $this->replace, $this->json_replace );
-		$this->json_merged = true;
-
-		return true;
 	}
 
 	/**
@@ -367,15 +293,8 @@ class Replace {
 	 *
 	 * @return string
 	 */
-	public function apply_replaces( $subject )
-	{
-		if ( empty( $this->search ) && empty( $this->replace ) ) {
-			return $subject;
-		}
-
-		$this->maybe_merge_json_replaces(); // Maybe merge in json_encoded find/replace values
+	function apply_replaces( $subject ) {
 		$new = str_ireplace( $this->search, $this->replace, $subject, $count );
-
 		if ( $this->is_subdomain_replaces_on() ) {
 			$new = $this->subdomain_replaces( $new );
 		}
@@ -575,44 +494,5 @@ class Replace {
 	 */
 	public function get_intent() {
 		return $this->intent;
-	}
-
-	/**
-	 * @param string $prefix
-	 */
-	protected function json_replaces( $prefix )
-	{
-		$default_tables = [
-			"${prefix}posts",
-		];
-
-		if ( in_array( $this->intent, ['find_replace', 'import'] ) ) {
-			$default_tables = [
-				"_mig_${prefix}posts",
-			];
-		}
-
-		$this->json_replace_tables = apply_filters( 'wpmdb_json_replace_tables', $default_tables );
-
-		$this->json_replace_columns = apply_filters( 'wpmdb_json_replace_columns', [
-			'post_content',
-			'post_content_filtered',
-		] );
-
-		if ( empty( $this->search ) && empty( $this->replace ) ) {
-			return;
-		}
-
-		if ( is_array( $this->search ) ) {
-			$this->json_search = array_map( function ( $item ) {
-				return Util::json_encode_trim( $item );
-			}, $this->search );
-		}
-
-		if ( is_array( $this->replace ) ) {
-			$this->json_replace = array_map( function ( $item ) {
-				return Util::json_encode_trim( $item );
-			}, $this->replace );
-		}
 	}
 }

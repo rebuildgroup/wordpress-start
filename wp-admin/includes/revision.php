@@ -12,9 +12,10 @@
  *
  * @since 3.6.0
  *
- * @param WP_Post|int $post         The post object or post ID.
- * @param int         $compare_from The revision ID to compare from.
- * @param int         $compare_to   The revision ID to come to.
+ * @param object|int $post         The post object. Also accepts a post ID.
+ * @param int        $compare_from The revision ID to compare from.
+ * @param int        $compare_to   The revision ID to come to.
+ *
  * @return array|bool Associative array of a post's revisioned fields and their diffs.
  *                    Or, false on failure.
  */
@@ -54,7 +55,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		$compare_to   = $temp;
 	}
 
-	// Add default title if title field is empty.
+	// Add default title if title field is empty
 	if ( $compare_from && empty( $compare_from->post_title ) ) {
 		$compare_from->post_title = __( '(no title)' );
 	}
@@ -73,11 +74,11 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		 *
 		 * @since 3.6.0
 		 *
-		 * @param string  $revision_field The current revision field to compare to or from.
-		 * @param string  $field          The current revision field.
-		 * @param WP_Post $compare_from   The revision post object to compare to or from.
-		 * @param string  $context        The context of whether the current revision is the old
-		 *                                or the new one. Values are 'to' or 'from'.
+		 * @param string  $compare_from->$field The current revision field to compare to or from.
+		 * @param string  $field                The current revision field.
+		 * @param WP_Post $compare_from         The revision post object to compare to or from.
+		 * @param string  null                  The context of whether the current revision is the old
+		 *                                      or the new one. Values are 'to' or 'from'.
 		 */
 		$content_from = $compare_from ? apply_filters( "_wp_post_revision_field_{$field}", $compare_from->$field, $field, $compare_from, 'from' ) : '';
 
@@ -157,9 +158,10 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
  *
  * @since 3.6.0
  *
- * @param WP_Post|int $post                 The post object or post ID.
- * @param int         $selected_revision_id The selected revision ID.
- * @param int         $from                 Optional. The revision ID to compare from.
+ * @param object|int $post                 The post object. Also accepts a post ID.
+ * @param int        $selected_revision_id The selected revision ID.
+ * @param int        $from                 Optional. The revision ID to compare from.
+ *
  * @return array An associative array of revision data and related settings.
  */
 function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null ) {
@@ -312,7 +314,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	// Now, grab the initial diff.
 	$compare_two_mode = is_numeric( $from );
 	if ( ! $compare_two_mode ) {
-		$found = array_search( $selected_revision_id, array_keys( $revisions ), true );
+		$found = array_search( $selected_revision_id, array_keys( $revisions ) );
 		if ( $found ) {
 			$from = array_keys( array_slice( $revisions, $found - 1, 1, true ) );
 			$from = reset( $from );
@@ -338,7 +340,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 		'from'           => $from,
 		'diffData'       => $diffs,
 		'baseUrl'        => parse_url( admin_url( 'revision.php' ), PHP_URL_PATH ),
-		'compareTwoMode' => absint( $compare_two_mode ), // Apparently booleans are not allowed.
+		'compareTwoMode' => absint( $compare_two_mode ), // Apparently booleans are not allowed
 		'revisionIds'    => array_keys( $revisions ),
 	);
 }

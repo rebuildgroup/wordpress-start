@@ -82,120 +82,66 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 459);
+/******/ 	return __webpack_require__(__webpack_require__.s = 365);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 1:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["i18n"]; }());
-
-/***/ }),
-
-/***/ 261:
+/***/ 217:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["domReady"]; }());
 
 /***/ }),
 
-/***/ 459:
+/***/ 365:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "setup", function() { return /* binding */ setup; });
-__webpack_require__.d(__webpack_exports__, "speak", function() { return /* binding */ speak; });
-
 // EXTERNAL MODULE: external {"this":["wp","domReady"]}
-var external_this_wp_domReady_ = __webpack_require__(261);
+var external_this_wp_domReady_ = __webpack_require__(217);
 var external_this_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_domReady_);
 
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(1);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/add-intro-text.js
-/**
- * WordPress dependencies
- */
-
-/**
- * Build the explanatory text to be placed before the aria live regions.
- *
- * This text is initially hidden from assistive technologies by using a `hidden`
- * HTML attribute which is then removed once a message fills the aria-live regions.
- *
- * @return {HTMLParagraphElement} The explanatory text HTML element.
- */
-
-function addIntroText() {
-  var introText = document.createElement('p');
-  introText.id = 'a11y-speak-intro-text';
-  introText.className = 'a11y-speak-intro-text';
-  introText.textContent = Object(external_this_wp_i18n_["__"])('Notifications');
-  introText.setAttribute('style', 'position: absolute;' + 'margin: -1px;' + 'padding: 0;' + 'height: 1px;' + 'width: 1px;' + 'overflow: hidden;' + 'clip: rect(1px, 1px, 1px, 1px);' + '-webkit-clip-path: inset(50%);' + 'clip-path: inset(50%);' + 'border: 0;' + 'word-wrap: normal !important;');
-  introText.setAttribute('hidden', 'hidden');
-  var _document = document,
-      body = _document.body;
-
-  if (body) {
-    body.appendChild(introText);
-  }
-
-  return introText;
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/add-container.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/addContainer.js
 /**
  * Build the live regions markup.
  *
- * @param {string} [ariaLive] Value for the 'aria-live' attribute; default: 'polite'.
+ * @param {string} ariaLive Optional. Value for the 'aria-live' attribute, default 'polite'.
  *
- * @return {HTMLDivElement} The ARIA live region HTML element.
+ * @return {Object} $container The ARIA live region jQuery object.
  */
-function addContainer() {
-  var ariaLive = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'polite';
+var addContainer = function addContainer(ariaLive) {
+  ariaLive = ariaLive || 'polite';
   var container = document.createElement('div');
-  container.id = "a11y-speak-".concat(ariaLive);
+  container.id = 'a11y-speak-' + ariaLive;
   container.className = 'a11y-speak-region';
   container.setAttribute('style', 'position: absolute;' + 'margin: -1px;' + 'padding: 0;' + 'height: 1px;' + 'width: 1px;' + 'overflow: hidden;' + 'clip: rect(1px, 1px, 1px, 1px);' + '-webkit-clip-path: inset(50%);' + 'clip-path: inset(50%);' + 'border: 0;' + 'word-wrap: normal !important;');
   container.setAttribute('aria-live', ariaLive);
   container.setAttribute('aria-relevant', 'additions text');
   container.setAttribute('aria-atomic', 'true');
-  var _document = document,
-      body = _document.body;
-
-  if (body) {
-    body.appendChild(container);
-  }
-
+  document.querySelector('body').appendChild(container);
   return container;
-}
+};
+
+/* harmony default export */ var build_module_addContainer = (addContainer);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/clear.js
 /**
- * Clears the a11y-speak-region elements and hides the explanatory text.
+ * Clear the a11y-speak-region elements.
  */
-function clear() {
-  var regions = document.getElementsByClassName('a11y-speak-region');
-  var introText = document.getElementById('a11y-speak-intro-text');
+var clear = function clear() {
+  var regions = document.querySelectorAll('.a11y-speak-region');
 
   for (var i = 0; i < regions.length; i++) {
     regions[i].textContent = '';
-  } // Make sure the explanatory text is hidden from assistive technologies.
-
-
-  if (introText) {
-    introText.setAttribute('hidden', 'hidden');
   }
-}
+};
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/filter-message.js
+/* harmony default export */ var build_module_clear = (clear);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/filterMessage.js
 var previousMessage = '';
 /**
  * Filter the message to be announced to the screenreader.
@@ -205,7 +151,7 @@ var previousMessage = '';
  * @return {string} The filtered message.
  */
 
-function filterMessage(message) {
+var filterMessage = function filterMessage(message) {
   /*
    * Strip HTML tags (if any) from the message string. Ideally, messages should
    * be simple strings, carefully crafted for specific use with A11ySpeak.
@@ -214,10 +160,6 @@ function filterMessage(message) {
    * spaces natively.
    */
   message = message.replace(/<[^<>]+>/g, ' ');
-  /*
-   * Safari + VoiceOver don't announce repeated, identical strings. We use
-   * a `no-break space` to force them to think identical strings are different.
-   */
 
   if (previousMessage === message) {
     message += "\xA0";
@@ -225,9 +167,13 @@ function filterMessage(message) {
 
   previousMessage = message;
   return message;
-}
+};
+
+/* harmony default export */ var build_module_filterMessage = (filterMessage);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/index.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setup", function() { return build_module_setup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "speak", function() { return build_module_speak; });
 /**
  * WordPress dependencies
  */
@@ -239,39 +185,34 @@ function filterMessage(message) {
 
 
 
-
 /**
  * Create the live regions.
  */
 
-function setup() {
-  var introText = document.getElementById('a11y-speak-intro-text');
-  var containerAssertive = document.getElementById('a11y-speak-assertive');
+var build_module_setup = function setup() {
   var containerPolite = document.getElementById('a11y-speak-polite');
+  var containerAssertive = document.getElementById('a11y-speak-assertive');
 
-  if (introText === null) {
-    addIntroText();
+  if (containerPolite === null) {
+    containerPolite = build_module_addContainer('polite');
   }
 
   if (containerAssertive === null) {
-    addContainer('assertive');
+    containerAssertive = build_module_addContainer('assertive');
   }
-
-  if (containerPolite === null) {
-    addContainer('polite');
-  }
-}
+};
 /**
  * Run setup on domReady.
  */
 
-external_this_wp_domReady_default()(setup);
+external_this_wp_domReady_default()(build_module_setup);
 /**
  * Allows you to easily announce dynamic interface updates to screen readers using ARIA live regions.
- * This module is inspired by the `speak` function in `wp-a11y.js`.
+ * This module is inspired by the `speak` function in wp-a11y.js
  *
- * @param {string} message  The message to be announced by assistive technologies.
- * @param {string} [ariaLive] The politeness level for aria-live; default: 'polite'.
+ * @param {string} message  The message to be announced by Assistive Technologies.
+ * @param {string} ariaLive Optional. The politeness level for aria-live. Possible values:
+ *                          polite or assertive. Default polite.
  *
  * @example
  * ```js
@@ -285,32 +226,19 @@ external_this_wp_domReady_default()(setup);
  * ```
  */
 
-function speak(message, ariaLive) {
-  /*
-   * Clear previous messages to allow repeated strings being read out and hide
-   * the explanatory text from assistive technologies.
-   */
-  clear();
-  message = filterMessage(message);
-  var introText = document.getElementById('a11y-speak-intro-text');
-  var containerAssertive = document.getElementById('a11y-speak-assertive');
+var build_module_speak = function speak(message, ariaLive) {
+  // Clear previous messages to allow repeated strings being read out.
+  build_module_clear();
+  message = build_module_filterMessage(message);
   var containerPolite = document.getElementById('a11y-speak-polite');
+  var containerAssertive = document.getElementById('a11y-speak-assertive');
 
-  if (containerAssertive && ariaLive === 'assertive') {
+  if (containerAssertive && 'assertive' === ariaLive) {
     containerAssertive.textContent = message;
   } else if (containerPolite) {
     containerPolite.textContent = message;
   }
-  /*
-   * Make the explanatory text available to assistive technologies by removing
-   * the 'hidden' HTML attribute.
-   */
-
-
-  if (introText) {
-    introText.removeAttribute('hidden');
-  }
-}
+};
 
 
 /***/ })

@@ -393,7 +393,8 @@ class Value implements \Countable, \IteratorAggregate, \ArrayAccess
     public function structeach()
     {
         //trigger_error('Method ' . __METHOD__ . ' is deprecated', E_USER_DEPRECATED);
-        //return @each($this->me['struct']);
+
+        return @each($this->me['struct']);
     }
 
     /**

@@ -1,8 +1,5 @@
-<?php // @codingStandardsIgnoreFile
-
-$bg_video_wrapper_classes = implode( ' ', apply_filters( 'fl_row_bg_video_wrapper_class', array( 'fl-bg-video' ), $row ) );
-
-if ( 'wordpress' == $row->settings->bg_video_source ) :
+<?php // @codingStandardsIgnoreFile ?>
+<?php if ( 'wordpress' == $row->settings->bg_video_source ) :
 
 		$bg_video_data_video_mobile	= isset( $row->settings->bg_video_mobile ) ? $row->settings->bg_video_mobile : 'no';
 		$bg_video_data_mp4			= isset( $vid_data['mp4']->url ) ?  $vid_data['mp4']->url : '';
@@ -51,7 +48,7 @@ if ( 'wordpress' == $row->settings->bg_video_source ) :
 
 		if ( !empty ($bg_video_data_mp4) || !empty($bg_video_data_webm) ):
 			?>
-			<div class="<?php echo $bg_video_wrapper_classes; ?>" <?php echo "$data_mobile_attr $data_width_attr $data_height_attr $data_fallback_attr $data_mp4_attr $data_mp4_type_attr $data_webm_attr $data_webm_type_attr"; ?> >
+			<div class="fl-bg-video" <?php echo "$data_mobile_attr $data_width_attr $data_height_attr $data_fallback_attr $data_mp4_attr $data_mp4_type_attr $data_webm_attr $data_webm_type_attr"; ?> >
 			</div>
 			<?php
 		endif;
@@ -60,7 +57,7 @@ if ( 'wordpress' == $row->settings->bg_video_source ) :
 ?>
 
 <?php if ( 'video_url' == $row->settings->bg_video_source ) { ?>
-<div class="<?php echo $bg_video_wrapper_classes; ?>"
+<div class="fl-bg-video"
 data-video-mobile="<?php if ( isset( $row->settings->bg_video_mobile ) ) { echo $row->settings->bg_video_mobile;} ?>"
 data-fallback="<?php if ( isset( $row->settings->bg_video_fallback_src ) ) { echo $row->settings->bg_video_fallback_src;} ?>"
 <?php if ( isset( $row->settings->bg_video_url_mp4 ) ) : ?>
@@ -75,7 +72,7 @@ data-webm-type="video/webm"
 
 <?php if ( 'video_service' == $row->settings->bg_video_source ) {
 	$video_data = FLBuilderUtils::get_video_data( do_shortcode( $row->settings->bg_video_service_url ) ); ?>
-<div class="<?php echo $bg_video_wrapper_classes; ?>"
+<div class="fl-bg-video"
 data-fallback="<?php if ( isset( $row->settings->bg_video_fallback_src ) ) { echo $row->settings->bg_video_fallback_src;} ?>"
 <?php if ( isset( $row->settings->bg_video_service_url ) ) : ?>
 data-<?php echo $video_data['type']; ?>="<?php echo do_shortcode( $row->settings->bg_video_service_url );  ?>"

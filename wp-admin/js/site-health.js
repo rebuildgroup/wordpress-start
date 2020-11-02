@@ -10,38 +10,19 @@ jQuery( document ).ready( function( $ ) {
 
 	var __ = wp.i18n.__,
 		_n = wp.i18n._n,
-		sprintf = wp.i18n.sprintf,
-		data,
-		clipboard = new ClipboardJS( '.site-health-copy-buttons .copy-button' ),
-		isDebugTab = $( '.health-check-body.health-check-debug-tab' ).length,
-		pathsSizesSection = $( '#health-check-accordion-block-wp-paths-sizes' ),
-		successTimeout;
+		sprintf = wp.i18n.sprintf;
+
+	var data;
+	var clipboard = new ClipboardJS( '.site-health-copy-buttons .copy-button' );
+	var isDebugTab = $( '.health-check-body.health-check-debug-tab' ).length;
+	var pathsSizesSection = $( '#health-check-accordion-block-wp-paths-sizes' );
 
 	// Debug information copy section.
 	clipboard.on( 'success', function( e ) {
-		var triggerElement = $( e.trigger ),
-			successElement = $( '.success', triggerElement.closest( 'div' ) );
+		var $wrapper = $( e.trigger ).closest( 'div' );
+		$( '.success', $wrapper ).addClass( 'visible' );
 
-		// Clear the selection and move focus back to the trigger.
-		e.clearSelection();
-		// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680
-		triggerElement.focus();
-
-		// Show success visual feedback.
-		clearTimeout( successTimeout );
-		successElement.removeClass( 'hidden' );
-
-		// Hide success visual feedback after 3 seconds since last success.
-		successTimeout = setTimeout( function() {
-			successElement.addClass( 'hidden' );
-			// Remove the visually hidden textarea so that it isn't perceived by assistive technologies.
-			if ( clipboard.clipboardAction.fakeElem && clipboard.clipboardAction.removeFake ) {
-				clipboard.clipboardAction.removeFake();
-			}
-		}, 3000 );
-
-		// Handle success audible feedback.
-		wp.a11y.speak( __( 'Site information has been copied to your clipboard.' ) );
+		wp.a11y.speak( __( 'Site information has been added to your clipboard.' ) );
 	} );
 
 	// Accordion handling in various areas.
@@ -67,37 +48,28 @@ jQuery( document ).ready( function( $ ) {
 	} );
 
 	/**
-	 * Appends a new issue to the issue list.
+	 * Append a new issue to the issue list.
 	 *
 	 * @since 5.2.0
 	 *
 	 * @param {Object} issue The issue data.
 	 */
-	function appendIssue( issue ) {
+	function AppendIssue( issue ) {
 		var template = wp.template( 'health-check-issue' ),
 			issueWrapper = $( '#health-check-issues-' + issue.status ),
 			heading,
 			count;
-		
+
 		SiteHealth.site_status.issues[ issue.status ]++;
 
 		count = SiteHealth.site_status.issues[ issue.status ];
 
 		if ( 'critical' === issue.status ) {
-			heading = sprintf(
-				_n( '%s critical issue', '%s critical issues', count ),
-				'<span class="issue-count">' + count + '</span>'
-			);
+			heading = sprintf( _n( '%s critical issue', '%s critical issues', count ), '<span class="issue-count">' + count + '</span>' );
 		} else if ( 'recommended' === issue.status ) {
-			heading = sprintf(
-				_n( '%s recommended improvement', '%s recommended improvements', count ),
-				'<span class="issue-count">' + count + '</span>'
-			);
+			heading = sprintf( _n( '%s recommended improvement', '%s recommended improvements', count ), '<span class="issue-count">' + count + '</span>' );
 		} else if ( 'good' === issue.status ) {
-			heading = sprintf(
-				_n( '%s item with no issues detected', '%s items with no issues detected', count ),
-				'<span class="issue-count">' + count + '</span>'
-			);
+			heading = sprintf( _n( '%s item with no issues detected', '%s items with no issues detected', count ), '<span class="issue-count">' + count + '</span>' );
 		}
 
 		if ( heading ) {
@@ -108,21 +80,18 @@ jQuery( document ).ready( function( $ ) {
 	}
 
 	/**
-	 * Updates site health status indicator as asynchronous tests are run and returned.
+	 * Update site health status indicator as asynchronous tests are run and returned.
 	 *
 	 * @since 5.2.0
 	 */
-	function recalculateProgression() {
+	function RecalculateProgression() {
 		var r, c, pct;
 		var $progress = $( '.site-health-progress' );
 		var $wrapper = $progress.closest( '.site-health-progress-wrapper' );
 		var $progressLabel = $( '.site-health-progress-label', $wrapper );
 		var $circle = $( '.site-health-progress svg #bar' );
-		var totalTests = parseInt( SiteHealth.site_status.issues.good, 0 ) +
-				parseInt( SiteHealth.site_status.issues.recommended, 0 ) +
-				( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
-		var failedTests = ( parseInt( SiteHealth.site_status.issues.recommended, 0 ) * 0.5 ) +
-				( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
+		var totalTests = parseInt( SiteHealth.site_status.issues.good, 0 ) + parseInt( SiteHealth.site_status.issues.recommended, 0 ) + ( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
+		var failedTests = ( parseInt( SiteHealth.site_status.issues.recommended, 0 ) * 0.5 ) + ( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
 		var val = 100 - Math.ceil( ( failedTests / totalTests ) * 100 );
 
 		if ( 0 === totalTests ) {
@@ -184,7 +153,7 @@ jQuery( document ).ready( function( $ ) {
 	}
 
 	/**
-	 * Queues the next asynchronous test when we're ready to run it.
+	 * Queue the next asynchronous test when we're ready to run it.
 	 *
 	 * @since 5.2.0
 	 */
@@ -211,7 +180,7 @@ jQuery( document ).ready( function( $ ) {
 					data,
 					function( response ) {
 						/** This filter is documented in wp-admin/includes/class-wp-site-health.php */
-						appendIssue( wp.hooks.applyFilters( 'site_status_test_result', response.data ) );
+						AppendIssue( wp.hooks.applyFilters( 'site_status_test_result', response.data ) );
 						maybeRunNextAsyncTest();
 					}
 				);
@@ -221,13 +190,13 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		if ( doCalculation ) {
-			recalculateProgression();
+			RecalculateProgression();
 		}
 	}
 
 	if ( 'undefined' !== typeof SiteHealth && ! isDebugTab ) {
 		if ( 0 === SiteHealth.site_status.direct.length && 0 === SiteHealth.site_status.async.length ) {
-			recalculateProgression();
+			RecalculateProgression();
 		} else {
 			SiteHealth.site_status.issues = {
 				'good': 0,
@@ -238,7 +207,7 @@ jQuery( document ).ready( function( $ ) {
 
 		if ( 0 < SiteHealth.site_status.direct.length ) {
 			$.each( SiteHealth.site_status.direct, function() {
-				appendIssue( this );
+				AppendIssue( this );
 			} );
 		}
 
@@ -254,12 +223,12 @@ jQuery( document ).ready( function( $ ) {
 				ajaxurl,
 				data,
 				function( response ) {
-					appendIssue( response.data );
+					AppendIssue( response.data );
 					maybeRunNextAsyncTest();
 				}
 			);
 		} else {
-			recalculateProgression();
+			RecalculateProgression();
 		}
 	}
 
@@ -287,14 +256,12 @@ jQuery( document ).ready( function( $ ) {
 			var delay = ( new Date().getTime() ) - timestamp;
 
 			$( '.health-check-wp-paths-sizes.spinner' ).css( 'visibility', 'hidden' );
-			recalculateProgression();
+			RecalculateProgression();
 
 			if ( delay > 3000  ) {
-				/*
-				 * We have announced that we're waiting.
-				 * Announce that we're ready after giving at least 3 seconds
-				 * for the first announcement to be read out, or the two may collide.
-				 */
+				// We have announced that we're waiting.
+				// Announce that we're ready after giving at least 3 seconds for the first announcement
+				// to be read out, or the two may collide.
 				if ( delay > 6000 ) {
 					delay = 0;
 				} else {
@@ -315,17 +282,17 @@ jQuery( document ).ready( function( $ ) {
 
 	function updateDirSizes( data ) {
 		var copyButton = $( 'button.button.copy-button' );
-		var clipboardText = copyButton.attr( 'data-clipboard-text' );
+		var clipdoardText = copyButton.attr( 'data-clipboard-text' );
 
 		$.each( data, function( name, value ) {
 			var text = value.debug || value.size;
 
 			if ( typeof text !== 'undefined' ) {
-				clipboardText = clipboardText.replace( name + ': loading...', name + ': ' + text );
+				clipdoardText = clipdoardText.replace( name + ': loading...', name + ': ' + text );
 			}
 		} );
 
-		copyButton.attr( 'data-clipboard-text', clipboardText );
+		copyButton.attr( 'data-clipboard-text', clipdoardText );
 
 		pathsSizesSection.find( 'td[class]' ).each( function( i, element ) {
 			var td = $( element );
@@ -341,7 +308,7 @@ jQuery( document ).ready( function( $ ) {
 		if ( pathsSizesSection.length ) {
 			getDirectorySizes();
 		} else {
-			recalculateProgression();
+			RecalculateProgression();
 		}
 	}
 } );

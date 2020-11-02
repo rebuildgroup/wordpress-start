@@ -182,7 +182,6 @@ class AtomParser {
         fclose($fp);
 
         xml_parser_free($parser);
-        unset($parser);
 
         restore_error_handler();
 

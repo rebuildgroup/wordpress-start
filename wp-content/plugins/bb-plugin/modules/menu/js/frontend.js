@@ -45,9 +45,6 @@
 				$( this.wrapperClass ).find( '.fl-menu-mobile-toggle' ).trigger( 'click' );
 			}
 
-			$( this.wrapperClass ).find( '.fl-has-submenu' ).removeClass( 'focus' );
-			$( this.wrapperClass ).find( '.fl-has-submenu .sub-menu' ).removeClass( 'focus' );
-
 		}, this ) );
 
 	};
@@ -519,9 +516,8 @@
 			}
 
 			if ( 0 === wrapper.find( '.fl-menu-mobile-close' ).length ) {
-				close = window.fl_responsive_close || 'Close'
 				wrapper.find( '.fl-menu-mobile-flyout' )
-					.prepend( '<button class="fl-menu-mobile-close" aria-label="' + close + '"><i class="fas fa-times" aria-hidden="true"></i></button>' );
+					   .prepend( '<button class="fl-menu-mobile-close"><i class="fas fa-times"></i></button>' );
 			}
 
 			// Push with opacity

@@ -194,27 +194,30 @@ class acf_field_clone extends acf_field {
 		$this->cloning[ $field['key'] ] = 1;
 		
 		
-		// Loop over selectors and load fields.
+		// loop
 		foreach( $field['clone'] as $selector ) {
 			
-			// Field Group selector.
+			// field group
 			if( acf_is_field_group_key($selector) ) {
 				
-				$field_group = acf_get_field_group( $selector );
-				if( !$field_group ) {
-					continue;
-				}
+				// vars
+				$field_group = acf_get_field_group($selector);
+				$field_group_fields = acf_get_fields($field_group);
 				
-				$field_group_fields = acf_get_fields( $field_group );
-				if( !$field_group_fields ) {
-					continue;
-				}
 				
-				$fields = array_merge( $fields, $field_group_fields );
+				// bail early if no fields
+				if( !$field_group_fields ) continue;
 				
-			// Field selector.
+				
+				// append
+				$fields = array_merge($fields, $field_group_fields);
+				
+			// field
 			} elseif( acf_is_field_key($selector) ) {
-				$fields[] = acf_get_field( $selector );
+				
+				// append
+				$fields[] = acf_get_field($selector);
+				
 			}
 			
 		}

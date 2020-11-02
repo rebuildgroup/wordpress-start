@@ -11,14 +11,9 @@ use calderawp\calderaforms\cf2\Fields\RegisterFields;
 class Hooks
 {
 
-    /**
-     *
-     * @scine 1.8.0
-     *
-     * @CalderaFormsV2Contract
-     */
     protected $container;
     protected $fileFieldHandler;
+
 
     public function __construct(CalderaFormsV2Contract $container )
     {
@@ -47,7 +42,6 @@ class Hooks
     {
         return $this->fileFieldHandler;
     }
-
 
     /**
      * Add field handlers filters

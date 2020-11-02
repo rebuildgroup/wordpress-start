@@ -153,18 +153,6 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     }
 
     /**
-     * @param Where $where
-     *
-     * @return $this
-     */
-    public function setWhere(Where $where)
-    {
-        $this->where = $where;
-
-        return $this;
-    }
-
-    /**
      * @return Table
      */
     public function getTable()

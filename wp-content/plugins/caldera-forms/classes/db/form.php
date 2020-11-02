@@ -248,6 +248,9 @@ class Caldera_Forms_DB_Form extends Caldera_Forms_DB_Base {
 	    }
 
 	    return $forms;
+
+
+
     }
 
 	/**

@@ -198,12 +198,6 @@
         * @return void
         */
         onEndEditingSession: function() {
-
-            if ( 'Builder' in FL && 'data' in FL.Builder ) {
-                const actions = FL.Builder.data.getSystemActions()
-                actions.setIsEditing(false)
-            }
-
             this.reset();
             this.addShortcut('restartEditingSession', 'mod+e');
         },
@@ -213,12 +207,6 @@
         * @return void
         */
         onRestartEditingSession: function() {
-
-            if ( 'Builder' in FL && 'data' in FL.Builder ) {
-                const actions = FL.Builder.data.getSystemActions()
-                actions.setIsEditing(true)
-            }
-
             this.reset();
             this.setDefaultKeyboardShortcuts();
         },
@@ -284,6 +272,74 @@
             e.preventDefault();
         },
     };
+
+    var KeyShortcutsUI = {
+
+        isShowing: false,
+
+        /**
+        * Fire up the keyboard shortcut UI
+        *
+        * @return void
+        */
+        init: function() {
+
+            this.render();
+
+            FLBuilder.addHook( 'showKeyboardShortcuts', this.show.bind( this ) );
+        },
+
+        /**
+        * Render the UI into the DOM
+        *
+        * @return void
+        */
+        render: function() {
+            var renderUI = wp.template('fl-keyboard-shortcuts'),
+                renderData = FLBuilderConfig.keyboardShortcuts;
+
+            this.$el = $( renderUI( renderData ) );
+            $('body').append( this.$el );
+
+            this.$el.find('.dismiss-shortcut-ui').on('click', this.hide.bind( this ) );
+            this.$el.on('click', this.hide.bind( this ) );
+        },
+
+        /**
+        * Show the keyboard shortcut UI
+        *
+        * @return void
+        */
+        show: function() {
+            if ( this.isShowing ) return;
+            this.$el.addClass('is-showing');
+            this.isShowing = true;
+        },
+
+        /**
+        * Hide the keyboard shortcut UI
+        *
+        * @return void
+        */
+        hide: function() {
+            if ( !this.isShowing ) return;
+            this.$el.removeClass('is-showing');
+            this.isShowing = false;
+        },
+
+        /**
+        * Toggle the UI on and off
+        *
+        * @return void
+        */
+        toggle: function() {
+            if ( this.isShowing ) {
+                this.hide();
+            } else {
+                this.show();
+            }
+        },
+    }
 
 
     /**
@@ -575,7 +631,7 @@
             this.isPreviewing = false;
             this.show();
             FLBuilder._highlightEmptyCols();
-            FLBuilderResponsivePreview.exit();
+			FLBuilderResponsivePreview.exit();
             $('html').removeClass('fl-builder-preview');
             $('html, body').addClass('fl-builder-edit');
         },
@@ -618,7 +674,6 @@
         onDeviceIconClick: function(e) {
             var mode = $(e.target).data('mode');
             FLBuilderResponsivePreview.switchTo(mode);
-            FLBuilderResponsivePreview._showSize(mode);
         },
 
         /**
@@ -847,78 +902,47 @@
         */
         onDragHandleHover: function(e) {
 
-			if (this.drag.isDragging) {
-				return
-			};
+            if (this.drag.isDragging) {
+	            return
+            };
 
-            var $this = this,
-			    originalWidth,
+            var originalWidth,
             	$handle = $(e.target),
 				row = $handle.closest('.fl-row'),
 				node = row.data('node'),
+				settings = FLBuilderSettingsConfig.nodes[ node ],
 				form = $( '.fl-builder-row-settings[data-node=' + node + ']' ),
 				unitField = form.find( '[name=max_content_width_unit]' ),
-				unit = 'px';
+				unit = unitField.length ? unitField.val() : settings.max_content_width_unit;
 
-			$this.onSettingsReady(node, function(settings){
+			this.$row = row;
+			this.$rowContent = this.$row.find('.fl-row-content');
 
-				// Get unit.
-				if (unitField.length) {
-					unit =  unitField.length;
-				} else if ('undefined' !== typeof settings) {
-					unit = settings.max_content_width_unit;
-				}
+            this.row = {
+                node: node,
+                form: form,
+				unit: unit,
+                isFixedWidth: this.$row.hasClass('fl-row-fixed-width'),
+				parentWidth: 'vw' === unit ? $( window ).width() : this.$row.parent().width(),
+            };
 
-				$this.$row = row;
-				$this.$rowContent = $this.$row.find('.fl-row-content');
+            this.drag = {
+                edge: null,
+                isDragging: false,
+                originalPosition: null,
+                originalWidth: null,
+                calculatedWidth: null,
+                operation: null,
+            };
 
-	            $this.row = {
-	                node: node,
-	                form: form,
-					unit: unit,
-	                isFixedWidth: $this.$row.hasClass('fl-row-fixed-width'),
-					parentWidth: 'vw' === unit ? $( window ).width() : $this.$row.parent().width(),
-	            };
+            if (this.row.isFixedWidth) {
+                this.drag.originalWidth = this.$row.width();
+            } else {
+                this.drag.originalWidth = this.$rowContent.width();
+            }
 
-	            $this.drag = {
-	                edge: null,
-	                isDragging: false,
-	                originalPosition: null,
-	                originalWidth: null,
-	                calculatedWidth: null,
-	                operation: null,
-	            };
-
-	            if ($this.row.isFixedWidth) {
-	                $this.drag.originalWidth = $this.$row.width();
-	            } else {
-	                $this.drag.originalWidth = $this.$rowContent.width();
-	            }
-
-	            $this.dragInit();
-			});
+            this.dragInit();
         },
-
-		/**
-        * Check if FLBuilderSettingsConfig.node is available.
-        * @return void
-        */
-		onSettingsReady: function(nodeId, callback) {
-			var nodes = 'undefined' !== typeof FLBuilderSettingsConfig.nodes ? FLBuilderSettingsConfig.nodes : null;
-
-			if (null !== nodes && 'undefined' !== typeof nodes[ nodeId ] ) {
-				callback( nodes[ nodeId ] );
-
-				if (null != RowResize._mouseEnterTimeout) {
-					clearTimeout( RowResize._mouseEnterTimeout );
-					RowResize._mouseEnterTimeout = null;
-				}
-			} else {
-				// If settings is not yet available, check again by timeout.
-				clearTimeout( RowResize._mouseEnterTimeout );
-				RowResize._mouseEnterTimeout = setTimeout(this.onSettingsReady.bind(this), 350, nodeId, callback);
-			}
-		},
 
         /**
         * Handle mouse down on the drag handle
@@ -926,11 +950,6 @@
         */
         onDragHandleDown: function() {
             $('body').addClass( 'fl-builder-row-resizing' );
-
-			if (null != RowResize._mouseEnterTimeout) {
-				clearTimeout( RowResize._mouseEnterTimeout );
-				RowResize._mouseEnterTimeout = null;
-			}
         },
 
         /**
@@ -1190,6 +1209,7 @@
         // End Render Order
 
         KeyShortcuts.init();
+        KeyShortcutsUI.init();
         EditingUI.init();
         BrowserState.init();
         RowResize.init();

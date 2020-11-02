@@ -13,10 +13,9 @@ class FLBCProductsModule extends FLBuilderModule {
 	public function __construct() {
 		$enabled = class_exists( '\BigCommerce\Plugin' );
 		parent::__construct( array(
-			'name'            => __( 'BigCommerce Products', 'fl-builder' ),
-			'description'     => __( 'Displays the BigCommerce product gallery.', 'fl-builder' ),
-			'category'        => __( 'BigCommerce', 'fl-builder' ),
-			'icon'            => 'shopping-cart.svg',
+			'name'            => __( 'BigCommerce Products', 'fl-theme-builder' ),
+			'description'     => __( 'Displays the BigCommerce product gallery.', 'fl-theme-builder' ),
+			'category'        => __( 'BigCommerce', 'fl-theme-builder' ),
 			'partial_refresh' => false,
 			'enabled'         => $enabled,
 		) );
@@ -43,18 +42,18 @@ class FLBCProductsModule extends FLBuilderModule {
 FLBuilder::register_module( 'FLBCProductsModule', array(
 
 	'general' => array(
-		'title'    => __( 'Content', 'fl-builder' ),
+		'title'    => __( 'Content', 'fl-theme-builder' ),
 		'sections' => array(
 			'pagination' => array(
-				'title'  => __( 'Pagination', 'fl-builder' ),
+				'title'  => __( 'Pagination', 'fl-theme-builder' ),
 				'fields' => array(
 					'paged'    => array(
 						'type'    => 'select',
-						'label'   => __( 'Use Pagination', 'fl-builder' ),
+						'label'   => __( 'Use Pagination', 'fl-theme-builder' ),
 						'default' => 0,
 						'options' => array(
-							0 => __( 'No', 'fl-builder' ),
-							1 => __( 'Yes', 'fl-builder' ),
+							0 => __( 'No', 'fl-theme-builder' ),
+							1 => __( 'Yes', 'fl-theme-builder' ),
 						),
 						'toggle'  => array(
 							0 => array(),
@@ -65,7 +64,7 @@ FLBuilder::register_module( 'FLBCProductsModule', array(
 					),
 					'per_page' => array(
 						'type'    => 'unit',
-						'label'   => __( 'Products per page', 'fl-builder' ),
+						'label'   => __( 'Products per page', 'fl-theme-builder' ),
 						'units'   => array( 'products' ),
 						'default' => 8,
 						'slider'  => array(
@@ -79,33 +78,33 @@ FLBuilder::register_module( 'FLBCProductsModule', array(
 				),
 			),
 			'filters'    => array(
-				'title'  => __( 'Filters', 'fl-builder' ),
+				'title'  => __( 'Filters', 'fl-theme-builder' ),
 				'fields' => array(
 					'featured' => array(
 						'type'    => 'select',
-						'label'   => __( 'Show only featured products?', 'fl-builder' ),
+						'label'   => __( 'Show only featured products?', 'fl-theme-builder' ),
 						'default' => 0,
 						'options' => array(
-							0 => __( 'No', 'fl-builder' ),
-							1 => __( 'Yes', 'fl-builder' ),
+							0 => __( 'No', 'fl-theme-builder' ),
+							1 => __( 'Yes', 'fl-theme-builder' ),
 						),
 					),
 					'sale'     => array(
 						'type'    => 'select',
-						'label'   => __( 'Show only on-sale products?', 'fl-builder' ),
+						'label'   => __( 'Show only on-sale products?', 'fl-theme-builder' ),
 						'default' => 0,
 						'options' => array(
-							0 => __( 'No', 'fl-builder' ),
-							1 => __( 'Yes', 'fl-builder' ),
+							0 => __( 'No', 'fl-theme-builder' ),
+							1 => __( 'Yes', 'fl-theme-builder' ),
 						),
 					),
 					'recent'   => array(
 						'type'    => 'select',
-						'label'   => __( 'Show only recent products?', 'fl-builder' ),
+						'label'   => __( 'Show only recent products?', 'fl-theme-builder' ),
 						'default' => 0,
 						'options' => array(
-							0 => __( 'No', 'fl-builder' ),
-							1 => __( 'Yes', 'fl-builder' ),
+							0 => __( 'No', 'fl-theme-builder' ),
+							1 => __( 'Yes', 'fl-theme-builder' ),
 						),
 					),
 

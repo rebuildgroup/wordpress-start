@@ -18,6 +18,7 @@
 .fl-menu a{
 	display: block;
 	padding: 10px;
+	line-height: 1;
 	text-decoration: none;
 }
 .fl-menu a:hover{

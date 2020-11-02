@@ -115,12 +115,6 @@
 					this.showLightboxLoader();
 				}
 			}
-
-			// Clear any visible registered panels
-            if ( 'Builder' in FL && 'data' in FL.Builder ) {
-                const actions = FL.Builder.data.getSystemActions()
-                actions.hideCurrentPanel()
-            }
 		},
 
 		/**

@@ -6,7 +6,7 @@
  * @access private
  */
 
-// If gettext isn't available.
+// If gettext isn't available
 if ( ! function_exists( '_' ) ) {
 	function _( $string ) {
 		return $string;
@@ -19,6 +19,8 @@ if ( ! function_exists( '_' ) ) {
  * @ignore
  * @since 4.2.2
  * @access private
+ *
+ * @staticvar string $utf8_pcre
  *
  * @param bool $set - Used for testing only
  *             null   : default - get PCRE/u capability
@@ -87,7 +89,7 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 	 * The solution below works only for UTF-8, so in case of a different
 	 * charset just use built-in substr().
 	 */
-	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ), true ) ) {
+	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
 		return is_null( $length ) ? substr( $str, $start ) : substr( $str, $start, $length );
 	}
 
@@ -171,7 +173,7 @@ function _mb_strlen( $str, $encoding = null ) {
 	 * The solution below works only for UTF-8, so in case of a different charset
 	 * just use built-in strlen().
 	 */
-	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ), true ) ) {
+	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
 		return strlen( $str );
 	}
 
@@ -310,7 +312,7 @@ if ( ! function_exists( 'hash_equals' ) ) :
 	 */
 	function hash_equals( $a, $b ) {
 		$a_length = strlen( $a );
-		if ( strlen( $b ) !== $a_length ) {
+		if ( $a_length !== strlen( $b ) ) {
 			return false;
 		}
 		$result = 0;
@@ -320,15 +322,15 @@ if ( ! function_exists( 'hash_equals' ) ) :
 			$result |= ord( $a[ $i ] ) ^ ord( $b[ $i ] );
 		}
 
-		return 0 === $result;
+		return $result === 0;
 	}
 endif;
 
-// random_int() was introduced in PHP 7.0.
+// random_int was introduced in PHP 7.0
 if ( ! function_exists( 'random_int' ) ) {
 	require ABSPATH . WPINC . '/random_compat/random.php';
 }
-// sodium_crypto_box() was introduced in PHP 7.2.
+// sodium_crypto_box was introduced in PHP 7.2
 if ( ! function_exists( 'sodium_crypto_box' ) ) {
 	require ABSPATH . WPINC . '/sodium_compat/autoload.php';
 }
@@ -343,6 +345,7 @@ if ( ! function_exists( 'is_countable' ) ) {
 	 * @since 4.9.6
 	 *
 	 * @param mixed $var The value to check.
+	 *
 	 * @return bool True if `$var` is countable, false otherwise.
 	 */
 	function is_countable( $var ) {
@@ -364,6 +367,7 @@ if ( ! function_exists( 'is_iterable' ) ) {
 	 * @since 4.9.6
 	 *
 	 * @param mixed $var The value to check.
+	 *
 	 * @return bool True if `$var` is iterable, false otherwise.
 	 */
 	function is_iterable( $var ) {

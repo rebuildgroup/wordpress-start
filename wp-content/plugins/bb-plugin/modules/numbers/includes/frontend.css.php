@@ -10,15 +10,14 @@ FLBuilderCSS::responsive_rule( array(
 ?>
 
 <?php if ( ! empty( $settings->number_color ) ) : ?>
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-module-content .fl-number-int,
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-module-content .fl-number-string {
+	.fl-node-<?php echo $id; ?> .fl-number-string{
 		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->number_color ); ?>;
 	}
 <?php endif; ?>
 
 <?php if ( ! empty( $settings->text_color ) ) : ?>
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-module-content .fl-number-before-text,
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-module-content .fl-number-after-text {
+	.fl-node-<?php echo $id; ?> .fl-module-content .fl-number-before-text,
+	.fl-node-<?php echo $id; ?> .fl-module-content .fl-number-after-text{
 		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 	}
 <?php endif; ?>

@@ -485,11 +485,12 @@
 		},
 		_iconPro: function() {
 			form = $('#icons-form')
-			checkbox = form.find('input[name=fl-enable-fa-pro]').prop('checked')
+			checkbox = form.find('input[name=fl-enable-fa-pro]').attr('checked')
 			light = form.find('input[value=font-awesome-5-light]').parent()
 			duo   = form.find('input[value=font-awesome-5-duotone]').parent()
 
-			if ( true === checkbox ) {
+
+			if ( 'checked' === checkbox ) {
 				light.css('font-weight', '800')
 			//	light.css('color', '#0E5A71')
 				duo.css('font-weight', '800')

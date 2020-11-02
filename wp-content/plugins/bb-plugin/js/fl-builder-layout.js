@@ -654,8 +654,7 @@
 				enableAudio = playerWrap.data('enable-audio'),
 				audioButton = playerWrap.find('.fl-bg-video-audio'),
 				player,
-				width = playerWrap.outerWidth(),
-				ua    = navigator.userAgent;
+				width = playerWrap.outerWidth();
 
 			if ( typeof Vimeo !== 'undefined' && videoId )	{
 				player = new Vimeo.Player(videoPlayer[0], {
@@ -674,7 +673,7 @@
 				}
 				else if ("yes" === enableAudio ) {
 					// Chrome and Safari have audio policy restrictions for autoplay videos.
-					if ( ua.indexOf("Safari") > -1 || ua.indexOf("Chrome") > -1 ) {
+					if ( $.browser.safari || $.browser.chrome ) {
 						player.setVolume(0);
 						audioButton.show();
 					}

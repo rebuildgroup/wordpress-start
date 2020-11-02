@@ -1,9 +1,6 @@
-<?php
-$button_node_id = "fl-node-$id";
-
-if ( isset( $settings->click_action ) && 'lightbox' == $settings->click_action ) : ?>
+<?php if ( isset( $settings->click_action ) && 'lightbox' == $settings->click_action ) : ?>
 (function($){
-	$('.<?php echo $button_node_id; ?> .fl-button-lightbox').magnificPopup({
+	$('.fl-node-<?php echo $id; ?> .fl-button-lightbox').magnificPopup({
 		<?php if ( 'video' == $settings->lightbox_content_type ) : ?>
 		type: 'iframe',
 		mainClass: 'fl-button-lightbox-wrap',
@@ -12,7 +9,7 @@ if ( isset( $settings->click_action ) && 'lightbox' == $settings->click_action )
 		<?php if ( 'html' == $settings->lightbox_content_type ) : ?>
 		type: 'inline',
 		items: {
-			src: $('.<?php echo $button_node_id; ?> .fl-button-lightbox-content')[0]
+			src: $('.fl-node-<?php echo $id; ?> .fl-button-lightbox-content')[0]
 		},
 		callbacks: {
 			open: function() {

@@ -15,7 +15,6 @@
  * @see register_block_type()
  */
 class WP_Block_Type {
-
 	/**
 	 * Block type key.
 	 *
@@ -25,128 +24,52 @@ class WP_Block_Type {
 	public $name;
 
 	/**
-	 * @since 5.5.0
-	 * @var string
-	 */
-	public $title = '';
-
-	/**
-	 * @since 5.5.0
-	 * @var string|null
-	 */
-	public $category = null;
-
-	/**
-	 * @since 5.5.0
-	 * @var array|null
-	 */
-	public $parent = null;
-
-	/**
-	 * @since 5.5.0
-	 * @var string|null
-	 */
-	public $icon = null;
-
-	/**
-	 * @since 5.5.0
-	 * @var string
-	 */
-	public $description = '';
-
-	/**
-	 * @since 5.5.0
-	 * @var array
-	 */
-	public $keywords = array();
-
-	/**
-	 * @since 5.5.0
-	 * @var string|null
-	 */
-	public $textdomain = null;
-
-	/**
-	 * @since 5.5.0
-	 * @var array
-	 */
-	public $styles = array();
-
-	/**
-	 * @since 5.5.0
-	 * @var array|null
-	 */
-	public $supports = null;
-
-	/**
-	 * @since 5.5.0
-	 * @var array|null
-	 */
-	public $example = null;
-
-	/**
 	 * Block type render callback.
 	 *
 	 * @since 5.0.0
 	 * @var callable
 	 */
-	public $render_callback = null;
+	public $render_callback;
 
 	/**
 	 * Block type attributes property schemas.
 	 *
 	 * @since 5.0.0
-	 * @var array|null
-	 */
-	public $attributes = null;
-
-	/**
-	 * Context values inherited by blocks of this type.
-	 *
-	 * @since 5.5.0
 	 * @var array
 	 */
-	public $uses_context = array();
-
-	/**
-	 * Context provided by blocks of this type.
-	 *
-	 * @since 5.5.0
-	 * @var array|null
-	 */
-	public $provides_context = null;
+	public $attributes;
 
 	/**
 	 * Block type editor script handle.
 	 *
 	 * @since 5.0.0
-	 * @var string|null
+	 * @var string
 	 */
-	public $editor_script = null;
+	public $editor_script;
 
 	/**
 	 * Block type front end script handle.
 	 *
 	 * @since 5.0.0
-	 * @var string|null
+	 * @var string
 	 */
-	public $script = null;
+	public $script;
 
 	/**
 	 * Block type editor style handle.
 	 *
 	 * @since 5.0.0
-	 * @var string|null
+	 * @var string
 	 */
-	public $editor_style = null;
+	public $editor_style;
 
 	/**
 	 * Block type front end style handle.
 	 *
 	 * @since 5.0.0
-	 * @var string|null
+	 * @var string
 	 */
-	public $style = null;
+	public $style;
 
 	/**
 	 * Constructor.
@@ -204,8 +127,8 @@ class WP_Block_Type {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $attributes Original block attributes.
-	 * @return array Prepared block attributes.
+	 * @param  array $attributes Original block attributes.
+	 * @return array             Prepared block attributes.
 	 */
 	public function prepare_attributes_for_render( $attributes ) {
 		// If there are no attribute definitions for the block type, skip
@@ -262,16 +185,6 @@ class WP_Block_Type {
 
 		$args['name'] = $this->name;
 
-		/**
-		 * Filters the arguments for registering a block type.
-		 *
-		 * @since 5.5.0
-		 *
-		 * @param array  $args       Array of arguments for registering a block type.
-		 * @param string $block_type Block type name including namespace.
-		 */
-		$args = apply_filters( 'register_block_type_args', $args, $this->name );
-
 		foreach ( $args as $property_name => $property_value ) {
 			$this->$property_name = $property_value;
 		}
@@ -286,7 +199,18 @@ class WP_Block_Type {
 	 */
 	public function get_attributes() {
 		return is_array( $this->attributes ) ?
-			$this->attributes :
-			array();
+			array_merge(
+				$this->attributes,
+				array(
+					'layout' => array(
+						'type' => 'string',
+					),
+				)
+			) :
+			array(
+				'layout' => array(
+					'type' => 'string',
+				),
+			);
 	}
 }

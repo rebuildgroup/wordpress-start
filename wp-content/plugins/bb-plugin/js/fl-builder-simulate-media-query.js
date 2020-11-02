@@ -161,7 +161,8 @@
 		 */
 		queueSheets: function()
 		{
-			var sheet  		= null,
+			var elements  	= $( 'link, style' ),
+				sheet  		= null,
 				href   		= null,
 				id   		= null,
 				tagName		= null,
@@ -173,9 +174,9 @@
 				i      		= 0,
 				k      		= 0;
 
-			for ( ; i < document.styleSheets.length; i++ ) {
+			for ( ; i < elements.length; i++ ) {
 
-				element  = document.styleSheets[ i ].ownerNode;
+				element  = elements[ i ];
 				href   	 = element.href;
 				id		 = element.id;
 				tagName  = element.tagName.toLowerCase();
@@ -207,8 +208,7 @@
 
 					if ( undefined === this.sheets[ key ] || ! this.sheets[ key ] ) {
 						this.queue.push( {
-							docSheet : document.styleSheets[ i ],
-							element  : $( element ),
+							element  : elements.eq( i ),
 							key		 : key,
 							tagName  : tagName,
 							href  	 : href,
@@ -286,14 +286,13 @@
 			}
 
 			this.sheets[ item.key ] = {
-				docSheet : item.docSheet,
-				element  : item.element,
-				key		 : item.key,
-				tagName  : item.tagName,
-				href  	 : item.href,
-				id		 : item.id,
-				all      : all,
-				queries  : []
+				element : item.element,
+				key		: item.key,
+				tagName : item.tagName,
+				href  	: item.href,
+				id		: item.id,
+				all     : all,
+				queries : []
 			};
 
 			for ( i = 0; i < length; i++ ) {
@@ -399,7 +398,7 @@
 					}
 				}
 
-				sheet.docSheet.disabled = true;
+				sheet.element[0].disabled = true;
 			}
 
 			// Render the all, min, and max query styles.
@@ -439,7 +438,7 @@
 			this.styles = [];
 
 			for ( key in this.sheets ) {
-				this.sheets[ key ].docSheet.disabled = false;
+				this.sheets[ key ].element[0].disabled = false;
 			}
 
 			for ( var i = 0; i < styles.length; i++ ) {
@@ -479,9 +478,6 @@
 		enableStyles: function()
 		{
 			for ( var i = 0; i < this.styles.length; i++ ) {
-				// Fix for Chrome 85.0.4183.83 bug with stylesheet.disabled.
-				this.styles[ i ][0].sheet.disabled = false;
-				this.styles[ i ][0].sheet.disabled = true;
 				this.styles[ i ][0].sheet.disabled = false;
 			}
 		},

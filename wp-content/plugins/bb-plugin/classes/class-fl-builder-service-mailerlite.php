@@ -41,19 +41,14 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		if ( $this->api_instance ) {
 			return $this->api_instance;
 		}
-		// if ( ! class_exists( 'FL_ML_Rest' ) ) {
-		// 	require_once FL_BUILDER_DIR . 'includes/vendor/mailerlite/FL_ML_Rest.php';
-		// }
-		//
-		// $this->api_instance = new FL_ML_Rest( $api_key );
-		// $this->api_instance->setUrl( $this->api_url );
-		//
-		// return $this->api_instance;
-		require_once FL_BUILDER_DIR . 'includes/vendor/mailerlite/autoload.php';
-		//	$mailerliteClient = new \MailerLiteApi\MailerLite('your-api-key');
+		if ( ! class_exists( 'FL_ML_Rest' ) ) {
+			require_once FL_BUILDER_DIR . 'includes/vendor/mailerlite/FL_ML_Rest.php';
+		}
 
-		$groupsapi = new \MailerLiteApi\MailerLite( $api_key );
-		return $groupsapi;
+		$this->api_instance = new FL_ML_Rest( $api_key );
+		$this->api_instance->setUrl( $this->api_url );
+
+		return $this->api_instance;
 	}
 
 	/**
@@ -80,15 +75,17 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		} else {
 
 			$api = $this->get_api( $fields['api_key'] );
+			$api->setPath( 'groups' );
+			$api->getAll();
+			$get_api_response = $api->getResponseInfo();
 
-			$get_api_response = $api->groups()->count();
-
-			if ( isset( $get_api_response->count ) ) {
+			if ( 200 === $get_api_response['http_code'] ) {
 				$response['data'] = array(
 					'api_key' => $fields['api_key'],
 				);
 			} else {
-				$response['error'] = __( 'Error: Could not connect to MailerLite.', 'fl-builder' );
+				/* translators: %s: error */
+				$response['error'] = sprintf( __( 'Error: Could not connect to MailerLite. %s', 'fl-builder' ), $get_api_response['http_code'] );
 			}
 		}
 
@@ -131,9 +128,10 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 	 */
 	public function render_fields( $account, $settings ) {
 		$account_data = $this->get_account_data( $account );
-		$api          = $this->get_api( $account_data['api_key'] )->groups();
-		$get_lists    = $api->get();
-		$lists        = array();
+		$api          = $this->get_api( $account_data['api_key'] );
+		$api->setPath( 'groups' );
+		$get_lists = json_decode( $api->getAll() );
+		$lists     = array();
 
 		if ( $get_lists && ! isset( $get_lists->error ) && count( $get_lists ) > 0 ) {
 			$lists = $get_lists;
@@ -233,10 +231,13 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 			}*/
 
 			// Add new
-			$result = $api->groups()->addSubscriber( $settings->list_id, $data );
+			$api->setPath( 'groups/' . $settings->list_id . '/subscribers' );
+			$api->add( $data );
+			$result = $api->getResponseInfo();
 
-			if ( ! is_object( $result ) || ! isset( $result->id ) ) {
-				$response['error'] = __( 'There was an error subscribing to MailerLite.', 'fl-builder' );
+			if ( 200 !== $result['http_code'] ) {
+				/* translators: %s: error */
+				$response['error'] = sprintf( __( 'There was an error subscribing to MailerLite. Code: %s', 'fl-builder' ), $result['http_code'] );
 			}
 		}
 

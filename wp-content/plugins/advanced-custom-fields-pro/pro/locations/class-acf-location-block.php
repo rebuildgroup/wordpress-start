@@ -4,77 +4,93 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists('ACF_Location_Block') ) :
 
-class ACF_Location_Block extends ACF_Location {
+class ACF_Location_Block extends acf_location {
 	
-	/**
-	 * Initializes props.
-	 *
-	 * @date	5/03/2014
-	 * @since	5.0.0
-	 *
-	 * @param	void
-	 * @return	void
-	 */
-	public function initialize() {
+	
+	/*
+	*  __construct
+	*
+	*  This function will setup the class functionality
+	*
+	*  @type	function
+	*  @date	5/03/2014
+	*  @since	5.0.0
+	*
+	*  @param	n/a
+	*  @return	n/a
+	*/
+	
+	function initialize() {
+		
+		// vars
 		$this->name = 'block';
-		$this->label = __( "Block", 'acf' );
+		$this->label = __("Block",'acf');
 		$this->category = 'forms';
-		$this->object_type = 'block';
 	}
 	
-	/**
-	 * Matches the provided rule against the screen args returning a bool result.
-	 *
-	 * @date	9/4/20
-	 * @since	5.9.0
-	 *
-	 * @param	array $rule The location rule.
-	 * @param	array $screen The screen args.
-	 * @param	array $field_group The field group settings.
-	 * @return	bool
-	 */
-	public function match( $rule, $screen, $field_group ) {
+	
+	/*
+	*  rule_match
+	*
+	*  This function is used to match this location $rule to the current $screen
+	*
+	*  @type	function
+	*  @date	3/01/13
+	*  @since	3.5.7
+	*
+	*  @param	$match (boolean) 
+	*  @param	$rule (array)
+	*  @return	$options (array)
+	*/
+	
+	function rule_match( $result, $rule, $screen ) {
 		
-		// Check screen args.
-		if( isset($screen['block']) ) {
-			$block = $screen['block'];
-		} else {
-			return false;
-		}
-
-		// Compare rule against $block.
-		return $this->compare_to_rule( $block, $rule );
+		// vars
+		$block = acf_maybe_get( $screen, 'block' );
+		
+		// bail early if not block
+		if( !$block ) return false;
+				
+        // compare
+        return $this->compare( $block, $rule );
 	}
 	
-	/**
-	 * Returns an array of possible values for this rule type.
-	 *
-	 * @date	9/4/20
-	 * @since	5.9.0
-	 *
-	 * @param	array $rule A location rule.
-	 * @return	array
-	 */
-	public function get_values( $rule ) {
-		$choices = array();
+	
+	/*
+	*  rule_operators
+	*
+	*  This function returns the available values for this rule type
+	*
+	*  @type	function
+	*  @date	30/5/17
+	*  @since	5.6.0
+	*
+	*  @param	n/a
+	*  @return	(array)
+	*/
+	
+	function rule_values( $choices, $rule ) {
 		
-		// Append block types.
+		// vars
 		$blocks = acf_get_block_types();
+		
+		// loop
 		if( $blocks ) {
-			$choices[ 'all' ] = __( 'All', 'acf' );
+			$choices['all'] = __('All', 'acf');
 			foreach( $blocks as $block ) {
 				$choices[ $block['name'] ] = $block['title'];
 			}
-		} else {
-			$choices[ '' ] = __( 'No block types exist', 'acf' );
-		}
+		}	
 		
-		// Return choices.
+		// return
 		return $choices;
 	}
+	
 }
 
 // initialize
-acf_register_location_type( 'ACF_Location_Block' );
+acf_register_location_rule( 'ACF_Location_Block' );
 
 endif; // class_exists check
+
+?>

@@ -15,6 +15,8 @@
  * @since 2.7.0
  * @access private
  *
+ * @staticvar WP_Http $http
+ *
  * @return WP_Http HTTP Transport object.
  */
 function _wp_http_get_object() {
@@ -39,7 +41,7 @@ function _wp_http_get_object() {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
- * @return array|WP_Error The response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_safe_remote_request( $url, $args = array() ) {
 	$args['reject_unsafe_urls'] = true;
@@ -60,7 +62,7 @@ function wp_safe_remote_request( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
- * @return array|WP_Error The response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_safe_remote_get( $url, $args = array() ) {
 	$args['reject_unsafe_urls'] = true;
@@ -81,7 +83,7 @@ function wp_safe_remote_get( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
- * @return array|WP_Error The response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_safe_remote_post( $url, $args = array() ) {
 	$args['reject_unsafe_urls'] = true;
@@ -102,7 +104,7 @@ function wp_safe_remote_post( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
- * @return array|WP_Error The response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_safe_remote_head( $url, $args = array() ) {
 	$args['reject_unsafe_urls'] = true;
@@ -125,7 +127,7 @@ function wp_safe_remote_head( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
- * @return array|WP_Error {
+ * @return WP_Error|array {
  *     The response array or a WP_Error on failure.
  *
  *     @type string[]                       $headers       Array of response headers keyed by their name.
@@ -155,7 +157,7 @@ function wp_remote_request( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
- * @return array|WP_Error The response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_get( $url, $args = array() ) {
 	$http = _wp_http_get_object();
@@ -172,7 +174,7 @@ function wp_remote_get( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
- * @return array|WP_Error The response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_post( $url, $args = array() ) {
 	$http = _wp_http_get_object();
@@ -189,7 +191,7 @@ function wp_remote_post( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
- * @return array|WP_Error The response or WP_Error on failure.
+ * @return WP_Error|array The response or WP_Error on failure.
  */
 function wp_remote_head( $url, $args = array() ) {
 	$http = _wp_http_get_object();
@@ -366,14 +368,14 @@ function wp_http_supports( $capabilities = array(), $url = null ) {
 
 	$count = count( $capabilities );
 
-	// If we have a numeric $capabilities array, spoof a wp_remote_request() associative $args array.
+	// If we have a numeric $capabilities array, spoof a wp_remote_request() associative $args array
 	if ( $count && count( array_filter( array_keys( $capabilities ), 'is_numeric' ) ) == $count ) {
 		$capabilities = array_combine( array_values( $capabilities ), array_fill( 0, $count, true ) );
 	}
 
 	if ( $url && ! isset( $capabilities['ssl'] ) ) {
 		$scheme = parse_url( $url, PHP_URL_SCHEME );
-		if ( 'https' === $scheme || 'ssl' === $scheme ) {
+		if ( 'https' == $scheme || 'ssl' == $scheme ) {
 			$capabilities['ssl'] = true;
 		}
 	}
@@ -415,7 +417,7 @@ function get_allowed_http_origins() {
 	$admin_origin = parse_url( admin_url() );
 	$home_origin  = parse_url( home_url() );
 
-	// @todo Preserve port?
+	// @todo preserve port?
 	$allowed_origins = array_unique(
 		array(
 			'http://' . $admin_origin['host'],
@@ -457,7 +459,7 @@ function is_allowed_http_origin( $origin = null ) {
 		$origin = get_http_origin();
 	}
 
-	if ( $origin && ! in_array( $origin, get_allowed_http_origins(), true ) ) {
+	if ( $origin && ! in_array( $origin, get_allowed_http_origins() ) ) {
 		$origin = '';
 	}
 
@@ -511,7 +513,7 @@ function send_origin_headers() {
  * @since 3.5.2
  *
  * @param string $url Request URL.
- * @return string|false URL or false on failure.
+ * @return false|string URL or false on failure.
  */
 function wp_http_validate_url( $url ) {
 	$original_url = $url;
@@ -520,7 +522,7 @@ function wp_http_validate_url( $url ) {
 		return false;
 	}
 
-	$parsed_url = parse_url( $url );
+	$parsed_url = @parse_url( $url );
 	if ( ! $parsed_url || empty( $parsed_url['host'] ) ) {
 		return false;
 	}
@@ -533,7 +535,7 @@ function wp_http_validate_url( $url ) {
 		return false;
 	}
 
-	$parsed_home = parse_url( get_option( 'home' ) );
+	$parsed_home = @parse_url( get_option( 'home' ) );
 
 	if ( isset( $parsed_home['host'] ) ) {
 		$same_host = strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
@@ -547,7 +549,7 @@ function wp_http_validate_url( $url ) {
 			$ip = $host;
 		} else {
 			$ip = gethostbyname( $host );
-			if ( $ip === $host ) { // Error condition for gethostbyname().
+			if ( $ip === $host ) { // Error condition for gethostbyname()
 				return false;
 			}
 		}
@@ -593,7 +595,7 @@ function wp_http_validate_url( $url ) {
 }
 
 /**
- * Mark allowed redirect hosts safe for HTTP requests as well.
+ * Whitelists allowed redirect hosts for safe HTTP requests as well.
  *
  * Attached to the {@see 'http_request_host_is_external'} filter.
  *
@@ -611,14 +613,14 @@ function allowed_http_request_hosts( $is_external, $host ) {
 }
 
 /**
- * Adds any domain in a multisite installation for safe HTTP requests to the
- * allowed list.
+ * Whitelists any domain in a multisite installation for safe HTTP requests.
  *
  * Attached to the {@see 'http_request_host_is_external'} filter.
  *
  * @since 3.6.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
+ * @staticvar array $queried
  *
  * @param bool   $is_external
  * @param string $host
@@ -630,7 +632,7 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
 	if ( $is_external ) {
 		return $is_external;
 	}
-	if ( get_network()->domain === $host ) {
+	if ( $host === get_network()->domain ) {
 		return true;
 	}
 	if ( isset( $queried[ $host ] ) ) {
@@ -652,10 +654,13 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
  * in the query are being handled inconsistently. This function works around those
  * differences as well.
  *
+ * Error suppression is used as prior to PHP 5.3.3, an E_WARNING would be generated
+ * when URL parsing failed.
+ *
  * @since 4.4.0
  * @since 4.7.0 The `$component` parameter was added for parity with PHP's `parse_url()`.
  *
- * @link https://www.php.net/manual/en/function.parse-url.php
+ * @link https://secure.php.net/manual/en/function.parse-url.php
  *
  * @param string $url       The URL to parse.
  * @param int    $component The specific component to retrieve. Use one of the PHP
@@ -679,7 +684,7 @@ function wp_parse_url( $url, $component = -1 ) {
 		$url        = 'placeholder://placeholder' . $url;
 	}
 
-	$parts = parse_url( $url );
+	$parts = @parse_url( $url );
 
 	if ( false === $parts ) {
 		// Parsing failure.
@@ -702,7 +707,7 @@ function wp_parse_url( $url, $component = -1 ) {
  * @since 4.7.0
  * @access private
  *
- * @link https://www.php.net/manual/en/function.parse-url.php
+ * @link https://secure.php.net/manual/en/function.parse-url.php
  *
  * @param array|false $url_parts The parsed URL. Can be false if the URL failed to parse.
  * @param int         $component The specific component to retrieve. Use one of the PHP
@@ -734,7 +739,7 @@ function _get_component_from_parsed_url_array( $url_parts, $component = -1 ) {
  * @since 4.7.0
  * @access private
  *
- * @link https://www.php.net/manual/en/url.constants.php
+ * @link https://secure.php.net/manual/en/url.constants.php
  *
  * @param int $constant PHP_URL_* constant.
  * @return string|false The named key or false.

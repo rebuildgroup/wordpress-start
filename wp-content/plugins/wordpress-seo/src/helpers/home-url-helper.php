@@ -1,9 +1,14 @@
 <?php
+/**
+ * A helper object for the home url.
+ *
+ * @package Yoast\YoastSEO\Helpers
+ */
 
 namespace Yoast\WP\SEO\Helpers;
 
 /**
- * A helper object for the home URL.
+ * Class Home_Url_Helper
  */
 class Home_Url_Helper {
 

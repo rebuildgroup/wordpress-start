@@ -3,7 +3,7 @@
  * Error Protection API: WP_Recovery_Mode class
  *
  * @package WordPress
- * @since 5.2.0
+ * @since   5.2.0
  */
 
 /**
@@ -339,12 +339,11 @@ class WP_Recovery_Mode {
 	 *
 	 * @global array $wp_theme_directories
 	 *
-	 * @param array $error Error that was triggered.
-	 * @return array|false {
-	 *     Extension details.
+	 * @param array  $error Error that was triggered.
 	 *
-	 *     @type string $slug The extension slug. This is the plugin or theme's directory.
-	 *     @type string $type The extension type. Either 'plugin' or 'theme'.
+	 * @return array|false {
+	 *      @type string  $slug  The extension slug. This is the plugin or theme's directory.
+	 *      @type string  $type  The extension type. Either 'plugin' or 'theme'.
 	 * }
 	 */
 	protected function get_extension_for_error( $error ) {

@@ -4,7 +4,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists('ACF_Location_User_Role') ) :
 
-class ACF_Location_User_Role extends ACF_Location {
+class ACF_Location_User_Role extends acf_location {
 	
 	/**
 	 * initialize
@@ -19,68 +19,78 @@ class ACF_Location_User_Role extends ACF_Location {
 	 */
 	function initialize() {
 		$this->name = 'user_role';
-		$this->label = __( "User Role", 'acf' );
+		$this->label = __("User Role", 'acf');
 		$this->category = 'user';
-		$this->object_type = 'user';
 	}
 	
 	/**
-	 * Matches the provided rule against the screen args returning a bool result.
+	 * rule_match
 	 *
-	 * @date	9/4/20
-	 * @since	5.9.0
+	 * Determines if the given location $rule is a match for the current $screen.
 	 *
-	 * @param	array $rule The location rule.
-	 * @param	array $screen The screen args.
-	 * @param	array $field_group The field group settings.
+	 * @date	17/9/19
+	 * @since	5.8.1
+	 *
+	 * @param	bool $result Whether or not this location rule is a match.
+	 * @param	array $rule The locatio rule data.
+	 * @param	array $screen The current screen data.
 	 * @return	bool
 	 */
-	public function match( $rule, $screen, $field_group ) {
+	function rule_match( $result, $rule, $screen ) {
 		
-		// Check screen args.
-		if( isset($screen['user_role']) ) {
-			$user_role = $screen['user_role'];
-		} elseif( isset($screen['user_id']) ) {
-			$user_id = $screen['user_id'];
-			$user_role = '';
+		// Extract vars.
+		$user_id = acf_maybe_get( $screen, 'user_id' );
+		$user_role = acf_maybe_get( $screen, 'user_role' );
+		
+		// Allow $user_role to be supplied (third-party compatibility).
+		if( $user_role ) {
+			// Do nothing
+		
+		// Determine $user_role from $user_id.
+		} elseif( $user_id ) {
 			
-			// Determine $user_role from $user_id.
-			if( $user_id === 'new' ) {
-				$user_role = get_option( 'default_role' );
+			// Use default role for new user.
+			if( $user_id == 'new' ) {
+				$user_role = get_option('default_role');
 			
 			// Check if user can, and if so, set the value allowing them to match.
 			} elseif( user_can($user_id, $rule['value']) ) {
 				$user_role = $rule['value'];
 			}
+		
+		// Return false if not a user.
 		} else {
 			return false;
 		}
 		
-		// Compare rule against $user_role.
-		return $this->compare_to_rule( $user_role, $rule );
+		// Compare and return.
+		return $this->compare( $user_role, $rule );
+		
 	}
 	
 	/**
-	 * Returns an array of possible values for this rule type.
+	 * rule_values
 	 *
-	 * @date	9/4/20
-	 * @since	5.9.0
+	 * Returns an array of values for this location rule.
 	 *
-	 * @param	array $rule A location rule.
+	 * @date	17/9/19
+	 * @since	5.8.1
+	 *
+	 * @param	array $choices An empty array.
+	 * @param	array $rule The locatio rule data.
 	 * @return	array
 	 */
-	public function get_values( $rule ) {
+	function rule_values( $choices, $rule ) {
 		global $wp_roles;
-		return array_merge(
-			array(
-				'all' => __( 'All', 'acf' )
-			),
-			$wp_roles->get_names()
-		);
+		
+		// Merge roles with defaults and return.
+		return wp_parse_args($wp_roles->get_names(), array(
+			'all' => __('All', 'acf')
+		));
 	}
 }
 
 // initialize
-acf_register_location_type( 'ACF_Location_User_Role' );
+acf_register_location_rule( 'ACF_Location_User_Role' );
 
 endif; // class_exists check

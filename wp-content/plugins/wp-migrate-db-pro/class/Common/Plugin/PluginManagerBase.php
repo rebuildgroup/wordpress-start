@@ -306,7 +306,7 @@ class PluginManagerBase {
 
 		$_POST = Sanitize::sanitize_data( $_POST, $key_rules, __METHOD__ );
 
-		if ( is_wp_error( $_POST ) ) {
+		if ( false === $_POST ) {
 			exit;
 		}
 

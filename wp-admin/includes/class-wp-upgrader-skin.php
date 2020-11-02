@@ -15,60 +15,21 @@
  */
 class WP_Upgrader_Skin {
 
-	/**
-	 * Holds the upgrader data.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @var object
-	 */
 	public $upgrader;
-
-	/**
-	 * Whether header is done.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @var bool
-	 */
 	public $done_header = false;
-
-	/**
-	 * Whether footer is done.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @var bool
-	 */
 	public $done_footer = false;
 
 	/**
 	 * Holds the result of an upgrade.
 	 *
 	 * @since 2.8.0
-	 *
 	 * @var string|bool|WP_Error
 	 */
-	public $result = false;
-
-	/**
-	 * Holds the options of an upgrade.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @var array
-	 */
+	public $result  = false;
 	public $options = array();
 
 	/**
-	 * Constructor.
-	 *
-	 * Sets up the generic skin for the WordPress Upgrader classes.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @param array $args Optional. The WordPress upgrader skin arguments to
-	 *                    override default options. Default empty array.
+	 * @param array $args
 	 */
 	public function __construct( $args = array() ) {
 		$defaults      = array(
@@ -115,12 +76,12 @@ class WP_Upgrader_Skin {
 	 *
 	 * @see request_filesystem_credentials()
 	 *
-	 * @param bool|WP_Error $error                        Optional. Whether the current request has failed to connect,
-	 *                                                    or an error object. Default false.
-	 * @param string        $context                      Optional. Full path to the directory that is tested
-	 *                                                    for being writable. Default empty.
-	 * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
-	 * @return bool True on success, false on failure.
+	 * @param bool   $error                        Optional. Whether the current request has failed to connect.
+	 *                                             Default false.
+	 * @param string $context                      Optional. Full path to the directory that is tested
+	 *                                             for being writable. Default empty.
+	 * @param bool   $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
+	 * @return bool False on failure, true on success.
 	 */
 	public function request_filesystem_credentials( $error = false, $context = '', $allow_relaxed_file_ownership = false ) {
 		$url = $this->options['url'];
@@ -200,16 +161,10 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * Action to perform before an update.
-	 *
-	 * @since 2.8.0
 	 */
 	public function before() {}
 
 	/**
-	 * Action to perform following an update.
-	 *
-	 * @since 2.8.0
 	 */
 	public function after() {}
 
@@ -250,16 +205,4 @@ class WP_Upgrader_Skin {
 	/**
 	 */
 	public function bulk_footer() {}
-
-	/**
-	 * Hides the `process_failed` error message when updating by uploading a zip file.
-	 *
-	 * @since 5.5.0
-	 *
-	 * @param WP_Error $wp_error WP_Error
-	 * @return bool
-	 */
-	public function hide_process_failed( $wp_error ) {
-		return false;
-	}
 }

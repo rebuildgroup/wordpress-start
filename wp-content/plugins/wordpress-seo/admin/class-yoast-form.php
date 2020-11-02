@@ -93,12 +93,7 @@ class Yoast_Form {
 				$hidden_fields_cb = 'settings_fields';
 			}
 
-			echo '<form action="' .
-				esc_url( $action_url ) .
-				'" method="post" id="wpseo-conf"' .
-				$enctype . ' accept-charset="' .
-				esc_attr( get_bloginfo( 'charset' ) ) .
-				'" novalidate="novalidate">';
+			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
 			call_user_func( $hidden_fields_cb, $option_long_name );
 		}
 		$this->set_option( $option );
@@ -246,7 +241,7 @@ class Yoast_Form {
 	 * @param bool   $label_left Whether the label should be left (true) or right (false).
 	 */
 	public function checkbox( $var, $label, $label_left = false ) {
-		$val = $this->get_field_value( $var, false );
+		$val = WPSEO_Options::get( $var, false );
 
 		if ( $val === true ) {
 			$val = 'on';
@@ -278,7 +273,7 @@ class Yoast_Form {
 	 * @param string $labels   The labels to show for the variable.
 	 */
 	public function checkbox_list( $variable, $labels ) {
-		$values = $this->get_field_value( $variable, [] );
+		$values = WPSEO_Options::get( $variable, [] );
 
 		foreach ( $labels as $name => $label ) {
 			printf(
@@ -311,7 +306,7 @@ class Yoast_Form {
 	 * @param bool   $strong  Whether the visual label is displayed in strong text. Default is false.
 	 */
 	public function light_switch( $var, $label, $buttons = [], $reverse = true, $help = '', $strong = false ) {
-		$val = $this->get_field_value( $var, false );
+		$val = WPSEO_Options::get( $var, false );
 
 		if ( $val === true ) {
 			$val = 'on';
@@ -338,8 +333,8 @@ class Yoast_Form {
 		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
 		'<input type="checkbox" aria-labelledby="', esc_attr( $var . '-label' ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
 		'<span aria-hidden="true">
-			<span>', esc_html( $off_button ), '</span>
-			<span>', esc_html( $on_button ), '</span>
+			<span>', esc_html( $off_button ) ,'</span>
+			<span>', esc_html( $on_button ) ,'</span>
 			<a></a>
 		 </span>
 		 </label><div class="clear"></div></div>';
@@ -356,7 +351,6 @@ class Yoast_Form {
 	 * @param array|string $attr  Extra attributes to add to the input field. Can be class, disabled, autocomplete.
 	 */
 	public function textinput( $var, $label, $attr = [] ) {
-		$type = 'text';
 		if ( ! is_array( $attr ) ) {
 			$attr = [
 				'class'    => $attr,
@@ -364,16 +358,12 @@ class Yoast_Form {
 			];
 		}
 
-		$defaults = [
+		$defaults   = [
 			'placeholder' => '',
 			'class'       => '',
 		];
-		$attr     = wp_parse_args( $attr, $defaults );
-		$val      = $this->get_field_value( $var, '' );
-		if ( isset( $attr['type'] ) && $attr['type'] === 'url' ) {
-			$val  = urldecode( $val );
-			$type = 'url';
-		}
+		$attr       = wp_parse_args( $attr, $defaults );
+		$val        = WPSEO_Options::get( $var, '' );
 		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
 			$attributes .= ' disabled';
@@ -393,7 +383,7 @@ class Yoast_Form {
 		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
 
-		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="' . $type . '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
+		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
 
@@ -419,7 +409,7 @@ class Yoast_Form {
 			'class' => '',
 		];
 		$attr     = wp_parse_args( $attr, $defaults );
-		$val      = $this->get_field_value( $var, '' );
+		$val      = WPSEO_Options::get( $var, '' );
 
 		$this->label(
 			$label,
@@ -440,7 +430,7 @@ class Yoast_Form {
 	 * @param string $id  The ID of the element.
 	 */
 	public function hidden( $var, $id = '' ) {
-		$val = $this->get_field_value( $var, '' );
+		$val = WPSEO_Options::get( $var, '' );
 		if ( is_bool( $val ) ) {
 			$val = ( $val === true ) ? 'true' : 'false';
 		}
@@ -481,7 +471,7 @@ class Yoast_Form {
 		}
 
 		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
-		$active_option     = $this->get_field_value( $var, '' );
+		$active_option     = WPSEO_Options::get( $var, '' );
 		$wrapper_start_tag = '';
 		$wrapper_end_tag   = '';
 
@@ -514,7 +504,7 @@ class Yoast_Form {
 	 * @param string $label The label to show for the variable.
 	 */
 	public function file_upload( $var, $label ) {
-		$val = $this->get_field_value( $var, '' );
+		$val = WPSEO_Options::get( $var, '' );
 		if ( is_array( $val ) ) {
 			$val = $val['url'];
 		}
@@ -547,8 +537,8 @@ class Yoast_Form {
 	 * @param string $label Label message.
 	 */
 	public function media_input( $var, $label ) {
-		$val      = $this->get_field_value( $var, '' );
-		$id_value = $this->get_field_value( $var . '_id', '' );
+		$val      = WPSEO_Options::get( $var, '' );
+		$id_value = WPSEO_Options::get( $var . '_id', '' );
 
 		$var_esc = esc_attr( $var );
 
@@ -609,7 +599,7 @@ class Yoast_Form {
 		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
-		$val = $this->get_field_value( $var, false );
+		$val = WPSEO_Options::get( $var, false );
 
 		$var_esc = esc_attr( $var );
 
@@ -666,7 +656,7 @@ class Yoast_Form {
 		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
-		$val = $this->get_field_value( $var, false );
+		$val = WPSEO_Options::get( $var, false );
 		if ( $val === true ) {
 			$val = 'on';
 		}
@@ -696,7 +686,7 @@ class Yoast_Form {
 			$key_esc = esc_attr( $key );
 			$for     = $var_esc . '-' . $key_esc;
 			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />',
-			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
+			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html,'</label>';
 		}
 
 		echo '<a></a></div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
@@ -752,18 +742,6 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Retrieves the value for the form field.
-	 *
-	 * @param string $field_name    The field name to retrieve the value for.
-	 * @param string $default_value The default value, when field has no value.
-	 *
-	 * @return mixed|null The retrieved value.
-	 */
-	protected function get_field_value( $field_name, $default_value = null ) {
-		return WPSEO_Options::get( $field_name, $default_value );
-	}
-
-	/**
 	 * Checks whether a given control should be disabled.
 	 *
 	 * @param string $var The variable within the option to check whether its control should be disabled.
@@ -791,5 +769,27 @@ class Yoast_Form {
 		}
 
 		return '<p class="disabled-note">' . esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' ) . '</p>';
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Retrieve options based on whether we're on multisite or not.
+	 *
+	 * @since 1.2.4
+	 * @since 2.0   Moved to this class.
+	 * @deprecated 8.4
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The option's value.
+	 */
+	public function get_option() {
+		_deprecated_function( __METHOD__, 'WPSEO 8.4' );
+
+		if ( is_network_admin() ) {
+			return get_site_option( $this->option_name );
+		}
+
+		return get_option( $this->option_name );
 	}
 }

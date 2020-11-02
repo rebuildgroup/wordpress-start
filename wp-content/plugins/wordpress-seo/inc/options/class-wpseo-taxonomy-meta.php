@@ -61,7 +61,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_content_score'         => '',
 		'wpseo_focuskeywords'         => '[]',
 		'wpseo_keywordsynonyms'       => '[]',
-		'wpseo_is_cornerstone'        => '0',
 
 		// Social fields.
 		'wpseo_opengraph-title'       => '',

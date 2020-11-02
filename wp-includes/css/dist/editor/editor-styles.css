@@ -2,40 +2,10 @@
  * Colors
  */
 /**
- * Deprecated colors.
- * Please avoid using these.
- */
-/**
  * Breakpoints & Media Queries
  */
 /**
- * Colors
- */
-/**
- * Deprecated colors.
- * Please avoid using these.
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block UI.
- */
-/**
- * Border radii.
+ * Often re-used variables
  */
 /**
  * Breakpoint mixins
@@ -47,10 +17,13 @@
  * than the space allows.
  */
 /**
- * Focus styles.
+ * Button states and focus styles
  */
 /**
  * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Applies editor right position to the selector passed as argument
  */
 /**
  * Styles that are reused verbatim in a few places
@@ -65,11 +38,6 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-:root {
-  --wp-admin-theme-color: #007cba;
-  --wp-admin-theme-color-darker-10: #006ba1;
-  --wp-admin-theme-color-darker-20: #005a87; }
-
 /**
  * Editor Normalization Styles
  *
@@ -83,12 +51,7 @@ body {
   font-family: "Noto Serif", serif;
   font-size: 16px;
   line-height: 1.8;
-  color: #1e1e1e;
-  padding: 10px; }
-
-.block-editor-block-list__layout.is-root-container > .wp-block[data-align="full"] {
-  margin-left: -10px;
-  margin-right: -10px; }
+  color: #191e23; }
 
 /* Headings */
 h1 {
@@ -158,8 +121,7 @@ p {
 ul,
 ol {
   margin-bottom: 28px;
-  padding-left: 1.3em;
-  margin-left: 1.3em; }
+  padding: inherit; }
   ul ul,
   ul ol,
   ol ul,
@@ -178,21 +140,3 @@ ol {
 ul ul,
 ol ul {
   list-style-type: circle; }
-
-.wp-align-wrapper {
-  max-width: 580px; }
-  .wp-align-wrapper > .wp-block, .wp-align-wrapper.wp-align-full {
-    max-width: none; }
-  .wp-align-wrapper.wp-align-wide {
-    max-width: 1100px; }
-
-a {
-  transition: none; }
-
-code,
-kbd {
-  padding: 0;
-  margin: 0;
-  background: inherit;
-  font-size: inherit;
-  font-family: monospace; }

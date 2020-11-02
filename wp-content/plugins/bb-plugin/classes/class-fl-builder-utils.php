@@ -279,31 +279,4 @@ final class FLBuilderUtils {
 		}
 	}
 
-	/**
-	 * @since 2.4
-	 */
-	public static function get_safe_url() {
-
-		global $post;
-
-		$_original = $post;
-
-		$status = $post->post_status;
-
-		$post->post_status = 'draft';
-
-		$url = get_permalink( $post );
-
-		$post = $_original;
-
-		return $url;
-	}
-
-	/**
-	 * @since 2.4
-	 */
-	public static function img_lazyload( $loading = 'load' ) {
-		return apply_filters( 'fl_lazyload', "loading='$loading'" );
-	}
-
 }

@@ -40,7 +40,7 @@ FLBuilderCSS::border_field_rule( array(
 
 // Label BG Colors
 FLBuilderCSS::rule( array(
-	'selector' => ".fl-builder-content .fl-node-$id .fl-accordion-button",
+	'selector' => ".fl-node-$id .fl-accordion-button",
 	'props'    => array(
 		'background-color' => $settings->label_bg_color,
 	),
@@ -48,7 +48,7 @@ FLBuilderCSS::rule( array(
 
 // Label Text Color
 FLBuilderCSS::rule( array(
-	'selector' => ".fl-builder-content .fl-node-$id .fl-accordion-button-label, .fl-builder-content .fl-node-$id .fl-accordion-button-label:hover, .fl-builder-content .fl-node-$id .fl-accordion-button .fl-accordion-button-icon",
+	'selector' => ".fl-node-$id .fl-accordion-button-label",
 	'props'    => array(
 		'color' => $settings->label_text_color,
 	),
@@ -82,19 +82,12 @@ FLBuilderCSS::typography_field_rule( array(
 	'settings'     => $settings,
 ) );
 
-// Content Text Color
+// Content Colors
 FLBuilderCSS::rule( array(
-	'selector' => ".fl-builder-content .fl-node-$id .fl-accordion .fl-accordion-content *",
-	'props'    => array(
-		'color' => $settings->content_text_color,
-	),
-) );
-
-// Content BG Color
-FLBuilderCSS::rule( array(
-	'selector' => ".fl-builder-content .fl-node-$id .fl-accordion .fl-accordion-content",
+	'selector' => ".fl-node-$id .fl-accordion-content",
 	'props'    => array(
 		'background-color' => $settings->content_bg_color,
+		'color'            => $settings->content_text_color,
 	),
 ) );
 

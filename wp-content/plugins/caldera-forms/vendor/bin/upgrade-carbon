@@ -1,34 +1,14 @@
-#!/usr/bin/env php
-<?php
+#!/usr/bin/env sh
 
-$dir = __DIR__.'/..';
+dir=$(cd "${0%[/\\]*}" > /dev/null; cd "../nesbot/carbon/bin" && pwd)
 
-if (!file_exists($dir.'/autoload.php')) {
-    $dir = __DIR__.'/../vendor';
-}
+if [ -d /proc/cygdrive ]; then
+    case $(which php) in
+        $(readlink -n /proc/cygdrive)/*)
+            # We are in Cygwin using Windows php, so the path must be translated
+            dir=$(cygpath -m "$dir");
+            ;;
+    esac
+fi
 
-if (!file_exists($dir.'/autoload.php')) {
-    $dir = __DIR__.'/../../..';
-}
-
-if (!file_exists($dir.'/autoload.php')) {
-    echo 'Autoload not found.';
-    exit(1);
-}
-
-$composerInstalled = false;
-
-if (!file_exists($dir.'/composer/composer')) {
-    $composerInstalled = true;
-    shell_exec('composer require --dev composer/composer');
-}
-
-include $dir.'/autoload.php';
-
-Carbon\Upgrade::upgrade();
-
-if ($composerInstalled) {
-    shell_exec('composer remove --dev composer/composer');
-}
-
-exit(0);
+"${dir}/upgrade-carbon" "$@"

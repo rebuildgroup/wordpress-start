@@ -13,12 +13,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $wpseo_general_presenter = new WPSEO_Paper_Presenter(
 	'',
-	__DIR__ . '/paper-content/general-content.php',
+	dirname( __FILE__ ) . '/paper-content/general-content.php',
 	[
 		'paper_id' => 'settings-general',
 		'class'    => 'search-appearance',
 	]
 );
 
-// phpcs:ignore WordPress.Security.EscapeOutput -- get_output() output is properly escaped.
 echo $wpseo_general_presenter->get_output();

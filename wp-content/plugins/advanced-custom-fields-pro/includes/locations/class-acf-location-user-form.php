@@ -7,7 +7,9 @@ if( ! class_exists('ACF_Location_User_Form') ) :
 class ACF_Location_User_Form extends ACF_Location {
 	
 	/**
-	 * Initializes props.
+	 * initialize
+	 *
+	 * Sets up the class functionality.
 	 *
 	 * @date	5/03/2014
 	 * @since	5.0.0
@@ -15,30 +17,32 @@ class ACF_Location_User_Form extends ACF_Location {
 	 * @param	void
 	 * @return	void
 	 */
-	public function initialize() {
+	function initialize() {
 		$this->name = 'user_form';
-		$this->label = __( "User Form", 'acf' );
+		$this->label = __("User Form", 'acf');
 		$this->category = 'user';
-		$this->object_type = 'user';
 	}
 	
 	/**
-	 * Matches the provided rule against the screen args returning a bool result.
+	 * rule_match
 	 *
-	 * @date	9/4/20
-	 * @since	5.9.0
+	 * Determines if the given location $rule is a match for the current $screen.
 	 *
-	 * @param	array $rule The location rule.
-	 * @param	array $screen The screen args.
-	 * @param	array $field_group The field group settings.
+	 * @date	17/9/19
+	 * @since	5.8.1
+	 *
+	 * @param	bool $result Whether or not this location rule is a match.
+	 * @param	array $rule The locatio rule data.
+	 * @param	array $screen The current screen data.
 	 * @return	bool
 	 */
-	public function match( $rule, $screen, $field_group ) {
+	function rule_match( $result, $rule, $screen ) {
 		
-		// Check screen args.
-		if( isset($screen['user_form']) ) {
-			$user_form = $screen['user_form'];
-		} else {
+		// Extract vars.
+		$user_form = acf_maybe_get($screen, 'user_form');
+		
+		// Return false if no user_form data.
+		if( !$user_form ) {
 			return false;
 		}
 		
@@ -47,20 +51,23 @@ class ACF_Location_User_Form extends ACF_Location {
 			$user_form = 'edit';
 		}
 				
-		// Compare rule against $user_form.
-		return $this->compare_to_rule( $user_form, $rule );
+		// Compare and return.
+		return $this->compare( $user_form, $rule );
 	}
 	
 	/**
-	 * Returns an array of possible values for this rule type.
+	 * rule_values
 	 *
-	 * @date	9/4/20
-	 * @since	5.9.0
+	 * Returns an array of values for this location rule.
 	 *
-	 * @param	array $rule A location rule.
-	 * @return	array
+	 * @date	17/9/19
+	 * @since	5.8.1
+	 *
+	 * @param	array $choices An empty array.
+	 * @param	array $rule The locatio rule data.
+	 * @return	type Description.
 	 */
-	public function get_values( $rule ) {
+	function rule_values( $choices, $rule ) {
 		return array(
 			'all' 		=> __('All', 'acf'),
 			'add' 		=> __('Add', 'acf'),
@@ -71,6 +78,6 @@ class ACF_Location_User_Form extends ACF_Location {
 }
 
 // Register.
-acf_register_location_type( 'ACF_Location_User_Form' );
+acf_register_location_rule( 'ACF_Location_User_Form' );
 
 endif; // class_exists check

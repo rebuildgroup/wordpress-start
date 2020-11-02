@@ -250,10 +250,6 @@ class ProPluginManager extends PluginManagerBase {
 
 
 	function site_transient_update_plugins( $trans ) {
-		if ( !$trans ) {
-			return $trans;
-		}
-
 		$plugin_upgrade_data = $this->addon->get_upgrade_data();
 
 		if ( false === $plugin_upgrade_data || ! isset( $plugin_upgrade_data['wp-migrate-db-pro'] ) ) {
@@ -290,7 +286,6 @@ class ProPluginManager extends PluginManagerBase {
 			}
 
 			if ( isset( $installed_version ) && version_compare( $installed_version, $latest_version, '<' ) ) {
-
 				$is_beta = BetaManager::is_beta_version( $latest_version );
 
 				$trans->response[ $plugin_basename ]              = new \stdClass();

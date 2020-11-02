@@ -15,17 +15,17 @@ if ( ! defined( 'WP_ADMIN' ) ) {
 }
 
 if ( defined( 'ABSPATH' ) ) {
-	require_once ABSPATH . 'wp-load.php';
+	require_once( ABSPATH . 'wp-load.php' );
 } else {
-	require_once dirname( __DIR__ ) . '/wp-load.php';
+	require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 }
 
-require_once ABSPATH . 'wp-admin/admin.php';
+require_once( ABSPATH . 'wp-admin/admin.php' );
 
 header( 'Content-Type: text/plain; charset=' . get_option( 'blog_charset' ) );
 
 if ( isset( $_REQUEST['action'] ) && 'upload-attachment' === $_REQUEST['action'] ) {
-	require ABSPATH . 'wp-admin/includes/ajax-actions.php';
+	include( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
 
 	send_nosniff_header();
 	nocache_headers();
@@ -38,12 +38,15 @@ if ( ! current_user_can( 'upload_files' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to upload files.' ) );
 }
 
-// Just fetch the detail form for that attachment.
+// just fetch the detail form for that attachment
 if ( isset( $_REQUEST['attachment_id'] ) && intval( $_REQUEST['attachment_id'] ) && $_REQUEST['fetch'] ) {
 	$id   = intval( $_REQUEST['attachment_id'] );
 	$post = get_post( $id );
-	if ( 'attachment' !== $post->post_type ) {
+	if ( 'attachment' != $post->post_type ) {
 		wp_die( __( 'Invalid post type.' ) );
+	}
+	if ( ! current_user_can( 'edit_post', $id ) ) {
+		wp_die( __( 'Sorry, you are not allowed to edit this item.' ) );
 	}
 
 	switch ( $_REQUEST['fetch'] ) {
@@ -52,11 +55,7 @@ if ( isset( $_REQUEST['attachment_id'] ) && intval( $_REQUEST['attachment_id'] )
 			if ( $thumb_url ) {
 				echo '<img class="pinkynail" src="' . esc_url( $thumb_url[0] ) . '" alt="" />';
 			}
-			if ( current_user_can( 'edit_post', $id ) ) {
-				echo '<a class="edit-attachment" href="' . esc_url( get_edit_post_link( $id ) ) . '" target="_blank">' . _x( 'Edit', 'media item' ) . '</a>';
-			} else {
-				echo '<span class="edit-attachment">' . _x( 'Success', 'media item' ) . '</span>';
-			}
+			echo '<a class="edit-attachment" href="' . esc_url( get_edit_post_link( $id ) ) . '" target="_blank">' . _x( 'Edit', 'media item' ) . '</a>';
 
 			// Title shouldn't ever be empty, but use filename just in case.
 			$file  = get_attached_file( $post->ID );
@@ -113,7 +112,7 @@ if ( $_REQUEST['short'] ) {
 	// Short form response - attachment ID only.
 	echo $id;
 } else {
-	// Long form response - big chunk of HTML.
+	// Long form response - big chunk of html.
 	$type = $_REQUEST['type'];
 
 	/**

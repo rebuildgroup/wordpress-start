@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once __DIR__ . '/admin.php';
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'manage_sites' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to edit this site.' ), 403 );
@@ -77,7 +77,6 @@ if ( $action ) {
 						$update = 'err_add_fail';
 					} else {
 						$update = 'newuser';
-
 						/**
 						 * Fires after a user has been created via the network site-users.php page.
 						 *
@@ -179,23 +178,21 @@ if ( $action ) {
 			}
 			check_admin_referer( 'bulk-users' );
 			$userids = $_REQUEST['users'];
-
 			/** This action is documented in wp-admin/network/site-themes.php */
 			$referer = apply_filters( 'handle_network_bulk_actions-' . get_current_screen()->id, $referer, $action, $userids, $id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-
-			$update = $action;
+			$update  = $action;
 			break;
 	}
 
 	wp_safe_redirect( add_query_arg( 'update', $update, $referer ) );
-	exit;
+	exit();
 }
 
 restore_current_blog();
 
-if ( isset( $_GET['action'] ) && 'update-site' === $_GET['action'] ) {
+if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
 	wp_safe_redirect( $referer );
-	exit;
+	exit();
 }
 
 add_screen_option( 'per_page' );
@@ -217,10 +214,10 @@ if ( ! wp_is_large_network( 'users' ) && apply_filters( 'show_network_site_users
 	wp_enqueue_script( 'user-suggest' );
 }
 
-require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
+require( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <script type="text/javascript">
-var current_site_id = <?php echo absint( $id ); ?>;
+var current_site_id = <?php echo $id; ?>;
 </script>
 
 
@@ -366,4 +363,4 @@ if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_use
 <?php endif; ?>
 </div>
 <?php
-require_once ABSPATH . 'wp-admin/admin-footer.php';
+require( ABSPATH . 'wp-admin/admin-footer.php' );

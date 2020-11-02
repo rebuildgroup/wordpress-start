@@ -10,7 +10,6 @@ final class WP_User_Request {
 	/**
 	 * Request ID.
 	 *
-	 * @since 4.9.6
 	 * @var int
 	 */
 	public $ID = 0;
@@ -18,7 +17,6 @@ final class WP_User_Request {
 	/**
 	 * User ID.
 	 *
-	 * @since 4.9.6
 	 * @var int
 	 */
 	public $user_id = 0;
@@ -26,15 +24,13 @@ final class WP_User_Request {
 	/**
 	 * User email.
 	 *
-	 * @since 4.9.6
-	 * @var string
+	 * @var int
 	 */
 	public $email = '';
 
 	/**
 	 * Action name.
 	 *
-	 * @since 4.9.6
 	 * @var string
 	 */
 	public $action_name = '';
@@ -42,7 +38,6 @@ final class WP_User_Request {
 	/**
 	 * Current status.
 	 *
-	 * @since 4.9.6
 	 * @var string
 	 */
 	public $status = '';
@@ -50,7 +45,6 @@ final class WP_User_Request {
 	/**
 	 * Timestamp this request was created.
 	 *
-	 * @since 4.9.6
 	 * @var int|null
 	 */
 	public $created_timestamp = null;
@@ -58,7 +52,6 @@ final class WP_User_Request {
 	/**
 	 * Timestamp this request was last modified.
 	 *
-	 * @since 4.9.6
 	 * @var int|null
 	 */
 	public $modified_timestamp = null;
@@ -66,23 +59,20 @@ final class WP_User_Request {
 	/**
 	 * Timestamp this request was confirmed.
 	 *
-	 * @since 4.9.6
-	 * @var int|null
+	 * @var int
 	 */
 	public $confirmed_timestamp = null;
 
 	/**
 	 * Timestamp this request was completed.
 	 *
-	 * @since 4.9.6
-	 * @var int|null
+	 * @var int
 	 */
 	public $completed_timestamp = null;
 
 	/**
 	 * Misc data assigned to this request.
 	 *
-	 * @since 4.9.6
 	 * @var array
 	 */
 	public $request_data = array();
@@ -90,7 +80,6 @@ final class WP_User_Request {
 	/**
 	 * Key used to confirm this request.
 	 *
-	 * @since 4.9.6
 	 * @var string
 	 */
 	public $confirm_key = '';

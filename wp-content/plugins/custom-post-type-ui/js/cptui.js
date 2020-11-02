@@ -78,7 +78,7 @@ postboxes.add_postbox_toggles(pagenow);
 			value = transliterate(value);
 			value = replaceSpecialCharacters(value);
 			if ( value !== original_value ) {
-				$(this).prop('value', value);
+				$(this).attr('value', value);
 			}
 		}
 
@@ -131,23 +131,10 @@ postboxes.add_postbox_toggles(pagenow);
 	}
 
 	function replaceSpecialCharacters(s) {
-		if ( 'cpt-ui_page_cptui_manage_post_types' === window.pagenow ) {
-			s = s.replace(/[^a-z0-9\s-]/gi, '_');
-		} else {
-			s = s.replace(/[^a-z0-9\s]/gi, '_');
-		}
+
+		s = s.replace(/[^a-z0-9\s]/gi, '_');
 
 		return s;
-	}
-
-	function composePreviewContent(value) {
-		if (!value) {
-			return '';
-		} else if (0 === value.indexOf('dashicons-')) {
-			return $('<div class="dashicons-before"><br></div>').addClass(value);
-		} else {
-			return $('<img />').attr('src', value);
-		}
 	}
 
 	var cyrillic = {
@@ -183,7 +170,7 @@ postboxes.add_postbox_toggles(pagenow);
 		_custom_media = true;
 		wp.media.editor.send.attachment = function (props, attachment) {
 			if (_custom_media) {
-				$("#" + id).val(attachment.url).change();
+				$("#" + id).val(attachment.url);
 			} else {
 				return _orig_send_attachment.apply(this, [props, attachment]);
 			}
@@ -193,11 +180,22 @@ postboxes.add_postbox_toggles(pagenow);
 		return false;
 	});
 
-	$('#menu_icon').on('change', function () {
-		var value = $(this).val().trim();
-		$('#menu_icon_preview').html(composePreviewContent(value));
+	$('#togglelabels').on('click',function(e){
+		e.preventDefault();
+		$('#labels_expand').toggleClass('toggledclosed');
 	});
-
+	$('#togglesettings').on('click',function(e) {
+		e.preventDefault();
+		$('#settings_expand').toggleClass('toggledclosed');
+	});
+	$('#labels_expand,#settings_expand').on('focus',function(e) {
+		if ( $(this).hasClass('toggledclosed') ) {
+			$(this).toggleClass('toggledclosed');
+		}
+	});
+	$('#labels_expand legend,#settings_expand legend').on('click',function(e){
+		$(this).parent().toggleClass('toggledclosed');
+	});
 	$('.cptui-help').on('click',function(e){
 		e.preventDefault();
 	});

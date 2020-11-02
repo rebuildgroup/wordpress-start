@@ -143,11 +143,40 @@ FLBuilder::register_settings_form('col', array(
 									'sections' => array( 'bg_gradient' ),
 								),
 								'photo'    => array(
-									'sections' => array( 'bg_photo', 'bg_overlay', 'bg_color' ),
+									'sections' => array( 'bg_photo', 'bg_overlay' ),
 								),
 							),
 							'preview' => array(
 								'type' => 'none',
+							),
+						),
+					),
+				),
+				'bg_color'    => array(
+					'title'  => __( 'Background Color', 'fl-builder' ),
+					'fields' => array(
+						'bg_color' => array(
+							'type'        => 'color',
+							'connections' => array( 'color' ),
+							'label'       => __( 'Color', 'fl-builder' ),
+							'show_reset'  => true,
+							'show_alpha'  => true,
+							'preview'     => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
+				'bg_gradient' => array(
+					'title'  => __( 'Background Gradient', 'fl-builder' ),
+					'fields' => array(
+						'bg_gradient' => array(
+							'type'    => 'gradient',
+							'label'   => __( 'Gradient', 'fl-builder' ),
+							'preview' => array(
+								'type'     => 'css',
+								'selector' => '> .fl-col-content',
+								'property' => 'background-image',
 							),
 						),
 					),
@@ -278,35 +307,6 @@ FLBuilder::register_settings_form('col', array(
 							'preview' => array(
 								'type'     => 'css',
 								'selector' => '> .fl-col-content:after',
-								'property' => 'background-image',
-							),
-						),
-					),
-				),
-				'bg_color'    => array(
-					'title'  => __( 'Background Color', 'fl-builder' ),
-					'fields' => array(
-						'bg_color' => array(
-							'type'        => 'color',
-							'connections' => array( 'color' ),
-							'label'       => __( 'Color', 'fl-builder' ),
-							'show_reset'  => true,
-							'show_alpha'  => true,
-							'preview'     => array(
-								'type' => 'none',
-							),
-						),
-					),
-				),
-				'bg_gradient' => array(
-					'title'  => __( 'Background Gradient', 'fl-builder' ),
-					'fields' => array(
-						'bg_gradient' => array(
-							'type'    => 'gradient',
-							'label'   => __( 'Gradient', 'fl-builder' ),
-							'preview' => array(
-								'type'     => 'css',
-								'selector' => '> .fl-col-content',
 								'property' => 'background-image',
 							),
 						),
@@ -478,7 +478,6 @@ FLBuilder::register_settings_form('col', array(
 								'section' => '&lt;section&gt;',
 								'article' => '&lt;article&gt;',
 								'aside'   => '&lt;aside&gt;',
-								'main'    => '&lt;main&gt;',
 								'header'  => '&lt;header&gt;',
 								'footer'  => '&lt;footer&gt;',
 							) ),

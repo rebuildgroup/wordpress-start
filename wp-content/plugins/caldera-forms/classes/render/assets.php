@@ -260,8 +260,7 @@ class Caldera_Forms_Render_Assets
 			'font' => self::make_url('cfont', false),
 			'table' => self::make_url('caldera-table', false),
 			'entry-viewer-2' => self::make_url('entry-viewer-2', false),
-			'render' => self::make_url('render', false),
-            'form-builder' => self::make_url('form-builder',false )
+			'render' => self::make_url('render', false)
 		];
 
 		$style_urls[ 'fields' ] = $style_urls[ 'field' ];
@@ -323,7 +322,6 @@ class Caldera_Forms_Render_Assets
 			'privacy' => self::make_url('privacy'),
 			'render' => self::make_url('render'),
 			'legacy-bundle' => self::make_url('legacy-bundle'),
-            'form-builder' => self::make_url('form-builder')
 		];
 
 		return $script_urls;
@@ -601,7 +599,6 @@ class Caldera_Forms_Render_Assets
                         'pro',
                         'privacy',
                         'legacy-bundle',
-                       // 'form-builder'
                     ])
                     || empty($manifest)
                     || ! array_key_exists("{$name}.js",$manifest)
@@ -617,7 +614,6 @@ class Caldera_Forms_Render_Assets
                         'pro',
                         'privacy',
                         'legacy-bundle',
-                        'form-builder'
                     ])
                     || empty($manifest)
                     || ! array_key_exists("{$name}.css",$manifest)
@@ -664,8 +660,7 @@ class Caldera_Forms_Render_Assets
             'pro',
             'privacy',
             'render',
-            'legacy-bundle',
-            'form-builder'
+            'legacy-bundle'
         ]);
 	}
 
@@ -1238,6 +1233,7 @@ class Caldera_Forms_Render_Assets
 			if( file_exists($path)){
 				cf_redirect(untrailingslashit(CFCORE_URL) . $uri);exit;
 			}
+			var_dump($path);
 		}
 	
 

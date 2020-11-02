@@ -25,7 +25,6 @@
 			$('#icl_cfo').on('click', this._wpmlCopyClicked);
 
 			this._hideFLBuilderAdminButtons();
-			this._hideBlockEditorInserter();
 		},
 
 		/**
@@ -179,24 +178,6 @@
 			if ( $( '.acf-postbox' ).is( ':visible' ) && $( '#postdivrich' ).is( ':hidden' ) && ! $( '.fl-enable-builder' ).hasClass('fl-active') ){
 				$( '.fl-builder-admin' ).hide();
 			}
-		},
-
-		/**
-		 * Hide the Gutenberg Block Editor Inserter button.
-		 *
-		 * @since 2.4
-		 * @access private
-		 * @method _hideBlockEditorInserter
-		 */
-		_hideBlockEditorInserter: function()
-		{
-			setTimeout( function(){
-				if ( $( 'body' ).hasClass( 'fl-builder-enabled' ) ) {
-					$( '.block-editor-inserter' ).hide();
-					$( '.wp-block-paragraph' ).parent().remove();
-                    $( '.wp-block[data-type="core/paragraph"]' ).hide();
-				}
-			}, 100 );
 		},
 
 		/**

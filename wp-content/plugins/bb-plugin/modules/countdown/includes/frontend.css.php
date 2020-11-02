@@ -24,7 +24,7 @@ FLBuilderCSS::responsive_rule( array(
 	}
 <?php endif; ?>
 
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-countdown .fl-countdown-unit-number {
+.fl-node-<?php echo $id; ?> .fl-countdown .fl-countdown-unit-number {
 	<?php
 	if ( ! empty( $settings->number_color ) ) {
 		echo 'color: ' . FLBuilderColor::hex_or_rgb( $settings->number_color ) . ';';
@@ -32,8 +32,7 @@ FLBuilderCSS::responsive_rule( array(
 	?>
 }
 
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-countdown .fl-countdown-unit-label {
-
+.fl-node-<?php echo $id; ?> .fl-countdown .fl-countdown-unit-label {
 	<?php
 	if ( ! empty( $settings->label_color ) ) {
 		echo 'color: ' . FLBuilderColor::hex_or_rgb( $settings->label_color ) . ';';
