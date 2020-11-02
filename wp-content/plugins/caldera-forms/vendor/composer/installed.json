@@ -279,21 +279,31 @@
             "yawik",
             "zend",
             "zikula"
+        ],
+        "funding": [
+            {
+                "url": "https://packagist.com",
+                "type": "custom"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                "type": "tidelift"
+            }
         ]
     },
     {
         "name": "inpsyde/wonolog",
-        "version": "1.0.3",
-        "version_normalized": "1.0.3.0",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/inpsyde/Wonolog.git",
-            "reference": "62b2cf977d2222787fbc895bd0c7f557c6687b44"
+            "reference": "60ee47b0b2040e54fd11327751e69546df5750ee"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/inpsyde/Wonolog/zipball/62b2cf977d2222787fbc895bd0c7f557c6687b44",
-            "reference": "62b2cf977d2222787fbc895bd0c7f557c6687b44",
+            "url": "https://api.github.com/repos/inpsyde/Wonolog/zipball/60ee47b0b2040e54fd11327751e69546df5750ee",
+            "reference": "60ee47b0b2040e54fd11327751e69546df5750ee",
             "shasum": ""
         },
         "require": {
@@ -305,7 +315,7 @@
             "mikey179/vfsstream": "~1.6.4",
             "phpunit/phpunit": "^5.7.21"
         },
-        "time": "2019-09-11T10:42:24+00:00",
+        "time": "2020-07-21T15:58:57+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -395,21 +405,35 @@
                 "email": "kylekatarnls@gmail.com"
             }
         ],
-        "description": "Update helper"
+        "description": "Update helper",
+        "funding": [
+            {
+                "url": "https://github.com/kylekatarnls",
+                "type": "github"
+            },
+            {
+                "url": "https://opencollective.com/Carbon",
+                "type": "open_collective"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/nesbot/carbon",
+                "type": "tidelift"
+            }
+        ]
     },
     {
         "name": "monolog/monolog",
-        "version": "1.25.4",
-        "version_normalized": "1.25.4.0",
+        "version": "1.25.5",
+        "version_normalized": "1.25.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Seldaek/monolog.git",
-            "reference": "3022efff205e2448b560c833c6fbbf91c3139168"
+            "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/3022efff205e2448b560c833c6fbbf91c3139168",
-            "reference": "3022efff205e2448b560c833c6fbbf91c3139168",
+            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1817faadd1846cd08be9a49e905dc68823bc38c0",
+            "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0",
             "shasum": ""
         },
         "require": {
@@ -444,7 +468,7 @@
             "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
             "sentry/sentry": "Allow sending log messages to a Sentry server"
         },
-        "time": "2020-05-22T07:31:27+00:00",
+        "time": "2020-07-23T08:35:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -474,6 +498,16 @@
             "log",
             "logging",
             "psr-3"
+        ],
+        "funding": [
+            {
+                "url": "https://github.com/Seldaek",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/monolog/monolog",
+                "type": "tidelift"
+            }
         ]
     },
     {
@@ -865,17 +899,17 @@
     },
     {
         "name": "symfony/polyfill-mbstring",
-        "version": "v1.17.0",
-        "version_normalized": "1.17.0.0",
+        "version": "v1.18.0",
+        "version_normalized": "1.18.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-mbstring.git",
-            "reference": "fa79b11539418b02fc5e1897267673ba2c19419c"
+            "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/fa79b11539418b02fc5e1897267673ba2c19419c",
-            "reference": "fa79b11539418b02fc5e1897267673ba2c19419c",
+            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/a6977d63bf9a0ad4c65cd352709e230876f9904a",
+            "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a",
             "shasum": ""
         },
         "require": {
@@ -884,11 +918,15 @@
         "suggest": {
             "ext-mbstring": "For best performance"
         },
-        "time": "2020-05-12T16:47:27+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.17-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -922,21 +960,35 @@
             "polyfill",
             "portable",
             "shim"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
         ]
     },
     {
         "name": "symfony/translation",
-        "version": "v3.4.42",
-        "version_normalized": "3.4.42.0",
+        "version": "v3.4.43",
+        "version_normalized": "3.4.43.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "b0cd62ef0ff7ec31b67d78d7fc818e2bda4e844f"
+            "reference": "600b84224bf482441cd4d0026eba78755d2e2b34"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/b0cd62ef0ff7ec31b67d78d7fc818e2bda4e844f",
-            "reference": "b0cd62ef0ff7ec31b67d78d7fc818e2bda4e844f",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/600b84224bf482441cd4d0026eba78755d2e2b34",
+            "reference": "600b84224bf482441cd4d0026eba78755d2e2b34",
             "shasum": ""
         },
         "require": {
@@ -963,7 +1015,7 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2020-05-30T18:58:05+00:00",
+        "time": "2020-07-16T09:41:49+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -994,6 +1046,20 @@
             }
         ],
         "description": "Symfony Translation Component",
-        "homepage": "https://symfony.com"
+        "homepage": "https://symfony.com",
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
+        ]
     }
 ]

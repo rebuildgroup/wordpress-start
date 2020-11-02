@@ -1,4 +1,4 @@
-/*! GENERATED SOURCE FILE caldera-forms - v1.9.1 - 2020-06-19 */var resBaldrickTriggers;
+/*! GENERATED SOURCE FILE caldera-forms - v1.9.2 - 2020-07-29 */var resBaldrickTriggers;
 
 jQuery(function($){
 	function fieldErrors(fields, $form, $notice) {
