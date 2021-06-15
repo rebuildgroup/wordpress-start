@@ -28,10 +28,10 @@ class Taxonomy_Helper {
 	/**
 	 * Taxonomy_Helper constructor.
 	 *
+	 * @codeCoverageIgnore It only sets dependencies.
+	 *
 	 * @param Options_Helper $options The options helper.
 	 * @param String_Helper  $string  The string helper.
-	 *
-	 * @codeCoverageIgnore It only sets dependencies.
 	 */
 	public function __construct( Options_Helper $options, String_Helper $string ) {
 		$this->options = $options;
@@ -75,9 +75,9 @@ class Taxonomy_Helper {
 	/**
 	 * Retrieves the taxonomy term's meta values.
 	 *
-	 * @param WP_Term $term Term to get the meta value for.
-	 *
 	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
+	 * @param WP_Term $term Term to get the meta value for.
 	 *
 	 * @return array|bool Array of all the meta data for the term.
 	 *                    False if the term does not exist or the $meta provided is invalid.
@@ -96,11 +96,11 @@ class Taxonomy_Helper {
 	public function get_taxonomy_slug( $taxonomy ) {
 		$taxonomy_object = \get_taxonomy( $taxonomy );
 
-		if ( $taxonomy_object && property_exists( $taxonomy_object, 'rewrite' ) && is_array( $taxonomy_object->rewrite ) && isset( $taxonomy_object->rewrite['slug'] ) ) {
+		if ( $taxonomy_object && \property_exists( $taxonomy_object, 'rewrite' ) && \is_array( $taxonomy_object->rewrite ) && isset( $taxonomy_object->rewrite['slug'] ) ) {
 			return $taxonomy_object->rewrite['slug'];
 		}
 
-		return strtolower( $taxonomy_object->name );
+		return \strtolower( $taxonomy_object->name );
 	}
 
 	/**

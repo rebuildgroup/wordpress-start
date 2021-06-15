@@ -91,10 +91,11 @@ class FLVideoModule extends FLBuilderModule {
 		} elseif ( 'embed' === $this->settings->video_type ) {
 			global $wp_embed;
 
-			$video_embed = sprintf( '%s', __( 'Video embed code not specified.', 'fl-builder' ) );
-
+			$video_embed = '';
 			if ( ! empty( $this->settings->embed_code ) ) {
 				$video_embed = $wp_embed->autoembed( do_shortcode( $this->settings->embed_code ) );
+			} elseif ( ! isset( $this->settings->connections ) ) {
+				$video_embed = sprintf( '%s', __( 'Video embed code not specified.', 'fl-builder' ) );
 			}
 
 			if ( 'yes' == $this->settings->video_lightbox ) {
@@ -117,7 +118,8 @@ class FLVideoModule extends FLBuilderModule {
 		$poster_html = '';
 
 		if ( 'yes' === $this->settings->video_lightbox ) {
-			if ( empty( $this->get_poster_url() ) ) {
+			$poster_url = $this->get_poster_url();
+			if ( empty( $poster_url ) ) {
 				$poster_html .= '<div class="fl-video-poster">';
 				$poster_html .= sprintf( '%s', __( 'Please specify a poster image if Video Lightbox is enabled.', 'fl-builder' ) );
 				$poster_html .= '</div>';

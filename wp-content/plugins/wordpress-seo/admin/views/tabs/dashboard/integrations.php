@@ -54,9 +54,14 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 					'on'  => __( 'On', 'wordpress-seo' ),
 					'off' => __( 'Off', 'wordpress-seo' ),
 				],
-				'<strong>' . $integration->name . '</strong>',
+				$integration->name,
 				$feature_help->get_button_html() . $feature_help->get_panel_html()
 			);
+
+			if ( ! empty( $integration->after ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput -- after contains HTMl and we assume it's properly escape on object creation.
+				echo $integration->after;
+			}
 		}
 		?>
 	</div>

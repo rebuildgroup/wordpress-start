@@ -57,7 +57,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * Sets the asset manager to use.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager Optional. Asset manager to use.
+	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager Optional. Asset manager to use.
 	 */
 	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager = null ) {
 		if ( ! $asset_manager ) {
@@ -75,6 +75,14 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function add_menu( WP_Admin_Bar $wp_admin_bar ) {
+
+		// On block editor pages, the admin bar only shows on mobile, where having this menu icon is not very helpful.
+		if ( is_admin() ) {
+			$screen = get_current_screen();
+			if ( isset( $screen ) && $screen->is_block_editor() ) {
+				return;
+			}
+		}
 
 		// If the current user can't write posts, this is all of no use, so let's not output an admin menu.
 		if ( ! current_user_can( 'edit_posts' ) ) {

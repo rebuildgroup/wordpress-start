@@ -218,9 +218,14 @@
 			}
 
 			if( 'load_more' == this.settings.pagination ) {
+				$( this.wrapperClass + ' .fl-post-grid-sizer.masonry-brick' ).appendTo( this.wrapperClass );
 				$( '#infscr-loading' ).appendTo( this.wrapperClass );
 			}
 
+			elements.find( 'img[srcset]' ).each( function( index, img ) {
+				img.outerHTML = img.outerHTML;
+			});
+			
 			this.currPage++;
 
 			this._removeLoadMoreButton();

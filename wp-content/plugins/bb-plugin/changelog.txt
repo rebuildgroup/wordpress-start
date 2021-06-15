@@ -1,4 +1,134 @@
-<h4>2.4.0.6</h4> - 10/12/2020</h4>
+<h4>2.4.2.3 - 05/25/2021</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Fixed column width resetting to very small/narrow</li>
+</ul>
+
+<h4>2.4.2.2 - 03/01/2021</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Fixed photo cropping issue for subdomain multisite users</li>
+	<li>Fixed update issue with Godaddy booster plugin</li>
+	<li>Fixed Post Carousel blur issue with Google Chrome</li>
+	<li>Fixed issue with Google Fonts not loading when applying a template</li>
+</ul>
+
+
+<h4>2.4.2.1 - 02/11/2021</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Contact Form Module: Escape characters in fields</li>
+	<li>Post Module: Fix missing images in Safari 13 and below when using Load More or Scroll for pagination</li>
+	<li>Post Module: Fix blurry images in Safari when using scroll for pagination and when using some CDNs for images</li>
+	<li>When using the <code>fl_enable_shortcode_css_js</code> filter, make sure those shortcodes render in the UI/Edit Mode</li>
+	<li>Revert fix for button styling applying to inputs in the Subscribe Module</li>
+	<li>Fixed compatibility with ClassicPress</li>
+</ul>
+
+<h4>2.4.2 - 01/28/2021</h4>
+<strong>Enhancements</strong>
+<ul>
+	<li>Add compatibility with Assistant .6</li>
+	<li>Small changes to the Updates Unavailable message so it will show why updates are unavailable</li>
+	<li>Add Alpha/Beta updates opt-in setting in Settings > Tool admin page</li>
+</ul>
+
+<strong>Bug Fixes</strong>
+<ul>
+	<li>Audio Module: Fix issue if audio file URL contains query strings</li>
+	<li>Callout Module: Fix border radius not affecting the image</li>
+	<li>Callout Module: Fix invalid HTML when using an icon</li>
+	<li>Gallery Module: Fix image sequence not being correct when going through images in lightbox</li>
+	<li>Heading Module: Fix Typography styling changes not showing as you change in Responsive Editing mode</li>
+	<li>Posts Module: Fix content options not toggling to hidden when they should</li>
+	<li>Search Module: fix fatal error when using Global Element with AJAX Search Results</li>
+	<li>Subscribe Module: Fix button styling applying to placeholder text</li>
+	<li>Video Module: Fix video embed code not specified notice not displaying when using connect field connection</li>
+	<li>Fix dark mode syntax highlighting</li>
+	<li>Fix BB UI icons not showing on Multi-Site subsites when FontAwesome Pro is enabled on the main network site</li>
+	<li>Fix PHP8 notices</li>
+	<li>Improvements to our sensitive code check to allow non-breaking space and other HTML entities</li>
+	<li>Fix namespaced widgets showing "Widget not available" message when you go back in to edit</li>
+	<li>Fix select fields showing in Responsive Editing mode when they should be hidden</li>
+	<li>Fix column width consistency issue on small devices when reverse stacking is enabled</li>
+	<li>Fix horizontal scrollbar on Windows machines when using a layout shortcode</li>
+	<li>Fix compatibility issue with All In One SEO when using a layout shortcode on the page</li>
+	<li>Fix compatibility with Real Meal Library so that folders are visible on small devices</li>
+</ul>
+
+<h4>2.4.1.3 - 12/21/2020</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Content Slider Module: Fix empty image alt text on mobile layout (#916)</li>
+	<li>Gallery Module: Fix loading issue with Collage layout (#917)</li>
+	<li>Photo Module: Fix PHP notice when showing captions and loading image via URL (#937)</li>
+	<li>Posts Modules: Fix PHP notices related to TEC loop (#911)</li>
+	<li>Fix overridden responsive values not showing on toggle (#914)</li>
+	<li>Remove Dark Mode keyboard shortcut due to customer feedback (#929)</li>
+	<li>Fix TwentyTwentyOne compatibility with the menu module (#907)</li>
+	<li>Make sure our sensitive code check allows <code>&amp;</code> (#924)</li>
+</ul>
+
+
+<h4>2.4.1.2 - 12/03/2020</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Gallery Module: Captions do not show when image source is SmugMug (#891)</li>
+	<li>List Module: Fix Duplicate Heading and Content tag options (#879)</li>
+	<li>Posts Modules: Fix "match all posts except" option not working properly with TEC Events(#874)</li>
+	<li>Fix Fatal errors when using PHP 5.4 and WP 4.9 and below (#875)</li>
+	<li>Notifications Area: Fix background transparency (#898)</li>
+	<li>Sensitive code protection: allow some improper HTML and when triggered, try to highlight the problem code (#872)</li>
+	<li>Agency Version: Fix issue with Branding filter where icon doesn't work if you previously changed that value in WP admin (#849)</li>
+</ul>
+
+<h4>2.4.1.1 - 11/18/2020</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Fix RankMath integration (#866)</li>
+	<li>Tweak sensitive code fix so that it doesn't prevent allowed HTML (#840)</li>
+	<li>Fix updating global element does not update CSS (#838)</li>
+	<li>Fix attribute preview not selecting all matching elements (#864)</li>
+	<li>Fix Content Slider button padding applying to other Content Slider modules on the same page (#850)</li>
+	<li>More UI Style hardening for letter-spacing in CSS (#842)</li>
+</ul>
+
+<h4>2.4.1 - 11/5/2020</h4>
+<strong>Enhancements</strong>
+<ul>
+	<li>Button Group: Convert Button Spacing to a dimension field and make it responsive for more control (#791)</li>
+	<li>Button Group: Add group name option for Accessibility</li>
+	<li>The Events Calendar: Posts Module now respects the Events Calendar "Hide from Event" Listings checkbox (#495)</li>
+	<li>List Module: Add Icon Width Field (#576)</li>
+	<li>Add Object Cache to Cache Helper Tool (#691)</li>
+	<li>Subscribe Module: Add integration with Mailjet</li>
+	<li>Update FontAwesome to 5.15.1 (#784)</li>
+	<li>Do not clear cache on upgrader_process_complete as cache is already cleared when BB is updated</li>
+	<li>Use wp_kses_post for photo captions (#448)</li>
+	<li>Make sure users who enter sensitive code have WordPress' unfiltered html capability (#448)</li>
+</ul>
+
+<strong>Bug Fix</strong>
+<ul>
+	<li>Accordion Module: Fix RTL issue with labels (#414)
+	<li>Button Group: Fix Button Spacing not working on Safari (#791)</li>
+	<li>Button Group: Fix responsive alignment (#690)</li>
+	<li>Content Slider: Fix button padding not working (#625)</li>
+	<li>Text Editor Module: Add compatibility with the HappyFoxChat plugin (#445)</li>
+	<li>Layout Shortcodes: fix issue where an empty slug attribute can load all posts for the layout (#608)</li>
+	<li>Posts Module: Move Post Grid Sizer to the bottom (#497)</li>
+	<li>Posts Module: Fix compatibility with WOOF WooCommerce Products Filter (#649)</li>
+	<li>Posts Module: Fix pagination on Polylang translated pages or on the WooCommerce Shop Layout when more than one module is on the page (#718 & #752)</li>
+	<li>Search Module: Fix bug with the $settings variable (#779)</li>
+	<li>Fix PHP notice on a 404 layout when using layout shortcodes (#693)</li>
+	<li>Fix fixed background images showing as zoomed in on iPadOS (#686)</li>
+	<li>Fix UI not opening on Themer Header Layout when Klaviyo plugin is active (#791)</li>
+	<li>Fix Yoast Integration not reading BB content (#788)</li>
+	<li>Fix Tooltips issue in User Access area of settings when WooCommerce is active (#748)</li>
+	<li>Fix broken serialization during import and the "Invalid Content" dialog in some cases when editing a page or a post (#834)</li>
+</ul>
+
+<h4>2.4.0.6 - 10/12/2020</h4>
 <strong>Hot Fix</strong>
 <ul>
 	<li>Fixed PHP notice that appears when dropping a Menu module on the page (Issue #775)</li>
@@ -7,7 +137,7 @@
 	<li>Fixed fatal on Flywheel Cloud hosting when you have Lite installed and then activate a Premium version (Issue #770)</li>
 </ul>
 
-<h4>2.4.0.5</h4> - 09/28/2020</h4>
+<h4>2.4.0.5 - 09/28/2020</h4>
 <strong>Hot Fix</strong>
 <ul>
 	<li>Button Module: Fix lightbox not working if ID specified in module settings</li>
@@ -133,7 +263,7 @@ Beaver Builder 2.4 is here! This is a major update and will be released as the o
 	<li>Remove autoload from options that we can, like fl_notifications</li>
 	<li>Fix a fatal error in certain cases when a used module goes missing</li>
 	<li>Fixed lodash issue when using Events Calendar and Assistant plugins.</li>
-	<li>Fixe Importer issues: imported items not showing the layout CSS/JS and other minor fixes</li>
+	<li>Fixed Importer issues: imported items not showing the layout CSS/JS and other minor fixes</li>
 	<li>Fixed Import/Export not working with custom modules with _ in slug.</li>
 	<li>Fixed MultiSite domain mapping causing responsive settings to go full screen.</li>
 	<li>Fixed Autoptimize aggregate CSS causing responsive settings to go full screen.</li>
@@ -191,7 +321,7 @@ Beaver Builder 2.4 is here! This is a major update and will be released as the o
 <h4>2.3.2.3 - 03/16/2020</h4>
 <strong>Hot Fix</strong>
 <ul>
-	<li>Fixed alignment isssue of color picker X icon on Firefox.</li>
+	<li>Fixed alignment issue of color picker X icon on Firefox.</li>
 	<li>Fixed template importer issue.</li>
 	<li>Fixed JS error in legacy settings response.</li>
 	<li>Updated license warning logic in wp-admin.</li>
@@ -251,7 +381,7 @@ Beaver Builder 2.4 is here! This is a major update and will be released as the o
 <ul>
 	<li>Added responsive alignment controls to Icon Group.</li>
 	<li>Added available downloads to debug info.</li>
-	<li>Whe using Youtube video for row background, use fallback as start image then fade in when video loads.</li>
+	<li>When using Youtube video for row background, use fallback as start image then fade in when video loads.</li>
 	<li>Respect <code>fl_builder_render_admin_edit_ui</code> filter if using Block Editor.</li>
 </ul>
 <strong>Bug Fixes</strong>
@@ -359,8 +489,8 @@ Fixed default text still appearing even after being removed</li>
 <p><strong>Hot Fix</strong></p>
 <ul>
 	<li>Fixed importer issue.</li>
-	<li>Fixed Accordian active/focus CSS issue.</li>
-	<li>Removed Wrapper.php from phpxmlrpc vendor package as it flagged up a false positive for malware and isnt actually used.</li>
+	<li>Fixed Accordion active/focus CSS issue.</li>
+	<li>Removed Wrapper.php from phpxmlrpc vendor package as it flagged up a false positive for malware and isn't actually used.</li>
 	<li>Fixed JS error with Yoast integration if Yoast meta box is disabled for post-type.</li>
 	<li>Fixed add media modal CSS issue introduced in WP 5.3</li>
 	<li>Fixed HTML being stripped in subscribe module success message.</li>
@@ -542,7 +672,7 @@ Fixed default text still appearing even after being removed</li>
 	<li>Fixed background/border CSS issue in Accordion module.</li>
 	<li>Fixed mobile menu icon missing at 993px in Menu module.</li>
 	<li>Fixed expanded mobile menu not closing when clicked outside of the module.</li>
-	<li>Fixed missing quotes in Accordian module markup.</li>
+	<li>Fixed missing quotes in Accordion module markup.</li>
 	<li>Removed flpaging query string in pagination.</li>
 	<li>Keep initial $post object and reset globals after loop.</li>
 	<li>Various branding updates to error messages.</li>
@@ -640,7 +770,7 @@ Fixed default text still appearing even after being removed</li>
 	<li>Fixed some Google fonts not rendering correctly if they have numbers in the font name.</li>
 	<li>Updated the crash error message popup text.</li>
 	<li>Update checks now use SSL urls.</li>
-	<li>Fixed preview issue. Type unit was using the number value intead of the unit value.</li>
+	<li>Fixed preview issue. Type unit was using the number value instead of the unit value.</li>
 	<li>Fixed WPCLI issue when using PHP5.</li>
 	<li>Fixed issue with Maps module and ACF map field connection.</li>
 	<li>Fixed undefined index warning on some Woocommerce pages.</li>
@@ -1345,7 +1475,7 @@ Fixed default text still appearing even after being removed</li>
 	<li>Fixed Pagely cache clear code.</li>
 	<li>Fixed small issue with Google italic fonts.</li>
 	<li>Fixed issue with Enfold theme causing javascript error when builder is open.</li>
-	<li>Updated Events Calender Widget compatibility code.</li>
+	<li>Updated Events Calendar Widget compatibility code.</li>
 	<li>New filter added <code>fl_get_edit_url</code>.</li>
 	<li>New filter added <code>fl_widget_module_args</code>.</li>
 </ul>
@@ -3164,7 +3294,7 @@ Fixed default text still appearing even after being removed</li>
 	<li>Refactored frontend AJAX actions and rendering to support partial refresh. Developers tapping into those actions may need to update their code.</li>
 	<li>Optimized loading of the builder UI by concatenating and minifying all core CSS and JavaScript files.</li>
 	<li>Builder caching is now disabled when WP_DEBUG is set to true.</li>
-	<li>The editing capability setting now supports multiple comma seperated values.</li>
+	<li>The editing capability setting now supports multiple comma separated values.</li>
 	<li>Updated Google fonts.</li>
 </ul>
 <p><strong>Bug Fixes</strong></p>
@@ -3588,7 +3718,7 @@ Fixed default text still appearing even after being removed</li>
 <p><strong>Enhancements</strong></p>
 <ul>
     <li>Added SendinBlue integration.</li>
-    <li>Added filters for MailChimp single optin and disabling the welcome message.</li>
+    <li>Added filters for MailChimp single opt-in and disabling the welcome message.</li>
     <li>Most of the builder's PHP and JavaScript files now have much better inline documentation of classes, properties and methods (we still need to do the modules).</li>
 </ul>
 <p><strong>Tweaks</strong></p>
@@ -3693,7 +3823,7 @@ Fixed default text still appearing even after being removed</li>
 <ul>
     <li>Added a help button to the builder interface that gives users access to a tour, video (coming soon), forums and documentation.</li>
     <li>Added network settings for white labeling the help button. Agency members can customize or disable all help button features such as adding their own video or knowledge base links. Unfortunately, the tour is too complex to make customizable, but it can be disabled and is disabled by default while in simple editing mode.</li>
-    <li>Added a welcome message for the first time a user launchs the builder on a site asking if they would like to view the tour.</li>
+    <li>Added a welcome message for the first time a user launches the builder on a site asking if they would like to view the tour.</li>
     <li>Added a new style setting to the button module for creating flat, gradient or transparent buttons.</li>
     <li>Added Arabic and Spanish translations.</li>
     <li>Added display:inline to builder images to prevent themes that set images to display:block from breaking alignment.</li>
@@ -3947,7 +4077,7 @@ Fixed default text still appearing even after being removed</li>
 <h4>1.3.0</h4>
 <p><strong>Enhancements</strong></p>
 <ul>
-	<li>Multiple accordian items can now be open at the same time.</li>
+	<li>Multiple accordion items can now be open at the same time.</li>
 	<li>Added Swedish translation.</li>
 </ul>
 <p><strong>Bug Fixes</strong></p>
@@ -4086,7 +4216,7 @@ Fixed default text still appearing even after being removed</li>
 	<li>Added help tooltips to row, column and module actions.</li>
 	<li>The row and module settings spacing tab has been renamed to advanced.</li>
 	<li>Added CSS animations for modules under the advanced settings tab.</li>
-	<li>Added opacity to seperator module.</li>
+	<li>Added opacity to separator module.</li>
 	<li>License activation has been moved from Settings &gt; FastLine Themes to Settings &gt; Page Builder &gt; License.</li>
 	<li>The builder is now disabled by default for posts.</li>
 	<li>Added new font awesome icons.</li>
@@ -4229,7 +4359,7 @@ Fixed default text still appearing even after being removed</li>
 <p><strong>Bug Fixes</strong></p>
 <ul>
     <li>Fixed a bug with widget modules. Now when you uninstall a custom widget that was inserted into the builder, it doesn't break.</li>
-    <li>Fixed an issue with button css being overriden by third party themes.</li>
+    <li>Fixed an issue with button css being overridden by third party themes.</li>
 </ul>
 
 <h4>1.0.5</h4>

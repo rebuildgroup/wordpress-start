@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexable_Indexing_Complete_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
@@ -29,9 +29,11 @@ class Indexation_Integration implements Integration_Interface {
 	 *
 	 * @deprecated 15.1
 	 * @codeCoverageIgnore
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return [
 			Admin_Conditional::class,
@@ -43,18 +45,18 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Indexation_Integration constructor.
 	 *
+	 * @deprecated 15.1
+	 * @codeCoverageIgnore
+	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexation action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation action.
-	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action The complete indexation action.
+	 * @param Indexable_Indexing_Complete_Action            $complete_indexation_action   The complete indexation action.
 	 * @param Options_Helper                                $options_helper               The options helper.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 * @param Yoast_Tools_Page_Conditional                  $yoast_tools_page_conditional The Yoast tools page conditional.
 	 * @param Indexable_Helper                              $indexable_helper             The indexable helper.
-	 *
-	 * @deprecated 15.1
-	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -67,7 +69,7 @@ class Indexation_Integration implements Integration_Interface {
 		Yoast_Tools_Page_Conditional $yoast_tools_page_conditional,
 		Indexable_Helper $indexable_helper
 	) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -77,7 +79,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -89,7 +91,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -101,7 +103,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -113,7 +115,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_modal() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -125,7 +127,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_list_item() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -137,7 +139,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_permalink_warning() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -149,7 +151,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function shutdown_indexation() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 	}
 
 	/**
@@ -161,7 +163,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return int The total number of unindexed objects.
 	 */
 	public function get_total_unindexed() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.1' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );
 
 		return 0;
 	}

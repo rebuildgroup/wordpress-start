@@ -219,6 +219,11 @@
     "fallback": "sans-serif"
   }
 }, {
+  "Andika New Basic": {
+    "variants": ["regular", "italic", "700", "700italic"],
+    "fallback": "sans-serif"
+  }
+}, {
   "Angkor": {
     "variants": ["regular"],
     "fallback": "sans-serif"
@@ -300,7 +305,7 @@
   }
 }, {
   "Arimo": {
-    "variants": ["regular", "italic", "700", "700italic"],
+    "variants": ["regular", "500", "600", "700", "italic", "500italic", "600italic", "700italic"],
     "fallback": "sans-serif"
   }
 }, {
@@ -355,7 +360,7 @@
   }
 }, {
   "Assistant": {
-    "variants": ["200", "300", "regular", "600", "700", "800"],
+    "variants": ["200", "300", "regular", "500", "600", "700", "800"],
     "fallback": "sans-serif"
   }
 }, {
@@ -609,6 +614,11 @@
     "fallback": "sans-serif"
   }
 }, {
+  "Benne": {
+    "variants": ["regular"],
+    "fallback": "serif"
+  }
+}, {
   "Bentham": {
     "variants": ["regular"],
     "fallback": "serif"
@@ -630,6 +640,26 @@
   }
 }, {
   "Big Shoulders Display": {
+    "variants": ["100", "300", "regular", "500", "600", "700", "800", "900"],
+    "fallback": "sans-serif"
+  }
+}, {
+  "Big Shoulders Inline Display": {
+    "variants": ["100", "300", "regular", "500", "600", "700", "800", "900"],
+    "fallback": "sans-serif"
+  }
+}, {
+  "Big Shoulders Inline Text": {
+    "variants": ["100", "300", "regular", "500", "600", "700", "800", "900"],
+    "fallback": "sans-serif"
+  }
+}, {
+  "Big Shoulders Stencil Display": {
+    "variants": ["100", "300", "regular", "500", "600", "700", "800", "900"],
+    "fallback": "sans-serif"
+  }
+}, {
+  "Big Shoulders Stencil Text": {
     "variants": ["100", "300", "regular", "500", "600", "700", "800", "900"],
     "fallback": "sans-serif"
   }
@@ -697,6 +727,11 @@
   "Blinker": {
     "variants": ["100", "200", "300", "regular", "600", "700", "800", "900"],
     "fallback": "sans-serif"
+  }
+}, {
+  "Bodoni Moda": {
+    "variants": ["regular", "500", "600", "700", "800", "900", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"],
+    "fallback": "serif"
   }
 }, {
   "Bokor": {
@@ -894,6 +929,11 @@
     "fallback": "sans-serif"
   }
 }, {
+  "Castoro": {
+    "variants": ["regular", "italic"],
+    "fallback": "serif"
+  }
+}, {
   "Catamaran": {
     "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"],
     "fallback": "sans-serif"
@@ -905,7 +945,7 @@
   }
 }, {
   "Caveat": {
-    "variants": ["regular", "700"],
+    "variants": ["regular", "500", "600", "700"],
     "fallback": "cursive"
   }
 }, {
@@ -1669,6 +1709,11 @@
     "fallback": "serif"
   }
 }, {
+  "Fraunces": {
+    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"],
+    "fallback": "serif"
+  }
+}, {
   "Freckle Face": {
     "variants": ["regular"],
     "fallback": "sans-serif"
@@ -1839,6 +1884,11 @@
     "fallback": "cursive"
   }
 }, {
+  "Goldman": {
+    "variants": ["regular", "700"],
+    "fallback": "sans-serif"
+  }
+}, {
   "Gorditas": {
     "variants": ["regular", "700"],
     "fallback": "sans-serif"
@@ -1927,6 +1977,11 @@
   "Habibi": {
     "variants": ["regular"],
     "fallback": "serif"
+  }
+}, {
+  "Hachi Maru Pop": {
+    "variants": ["regular"],
+    "fallback": "cursive"
   }
 }, {
   "Halant": {
@@ -2110,7 +2165,7 @@
   }
 }, {
   "Ibarra Real Nova": {
-    "variants": ["regular", "italic", "600", "600italic", "700", "700italic"],
+    "variants": ["regular", "500", "600", "700", "italic", "500italic", "600italic", "700italic"],
     "fallback": "serif"
   }
 }, {
@@ -2122,6 +2177,11 @@
   "Iceland": {
     "variants": ["regular"],
     "fallback": "sans-serif"
+  }
+}, {
+  "Imbue": {
+    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"],
+    "fallback": "serif"
   }
 }, {
   "Imprima": {
@@ -2209,6 +2269,11 @@
     "fallback": "sans-serif"
   }
 }, {
+  "JetBrains Mono": {
+    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic"],
+    "fallback": "monospace"
+  }
+}, {
   "Jim Nightshade": {
     "variants": ["regular"],
     "fallback": "cursive"
@@ -2240,7 +2305,7 @@
   }
 }, {
   "Josefin Slab": {
-    "variants": ["100", "100italic", "300", "300italic", "regular", "italic", "600", "600italic", "700", "700italic"],
+    "variants": ["100", "200", "300", "regular", "500", "600", "700", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic"],
     "fallback": "serif"
   }
 }, {
@@ -2325,7 +2390,7 @@
   }
 }, {
   "Karla": {
-    "variants": ["regular", "italic", "700", "700italic"],
+    "variants": ["200", "300", "regular", "500", "600", "700", "800", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic"],
     "fallback": "sans-serif"
   }
 }, {
@@ -2501,7 +2566,7 @@
 }, {
   "Laila": {
     "variants": ["300", "regular", "500", "600", "700"],
-    "fallback": "serif"
+    "fallback": "sans-serif"
   }
 }, {
   "Lakki Reddy": {
@@ -2515,6 +2580,11 @@
   }
 }, {
   "Lancelot": {
+    "variants": ["regular"],
+    "fallback": "sans-serif"
+  }
+}, {
+  "Langar": {
     "variants": ["regular"],
     "fallback": "sans-serif"
   }
@@ -2624,6 +2694,11 @@
     "fallback": "sans-serif"
   }
 }, {
+  "Libre Barcode EAN13 Text": {
+    "variants": ["regular"],
+    "fallback": "sans-serif"
+  }
+}, {
   "Libre Baskerville": {
     "variants": ["regular", "italic", "700"],
     "fallback": "serif"
@@ -2640,7 +2715,7 @@
   }
 }, {
   "Libre Franklin": {
-    "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic", "900", "900italic"],
+    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"],
     "fallback": "sans-serif"
   }
 }, {
@@ -3214,6 +3289,11 @@
     "fallback": "cursive"
   }
 }, {
+  "Nerko One": {
+    "variants": ["regular"],
+    "fallback": "cursive"
+  }
+}, {
   "Neucha": {
     "variants": ["regular"],
     "fallback": "cursive"
@@ -3749,6 +3829,11 @@
     "fallback": "serif"
   }
 }, {
+  "Potta One": {
+    "variants": ["regular"],
+    "fallback": "sans-serif"
+  }
+}, {
   "Pragati Narrow": {
     "variants": ["regular", "700"],
     "fallback": "sans-serif"
@@ -4140,7 +4225,7 @@
   }
 }, {
   "Saira": {
-    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900"],
+    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"],
     "fallback": "sans-serif"
   }
 }, {
@@ -4464,6 +4549,11 @@
     "fallback": "serif"
   }
 }, {
+  "Space Grotesk": {
+    "variants": ["300", "regular", "500", "600", "700"],
+    "fallback": "sans-serif"
+  }
+}, {
   "Space Mono": {
     "variants": ["regular", "italic", "700", "700italic"],
     "fallback": "monospace"
@@ -4639,6 +4729,16 @@
     "fallback": "sans-serif"
   }
 }, {
+  "Syne Mono": {
+    "variants": ["regular"],
+    "fallback": "monospace"
+  }
+}, {
+  "Syne Tactile": {
+    "variants": ["regular"],
+    "fallback": "sans-serif"
+  }
+}, {
   "Tajawal": {
     "variants": ["200", "300", "regular", "500", "700", "800", "900"],
     "fallback": "sans-serif"
@@ -4687,6 +4787,11 @@
   "Text Me One": {
     "variants": ["regular"],
     "fallback": "sans-serif"
+  }
+}, {
+  "Texturina": {
+    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800", "900", "100italic", "200italic", "300italic", "italic", "500italic", "600italic", "700italic", "800italic", "900italic"],
+    "fallback": "serif"
   }
 }, {
   "Thasadith": {
@@ -4742,6 +4847,11 @@
   "Trirong": {
     "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic", "900", "900italic"],
     "fallback": "serif"
+  }
+}, {
+  "Trispace": {
+    "variants": ["100", "200", "300", "regular", "500", "600", "700", "800"],
+    "fallback": "sans-serif"
   }
 }, {
   "Trocchi": {
@@ -4954,6 +5064,11 @@
     "fallback": "sans-serif"
   }
 }, {
+  "Xanh Mono": {
+    "variants": ["regular", "italic"],
+    "fallback": "monospace"
+  }
+}, {
   "Yanone Kaffeesatz": {
     "variants": ["200", "300", "regular", "500", "600", "700"],
     "fallback": "sans-serif"
@@ -4992,6 +5107,11 @@
   "Yrsa": {
     "variants": ["300", "regular", "500", "600", "700"],
     "fallback": "serif"
+  }
+}, {
+  "Yusei Magic": {
+    "variants": ["regular"],
+    "fallback": "sans-serif"
   }
 }, {
   "ZCOOL KuaiLe": {

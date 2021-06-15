@@ -38,7 +38,7 @@ if ( ! function_exists( 'yoast_get_primary_term_id' ) ) {
 	 * Get the primary term ID.
 	 *
 	 * @param string           $taxonomy Optional. The taxonomy to get the primary term ID for. Defaults to category.
-	 * @param null|int|WP_Post $post     Optional. Post to get the primary term ID for.
+	 * @param int|WP_Post|null $post     Optional. Post to get the primary term ID for.
 	 *
 	 * @return bool|int
 	 */
@@ -55,7 +55,7 @@ if ( ! function_exists( 'yoast_get_primary_term' ) ) {
 	 * Get the primary term name.
 	 *
 	 * @param string           $taxonomy Optional. The taxonomy to get the primary term for. Defaults to category.
-	 * @param null|int|WP_Post $post     Optional. Post to get the primary term for.
+	 * @param int|WP_Post|null $post     Optional. Post to get the primary term for.
 	 *
 	 * @return string Name of the primary term.
 	 */
@@ -197,7 +197,7 @@ function wpseo_shortcode_yoast_breadcrumb() {
 	return '';
 }
 
-if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
+if ( ! function_exists( 'ctype_digit' ) ) {
 	/**
 	 * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*.
 	 * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value.

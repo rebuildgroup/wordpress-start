@@ -2,10 +2,12 @@
 
 namespace Yoast\WP\SEO\Exceptions\SEMrush\Tokens;
 
+use Exception;
+
 /**
  * Class Failed_Storage_Exception
  */
-class Failed_Storage_Exception extends \Exception {
+class Failed_Storage_Exception extends Exception {
 
 	const DEFAULT_MESSAGE = 'Token storing failed. Please try again.';
 
@@ -15,7 +17,7 @@ class Failed_Storage_Exception extends \Exception {
 	 * @param string $reason The reason why token storage failed. Optional.
 	 */
 	public function __construct( $reason = '' ) {
-		$message = ( $reason ) ? sprintf( 'Token storing failed. Reason: %s. Please try again', $reason ) : self::DEFAULT_MESSAGE;
+		$message = ( $reason ) ? \sprintf( 'Token storing failed. Reason: %s. Please try again', $reason ) : self::DEFAULT_MESSAGE;
 
 		parent::__construct( $message, 500 );
 	}

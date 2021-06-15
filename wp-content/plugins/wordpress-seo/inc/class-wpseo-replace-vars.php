@@ -43,16 +43,9 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Current post/page/cpt information.
 	 *
-	 * @var object
+	 * @var stdClass
 	 */
 	protected $args;
-
-	/**
-	 * The date helper.
-	 *
-	 * @var WPSEO_Date_Helper
-	 */
-	protected $date;
 
 	/**
 	 * Help texts for use in WPSEO -> Search appearance tabs.
@@ -67,13 +60,6 @@ class WPSEO_Replace_Vars {
 	 * @var array
 	 */
 	protected static $external_replacements = [];
-
-	/**
-	 * Constructor.
-	 */
-	public function __construct() {
-		$this->date = new WPSEO_Date_Helper();
-	}
 
 	/**
 	 * Setup the help texts and external replacements as statics so they will be available to all instances.
@@ -226,6 +212,39 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
+	 * Register a new replacement variable if it has not been registered already.
+	 *
+	 * @param string $var              The name of the variable to replace, i.e. '%%var%%'.
+	 *                                 Note: the surrounding %% are optional.
+	 * @param mixed  $replace_function Function or method to call to retrieve the replacement value for the variable.
+	 *                                 Uses the same format as add_filter/add_action function parameter and
+	 *                                 should *return* the replacement value. DON'T echo it.
+	 * @param string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
+	 * @param string $help_text        Help text to be added to the help tab for this variable.
+	 *
+	 * @return bool `true` if the replace var has been registered, `false` if not.
+	 */
+	public function safe_register_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
+		if ( ! $this->has_been_registered( $var ) ) {
+			return self::register_replacement( $var, $replace_function, $type, $help_text );
+		}
+		return false;
+	}
+
+	/**
+	 * Checks whether the given replacement variable has already been registered or not.
+	 *
+	 * @param string $replacement_variable The replacement variable to check, including the variable delimiter (e.g. `%%var%%`).
+	 *
+	 * @return bool `true` if the replacement variable has already been registered.
+	 */
+	public function has_been_registered( $replacement_variable ) {
+		$replacement_variable = self::remove_var_delimiter( $replacement_variable );
+
+		return isset( self::$external_replacements[ $replacement_variable ] );
+	}
+
+	/**
 	 * Retrieve the replacements for the variables found.
 	 *
 	 * @param array $matches Variables found in the original string - regex result.
@@ -254,13 +273,15 @@ class WPSEO_Replace_Vars {
 				$replacement = $this->retrieve_ct_desc_custom_tax_name( $var );
 			}
 			elseif ( strpos( $var, 'ct_' ) === 0 ) {
-				$single      = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' ) ? true : false;
+				$single      = ( isset( $matches[2][ $k ] ) && $matches[2][ $k ] !== '' );
 				$replacement = $this->retrieve_ct_custom_tax_name( $var, $single );
-			} // Deal with non-variable variable names.
+			}
+			// Deal with non-variable variable names.
 			elseif ( method_exists( $this, 'retrieve_' . $var ) ) {
 				$method_name = 'retrieve_' . $var;
 				$replacement = $this->$method_name();
-			} // Deal with externally defined variable names.
+			}
+			// Deal with externally defined variable names.
 			elseif ( isset( self::$external_replacements[ $var ] ) && ! is_null( self::$external_replacements[ $var ] ) ) {
 				$replacement = call_user_func( self::$external_replacements[ $var ], $var, $this->args );
 			}
@@ -319,7 +340,7 @@ class WPSEO_Replace_Vars {
 
 		if ( $this->args->post_date !== '' ) {
 			// Returns a string.
-			$replacement = $this->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
+			$replacement = YoastSEO()->helpers->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
 		}
 		else {
 			if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
@@ -428,27 +449,10 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the separator for use as replacement string.
 	 *
-	 * @return string
+	 * @return string Retrieves the title separator.
 	 */
 	private function retrieve_sep() {
-		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
-
-		// Get the titles option and the separator options.
-		$separator         = WPSEO_Options::get( 'separator' );
-		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
-
-		// This should always be set, but just to be sure.
-		if ( isset( $seperator_options[ $separator ] ) ) {
-			// Set the new replacement.
-			$replacement = $seperator_options[ $separator ];
-		}
-
-		/**
-		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s).
-		 *
-		 * @api string $replacement The current separator.
-		 */
-		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
+		return YoastSEO()->helpers->options->get_title_separator();
 	}
 
 	/**
@@ -943,7 +947,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( ! empty( $this->args->post_modified ) ) {
-			$replacement = $this->date->format_translated( $this->args->post_modified, get_option( 'date_format' ) );
+			$replacement = YoastSEO()->helpers->date->format_translated( $this->args->post_modified, get_option( 'date_format' ) );
 		}
 
 		return $replacement;
@@ -969,7 +973,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the post/page/cpt author's users description for use as a replacement string.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	private function retrieve_user_description() {
 		$replacement = null;

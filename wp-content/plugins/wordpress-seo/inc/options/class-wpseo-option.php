@@ -133,7 +133,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Instance of this class.
 	 *
-	 * @var object
+	 * @var WPSEO_Option
 	 */
 	protected static $instance;
 
@@ -142,8 +142,6 @@ abstract class WPSEO_Option {
 
 	/**
 	 * Add all the actions and filters for the option.
-	 *
-	 * @return \WPSEO_Option
 	 */
 	protected function __construct() {
 
@@ -426,29 +424,39 @@ abstract class WPSEO_Option {
 	/**
 	 * Validates a Facebook App ID.
 	 *
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $key   Key to check, in this case: the Facebook App ID field name.
 	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
 	 * @param array  $clean Clean data by reference, normally the default values.
 	 */
 	public function validate_facebook_app_id( $key, $dirty, $old, &$clean ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
+
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
 
 			$response = wp_remote_get( $url );
-			// These filters are used in the tests.
+
 			/**
 			 * Filter: 'validate_facebook_app_id_api_response_code' - Allows to filter the Faceboook API response code.
 			 *
+			 * @deprecated 15.5
+			 *
 			 * @api int $response_code The Facebook API response header code.
 			 */
-			$response_code = apply_filters( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ) );
+			$response_code = apply_filters_deprecated( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ), 'WPSEO 15.5' );
+
 			/**
 			 * Filter: 'validate_facebook_app_id_api_response_body' - Allows to filter the Faceboook API response body.
 			 *
+			 * @deprecated 15.5
+			 *
 			 * @api string $response_body The Facebook API JSON response body.
 			 */
-			$response_body   = apply_filters( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ) );
+			$response_body   = apply_filters_deprecated( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ), 'WPSEO 15.5' );
 			$response_object = json_decode( $response_body );
 
 			/*
@@ -730,8 +738,8 @@ abstract class WPSEO_Option {
 	 * @uses WPSEO_Option::get_original_option()
 	 * @uses WPSEO_Option::import()
 	 *
-	 * @param string $current_version Optional. Version from which to upgrade, if not set,
-	 *                                version specific upgrades will be disregarded.
+	 * @param string|null $current_version Optional. Version from which to upgrade, if not set,
+	 *                                     version specific upgrades will be disregarded.
 	 *
 	 * @return void
 	 */
@@ -754,12 +762,12 @@ abstract class WPSEO_Option {
 	 *    once the admin has dismissed the message (add ajax function)
 	 * Important: all validation routines which add_settings_errors would need to be changed for this to work
 	 *
-	 * @param array  $option_value          Option value to be imported.
-	 * @param string $current_version       Optional. Version from which to upgrade, if not set,
-	 *                                      version specific upgrades will be disregarded.
-	 * @param array  $all_old_option_values Optional. Only used when importing old options to
-	 *                                      have access to the real old values, in contrast to
-	 *                                      the saved ones.
+	 * @param array       $option_value          Option value to be imported.
+	 * @param string|null $current_version       Optional. Version from which to upgrade, if not set,
+	 *                                           version specific upgrades will be disregarded.
+	 * @param array|null  $all_old_option_values Optional. Only used when importing old options to
+	 *                                           have access to the real old values, in contrast to
+	 *                                           the saved ones.
 	 *
 	 * @return void
 	 */
@@ -819,8 +827,8 @@ abstract class WPSEO_Option {
 	 * @todo [JRF] - shouldn't this be a straight array merge ? at the end of the day, the validation
 	 * removes any invalid keys on save.
 	 *
-	 * @param array $options Optional. Current options. If not set, the option defaults
-	 *                       for the $option_key will be returned.
+	 * @param array|null $options Optional. Current options. If not set, the option defaults
+	 *                            for the $option_key will be returned.
 	 *
 	 * @return array Combined and filtered options array.
 	 */

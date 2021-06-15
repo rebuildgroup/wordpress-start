@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions\SEMrush;
 
+use Exception;
 use Yoast\WP\SEO\Config\SEMrush_Client;
 
 /**
@@ -47,7 +48,7 @@ class SEMrush_Phrases_Action {
 	 */
 	public function get_related_keyphrases( $keyphrase, $database ) {
 		try {
-			$transient_key = sprintf( static::TRANSIENT_CACHE_KEY, $keyphrase, $database );
+			$transient_key = \sprintf( static::TRANSIENT_CACHE_KEY, $keyphrase, $database );
 			$transient     = \get_transient( $transient_key );
 
 			if ( $transient !== false ) {
@@ -71,7 +72,7 @@ class SEMrush_Phrases_Action {
 			\set_transient( $transient_key, $results, \DAY_IN_SECONDS );
 
 			return $this->to_result_object( $results );
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			return (object) [
 				'error'  => $e->getMessage(),
 				'status' => $e->getCode(),

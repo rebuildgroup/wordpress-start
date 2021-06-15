@@ -82,7 +82,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Holds the site information data.
 	 *
-	 * @var object
+	 * @var stdClass
 	 */
 	private $site_information;
 
@@ -94,6 +94,7 @@ class WPSEO_Addon_Manager {
 	 * @return void
 	 */
 	public function register_hooks() {
+		add_action( 'admin_init', [ $this, 'validate_addons' ], 15 );
 		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_for_updates' ] );
 		add_filter( 'plugins_api', [ $this, 'get_plugin_information' ], 10, 3 );
 	}
@@ -105,6 +106,40 @@ class WPSEO_Addon_Manager {
 	 */
 	public function get_subscriptions() {
 		return $this->get_site_information()->subscriptions;
+	}
+
+	/**
+	 * Provides a list of addon filenames.
+	 *
+	 * @return string[] List of addon filenames with their slugs.
+	 */
+	public function get_addon_filenames() {
+		return self::$addons;
+	}
+
+	/**
+	 * Finds the plugin file.
+	 *
+	 * @param string $plugin_slug The plugin slug to search.
+	 *
+	 * @return boolean|string Plugin file when installed, False when plugin isn't installed.
+	 **/
+	public function get_plugin_file( $plugin_slug ) {
+		$plugins            = $this->get_plugins();
+		$plugin_files       = array_keys( $plugins );
+		$target_plugin_file = array_search( $plugin_slug, $this->get_addon_filenames(), true );
+
+		if ( ! $target_plugin_file ) {
+			return false;
+		}
+
+		foreach ( $plugin_files as $plugin_file ) {
+			if ( strpos( $plugin_file, $target_plugin_file ) !== false ) {
+				return $plugin_file;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -181,6 +216,32 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Retrieves information from MyYoast about which addons are connected to the current site.
+	 *
+	 * @return stdClass The list of addons activated for this site.
+	 */
+	public function get_myyoast_site_information() {
+		if ( $this->site_information === null ) {
+			$this->site_information = $this->get_site_information_transient();
+		}
+
+		if ( $this->site_information ) {
+			return $this->site_information;
+		}
+
+		$this->site_information = $this->request_current_sites();
+		if ( $this->site_information ) {
+			$this->site_information = $this->map_site_information( $this->site_information );
+
+			$this->set_site_information_transient( $this->site_information );
+
+			return $this->site_information;
+		}
+
+		return $this->get_site_information_default();
+	}
+
+	/**
 	 * Checks if the subscription for the given slug is valid.
 	 *
 	 * @param string $slug The plugin slug to retrieve.
@@ -221,6 +282,10 @@ class WPSEO_Addon_Manager {
 			if ( version_compare( $installed_plugin['Version'], $subscription->product->version, '<' ) ) {
 				$data->response[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
 			}
+			else {
+				// Still convert subscription when no updates is available.
+				$data->no_update[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+			}
 		}
 
 		return $data;
@@ -235,6 +300,98 @@ class WPSEO_Addon_Manager {
 		$installed_addons = $this->get_installed_addons();
 
 		return ! empty( $installed_addons );
+	}
+
+	/**
+	 * Checks if the plugin is installed and activated in WordPress.
+	 *
+	 * @param string $slug The class' slug.
+	 *
+	 * @return bool True when installed and activated.
+	 */
+	public function is_installed( $slug ) {
+		$slug_to_class_map = [
+			static::PREMIUM_SLUG     => 'WPSEO_Premium',
+			static::NEWS_SLUG        => 'WPSEO_News',
+			static::WOOCOMMERCE_SLUG => 'Yoast_WooCommerce_SEO',
+			static::VIDEO_SLUG       => 'WPSEO_Video_Sitemap',
+			static::LOCAL_SLUG       => 'WPSEO_Local_Core',
+		];
+
+		if ( ! isset( $slug_to_class_map[ $slug ] ) ) {
+			return false;
+		}
+
+		return class_exists( $slug_to_class_map[ $slug ] );
+	}
+
+	/**
+	 * Validates the addons and show a notice for the ones that are invalid.
+	 */
+	public function validate_addons() {
+		$notification_center = Yoast_Notification_Center::get();
+
+		if ( $notification_center === null ) {
+			return;
+		}
+
+		$addons = [
+			'Yoast SEO Premium'     => static::PREMIUM_SLUG,
+			'News SEO'              => static::NEWS_SLUG,
+			'Yoast WooCommerce SEO' => static::WOOCOMMERCE_SLUG,
+			'Video SEO'             => static::VIDEO_SLUG,
+			'Local SEO'             => static::LOCAL_SLUG,
+		];
+
+		foreach ( $addons as $product_name => $slug ) {
+			$notification = $this->create_notification( $product_name );
+
+			// Add a notification when the installed plugin isn't activated in My Yoast.
+			if ( $this->is_installed( $slug ) && ! $this->has_valid_subscription( $slug ) ) {
+				$notification_center->add_notification( $notification );
+
+				continue;
+			}
+
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Removes the site information transients.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function remove_site_information_transients() {
+		delete_transient( self::SITE_INFORMATION_TRANSIENT );
+		delete_transient( self::SITE_INFORMATION_TRANSIENT_QUICK );
+	}
+
+	/**
+	 * Creates an instance of Yoast_Notification.
+	 *
+	 * @param string $product_name The product to create the notification for.
+	 *
+	 * @return Yoast_Notification The created notification.
+	 */
+	protected function create_notification( $product_name ) {
+		$notification_options = [
+			'type'         => Yoast_Notification::ERROR,
+			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ),
+			'capabilities' => 'wpseo_manage_options',
+		];
+
+		return new Yoast_Notification(
+			sprintf(
+			/* translators: %1$s expands to the product name. %2$s expands to a link to My Yoast  */
+				__( 'You are not receiving updates or support! Fix this problem by adding this site and enabling %1$s for it in %2$s.', 'wordpress-seo' ),
+				$product_name,
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/13j' ) . '" target="_blank">My Yoast</a>'
+			),
+			$notification_options
+		);
 	}
 
 	/**
@@ -261,25 +418,26 @@ class WPSEO_Addon_Manager {
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
 
 		return (object) [
-			'new_version'   => $subscription->product->version,
-			'name'          => $subscription->product->name,
-			'slug'          => $subscription->product->slug,
-			'url'           => $subscription->product->store_url,
-			'last_update'   => $subscription->product->last_updated,
-			'homepage'      => $subscription->product->store_url,
-			'download_link' => $subscription->product->download,
-			'package'       => $subscription->product->download,
-			'sections'      => [
+			'new_version'      => $subscription->product->version,
+			'name'             => $subscription->product->name,
+			'slug'             => $subscription->product->slug,
+			'url'              => $subscription->product->store_url,
+			'last_update'      => $subscription->product->last_updated,
+			'homepage'         => $subscription->product->store_url,
+			'download_link'    => $subscription->product->download,
+			'package'          => $subscription->product->download,
+			'sections'         => [
 				'changelog' => $changelog,
 				'support'   => $this->get_support_section(),
 			],
-			'icons'         => [
+			'icons'            => [
 				'2x' => $this->get_icon( $subscription->product->slug ),
 			],
-			'banners'       => $this->get_banners( $subscription->product->slug ),
-			'tested'        => YOAST_SEO_WP_TESTED,
-			'requires'      => YOAST_SEO_WP_REQUIRED,
-			'requires_php'  => YOAST_SEO_PHP_REQUIRED,
+			'update_supported' => true,
+			'banners'          => $this->get_banners( $subscription->product->slug ),
+			'tested'           => YOAST_SEO_WP_TESTED,
+			'requires'         => YOAST_SEO_WP_REQUIRED,
+			'requires_php'     => YOAST_SEO_PHP_REQUIRED,
 		];
 	}
 
@@ -364,7 +522,7 @@ class WPSEO_Addon_Manager {
 		$addons = self::$addons;
 
 		// Yoast SEO Free isn't an addon, but we needed it in Premium to fetch translations.
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( YoastSEO()->helpers->product->is_premium() ) {
 			$addons['wp-seo.php'] = self::FREE_SLUG;
 		}
 
@@ -510,7 +668,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @param object $site_information Site information as received from the API.
 	 *
-	 * @return object Mapped site information.
+	 * @return stdClass Mapped site information.
 	 */
 	protected function map_site_information( $site_information ) {
 		return (object) [
@@ -524,7 +682,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @param object $subscription Subscription information as received from the API.
 	 *
-	 * @return object Mapped subscription.
+	 * @return stdClass Mapped subscription.
 	 */
 	protected function map_subscription( $subscription ) {
 		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Not our properties.
@@ -555,24 +713,7 @@ class WPSEO_Addon_Manager {
 			return $this->get_site_information_default();
 		}
 
-		if ( $this->site_information === null ) {
-			$this->site_information = $this->get_site_information_transient();
-		}
-
-		if ( $this->site_information ) {
-			return $this->site_information;
-		}
-
-		$this->site_information = $this->request_current_sites();
-		if ( $this->site_information ) {
-			$this->site_information = $this->map_site_information( $this->site_information );
-
-			$this->set_site_information_transient( $this->site_information );
-
-			return $this->site_information;
-		}
-
-		return $this->get_site_information_default();
+		return $this->get_myyoast_site_information();
 	}
 
 	/**
@@ -583,8 +724,10 @@ class WPSEO_Addon_Manager {
 	protected function get_support_section() {
 		return '<h4>' . __( 'Need support?', 'wordpress-seo' ) . '</h4>'
 			. '<p>'
+			/* translators: 1: expands to <a> that refers to the help page, 2: </a> closing tag. */
 			. sprintf( __( 'You can probably find an answer to your question in our %1$shelp center%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/help/">', '</a>' )
 			. ' '
+			/* translators: %s expands to a mailto support link. */
 			. sprintf( __( 'If you still need support and have an active subscription for this product, please email %s.', 'wordpress-seo' ), '<a href="mailto:support@yoast.com">support@yoast.com</a>' )
 			. '</p>';
 	}

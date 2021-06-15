@@ -8,7 +8,9 @@ namespace Yoast\WP\SEO\Conditionals;
 class WooCommerce_Conditional implements Conditional {
 
 	/**
-	 * @inheritDoc
+	 * Returns `true` when the WooCommerce plugin is installed and activated.
+	 *
+	 * @return bool `true` when the WooCommerce plugin is installed and activated.
 	 */
 	public function is_met() {
 		return \class_exists( 'WooCommerce' );

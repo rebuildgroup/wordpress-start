@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -14,6 +13,8 @@ use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 class WPSEO_Upgrade {
 
 	/**
+	 * The taxonomy helper.
+	 *
 	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
 	 */
 	private $taxonomy_helper;
@@ -54,7 +55,7 @@ class WPSEO_Upgrade {
 			'9.0-RC0'    => 'upgrade_90',
 			'10.0-RC0'   => 'upgrade_100',
 			'11.1-RC0'   => 'upgrade_111',
-			/** Reset notifications because we removed the AMP Glue plugin notification */
+			// Reset notifications because we removed the AMP Glue plugin notification.
 			'12.1-RC0'   => 'clean_all_notifications',
 			'12.3-RC0'   => 'upgrade_123',
 			'12.4-RC0'   => 'upgrade_124',
@@ -66,6 +67,12 @@ class WPSEO_Upgrade {
 			'14.5-RC0'   => 'upgrade_145',
 			'14.9-RC0'   => 'upgrade_149',
 			'15.1-RC0'   => 'upgrade_151',
+			'15.3-RC0'   => 'upgrade_153',
+			'15.5-RC0'   => 'upgrade_155',
+			'15.7-RC0'   => 'upgrade_157',
+			'15.9.1-RC0' => 'upgrade_1591',
+			'16.2-RC0'   => 'upgrade_162',
+			'16.5-RC0'   => 'upgrade_165',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -122,7 +129,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 *
-	 * @param string $previous_version The previous version.
+	 * @param string|null $previous_version The previous version.
 	 *
 	 * @return void
 	 */
@@ -548,7 +555,7 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	private function upgrade_772() {
-		if ( WPSEO_Utils::is_woocommerce_active() ) {
+		if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 			$this->migrate_woocommerce_archive_setting_to_shop_page();
 		}
 	}
@@ -733,7 +740,7 @@ class WPSEO_Upgrade {
 	 * Performs the 14.9 upgrade.
 	 */
 	private function upgrade_149() {
-		$version = get_option( 'wpseo_license_server_version', WPSEO_License_Page_Manager::VERSION_BACKWARDS_COMPATIBILITY );
+		$version = get_option( 'wpseo_license_server_version', 2 );
 		WPSEO_Options::set( 'license_server_version', $version );
 		delete_option( 'wpseo_license_server_version' );
 	}
@@ -749,6 +756,77 @@ class WPSEO_Upgrade {
 
 		add_action( 'init', [ $this, 'set_permalink_structure_option_for_151' ] );
 		add_action( 'init', [ $this, 'store_custom_taxonomy_slugs_for_151' ] );
+	}
+
+	/**
+	 * Performs the 15.3 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_153() {
+		WPSEO_Options::set( 'category_base_url', get_option( 'category_base' ) );
+		WPSEO_Options::set( 'tag_base_url', get_option( 'tag_base' ) );
+
+		// Rename a couple of options.
+		$indexation_started_value = WPSEO_Options::get( 'indexation_started' );
+		WPSEO_Options::set( 'indexing_started', $indexation_started_value );
+
+		$indexables_indexing_completed_value = WPSEO_Options::get( 'indexables_indexation_completed' );
+		WPSEO_Options::set( 'indexables_indexing_completed', $indexables_indexing_completed_value );
+	}
+
+	/**
+	 * Performs the 15.5 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_155() {
+		// Unset the fbadminapp value in the wpseo_social option.
+		$wpseo_social_option = get_option( 'wpseo_social' );
+
+		if ( isset( $wpseo_social_option['fbadminapp'] ) ) {
+			unset( $wpseo_social_option['fbadminapp'] );
+			update_option( 'wpseo_social', $wpseo_social_option );
+		}
+	}
+
+	/**
+	 * Performs the 15.7 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_157() {
+		add_action( 'init', [ $this, 'remove_plugin_updated_notification_for_157' ] );
+	}
+
+	/**
+	 * Performs the 15.9.1 upgrade routine.
+	 */
+	private function upgrade_1591() {
+		$enabled_auto_updates = \get_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', [], $enabled_auto_updates );
+	}
+
+	/**
+	 * Performs the 16.2 upgrade routine.
+	 */
+	private function upgrade_162() {
+		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
+	}
+
+	/**
+	 * Performs the 16.5 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_165() {
+		add_action( 'init', [ $this, 'copy_og_settings_from_social_to_titles' ], 99 );
+
+		// Run after the WPSEO_Options::enrich_defaults method which has priority 99.
+		add_action( 'init', [ $this, 'reset_og_settings_to_default_values' ], 100 );
 	}
 
 	/**
@@ -781,14 +859,7 @@ class WPSEO_Upgrade {
 	 * else to `false`.
 	 */
 	public function set_indexation_completed_option_for_145() {
-		/**
-		 * Holds the indexation integration instance.
-		 *
-		 * @var Indexing_Tool_Integration $indexing_integration
-		 */
-		$indexing_integration = YoastSEO()->classes->get( Indexing_Tool_Integration::class );
-
-		WPSEO_Options::set( 'indexables_indexation_completed', $indexing_integration->get_unindexed_indexables_count() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', YoastSEO()->helpers->indexing->get_unindexed_count() === 0 );
 	}
 
 	/**
@@ -797,7 +868,7 @@ class WPSEO_Upgrade {
 	public function clean_up_private_taxonomies_for_141() {
 		global $wpdb;
 
-		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		// If migrations haven't been completed successfully the following may give false errors. So suppress them.
 		$show_errors       = $wpdb->show_errors;
 		$wpdb->show_errors = false;
 
@@ -809,7 +880,10 @@ class WPSEO_Upgrade {
 		}
 
 		$indexable_table = Model::get_table_name( 'Indexable' );
-		$query           = $wpdb->prepare(
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
+		$query = $wpdb->prepare(
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: Too hard to fix.
 			"DELETE FROM $indexable_table
 			WHERE object_type = 'term'
 			AND object_sub_type IN ("
@@ -817,7 +891,7 @@ class WPSEO_Upgrade {
 				. ')',
 			$private_taxonomies
 		);
-		$wpdb->query( $query );
+		$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -835,7 +909,7 @@ class WPSEO_Upgrade {
 		// Reset the permalinks of the attachments in the indexable table.
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$query           = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
-		$wpdb->query( $query );
+		$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: There is no user input.
 
 		$wpdb->show_errors = $show_errors;
 	}
@@ -859,6 +933,15 @@ class WPSEO_Upgrade {
 	 */
 	public function remove_acf_notification_for_142() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-suggested-plugin-yoast-acf-analysis' );
+	}
+
+	/**
+	 * Removes the wpseo-plugin-updated notification from the Notification center for the 15.7 upgrade.
+	 *
+	 * @return void
+	 */
+	public function remove_plugin_updated_notification_for_157() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-plugin-updated' );
 	}
 
 	/**
@@ -913,7 +996,7 @@ class WPSEO_Upgrade {
 
 		// Load option directly from the database, to avoid filtering and sanitization.
 		$sql     = $wpdb->prepare( 'SELECT option_value FROM ' . $wpdb->options . ' WHERE option_name = %s', $option_name );
-		$results = $wpdb->get_results( $sql, ARRAY_A );
+		$results = $wpdb->get_results( $sql, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is is already prepared.
 		if ( ! empty( $results ) ) {
 			return maybe_unserialize( $results[0]['option_value'] );
 		}
@@ -1059,5 +1142,84 @@ class WPSEO_Upgrade {
 		}
 
 		WPSEO_Options::set( 'custom_taxonomy_slugs', $custom_taxonomies );
+	}
+
+	/**
+	 * Copies the frontpage social settings to the titles options.
+	 *
+	 * @return void
+	 */
+	public function copy_og_settings_from_social_to_titles() {
+		$wpseo_social = get_option( 'wpseo_social' );
+		$wpseo_titles = get_option( 'wpseo_titles' );
+
+		$copied_options = [];
+		// Reset to the correct default value.
+		$copied_options['open_graph_frontpage_title'] = '%%sitename%%';
+
+		$options = [
+			'og_frontpage_title'    => 'open_graph_frontpage_title',
+			'og_frontpage_desc'     => 'open_graph_frontpage_desc',
+			'og_frontpage_image'    => 'open_graph_frontpage_image',
+			'og_frontpage_image_id' => 'open_graph_frontpage_image_id',
+		];
+
+		foreach ( $options as $social_option => $titles_option ) {
+			if ( ! empty( $wpseo_social[ $social_option ] ) ) {
+				$copied_options[ $titles_option ] = $wpseo_social[ $social_option ];
+			}
+		}
+
+		$wpseo_titles = array_merge( $wpseo_titles, $copied_options );
+
+		update_option( 'wpseo_titles', $wpseo_titles );
+	}
+
+	/**
+	 * Reset the social options with the correct default values.
+	 *
+	 * @return void
+	 */
+	public function reset_og_settings_to_default_values() {
+		$wpseo_titles    = get_option( 'wpseo_titles' );
+		$updated_options = [];
+
+		$updated_options['social-title-author-wpseo']  = '%%name%%';
+		$updated_options['social-title-archive-wpseo'] = '%%date%%';
+
+		/* translators: %s expands to the name of a post type (plural). */
+		$post_type_archive_default = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
+
+		/* translators: %s expands to the variable used for term title. */
+		$term_archive_default = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+
+		$post_type_objects = get_post_types( [ 'public' => true ], 'objects' );
+
+		if ( $post_type_objects ) {
+			foreach ( $post_type_objects as $pt ) {
+				// Post types.
+				if ( isset( $wpseo_titles[ 'social-title-' . $pt->name ] ) ) {
+					$updated_options[ 'social-title-' . $pt->name ] = '%%title%%';
+				}
+				// Post type archives.
+				if ( isset( $wpseo_titles[ 'social-title-ptarchive-' . $pt->name ] ) ) {
+					$updated_options[ 'social-title-ptarchive-' . $pt->name ] = $post_type_archive_default;
+				}
+			}
+		}
+
+		$taxonomy_objects = get_taxonomies( [ 'public' => true ], 'object' );
+
+		if ( $taxonomy_objects ) {
+			foreach ( $taxonomy_objects as $tax ) {
+				if ( isset( $wpseo_titles[ 'social-title-tax-' . $tax->name ] ) ) {
+					$updated_options[ 'social-title-tax-' . $tax->name ] = $term_archive_default;
+				}
+			}
+		}
+
+		$wpseo_titles = array_merge( $wpseo_titles, $updated_options );
+
+		update_option( 'wpseo_titles', $wpseo_titles );
 	}
 }

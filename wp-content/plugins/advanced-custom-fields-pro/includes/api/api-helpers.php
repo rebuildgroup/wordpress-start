@@ -3163,9 +3163,11 @@ function acf_get_attachment( $attachment ) {
 		case 'image':
 			$sizes_id = $attachment->ID;
 			$src = wp_get_attachment_image_src( $attachment->ID, 'full' );
-			$response['url'] = $src[0];
-			$response['width'] = $src[1];
-			$response['height'] = $src[2];
+			if ( $src ) {
+				$response['url'] = $src[0];
+				$response['width'] = $src[1];
+				$response['height'] = $src[2];
+			}
 			break;
 		case 'video':
 			$response['width'] = acf_maybe_get( $meta, 'width', 0 );
@@ -3184,14 +3186,16 @@ function acf_get_attachment( $attachment ) {
 	// Load array of image sizes.
 	if( $sizes_id ) {
 		$sizes = get_intermediate_image_sizes();
-		$data = array();
+		$sizes_data = array();
 		foreach( $sizes as $size ) {
 			$src = wp_get_attachment_image_src( $sizes_id, $size );
-			$data[ $size ] = $src[ 0 ];
-			$data[ $size . '-width' ] = $src[ 1 ];
-			$data[ $size . '-height' ] = $src[ 2 ];
+			if ( $src ) {
+				$sizes_data[ $size ] = $src[0];
+				$sizes_data[ $size . '-width' ] = $src[1];
+				$sizes_data[ $size . '-height' ] = $src[2];
+			}
 		}
-		$response['sizes'] = $data;
+		$response['sizes'] = $sizes_data;
 	}
 	
 	/**
@@ -3244,23 +3248,6 @@ function acf_get_truncated( $text, $length = 64 ) {
 	// return
 	return $return;
 	
-}
-
-
-/*
-*  acf_get_current_url
-*
-*  This function will return the current URL.
-*
-*  @date	23/01/2015
-*  @since	5.1.5
-*
-*  @param	void
-*  @return	string
-*/
-
-function acf_get_current_url() {
-	return ( is_ssl() ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 }
 
 /*
@@ -3444,53 +3431,6 @@ function acf_get_valid_terms( $terms = false, $taxonomy = 'category' ) {
 	return $terms;
 	
 }
-
-
-/*
-*  acf_esc_html_deep
-*
-*  Navigates through an array and escapes html from the values.
-*
-*  @type	function
-*  @date	10/06/2015
-*  @since	5.2.7
-*
-*  @param	$value (mixed)
-*  @return	$value
-*/
-
-/*
-function acf_esc_html_deep( $value ) {
-	
-	// array
-	if( is_array($value) ) {
-		
-		$value = array_map('acf_esc_html_deep', $value);
-	
-	// object
-	} elseif( is_object($value) ) {
-		
-		$vars = get_object_vars( $value );
-		
-		foreach( $vars as $k => $v ) {
-			
-			$value->{$k} = acf_esc_html_deep( $v );
-		
-		}
-		
-	// string
-	} elseif( is_string($value) ) {
-
-		$value = esc_html($value);
-
-	}
-	
-	
-	// return
-	return $value;
-
-}
-*/
 
 
 /*
@@ -4822,20 +4762,17 @@ function acf_array_camel_case( $array = array() ) {
 }
 
 /**
- * acf_is_block_editor
+ * Returns true if the current screen is using the block editor.
  *
- * Returns true if the current screen uses the block editor.
+ * @date 13/12/18
+ * @since 5.8.0
  *
- * @date	13/12/18
- * @since	5.8.0
- *
- * @param	void
- * @return	bool
+ * @return bool
  */
 function acf_is_block_editor() {
-	if( function_exists('get_current_screen') ) {
+	if ( function_exists( 'get_current_screen' ) ) {
 		$screen = get_current_screen();
-		if( method_exists($screen, 'is_block_editor') ) {
+		if( $screen && method_exists( $screen, 'is_block_editor' ) ) {
 			return $screen->is_block_editor();
 		}
 	}

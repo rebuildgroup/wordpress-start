@@ -11,6 +11,7 @@
  * @todo This class could use a general description with some explanation on sitemaps. OR.
  */
 class WPSEO_Sitemaps {
+
 	/**
 	 * Sitemap index identifier.
 	 *
@@ -92,13 +93,6 @@ class WPSEO_Sitemaps {
 	public $providers;
 
 	/**
-	 * The date helper.
-	 *
-	 * @var WPSEO_Date_Helper
-	 */
-	protected $date;
-
-	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -112,7 +106,6 @@ class WPSEO_Sitemaps {
 		$this->router   = new WPSEO_Sitemaps_Router();
 		$this->renderer = new WPSEO_Sitemaps_Renderer();
 		$this->cache    = new WPSEO_Sitemaps_Cache();
-		$this->date     = new WPSEO_Date_Helper();
 
 		if ( ! empty( $_SERVER['SERVER_PROTOCOL'] ) ) {
 			$this->http_protocol = sanitize_text_field( wp_unslash( $_SERVER['SERVER_PROTOCOL'] ) );
@@ -189,7 +182,7 @@ class WPSEO_Sitemaps {
 	 * Set the sitemap current page to allow creating partial sitemaps with WP-CLI
 	 * in a one-off process.
 	 *
-	 * @param integer $current_page The part that should be generated.
+	 * @param int $current_page The part that should be generated.
 	 */
 	public function set_n( $current_page ) {
 		if ( is_scalar( $current_page ) && intval( $current_page ) > 0 ) {
@@ -415,9 +408,9 @@ class WPSEO_Sitemaps {
 	/**
 	 * Spits out the XSL for the XML sitemap.
 	 *
-	 * @param string $type Type to output.
-	 *
 	 * @since 1.4.13
+	 *
+	 * @param string $type Type to output.
 	 */
 	public function xsl_output( $type ) {
 
@@ -440,7 +433,7 @@ class WPSEO_Sitemaps {
 		$expires = YEAR_IN_SECONDS;
 		header( 'Pragma: public' );
 		header( 'Cache-Control: max-age=' . $expires );
-		header( 'Expires: ' . $this->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
+		header( 'Expires: ' . YoastSEO()->helpers->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
 
 		// Don't use WP_Filesystem() here because that's not initialized yet. See https://yoast.atlassian.net/browse/QAK-2043.
 		readfile( WPSEO_PATH . 'css/main-sitemap.xsl' );
@@ -538,7 +531,7 @@ class WPSEO_Sitemaps {
 	 * @return string
 	 */
 	public function get_last_modified( $post_types ) {
-		return $this->date->format( self::get_last_modified_gmt( $post_types ) );
+		return YoastSEO()->helpers->date->format( self::get_last_modified_gmt( $post_types ) );
 	}
 
 	/**
@@ -592,9 +585,9 @@ class WPSEO_Sitemaps {
 	/**
 	 * Get post statuses for post_type or the root sitemap.
 	 *
-	 * @param string $type Provide a type for a post_type sitemap, SITEMAP_INDEX_TYPE for the root sitemap.
-	 *
 	 * @since 10.2
+	 *
+	 * @param string $type Provide a type for a post_type sitemap, SITEMAP_INDEX_TYPE for the root sitemap.
 	 *
 	 * @return array List of post statuses.
 	 */

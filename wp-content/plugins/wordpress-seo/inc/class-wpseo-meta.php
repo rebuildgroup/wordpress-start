@@ -73,7 +73,7 @@ class WPSEO_Meta {
 	 *   in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
 	 *
-	 * @var array $meta_fields
+	 * @var array
 	 *            Array format:
 	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
 	 *                                                    radio / select / multiselect / upload etc.
@@ -211,6 +211,10 @@ class WPSEO_Meta {
 		/* Fields we should validate & save, but not show on any form. */
 		'non_form' => [
 			'linkdex' => [
+				'type'          => null,
+				'default_value' => '0',
+			],
+			'zapier_trigger_sent' => [
 				'type'          => null,
 				'default_value' => '0',
 			],
@@ -559,7 +563,7 @@ class WPSEO_Meta {
 	 * @param string $meta_value New meta value.
 	 * @param string $prev_value The old meta value.
 	 *
-	 * @return null|bool True = stop saving, null = continue saving.
+	 * @return bool|null True = stop saving, null = continue saving.
 	 */
 	public static function remove_meta_if_default( $check, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 		/* If it's one of our meta fields, check against default. */
@@ -585,7 +589,7 @@ class WPSEO_Meta {
 	 * @param string $meta_key   The full meta key (including prefix).
 	 * @param string $meta_value New meta value.
 	 *
-	 * @return null|bool True = stop saving, null = continue saving.
+	 * @return bool|null True = stop saving, null = continue saving.
 	 */
 	public static function dont_save_meta_if_default( $check, $object_id, $meta_key, $meta_value ) {
 		/* If it's one of our meta fields, check against default. */
@@ -981,8 +985,8 @@ class WPSEO_Meta {
 	/**
 	 * Counts the total of all the keywords being used for posts except the given one.
 	 *
-	 * @param string  $keyword The keyword to be counted.
-	 * @param integer $post_id The id of the post to which the keyword belongs.
+	 * @param string $keyword The keyword to be counted.
+	 * @param int    $post_id The id of the post to which the keyword belongs.
 	 *
 	 * @return array
 	 */
@@ -1007,7 +1011,7 @@ class WPSEO_Meta {
 			->limit( 2 )
 			->find_array();
 
-		$callback = function ( $row ) {
+		$callback = static function ( $row ) {
 			return (int) $row['object_id'];
 		};
 		$post_ids = array_map( $callback, $post_ids );
@@ -1018,7 +1022,7 @@ class WPSEO_Meta {
 		 * In that case there's no use for an additional query as we already know
 		 * that the keyword has been used multiple times before.
 		 */
-		if ( WPSEO_Utils::is_yoast_seo_premium() && count( $post_ids ) < 2 ) {
+		if ( YoastSEO()->helpers->product->is_premium() && count( $post_ids ) < 2 ) {
 			$query = [
 				'meta_query'     => [
 					[

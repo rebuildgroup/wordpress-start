@@ -2,7 +2,7 @@
 
 /**
  * A module that adds a simple subscribe form to your layout
- * with third party optin integration.
+ * with third party opt-in integration.
  *
  * @since 1.5.2
  */

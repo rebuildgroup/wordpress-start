@@ -10,6 +10,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * Surface for the indexables.
  *
+ * @property Helpers\Asset_Helper          $asset
  * @property Helpers\Author_Archive_Helper $author_archive
  * @property Helpers\Blocks_Helper         $blocks
  * @property Helpers\Current_Page_Helper   $current_page
@@ -18,6 +19,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Home_Url_Helper       $home_url
  * @property Helpers\Image_Helper          $image
  * @property Helpers\Indexable_Helper      $indexable
+ * @property Helpers\Indexing_Helper       $indexing
  * @property Helpers\Language_Helper       $language
  * @property Helpers\Meta_Helper           $meta
  * @property Helpers\Notification_Helper   $notification
@@ -28,6 +30,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Primary_Term_Helper   $primary_term
  * @property Helpers\Product_Helper        $product
  * @property Helpers\Redirect_Helper       $redirect
+ * @property Helpers\Request_Helper        $request
  * @property Helpers\Robots_Helper         $robots
  * @property Helpers\Site_Helper           $site
  * @property Helpers\String_Helper         $string

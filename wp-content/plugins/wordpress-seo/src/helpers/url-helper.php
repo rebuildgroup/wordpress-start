@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WPSEO_Utils;
 use Yoast\WP\SEO\Models\SEO_Links;
 
 /**
@@ -19,24 +18,24 @@ class Url_Helper {
 	 * @return string Home URL with optional path, appropriately slashed if not.
 	 */
 	public function home( $path = '', $scheme = null ) {
-		$home_url = home_url( $path, $scheme );
+		$home_url = \home_url( $path, $scheme );
 
 		if ( ! empty( $path ) ) {
 			return $home_url;
 		}
 
-		$home_path = wp_parse_url( $home_url, PHP_URL_PATH );
+		$home_path = \wp_parse_url( $home_url, \PHP_URL_PATH );
 
 		if ( $home_path === '/' ) { // Home at site root, already slashed.
 			return $home_url;
 		}
 
-		if ( is_null( $home_path ) ) { // Home at site root, always slash.
-			return trailingslashit( $home_url );
+		if ( \is_null( $home_path ) ) { // Home at site root, always slash.
+			return \trailingslashit( $home_url );
 		}
 
-		if ( is_string( $home_path ) ) { // Home in subdirectory, slash if permalink structure has slash.
-			return user_trailingslashit( $home_url );
+		if ( \is_string( $home_path ) ) { // Home in subdirectory, slash if permalink structure has slash.
+			return \user_trailingslashit( $home_url );
 		}
 
 		return $home_url;
@@ -50,15 +49,15 @@ class Url_Helper {
 	 * @return bool True when url is relative.
 	 */
 	public function is_relative( $url ) {
-		return ( strpos( $url, 'http' ) !== 0 && strpos( $url, '//' ) !== 0 );
+		return ( \strpos( $url, 'http' ) !== 0 && \strpos( $url, '//' ) !== 0 );
 	}
 
 	/**
 	 * Gets the path from the passed URL.
 	 *
-	 * @param string $url The URL to get the path from.
-	 *
 	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
+	 * @param string $url The URL to get the path from.
 	 *
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */
@@ -110,7 +109,7 @@ class Url_Helper {
 	/**
 	 * Parse the home URL setting to find the base URL for relative URLs.
 	 *
-	 * @param string $path Optional path string.
+	 * @param string|null $path Optional path string.
 	 *
 	 * @return string
 	 */
@@ -130,20 +129,21 @@ class Url_Helper {
 	/**
 	 * Returns the link type.
 	 *
-	 * @param array $url      The URL, as parsed by wp_parse_url.
-	 * @param array $home_url Optional. The home URL, as parsed by wp_parse_url. Used to avoid reparsing the home_url.
-	 * @param bool  $is_image Whether or not the link is an image.
+	 * @param array      $url      The URL, as parsed by wp_parse_url.
+	 * @param array|null $home_url Optional. The home URL, as parsed by wp_parse_url. Used to avoid reparsing the home_url.
+	 * @param bool       $is_image Whether or not the link is an image.
 	 *
 	 * @return string The link type.
 	 */
 	public function get_link_type( $url, $home_url = null, $is_image = false ) {
-		// If there is no scheme the link is always internal.
-		if ( empty( $url['scheme'] ) ) {
+		// If there is no scheme and no host the link is always internal.
+		// Beware, checking just the scheme isn't enough as a link can be //yoast.com for instance.
+		if ( empty( $url['scheme'] ) && empty( $url['host'] ) ) {
 			return ( $is_image ) ? SEO_Links::TYPE_INTERNAL_IMAGE : SEO_Links::TYPE_INTERNAL;
 		}
 
-		// If there is a scheme but it's not https? then the link is always external.
-		if ( ! in_array( $url['scheme'], [ 'http', 'https' ], true ) ) {
+		// If there is a scheme but it's not http(s) then the link is always external.
+		if ( \array_key_exists( 'scheme', $url ) && ! \in_array( $url['scheme'], [ 'http', 'https' ], true ) ) {
 			return ( $is_image ) ? SEO_Links::TYPE_EXTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL;
 		}
 
@@ -162,7 +162,7 @@ class Url_Helper {
 		}
 
 		// When there is a path and it matches the start of the url.
-		if ( isset( $url['path'] ) && strpos( $url['path'], $home_url['path'] ) === 0 ) {
+		if ( isset( $url['path'] ) && \strpos( $url['path'], $home_url['path'] ) === 0 ) {
 			return ( $is_image ) ? SEO_Links::TYPE_INTERNAL_IMAGE : SEO_Links::TYPE_INTERNAL;
 		}
 

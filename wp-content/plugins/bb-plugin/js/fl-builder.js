@@ -6759,27 +6759,74 @@
 				return;
 			}
 
-			// Show the loader.
-			FLBuilder._showNodeLoading( nodeId );
+			function finishSavingSettings() {
 
-			// Update the settings config object.
-			FLBuilderSettingsConfig.nodes[ nodeId ] = settings;
+				// Show the loader.
+				FLBuilder._showNodeLoading( nodeId );
 
-			// Make the AJAX call.
-			FLBuilder.ajax( {
-				action          : 'save_settings',
-				node_id         : nodeId,
-				settings        : settings
-			}, FLBuilder._saveSettingsComplete.bind( this, render, preview ) );
+				// Update the settings config object.
+				FLBuilderSettingsConfig.nodes[ nodeId ] = settings;
 
-			// Trigger the hook.
-			FLBuilder.triggerHook( 'didSaveNodeSettings', {
-				nodeId   : nodeId,
-				settings : settings
-			} );
+				// Make the AJAX call.
+				FLBuilder.ajax( {
+					action          : 'save_settings',
+					node_id         : nodeId,
+					settings        : settings
+				}, FLBuilder._saveSettingsComplete.bind( this, render, preview ) );
 
-			// Close the lightbox.
-			FLBuilder._lightbox.close();
+				// Trigger the hook.
+				FLBuilder.triggerHook( 'didSaveNodeSettings', {
+					nodeId   : nodeId,
+					settings : settings
+				} );
+
+				// Close the lightbox.
+				FLBuilder._lightbox.close();
+			}
+
+			if ( FLBuilderConfig.userCaps.unfiltered_html ) {
+				finishSavingSettings()
+			} else {
+				FLBuilderSettingsForms.showLightboxLoader()
+				FLBuilder.ajax( {
+					action          : 'verify_settings',
+					settings        : settings,
+				}, function( response ) {
+					if ( 'true' === response ) {
+						finishSavingSettings()
+					} else {
+						msg = '<p style="font-weight:bold;text-align:center;">' + FLBuilderStrings.noScriptWarn.heading + '</p>';
+						if ( FLBuilderConfig.userCaps.global_unfiltered_html ) {
+							msg += '<p>' + FLBuilderStrings.noScriptWarn.global + '</p>';
+						} else {
+							msg += '<p>' + FLBuilderStrings.noScriptWarn.message + '</p>';
+						}
+
+						msg += '<p><div class="fl-diff"></div></p>';
+						msg += '<p>' + FLBuilderStrings.noScriptWarn.footer + '</p>';
+						FLBuilderSettingsForms.hideLightboxLoader()
+						FLBuilder.alert( msg );
+						data = $.parseJSON(response);
+						if ( '' !== data.diff  ) {
+							$('.fl-diff').html( data.diff );
+							$('.fl-diff').prepend( '<p>' + FLBuilderStrings.codeErrorDetected + '</p>');
+							$('.fl-diff .diff-deletedline').each(function(){
+								if ( $(this).find('del').length < 1 ) {
+									$(this).css('background-color', 'rgb(255, 192, 203, 0.7)').css('padding', '10px').css('border', '1px solid pink');
+								} else {
+									$(this).find('del').css('background-color', 'rgb(255, 192, 203, 0.7)').css('border', '1px solid pink');
+								}
+							});
+							console.log( '============' );
+							console.log( 'key: ' + data.key );
+							console.log( 'value: ' + data.value );
+							console.log( 'parsed: ' + data.parsed );
+							console.log( '============' );
+						}
+
+					}
+				} );
+			}
 		},
 
 		/**
@@ -7655,14 +7702,7 @@
 			if(typeof toggle !== 'undefined') {
 
 				toggle = FLBuilder._jsonParse(toggle);
-
-				if ( 'responsive' === FLBuilderResponsiveEditing._mode && null != selectElem.match(/_responsive$/) ) {
-					allowToggle = true;
-				} else if ( 'medium' === FLBuilderResponsiveEditing._mode && null != selectElem.match(/_medium$/) ) {
-					allowToggle = true;
-				} else if ( 'default' === FLBuilderResponsiveEditing._mode && null == selectElem.match(/_responsive$/) &&  null == selectElem.match(/_medium$/) ) {
-					allowToggle = true;
-				}
+				allowToggle = true;
 
 				for(i in toggle) {
 					if ( allowToggle ){

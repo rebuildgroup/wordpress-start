@@ -2,8 +2,12 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use WP_Error;
+use WP_Post;
 use WPSEO_Meta;
+use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -13,6 +17,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Formats the post meta to indexable format.
  */
 class Indexable_Post_Builder {
+
 	use Indexable_Social_Image_Trait;
 
 	/**
@@ -27,17 +32,27 @@ class Indexable_Post_Builder {
 	 *
 	 * @var Post_Helper
 	 */
-	protected $post;
+	protected $post_helper;
+
+	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	protected $post_type_helper;
 
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param Post_Helper $post The post helper.
+	 * @param Post_Helper      $post_helper      The post helper.
+	 * @param Post_Type_Helper $post_type_helper The post type helper.
 	 */
 	public function __construct(
-		Post_Helper $post
+		Post_Helper $post_helper,
+		Post_Type_Helper $post_type_helper
 	) {
-		$this->post = $post;
+		$this->post_helper      = $post_helper;
+		$this->post_type_helper = $post_type_helper;
 	}
 
 	/**
@@ -58,11 +73,17 @@ class Indexable_Post_Builder {
 	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return bool|Indexable The extended indexable. False when unable to build.
+	 *
+	 * @throws Post_Not_Found_Exception When the post could not be found.
 	 */
 	public function build( $post_id, $indexable ) {
-		$post = $this->post->get_post( $post_id );
+		$post = $this->post_helper->get_post( $post_id );
 
 		if ( $post === null ) {
+			throw new Post_Not_Found_Exception();
+		}
+
+		if ( $this->should_exclude_post( $post ) ) {
 			return false;
 		}
 
@@ -122,10 +143,10 @@ class Indexable_Post_Builder {
 	/**
 	 * Retrieves the permalink for a post with the given post type and ID.
 	 *
-	 * @param string  $post_type The post type.
-	 * @param integer $post_id   The post ID.
+	 * @param string $post_type The post type.
+	 * @param int    $post_id   The post ID.
 	 *
-	 * @return false|string|\WP_Error The permalink.
+	 * @return false|string|WP_Error The permalink.
 	 */
 	protected function get_permalink( $post_type, $post_id ) {
 		if ( $post_type !== 'attachment' ) {
@@ -156,7 +177,7 @@ class Indexable_Post_Builder {
 			return $this->is_public_attachment( $indexable );
 		}
 
-		if ( ! \in_array( $indexable->post_status, $this->is_public_post_status(), true ) ) {
+		if ( ! \in_array( $indexable->post_status, $this->post_helper->get_public_post_statuses(), true ) ) {
 			return false;
 		}
 
@@ -217,20 +238,6 @@ class Indexable_Post_Builder {
 	}
 
 	/**
-	 * Retrieves the list of public posts statuses.
-	 *
-	 * @return array The public post statuses.
-	 */
-	protected function is_public_post_status() {
-		/**
-		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
-		 *
-		 * @apo array $post_statuses Post status list, defaults to array( 'publish' ).
-		 */
-		return \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
-	}
-
-	/**
 	 * Converts the meta robots noindex value to the indexable value.
 	 *
 	 * @param int $value Meta value to convert.
@@ -265,7 +272,7 @@ class Indexable_Post_Builder {
 	 * @param string $keyword The focus keyword that is set.
 	 * @param int    $score   The score saved on the meta data.
 	 *
-	 * @return null|int Score to use.
+	 * @return int|null Score to use.
 	 */
 	protected function get_keyword_score( $keyword, $score ) {
 		if ( empty( $keyword ) ) {
@@ -282,19 +289,20 @@ class Indexable_Post_Builder {
 	 */
 	protected function get_indexable_lookup() {
 		return [
-			'focuskw'               => 'primary_focus_keyword',
-			'canonical'             => 'canonical',
-			'title'                 => 'title',
-			'metadesc'              => 'description',
-			'bctitle'               => 'breadcrumb_title',
-			'opengraph-title'       => 'open_graph_title',
-			'opengraph-image'       => 'open_graph_image',
-			'opengraph-image-id'    => 'open_graph_image_id',
-			'opengraph-description' => 'open_graph_description',
-			'twitter-title'         => 'twitter_title',
-			'twitter-image'         => 'twitter_image',
-			'twitter-image-id'      => 'twitter_image_id',
-			'twitter-description'   => 'twitter_description',
+			'focuskw'                        => 'primary_focus_keyword',
+			'canonical'                      => 'canonical',
+			'title'                          => 'title',
+			'metadesc'                       => 'description',
+			'bctitle'                        => 'breadcrumb_title',
+			'opengraph-title'                => 'open_graph_title',
+			'opengraph-image'                => 'open_graph_image',
+			'opengraph-image-id'             => 'open_graph_image_id',
+			'opengraph-description'          => 'open_graph_description',
+			'twitter-title'                  => 'twitter_title',
+			'twitter-image'                  => 'twitter_image',
+			'twitter-image-id'               => 'twitter_image_id',
+			'twitter-description'            => 'twitter_description',
+			'estimated-reading-time-minutes' => 'estimated_reading_time_minutes',
 		];
 	}
 
@@ -375,5 +383,16 @@ class Indexable_Post_Builder {
 		}
 
 		return $number_of_pages;
+	}
+
+	/**
+	 * Checks whether an indexable should be built for this post.
+	 *
+	 * @param WP_Post $post The post for which an indexable should be built.
+	 *
+	 * @return bool `true` if the post should be excluded from building, `false` if not.
+	 */
+	protected function should_exclude_post( $post ) {
+		return $this->post_type_helper->is_excluded( $post->post_type );
 	}
 }
