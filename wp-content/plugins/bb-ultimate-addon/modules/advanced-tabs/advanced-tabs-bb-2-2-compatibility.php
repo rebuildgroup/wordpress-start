@@ -14,7 +14,30 @@ FLBuilder::register_module(
 		'items'      => array(
 			'title'    => __( 'Tab Items', 'uabb' ),
 			'sections' => array(
-				'general' => array(
+				'preset_section' => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'default' => 'none',
+							'class'   => 'uabb-preset-select multiple',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
+				'general'        => array(
 					'title'  => '',
 					'fields' => array(
 						'items' => array(
@@ -23,6 +46,23 @@ FLBuilder::register_module(
 							'form'         => 'uabb_tab_items_form', // ID from registered form below.
 							'preview_text' => 'label', // Name of a field to use for the preview text.
 							'multiple'     => true,
+							'default'      => array(
+								array(
+									'label'      => 'Tab One',
+									'tab_icon'   => ' ua-icon ua-icon-icon-3-mail-envelope-closed2',
+									'ct_content' => __( 'This is tab content. Click to edit this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'uabb' ),
+								),
+								array(
+									'label'      => 'Tab Two',
+									'tab_icon'   => ' ua-icon ua-icon-cog',
+									'ct_content' => __( 'This is tab content. Click to edit this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'uabb' ),
+								),
+								array(
+									'label'      => 'Tab Three',
+									'tab_icon'   => ' ua-icon ua-icon-globe2',
+									'ct_content' => __( 'This is tab content. Click to edit this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'uabb' ),
+								),
+							),
 						),
 					),
 				),
@@ -118,6 +158,7 @@ FLBuilder::register_module(
 										'title_background_color',
 										'title_background_color_opc',
 										'title_active_color',
+										'title_active_background_color',
 										'tab_padding_dimension',
 									),
 									'sections' => array( 'underline_settings' ),
@@ -201,6 +242,34 @@ FLBuilder::register_module(
 							'size'        => '5',
 							'help'        => __( 'Index of default active tab. Index starts from 0.', 'uabb' ),
 						),
+						'hori_tab_spacing'      => array(
+							'type'      => 'unit',
+							'label'     => __( 'Horizental Spacing', 'uabb' ),
+							'default'   => '5',
+							'units'     => array( 'px' ),
+							'maxlength' => '3',
+							'size'      => '5',
+							'slider'    => array(
+								'%' => array(
+									'min' => 0,
+									'max' => 100,
+								),
+							),
+						),
+						'verti_tab_spacing'     => array(
+							'type'      => 'unit',
+							'label'     => __( 'Vertical Spacing', 'uabb' ),
+							'units'     => array( 'px' ),
+							'maxlength' => '3',
+							'size'      => '5',
+							'slider'    => array(
+								'%' => array(
+									'min' => 0,
+									'max' => 100,
+								),
+							),
+						),
+
 					),
 				),
 				'icon_style'         => array(
@@ -209,7 +278,7 @@ FLBuilder::register_module(
 						'show_icon'         => array(
 							'type'    => 'select',
 							'label'   => __( 'Show Icon', 'uabb' ),
-							'default' => 'yes',
+							'default' => 'no',
 							'options' => array(
 								'no'  => __( 'Disable', 'uabb' ),
 								'yes' => __( 'Enable', 'uabb' ),
@@ -283,7 +352,7 @@ FLBuilder::register_module(
 							),
 							'toggle'  => array(
 								'inline' => array(
-									'fields' => array( 'tab_style_align' ),
+									'fields' => array( 'tab_style_align', 'tab_spacing' ),
 								),
 							),
 						),
@@ -751,7 +820,6 @@ FLBuilder::register_settings_form(
 						'fields' => array(
 							'label'       => array(
 								'type'        => 'text',
-								'default'     => __( 'Tab Title', 'uabb' ),
 								'label'       => __( 'Tab Title', 'uabb' ),
 								'connections' => array( 'string', 'html' ),
 							),
@@ -764,7 +832,6 @@ FLBuilder::register_settings_form(
 							'tab_icon'    => array(
 								'type'        => 'icon',
 								'label'       => __( 'Icon', 'uabb' ),
-								'default'     => 'ua-icon ua-icon-envelope',
 								'show_remove' => true,
 							),
 						),
@@ -817,7 +884,6 @@ FLBuilder::register_settings_form(
 							'ct_content'        => array(
 								'type'        => 'editor',
 								'label'       => '',
-								'default'     => __( 'This is tab content. Click to edit this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'uabb' ),
 								'connections' => array( 'string', 'html' ),
 							),
 							'ct_raw'            => array(

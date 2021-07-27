@@ -104,6 +104,7 @@
 				FLBuilderConfig.postId + '-layout-draft-partial.css',
 				FLBuilderConfig.postId + '-layout-preview.css',
 				FLBuilderConfig.postId + '-layout-preview-partial.css',
+				FLBuilderConfig.postId + '-inline-css',
 				'fl-builder-global-css',
 				'fl-builder-layout-css'
 			] );

@@ -18,6 +18,8 @@ $settings->separator_color = UABB_Helper::uabb_colorpicker( $settings, 'separato
 $settings->color           = UABB_Helper::uabb_colorpicker( $settings, 'color' );
 $settings->desg_color      = UABB_Helper::uabb_colorpicker( $settings, 'desg_color' );
 $settings->desc_color      = UABB_Helper::uabb_colorpicker( $settings, 'desc_color' );
+$settings->box_bg_color    = UABB_Helper::uabb_colorpicker( $settings, 'box_bg_color' );
+
 
 $settings->module_border_radius = ( '' !== trim( $settings->module_border_radius ) ) ? $settings->module_border_radius : '0';
 $settings->separator_height     = ( '' !== trim( $settings->separator_height ) ) ? $settings->separator_height : '1';
@@ -29,7 +31,48 @@ $settings->separator_width      = ( '' !== trim( $settings->separator_width ) ) 
 .fl-node-<?php echo esc_attr( $id ); ?> .uabb-team-social {
 	text-align: <?php echo esc_attr( $settings->text_alignment ); ?>;
 }
-
+<?php
+if ( class_exists( 'FLBuilderCSS' ) ) {
+	if ( isset( $settings->box_border ) ) {
+		FLBuilderCSS::border_field_rule(
+			array(
+				'settings'     => $settings,
+				'setting_name' => 'box_border',
+				'selector'     => ".fl-node-$id .uabb-team-wrap",
+			)
+		);
+	}
+	// Form padding.
+	FLBuilderCSS::dimension_field_rule(
+		array(
+			'settings'     => $settings,
+			'setting_name' => 'box_padding',
+			'selector'     => ".fl-node-$id .uabb-team-wrap",
+			'unit'         => 'px',
+			'props'        => array(
+				'padding-top'    => 'box_padding_top',
+				'padding-right'  => 'box_padding_right',
+				'padding-bottom' => 'box_padding_bottom',
+				'padding-left'   => 'box_padding_left',
+			),
+		)
+	);
+}
+?>
+/* Text BG Color and Spacing */
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-team-wrap {
+	<?php if ( 'color' === $settings->box_bg_type ) { ?>
+		background-color: <?php echo esc_attr( $settings->box_bg_color ); ?>;
+		<?php
+	} elseif ( $version_bb_check ) {
+		if ( 'gradient' === $settings->box_bg_type ) {
+			?>
+		background:<?php echo esc_attr( FLBuilderColor::gradient( $settings->box_bg_gradient ) ); ?>;
+			<?php
+		}
+	}
+	?>
+}
 /* Image Section Spacing */
 .fl-node-<?php echo esc_attr( $id ); ?> .uabb-team-image {
 	<?php

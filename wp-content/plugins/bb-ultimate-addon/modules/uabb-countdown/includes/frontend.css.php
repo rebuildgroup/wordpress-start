@@ -9,7 +9,7 @@ $converted                 = UABB_Compatibility::$uabb_migration;
 $version_bb_check          = UABB_Compatibility::$version_bb_check;
 $settings->separator_color = UABB_Helper::uabb_colorpicker( $settings, 'separator_color' );
 
-$outter_spacing = ( isset( $settings->timer_out_spacing ) && ! empty( $settings->timer_out_spacing ) ) ? $settings->timer_out_spacing : '30';
+$outter_spacing = ( isset( $settings->timer_out_spacing ) && ! empty( $settings->timer_out_spacing ) ) ? $settings->timer_out_spacing : '50';
 ?>
 	<?php if ( 'yes' === $settings->show_separator ) { ?>
 		<?php if ( 'colon' === $settings->separator_type ) { ?>

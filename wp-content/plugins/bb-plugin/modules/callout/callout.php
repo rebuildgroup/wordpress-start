@@ -223,6 +223,7 @@ class FLCalloutModule extends FLBuilderModule {
 			'three_d'         => $this->settings->icon_3d,
 			'sr_text'         => $this->settings->sr_text,
 			'link'            => $this->settings->link,
+			'link_target'     => $this->settings->link_target,
 		);
 
 		if ( isset( $this->settings->icon_position ) && ( 'left-title' === $this->settings->icon_position || 'right-title' === $this->settings->icon_position ) ) {

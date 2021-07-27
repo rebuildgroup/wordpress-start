@@ -16,7 +16,8 @@
 
 .uabb-tabs .clearfix:before,
 .uabb-tabs .clearfix:after {
-    content: ''; display: table;
+    content: ''; 
+    display: table;
 }
 
 .uabb-tabs .clearfix:after {
@@ -180,7 +181,6 @@ div.uabb-tabs > nav {
     display: block;
     margin: 0;
 }
-
 
 /*****************************/
 /* Falling Icon
@@ -348,7 +348,12 @@ div.uabb-tabs > nav {
 
 .uabb-tab-link:focus {
     border: 1px solid;
-    border-radius: 0.5px;
+}
+.uabb-tab-link:focus:not(.focus-visible) {
+    border: none;
+}
+.uabb-tab-link:focus-visible {
+    border: 1px solid;
 }
 
 /*****************************/

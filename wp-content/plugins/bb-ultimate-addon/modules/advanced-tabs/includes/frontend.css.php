@@ -28,6 +28,7 @@ $settings->icon_active_color = UABB_Helper::uabb_colorpicker( $settings, 'icon_a
 $settings->content_color            = UABB_Helper::uabb_colorpicker( $settings, 'content_color' );
 $settings->content_background_color = UABB_Helper::uabb_colorpicker( $settings, 'content_background_color', true );
 $settings->tab_focus_color          = UABB_Helper::uabb_colorpicker( $settings, 'tab_focus_color', true );
+$settings->hori_tab_spacing         = ( '' !== esc_attr( $settings->hori_tab_spacing ) ) ? esc_attr( $settings->hori_tab_spacing ) : '0';
 
 if ( ! $version_bb_check ) {
 	$settings->content_border_color  = UABB_Helper::uabb_colorpicker( $settings, 'content_border_color' );
@@ -38,10 +39,16 @@ if ( 'underline' === $settings->style ) {
 	$settings->style         = 'topline';
 	$settings->line_position = 'bottom';
 }
-
+?>
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-module-content.uabb-tabs.uabb-tabs-layout-horizontal li:not(:first-child) {
+	margin-left: <?php echo esc_attr( $settings->hori_tab_spacing ); ?>px;
+}
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-module-content.uabb-tabs.uabb-tabs-layout-horizontal li {
+	margin-bottom: <?php echo esc_attr( $settings->verti_tab_spacing ); ?>px;
+}
+<?php
 $settings->tab_spacing_size = ( '' !== $settings->tab_spacing_size ) ? $settings->tab_spacing_size : '10';
 ?>
-
 	<?php
 	if ( 'iconfall' !== $settings->style && 'linebox' !== $settings->style ) {
 		if ( 'inline' === $settings->tab_style ) {
@@ -632,6 +639,7 @@ if ( '' !== $settings->title_hover_color ) {
 }
 
 .fl-node-<?php echo esc_attr( $id ); ?> .uabb-tabs-style-bar > nav > ul li.uabb-tab-current a,
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-module-content.uabb-tabs.uabb-tabs-layout-horizontal.uabb-tabs-style-topline li.uabb-tab-current,
 .fl-node-<?php echo esc_attr( $id ); ?> .uabb-tabs-style-bar .uabb-content-wrap<?php echo esc_attr( $id ); ?> .uabb-content-current > .uabb-tab-acc-title {
 	<?php
 	$color_default = ( '' !== uabb_theme_base_color( $settings->title_active_background_color ) ) ? uabb_theme_base_color( $settings->title_active_background_color ) : '#a7a7a7';

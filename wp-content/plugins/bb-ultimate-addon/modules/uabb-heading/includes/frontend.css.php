@@ -207,7 +207,7 @@ if ( apply_filters( 'uabb_heading_remove_description_default_space', true ) ) {
 ?>
 }
 
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-heading {
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-heading-wrapper .uabb-heading {
 	margin-top: <?php echo esc_attr( $settings->heading_margin_top ); ?>px;
 	margin-bottom: <?php echo esc_attr( $settings->heading_margin_bottom ); ?>px;
 }

@@ -349,7 +349,7 @@ FLBuilder::register_module(
 							'media_buttons' => false,
 							'rows'          => 10,
 							'label'         => __( 'Description', 'uabb' ),
-							'default'       => __( '<ul><li>Enter description text here.</li><li>Enter description text here.</li></ul>', 'uabb' ),
+							'default'       => sprintf( /* translators: %s: search term */__( '%1$sEnter description text here.</li><li>Enter description text here.%2$s', 'uabb' ), '<ul><li>', '</li></ul>' ),
 							'connections'   => array( 'string', 'html' ),
 						),
 					),

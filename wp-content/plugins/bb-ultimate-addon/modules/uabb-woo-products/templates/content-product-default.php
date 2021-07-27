@@ -32,6 +32,7 @@ $quick_view_type = $settings->quick_view;
 
 $out_of_stock        = get_post_meta( $post_id, '_stock_status', true );
 $out_of_stock_string = apply_filters( 'uabb_woo_out_of_stock_string', __( 'Out of stock', 'uabb' ) );
+$quick_view_text     = apply_filters( 'uabb_quick_view_text', __( 'Quick View', 'uabb' ) );
 
 ?>
 <li class=" <?php echo esc_attr( $wc_classes ); ?>">
@@ -84,7 +85,7 @@ $out_of_stock_string = apply_filters( 'uabb_woo_out_of_stock_string', __( 'Out o
 
 			echo '<div class="uabb-quick-view-btn" data-product_id="' . esc_attr( $post_id ) . '">';
 				echo '<span class="uabb-qv-icon fa fa-eye"></span>';
-				echo '<span class="uabb-qv-text">' . esc_attr_e( 'Quick View', 'uabb' ) . '</span>';
+				echo '<span class="uabb-qv-text">' . esc_attr( $quick_view_text ) . '</span>';
 			echo '</div>';
 		}
 

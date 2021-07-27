@@ -135,6 +135,7 @@
 		    iframe.attr( 'frameborder', '0' );
 		    iframe.attr( 'allowfullscreen', '1' );
 		    iframe.attr( 'allow', 'autoplay;encrypted-media;' );
+        iframe.attr( 'title', 'Video Player' );
 
         selector.html( iframe );
         if( outer_wrap.hasClass( 'uabb-video-type-hosted' ) ) {

@@ -53,7 +53,7 @@ class UABBHowTo extends FLBuilderModule {
 
 $style  = 'line-height: 2.45em; color: #a94442; background:#e4e7ea;';
 $notice = sprintf( /* translators: %1$s: search term */
-		__( '<span class="uabb-settings-notice" style="%1$s">Note: We recommend you to fill all the fields else it may generate Schema errors / warnings for your page.</span>', 'uabb' ),
+	__( '<span class="uabb-settings-notice" style="%1$s">Note: We recommend you to fill all the fields else it may generate Schema errors / warnings for your page.</span>', 'uabb' ),
 	$style
 );
 

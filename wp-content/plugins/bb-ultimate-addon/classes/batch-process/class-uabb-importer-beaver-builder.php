@@ -82,7 +82,7 @@ if ( ! class_exists( 'UABB_Importer_Beaver_Builder' ) ) :
 				// Clear the asset cache.
 				FLBuilderModel::delete_all_asset_cache( $post_id );
 
-				update_post_meta( $post_id, 'uabb_batch_complete_time', date( 'Y-m-d H:i:s' ) );
+				update_post_meta( $post_id, 'uabb_batch_complete_time', gmdate( 'Y-m-d H:i:s' ) );
 
 			} else {
 				error_log( '(✕) Not have "Beaver Builder" Data. Post meta _fl_builder_data is empty!' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log

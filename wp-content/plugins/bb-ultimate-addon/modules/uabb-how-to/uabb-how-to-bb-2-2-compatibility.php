@@ -89,7 +89,7 @@ The How-to module can basically be used on How-to pages which contains a How-to 
 							'default'     => 'USD',
 							'size'        => 5,
 							'connections' => array( 'string', 'html' ),
-							'description' => __( '<span style="font-size:15px;">Click <a href="https://en.wikipedia.org/wiki/List_of_circulating_currencies" target="_blank" rel="noopener"><b>here</b> to find your country\'s ISO code.</a></span>', 'uabb' ),
+							'description' => sprintf( /* translators: %s: search term */__( '%1$sClick %2$shere%3$s', 'uabb' ), '<span style="font-size:15px;">', '<a href="https://en.wikipedia.org/wiki/List_of_circulating_currencies" target="_blank" rel="noopener"><b>', '</b> to find your country\'s ISO code.</a></span>' ),
 						),
 						'add_supply'          => array(
 							'type'    => 'select',

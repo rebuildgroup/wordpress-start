@@ -14,7 +14,30 @@ FLBuilder::register_module(
 		'items'             => array(
 			'title'    => __( 'Items', 'uabb' ),
 			'sections' => array(
-				'general' => array(
+				'preset_section' => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'default' => 'none',
+							'class'   => 'uabb-preset-select multiple',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
+				'general'        => array(
 					'title'  => '',
 					'fields' => array(
 						'acc_items' => array(
@@ -23,6 +46,20 @@ FLBuilder::register_module(
 							'form'         => 'uabb_advAccordion_items_form', // ID from registered form below.
 							'preview_text' => 'acc_title', // Name of a field to use for the preview text.
 							'multiple'     => true,
+							'default'      => array(
+								array(
+									'acc_title'  => 'Accordion Item #1',
+									'ct_content' => 'Lorem Ipsum is simply dummied text of the printing and typesetting industry.',
+								),
+								array(
+									'acc_title'  => 'Accordion Item #2',
+									'ct_content' => 'Lorem Ipsum is simply dummied text of the printing and typesetting industry.',
+								),
+								array(
+									'acc_title'  => 'Accordion Item #3',
+									'ct_content' => 'Lorem Ipsum is simply dummied text of the printing and typesetting industry.',
+								),
+							),
 						),
 					),
 				),
@@ -239,7 +276,7 @@ FLBuilder::register_module(
 						'icon_size'        => array(
 							'type'        => 'unit',
 							'label'       => __( 'Icon Size', 'uabb' ),
-							'placeholder' => '16',
+							'placeholder' => '14',
 							'units'       => array( 'px' ),
 							'maxlength'   => '3',
 							'size'        => '5',
@@ -410,7 +447,7 @@ FLBuilder::register_module(
 						'tag_selection'   => array(
 							'type'    => 'select',
 							'label'   => __( 'Tag', 'uabb' ),
-							'default' => 'h4',
+							'default' => 'h5',
 							'options' => array(
 								'h1'   => __( 'H1', 'uabb' ),
 								'h2'   => __( 'H2', 'uabb' ),

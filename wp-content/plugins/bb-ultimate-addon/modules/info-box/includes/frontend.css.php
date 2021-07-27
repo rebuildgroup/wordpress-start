@@ -500,7 +500,8 @@ if ( isset( $settings->bg_color_hover ) && '' !== $settings->bg_color_hover ) {
 	}
 <?php } ?>
 /* Align */
-.fl-node-<?php echo esc_attr( $id ); ?> .infobox-<?php echo esc_attr( $settings->align ); ?> {
+.fl-node-<?php echo esc_attr( $id ); ?> .infobox-<?php echo esc_attr( $settings->align ); ?>,
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-infobox .uabb-separator {
 	text-align: <?php echo esc_attr( $settings->align ); ?>;
 }
 

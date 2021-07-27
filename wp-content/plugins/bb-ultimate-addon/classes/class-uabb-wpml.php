@@ -83,6 +83,11 @@ if ( ! class_exists( 'UABB_WPML_Translatable' ) ) {
 						'type'        => __( 'Heading : Separator Text', 'uabb' ),
 						'editor_type' => 'LINE',
 					),
+					array(
+						'field'       => 'link',
+						'type'        => __( 'Link', 'uabb' ),
+						'editor_type' => 'LINK',
+					),
 				),
 			);
 

@@ -14,6 +14,30 @@ FLBuilder::register_module(
 		'dual_button'            => array( // Tab.
 			'title'    => __( 'General', 'uabb' ), // Tab title.
 			'sections' => array( // Tab Sections.
+				'preset_section'      => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'default' => 'none',
+							'class'   => 'uabb-preset-select multiple',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+
+						),
+					),
+				),
 				'dual_button'         => array( // Section.
 					'title'  => __( 'Button Settings', 'uabb' ), // Section Title.
 					'fields' => array( // Section Fields.
@@ -134,12 +158,11 @@ FLBuilder::register_module(
 							'default' => 'center',
 						),
 						'dual_button_radius'      => array(
-							'type'        => 'unit',
-							'label'       => __( 'Border Radius', 'uabb' ),
-							'placeholder' => '0',
-							'size'        => '6',
-							'units'       => array( 'px' ),
-							'slider'      => array(
+							'type'   => 'unit',
+							'label'  => __( 'Border Radius', 'uabb' ),
+							'size'   => '6',
+							'units'  => array( 'px' ),
+							'slider' => array(
 								'px' => array(
 									'min'  => 0,
 									'max'  => 1000,
@@ -354,6 +377,30 @@ FLBuilder::register_module(
 								'type' => 'none',
 							),
 						),
+						'_btn_one_text_color'       => array(
+							'type'        => 'color',
+							'label'       => __( 'Text Color', 'uabb' ),
+							'default'     => '',
+							'show_reset'  => true,
+							'connections' => array( 'color' ),
+							'show_alpha'  => true,
+							'preview'     => array(
+								'type'     => 'css',
+								'selector' => '.uabb-btn-one-text',
+								'property' => 'color',
+							),
+						),
+						'_btn_one_text_hover_color' => array(
+							'type'        => 'color',
+							'label'       => __( 'Text Hover Color', 'uabb' ),
+							'default'     => '',
+							'show_reset'  => true,
+							'connections' => array( 'color' ),
+							'show_alpha'  => true,
+							'preview'     => array(
+								'type' => 'none',
+							),
+						),
 						'_btn_one_back_color'       => array(
 							'type'        => 'color',
 							'label'       => __( 'Background Color', 'uabb' ),
@@ -481,6 +528,27 @@ FLBuilder::register_module(
 							'preview' => array(
 								'type' => 'none',
 							),
+						),
+						'_btn_two_text_color'       => array(
+							'type'        => 'color',
+							'label'       => __( 'Text Color', 'uabb' ),
+							'default'     => '',
+							'show_reset'  => true,
+							'connections' => array( 'color' ),
+							'show_alpha'  => true,
+							'preview'     => array(
+								'type'     => 'css',
+								'selector' => '.uabb-btn-two-text',
+								'property' => 'color',
+							),
+						),
+						'_btn_two_text_hover_color' => array(
+							'type'        => 'color',
+							'label'       => __( 'Text Hover Color', 'uabb' ),
+							'default'     => '',
+							'show_reset'  => true,
+							'connections' => array( 'color' ),
+							'show_alpha'  => true,
 						),
 						'_btn_two_back_color'       => array(
 							'type'        => 'color',
@@ -770,37 +838,13 @@ FLBuilder::register_module(
 				'typography_btn_one' => array(
 					'title'  => __( 'Button 1', 'uabb' ),
 					'fields' => array(
-						'_btn_one_typo'             => array(
+						'_btn_one_typo' => array(
 							'type'       => 'typography',
 							'label'      => __( 'Typography', 'uabb' ),
 							'responsive' => true,
 							'preview'    => array(
 								'type'     => 'css',
 								'selector' => '.uabb-btn-one-text',
-							),
-						),
-						'_btn_one_text_color'       => array(
-							'type'        => 'color',
-							'label'       => __( 'Text Color', 'uabb' ),
-							'default'     => '',
-							'show_reset'  => true,
-							'connections' => array( 'color' ),
-							'show_alpha'  => true,
-							'preview'     => array(
-								'type'     => 'css',
-								'selector' => '.uabb-btn-one-text',
-								'property' => 'color',
-							),
-						),
-						'_btn_one_text_hover_color' => array(
-							'type'        => 'color',
-							'label'       => __( 'Text Hover Color', 'uabb' ),
-							'default'     => '',
-							'show_reset'  => true,
-							'connections' => array( 'color' ),
-							'show_alpha'  => true,
-							'preview'     => array(
-								'type' => 'none',
 							),
 						),
 					),
@@ -808,7 +852,7 @@ FLBuilder::register_module(
 				'typography_btn_two' => array(
 					'title'  => __( 'Button 2', 'uabb' ),
 					'fields' => array(
-						'_btn_two_typo'             => array(
+						'_btn_two_typo' => array(
 							'type'       => 'typography',
 							'label'      => __( 'Typography', 'uabb' ),
 							'responsive' => true,
@@ -816,27 +860,6 @@ FLBuilder::register_module(
 								'type'     => 'css',
 								'selector' => '.uabb-btn-two-text',
 							),
-						),
-						'_btn_two_text_color'       => array(
-							'type'        => 'color',
-							'label'       => __( 'Text Color', 'uabb' ),
-							'default'     => '',
-							'show_reset'  => true,
-							'connections' => array( 'color' ),
-							'show_alpha'  => true,
-							'preview'     => array(
-								'type'     => 'css',
-								'selector' => '.uabb-btn-two-text',
-								'property' => 'color',
-							),
-						),
-						'_btn_two_text_hover_color' => array(
-							'type'        => 'color',
-							'label'       => __( 'Text Hover Color', 'uabb' ),
-							'default'     => '',
-							'show_reset'  => true,
-							'connections' => array( 'color' ),
-							'show_alpha'  => true,
 						),
 					),
 				),

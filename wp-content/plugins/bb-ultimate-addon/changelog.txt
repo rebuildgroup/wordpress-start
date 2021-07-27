@@ -1,3 +1,63 @@
+Version 1.31.3, Wednesday, 21st July 2021
+- Improvement: Keep the settings lightbox open after applying Preset to improve UX.
+- Improvement: Info List - Added aria-label attribute to link.
+- Improvement: Interactive Banner 2 - Added aria-label attribute to link.
+- Fixed: Woo-Mini Cart - Cart Content is not clickable when Cart Style is Modal and Off-Canvas.
+
+Version 1.31.2, Tuesday, 13th July 2021
+- Fixed: Advanced Testimonials - Fatal error with PHP v8 when Image/Icon Size is empty.
+- Fixed: Social Share - PHP notice when Social Share Type is Pinterest and no image is set.
+- Fixed: Woo-Products - Grid & Carousel layout breaks on archive pages.
+- Fixed: Woo-Categories - Grid & Carousel layout breaks on archive pages.
+
+Version 1.31.1, Friday, 2nd July 2021
+- Fixed: Heading - Description text gets disappeared after updating to latest version.
+
+Version 1.31.0, Thursday, 1st July 2021
+- New: Advanced Accordion - Added preset designs
+- New: Advanced Tabs - Added preset designs
+- New: Business Hours - Added preset designs
+- New: Dual Buttons - Added preset designs
+- New: Dual Color Heading - Added preset designs
+- New: FAQ Schema - Added preset designs
+- New: Heading - Added preset designs
+- New: Info Box - Added preset designs
+- New: Countdown - Added preset designs
+- New: Team - Added preset designs
+- Improvement: Added new default designs for modules
+- Improvement: Advanced Tab - Added Tab spacing options for horizontal layout.
+- Improvement: Team - Added Border setting for the complete box.
+- Improvement: Team - Added a single Background setting for the complete box.
+- Improvement: Advanced Icons - Added aria-label attribute to link.
+- Improvement: Button - Added aria-label attribute to link.
+- Improvement: Video - Added title attribute to iframe in Video module.
+- Improvement: Business Reviews - Added responsive support for carousel arrows.
+- Improvement: Woo-Products - Added filter to change Quick View text.
+- Fixed: Advanced Testimonials - Icon dynamic CSS was not being applied when the layout is selected as Box.
+- Fixed: Advanced Menu - Menu text color option is not working with rgba color code.
+- Fixed: Dual Buttons - Border radius not working for mobile devices.
+- Fixed: Heading - Heading Bottom Margin is overridden if we add another Heading Module in the Themer Layout.
+- Fixed: Woo-Products - When Source is ACF Relationship respective settings are not shown.
+
+Version 1.30.6, Thursday, 27th May 2021
+- Fixed: Advanced Menu - Desktop menu disappears when Responsive Layout is Below Row.
+- Fixed: Advanced Testimonials - Fatal error with PHP v8.
+
+Version 1.30.5, Monday, 24th May 2021
+- Improvement: Advanced Testimonials - Added responsive support for Image/Icon Size.
+- Improvement: Dual Button - Changes in settings UI.
+- Improvement: Heading: Added WPML support to the Link field.
+- Improvement: Advanced Menu - Added Menu Label Typography option for Responsive Navigation.
+- Improvement: Modal Popup - Added field connection support for color fields.
+- Improvement: Photo gallery - Added filter to modify Filterable tabs
+- Fixed: Conflict between Image Carousel and Business Reviews Carousel layout.
+- Fixed: Advanced Posts - Custom Size option for Featured Image not working as expected.
+- Fixed: Advanced Posts - Accessibility errors with Carousel layout.
+- Fixed: Advanced Menu - CLS issue with Responsive Below Row layout.
+- Fixed: Advanced Testimonials - Spacing not working in between paragraph as expected.
+- Fixed: Woo-Mini Cart - Close Cart on Overlay Click functionality is not working in Modal & Off-Canvas Cart Style.
+- Fixed: Woo-Mini Cart - Badge Position & Color changes after publishing.
+
 Version 1.30.4, Wednesday, 28th April 2021
 - Improvement: Advanced Tabs - Added Title Description option.
 - Improvement: Advanced Tabs - Added right position for vertical Tab layout.

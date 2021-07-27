@@ -73,12 +73,17 @@ if ( count( $settings->social_icons ) > 0 ) {
 
 			case 'pinterest':
 				if ( '' === $icon->fallback_image ) {
-					$pin_thumb     = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
-					$pin_image_url = $pin_thumb['0'];
+					$img_size  = apply_filters( 'uabb_social_share_pinterest_img_size', 'large' );
+					$pin_thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), $img_size );
+					if ( $pin_thumb ) {
+						$pin_image_url = $pin_thumb['0'];
+					}
 				} else {
 					$pin_image_url = $icon->fallback_image_src;
 				}
-				$url         = 'https://www.pinterest.com/pin/create/link/?url=' . $current_page . '&media=' . $pin_image_url;
+				if ( isset( $pin_image_url ) ) {
+					$url = 'https://www.pinterest.com/pin/create/link/?url=' . $current_page . '&media=' . $pin_image_url;
+				}
 				$share_title = __( 'Pinterest', 'uabb' );
 				$share_icon  = 'fab fa-pinterest';
 				break;

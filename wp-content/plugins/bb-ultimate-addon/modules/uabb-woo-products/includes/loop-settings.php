@@ -49,6 +49,37 @@ do_action( 'uabb_woo_products_loop_settings_before_form', $settings ); // e.g Ad
 		?>
 	</table>
 </div>
+<div class="fl-loop-data-source-acf fl-loop-data-source" data-source="acf_relationship">
+	<table class="fl-form-table">
+	<?php
+
+	// ACF Compatibility.
+	FLBuilder::render_settings_field(
+		'data_source_acf_relational_type',
+		array(
+			'type'    => 'select',
+			'label'   => __( 'Type', 'uabb' ),
+			'default' => 'relationship',
+			'options' => array(
+				'relationship' => __( 'Relationship', 'uabb' ),
+				'user'         => __( 'User', 'uabb' ),
+			),
+		),
+		$settings
+	);
+
+	FLBuilder::render_settings_field(
+		'data_source_acf_relational_key',
+		array(
+			'type'  => 'text',
+			'label' => __( 'Key', 'uabb' ),
+		),
+		$settings
+	);
+
+	?>
+	</table>
+</div>
 <div class="fl-custom-query fl-loop-data-source" data-source="custom_query">
 	<div id="fl-builder-settings-section-filter" class="fl-builder-settings-section">
 		<h3 class="fl-builder-settings-title">

@@ -14,7 +14,30 @@ FLBuilder::register_module(
 		'general'         => array( // Tab.
 			'title'    => __( 'General', 'uabb' ), // Tab title.
 			'sections' => array( // Tab Sections.
-				'general'      => array( // Section.
+				'preset_section' => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'default' => 'none',
+							'class'   => 'uabb-preset-select multiple',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
+				'general'        => array( // Section.
 					'title'  => '', // Section Title.
 					'fields' => array( // Section Fields.
 						'timer_type'             => array(
@@ -94,14 +117,14 @@ FLBuilder::register_module(
 						),
 					),
 				),
-				'timer_string' => array( // Section.
+				'timer_string'   => array( // Section.
 					'title'  => __( 'Timer Strings', 'uabb' ), // Section Title.
 					'fields' => array( // Section Fields.
 						'year_string'           => array(
 							'type'        => 'select',
 							'label'       => __( 'Years', 'uabb' ),
 							'description' => '',
-							'default'     => 'Y',
+							'default'     => '',
 							'options'     => array(
 								'Y' => __( 'Enable', 'uabb' ),
 								''  => __( 'Disable', 'uabb' ),
@@ -136,7 +159,7 @@ FLBuilder::register_module(
 							'type'        => 'select',
 							'label'       => __( 'Months', 'uabb' ),
 							'description' => '',
-							'default'     => 'O',
+							'default'     => '',
 							'options'     => array(
 								'O' => __( 'Enable', 'uabb' ),
 								''  => __( 'Disable', 'uabb' ),
@@ -336,20 +359,19 @@ FLBuilder::register_module(
 							),
 						),
 						'timer_out_spacing'  => array(
-							'type'        => 'unit',
-							'placeholder' => '30',
-							'default'     => '30',
-							'units'       => array( 'px' ),
-							'slider'      => array(
+							'type'    => 'unit',
+							'default' => '50',
+							'units'   => array( 'px' ),
+							'slider'  => array(
 								'px' => array(
 									'min'  => 0,
 									'max'  => 1000,
 									'step' => 10,
 								),
 							),
-							'label'       => __( 'Space Between Elements', 'uabb' ),
-							'help'        => __( 'This option controls the left-right spacing of each Countdown Element.', 'uabb' ),
-							'class'       => '',
+							'label'   => __( 'Space Between Elements', 'uabb' ),
+							'help'    => __( 'This option controls the left-right spacing of each Countdown Element.', 'uabb' ),
+							'class'   => '',
 						),
 					),
 				),
@@ -366,7 +388,7 @@ FLBuilder::register_module(
 							),
 							'toggle'  => array(
 								'yes' => array(
-									'fields' => array( 'separator_type', 'separator_color', 'hide_separator' ),
+									'fields' => array( 'separator_type', 'separator_color', 'hide_separator', 'separator_size' ),
 								),
 							),
 						),

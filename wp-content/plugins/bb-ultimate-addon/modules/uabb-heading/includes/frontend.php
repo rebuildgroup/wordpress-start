@@ -30,21 +30,17 @@ if ( isset( $settings->link_nofollow ) && UABB_Compatibility::$version_bb_check 
 		<?php endif; ?>
 	</<?php echo esc_attr( $settings->tag ); ?>>
 	<?php } ?>
-
-	<?php if ( '' !== $settings->description && 'top' === $settings->desc_position ) : ?>
+	<?php if ( 'yes' === $settings->description_option && '' !== $settings->description && 'top' === $settings->desc_position ) { ?>
 	<div class="uabb-subheading uabb-text-editor">
-		<?php echo $settings->description; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo $settings->description; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	</div>
-	<?php endif; ?>
-
+	<?php } ?>
 	<?php $module->render_separator( 'center' ); ?>
-
-	<?php if ( '' !== $settings->description && 'bottom' === $settings->desc_position ) : ?>
+	<?php if ( 'yes' === $settings->description_option && '' !== $settings->description && 'bottom' === $settings->desc_position ) { ?>
 	<div class="uabb-subheading uabb-text-editor">
-		<?php echo $settings->description; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo $settings->description; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	</div>
-	<?php endif; ?>
-
+	<?php } ?>
 	<?php if ( 'top' === $settings->desc_position ) { ?>
 
 	<<?php echo esc_attr( $settings->tag ); ?> class="uabb-heading">

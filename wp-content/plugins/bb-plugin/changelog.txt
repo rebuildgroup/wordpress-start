@@ -1,3 +1,23 @@
+<h4>2.4.2.5 - 07/21/2021</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Fix responsive editing while inline CSS is enabled</li>
+	<li>Accordion Module: Fix spacing issue in HTML when collapse is disabled</li>
+	<li>Subscribe Module: Fix conflict with WooCommerce Mailer Lite</li>
+	<li>Subscribe Module: Fix integration with Campaign Monitor when using PHP 8</li>
+	<li>Subscribe Module: Update MailPoet integration for their new API</li>
+	<li>Fix notice for block preload path when using WP 5.8</li>
+</ul>
+
+<h4>2.4.2.4 - 06/15/2021</h4>
+<strong>Hot Fix</strong>
+<ul>
+	<li>Callout Module: Fix link on icon ignoring link target setting</li>
+	<li>Allow .webp uploads when using WordPress 5.8 which adds support for .webp files</li>
+	<li>Add plugin data to data collected when opted into Sending Usage Data</li>
+	<li>Add support for SendinBlue API v3 since  v2 will be discontinued at the end of the month</li>
+</ul>
+
 <h4>2.4.2.3 - 05/25/2021</h4>
 <strong>Hot Fix</strong>
 <ul>

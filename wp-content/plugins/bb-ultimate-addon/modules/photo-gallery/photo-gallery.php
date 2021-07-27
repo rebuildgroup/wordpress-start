@@ -609,6 +609,7 @@ class UABBPhotoGalleryModule extends FLBuilderModule {
 				}
 			}
 		}
+		$cat_filter = apply_filters( 'uabb_photo_gallery_tabs', $cat_filter );
 		return $cat_filter;
 	}
 

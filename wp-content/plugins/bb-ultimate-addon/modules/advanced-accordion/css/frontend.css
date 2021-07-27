@@ -160,10 +160,17 @@
 
 /* Accesibility support */
 .uabb-adv-accordion-button-label:focus,
-.uabb-adv-accordion-button-label:active,
 .uabb-adv-accordion-button:focus,
-.uabb-adv-accordion-button:active,
-.uabb-adv-accordion-icon-wrap:focus,
-.uabb-adv-accordion-icon-wrap:active {
+.uabb-adv-accordion-icon-wrap:focus {
+      outline: thin dotted;
+}
+.uabb-adv-accordion-button-label:focus:not(.focus-visible),
+.uabb-adv-accordion-button:focus:not(.focus-visible),
+.uabb-adv-accordion-icon-wrap:focus:not(.focus-visible) {
+      outline: none;
+}
+.uabb-adv-accordion-button-label:focus-visible,
+.uabb-adv-accordion-button:focus-visible,
+.uabb-adv-accordion-icon-wrap:focus-visible {
       outline: thin dotted;
 }

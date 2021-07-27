@@ -151,7 +151,6 @@ if ( 'masonary' === $settings->is_carousel || 'grid' === $settings->is_carousel 
 	<?php endif; ?>
 </div>
 <?php
-
 /*
  *  Render Pagination
  */

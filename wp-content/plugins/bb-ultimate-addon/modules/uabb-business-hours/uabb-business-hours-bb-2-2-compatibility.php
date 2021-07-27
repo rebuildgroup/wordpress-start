@@ -14,6 +14,29 @@ FLBuilder::register_module(
 		'business-hours-info'       => array(
 			'title'    => __( 'Content', 'uabb' ),
 			'sections' => array(
+				'preset_section'    => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'default' => 'none',
+							'class'   => 'uabb-preset-select multiple',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
 				'info_list_general' => array(
 					'title'  => '',
 					'fields' => array(

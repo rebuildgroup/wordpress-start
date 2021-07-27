@@ -197,7 +197,8 @@ class UABB_Init {
 		require_once BB_ULTIMATE_ADDON_DIR . 'includes/column.php';
 
 		require_once BB_ULTIMATE_ADDON_DIR . 'classes/batch-process/class-uabb-batch-process.php';
-		require_once BB_ULTIMATE_ADDON_DIR . 'lib/notices/class-astra-notices.php';
+		require_once BB_ULTIMATE_ADDON_DIR . 'lib/astra-notices/class-astra-notices.php';
+		require_once BB_ULTIMATE_ADDON_DIR . 'classes/class-uabb-presets.php';
 
 		if ( ! class_exists( 'BSF_Analytics_Loader' ) ) {
 			require_once BB_ULTIMATE_ADDON_DIR . 'admin/bsf-analytics/class-bsf-analytics-loader.php';
@@ -355,6 +356,15 @@ class UABB_Init {
 
 			wp_enqueue_style( 'uabb-builder-css', BB_ULTIMATE_ADDON_URL . 'assets/css/uabb-builder.css', array(), BB_ULTIMATE_ADDON_VER );
 			wp_enqueue_script( 'uabb-builder-js', BB_ULTIMATE_ADDON_URL . 'assets/js/uabb-builder.js', array( 'jquery' ), BB_ULTIMATE_ADDON_VER, true );
+			wp_enqueue_script( 'uabb-presets', BB_ULTIMATE_ADDON_URL . 'assets/js/uabb-presets.js', array( 'jquery' ), BB_ULTIMATE_ADDON_VER, true );
+			wp_localize_script(
+				'uabb-presets',
+				'uabb',
+				array(
+					'ajax_url' => admin_url( 'admin-ajax.php' ),
+					'nonce'    => wp_create_nonce( 'uabb-presets-nonce' ),
+				)
+			);
 
 			$uabb_options = self::$uabb_options['fl_builder_uabb'];
 

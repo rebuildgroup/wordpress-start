@@ -462,11 +462,11 @@ FLBuilder::register_module(
 								),
 								'hamburger-label' => array(
 									'fields'   => array( 'creative_mobile_menu_type', 'creative_menu_mobile_breakpoint', 'creative_menu_responsive_alignment', 'creative_menu_mobile_toggle_color', 'creative_menu_mobile_toggle_text', 'creative_menu_navigation_alignment', 'hamburger_icon_size' ),
-									'sections' => array( 'creative_menu_responsive_mobile_style', 'creative_menu_responsive_style', 'menu_button_colors' ),
+									'sections' => array( 'creative_menu_responsive_mobile_style', 'creative_menu_responsive_style', 'menu_button_colors', 'menu_label_typography' ),
 								),
 								'text'            => array(
 									'fields'   => array( 'creative_mobile_menu_type', 'creative_menu_mobile_breakpoint', 'creative_menu_responsive_alignment', 'creative_menu_mobile_toggle_color', 'creative_menu_mobile_toggle_text', 'creative_menu_navigation_alignment' ),
-									'sections' => array( 'menu_button_colors', 'creative_menu_responsive_mobile_style', 'creative_menu_responsive_style' ),
+									'sections' => array( 'menu_button_colors', 'creative_menu_responsive_mobile_style', 'creative_menu_responsive_style', 'menu_label_typography' ),
 								),
 								'expanded'        => array(
 									'fields'   => array( 'creative_menu_responsive_alignment' ),
@@ -902,6 +902,21 @@ FLBuilder::register_module(
 							'preview'    => array(
 								'type'      => 'css',
 								'selector'  => '.uabb-creative-menu .sub-menu a, .uabb-creative-menu .sub-menu > li > .uabb-has-submenu-container > a',
+								'important' => true,
+							),
+						),
+					),
+				),
+				'menu_label_typography'   => array(
+					'title'  => __( 'Menu Label Typography', 'uabb' ),
+					'fields' => array(
+						'creative_menu_label_typo' => array(
+							'type'       => 'typography',
+							'label'      => __( 'Typography', 'uabb' ),
+							'responsive' => true,
+							'preview'    => array(
+								'type'      => 'css',
+								'selector'  => '.menu > li > a, .menu > li > .uabb-has-submenu-container > a, .uabb-creative-menu-mobile-toggle-label',
 								'important' => true,
 							),
 						),

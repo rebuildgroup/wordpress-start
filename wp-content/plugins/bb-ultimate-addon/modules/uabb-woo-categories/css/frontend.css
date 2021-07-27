@@ -1,15 +1,24 @@
 .uabb-woocommerce ul.products::before,
-.uabb-woocommerce ul.products::after {
+.uabb-woocommerce ul.products::after,
+.woocommerce .uabb-woocommerce ul.products::before,
+.woocommerce .uabb-woocommerce ul.products::after,
+.woocommerce-page .uabb-woocommerce ul.products::before,
+.woocommerce-page .uabb-woocommerce ul.products::after {
     content: ' ';
     display: table;
     width: 0;
 }
 
-.uabb-woocommerce ul.products::after {
+.uabb-woocommerce ul.products::after,
+.woocommerce .uabb-woocommerce ul.products::after,
+.woocommerce-page .uabb-woocommerce ul.products::after {
     clear: both;
 }
 
-.uabb-woocommerce ul.products {
+.uabb-woocommerce ul.products,
+.woocommerce .uabb-woocommerce ul.products,
+.woocommerce-page .uabb-woocommerce ul.products {
+    column-gap: 0;
     margin: 0;
     margin-left: -10px;
     margin-right: -10px;
@@ -26,7 +35,9 @@
     flex-wrap: wrap;
 }
 
-.uabb-woocommerce li.product {
+.uabb-woocommerce li.product,
+.woocommerce .uabb-woocommerce li.product,
+.woocommerce-page .uabb-woocommerce li.product {
     margin-left: 0px;
     margin-right: 0px;
     padding: 0 10px;
@@ -87,42 +98,66 @@
     font-size: .75em;
 }
 
+.woocommerce .uabb-woo-categories .uabb-woo-cat__column-1 li.product,
+.woocommerce-page .uabb-woo-categories .uabb-woo-cat__column-1 li.product,
 .uabb-woo-categories .uabb-woo-cat__column-1 li.product {
     width: 100%;
     margin-right: 0;
 }
 
+.woocommerce .uabb-woo-categories .uabb-woo-cat__column-2 li.product,
+.woocommerce-page .uabb-woo-categories .uabb-woo-cat__column-2 li.product,
 .uabb-woo-categories .uabb-woo-cat__column-2 li.product {
     width: 50%;
 }
+.woocommerce .uabb-woo-categories .uabb-woo-cat__column-3 li.product,
+.woocommerce-page .uabb-woo-categories .uabb-woo-cat__column-3 li.product,
 .uabb-woo-categories .uabb-woo-cat__column-3 li.product {
     width: 33.33%;
 }
+.woocommerce .uabb-woo-categories .uabb-woo-cat__column-4 li.product,
+.woocommerce-page .uabb-woo-categories .uabb-woo-cat__column-4 li.product,
 .uabb-woo-categories .uabb-woo-cat__column-4 li.product {
     width: 25%;
 }
+.woocommerce .uabb-woo-categories .uabb-woo-cat__column-5 li.product,
+.woocommerce-page .uabb-woo-categories .uabb-woo-cat__column-5 li.product,
 .uabb-woo-categories .uabb-woo-cat__column-5 li.product {
     width: 20%;
 }
+.woocommerce .uabb-woo-categories .uabb-woo-cat__column-6 li.product,
+.woocommerce-page .uabb-woo-categories .uabb-woo-cat__column-6 li.product,
 .uabb-woo-categories .uabb-woo-cat__column-6 li.product {
     width: 16.66%;
 }
 
-.uabb-woo-categories .uabb-woo-cat__column-1 li.product:nth-child(n+1),
-.uabb-woo-categories .uabb-woo-cat__column-2 li.product:nth-child(2n+1),
-.uabb-woo-categories .uabb-woo-cat__column-3 li.product:nth-child(3n+1),
-.uabb-woo-categories .uabb-woo-cat__column-4 li.product:nth-child(4n+1),
-.uabb-woo-categories .uabb-woo-cat__column-5 li.product:nth-child(5n+1),
-.uabb-woo-categories .uabb-woo-cat__column-6 li.product:nth-child(6n+1) {
+.uabb-woo-categories .uabb-woo-cat__column-1 .products li.product:nth-child(n+1),
+.uabb-woo-categories .uabb-woo-cat__column-2 .products li.product:nth-child(2n+1),
+.uabb-woo-categories .uabb-woo-cat__column-3 .products li.product:nth-child(3n+1),
+.uabb-woo-categories .uabb-woo-cat__column-4 .products li.product:nth-child(4n+1),
+.uabb-woo-categories .uabb-woo-cat__column-5 .products li.product:nth-child(5n+1),
+.uabb-woo-categories .uabb-woo-cat__column-6 .products li.product:nth-child(6n+1),
+.uabb-woo-categories .uabb-woo-cat__column-1 ul.products li.product:nth-child(n+1),
+.uabb-woo-categories .uabb-woo-cat__column-2 ul.products li.product:nth-child(2n+1),
+.uabb-woo-categories .uabb-woo-cat__column-3 ul.products li.product:nth-child(3n+1),
+.uabb-woo-categories .uabb-woo-cat__column-4 ul.products li.product:nth-child(4n+1),
+.uabb-woo-categories .uabb-woo-cat__column-5 ul.products li.product:nth-child(5n+1),
+.uabb-woo-categories .uabb-woo-cat__column-6 ul.products li.product:nth-child(6n+1) {
     clear: left;
 }
 
-.uabb-woo-categories .uabb-woo-cat__column-1 li.product:nth-child(n),
-.uabb-woo-categories .uabb-woo-cat__column-2 li.product:nth-child(2n),
-.uabb-woo-categories .uabb-woo-cat__column-3 li.product:nth-child(3n),
-.uabb-woo-categories .uabb-woo-cat__column-4 li.product:nth-child(4n),
-.uabb-woo-categories .uabb-woo-cat__column-5 li.product:nth-child(5n),
-.uabb-woo-categories .uabb-woo-cat__column-6 li.product:nth-child(6n) {
+.uabb-woo-categories .uabb-woo-cat__column-1 .products li.product:nth-child(n),
+.uabb-woo-categories .uabb-woo-cat__column-2 .products li.product:nth-child(2n),
+.uabb-woo-categories .uabb-woo-cat__column-3 .products li.product:nth-child(3n),
+.uabb-woo-categories .uabb-woo-cat__column-4 .products li.product:nth-child(4n),
+.uabb-woo-categories .uabb-woo-cat__column-5 .products li.product:nth-child(5n),
+.uabb-woo-categories .uabb-woo-cat__column-6 .products li.product:nth-child(6n),
+.uabb-woo-categories .uabb-woo-cat__column-1 ul.products li.product:nth-child(n),
+.uabb-woo-categories .uabb-woo-cat__column-2 ul.products li.product:nth-child(2n),
+.uabb-woo-categories .uabb-woo-cat__column-3 ul.products li.product:nth-child(3n),
+.uabb-woo-categories .uabb-woo-cat__column-4 ul.products li.product:nth-child(4n),
+.uabb-woo-categories .uabb-woo-cat__column-5 ul.products li.product:nth-child(5n),
+.uabb-woo-categories .uabb-woo-cat__column-6 ul.products li.product:nth-child(6n) {
     clear: right;
 }
 

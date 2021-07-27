@@ -14,7 +14,30 @@ FLBuilder::register_module(
 		'general'    => array(
 			'title'    => __( 'General', 'uabb' ),
 			'sections' => array(
-				'title'      => array(
+				'preset_section' => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'default' => 'none',
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'class'   => 'uabb-preset-select',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
+				'title'          => array(
 					'title'  => __( 'Title', 'uabb' ),
 					'fields' => array(
 						'heading_prefix' => array(
@@ -41,7 +64,7 @@ FLBuilder::register_module(
 						),
 					),
 				),
-				'text'       => array(
+				'text'           => array(
 					'title'  => __( 'Description', 'uabb' ),
 					'fields' => array(
 						'text' => array(
@@ -49,7 +72,7 @@ FLBuilder::register_module(
 							'label'         => '',
 							'media_buttons' => false,
 							'rows'          => 6,
-							'default'       => __( 'Enter description text here.', 'uabb' ),
+							'default'       => __( 'Enter description text here. Lorem ipsum dolor sit amet, consectetur adipiscing. Quo incidunt ullamco.', 'uabb' ),
 							'connections'   => array( 'string', 'html' ),
 							'preview'       => array(
 								'type'      => 'text',
@@ -59,7 +82,7 @@ FLBuilder::register_module(
 						),
 					),
 				),
-				'separator'  => array( // Section.
+				'separator'      => array( // Section.
 					'title'     => __( 'Separator', 'uabb' ), // Section Title.
 					'collapsed' => true,
 					'fields'    => array( // Section Fields.
@@ -152,7 +175,7 @@ FLBuilder::register_module(
 						),
 					),
 				),
-				'border'     => array(
+				'border'         => array(
 					'title'     => __( 'Border', 'uabb' ),
 					'collapsed' => true,
 					'fields'    => array(
@@ -324,7 +347,7 @@ FLBuilder::register_module(
 						),
 					),
 				),
-				'box_shadow' => array(
+				'box_shadow'     => array(
 					'title'     => __( 'Box Shadow', 'uabb' ),
 					'collapsed' => true,
 					'fields'    => array(

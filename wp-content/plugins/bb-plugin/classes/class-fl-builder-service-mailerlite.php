@@ -41,16 +41,9 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		if ( $this->api_instance ) {
 			return $this->api_instance;
 		}
-		// if ( ! class_exists( 'FL_ML_Rest' ) ) {
-		// 	require_once FL_BUILDER_DIR . 'includes/vendor/mailerlite/FL_ML_Rest.php';
-		// }
-		//
-		// $this->api_instance = new FL_ML_Rest( $api_key );
-		// $this->api_instance->setUrl( $this->api_url );
-		//
-		// return $this->api_instance;
+
 		require_once FL_BUILDER_DIR . 'includes/vendor/mailerlite/autoload.php';
-		//	$mailerliteClient = new \MailerLiteApi\MailerLite('your-api-key');
+		require FL_BUILDER_DIR . 'includes/vendor/mailerlite/guzzlehttp/psr7/src/functions_include.php';
 
 		$groupsapi = new \MailerLiteApi\MailerLite( $api_key );
 		return $groupsapi;

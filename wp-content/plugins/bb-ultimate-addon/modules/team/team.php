@@ -743,7 +743,7 @@ class UABBTeamModule extends FLBuilderModule {
 	 * @method Render Designation
 	 */
 	public function render_desgn() {
-		if ( ! empty( $this->settings->designation ) ) {
+		if ( 'yes' === ( $this->settings->designtion_option ) && ! empty( $this->settings->designation ) ) {
 			$output  = '<div class="uabb-team-desgn">';
 			$output .= '<span class="uabb-team-desgn-text">' . $this->settings->designation . '</span>';
 			$output .= '</div>';
@@ -757,7 +757,7 @@ class UABBTeamModule extends FLBuilderModule {
 	 * @method Render Desc
 	 */
 	public function render_desc() {
-		if ( ! empty( $this->settings->description ) ) {
+		if ( 'yes' === ( $this->settings->description_option ) && ! empty( $this->settings->description ) ) {
 			$output  = '<div class="uabb-team-desc">';
 			$output .= '<span class="uabb-team-desc-text">' . $this->settings->description . '</span>';
 			$output .= '</div>';

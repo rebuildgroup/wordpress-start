@@ -21,7 +21,12 @@
     padding: 0;
     margin: 0;
 }
-
+.uabb-countdown-fixed-timer .uabb-count-down-digit, .uabb-countdown-evergreen-timer .uabb-count-down-digit {
+    font-size: 50px;
+}
+.uabb-countdown-fixed-timer .uabb-count-down-unit, .uabb-countdown-evergreen-timer .uabb-count-down-unit {
+    font-size: 15px;
+}
 .uabb-countdown .uabb-countdown-digit-wrapper.square {
     display: -webkit-box;
     display: -ms-flexbox;

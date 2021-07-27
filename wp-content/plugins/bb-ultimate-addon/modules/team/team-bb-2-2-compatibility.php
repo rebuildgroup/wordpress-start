@@ -14,8 +14,31 @@ FLBuilder::register_module(
 		'imageicon'            => array(
 			'title'    => __( 'Image', 'uabb' ),
 			'sections' => array(
+				'preset_section' => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'default' => 'none',
+							'class'   => 'uabb-preset-select multiple',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
 				/* Image Basic Setting */
-				'img_basic'  => array( // Section.
+				'img_basic'      => array( // Section.
 					'title'  => __( 'Image Basics', 'uabb' ), // Section Title.
 					'fields' => array( // Section Fields.
 						'photo_source' => array(
@@ -61,7 +84,7 @@ FLBuilder::register_module(
 						),
 					),
 				),
-				'img_styles' => array(
+				'img_styles'     => array(
 					'title'  => __( 'Image Style', 'uabb' ),
 					'fields' => array(
 						'image_style'             => array(
@@ -150,7 +173,7 @@ FLBuilder::register_module(
 				'member_info' => array(
 					'title'  => __( 'Member Information', 'uabb' ),
 					'fields' => array(
-						'name'        => array(
+						'name'               => array(
 							'type'        => 'text',
 							'label'       => __( 'Name', 'uabb' ),
 							'default'     => __( 'John Doe', 'uabb' ),
@@ -161,10 +184,24 @@ FLBuilder::register_module(
 								'important' => true,
 							),
 						),
-						'designation' => array(
+						'designtion_option'  => array(
+							'type'    => 'select',
+							'label'   => __( 'Designation Enable', 'uabb' ),
+							'default' => 'yes',
+							'options' => array(
+								'yes' => __( 'Yes', 'uabb' ),
+								'no'  => __( 'No', 'uabb' ),
+							),
+							'toggle'  => array(
+								'yes' => array(
+									'fields' => array( 'designation' ),
+								),
+							),
+						),
+						'designation'        => array(
 							'type'        => 'text',
 							'label'       => __( 'Designation', 'uabb' ),
-							'default'     => __( 'CEO, Example Inc.', 'uabb' ),
+							'default'     => __( 'CEO', 'uabb' ),
 							'connections' => array( 'string', 'html' ),
 							'preview'     => array(
 								'type'      => 'text',
@@ -172,10 +209,24 @@ FLBuilder::register_module(
 								'important' => true,
 							),
 						),
-						'description' => array(
+						'description_option' => array(
+							'type'    => 'select',
+							'label'   => __( 'Description Enable', 'uabb' ),
+							'default' => 'yes',
+							'options' => array(
+								'yes' => __( 'Yes', 'uabb' ),
+								'no'  => __( 'No', 'uabb' ),
+							),
+							'toggle'  => array(
+								'yes' => array(
+									'fields' => array( 'description' ),
+								),
+							),
+						),
+						'description'        => array(
 							'type'        => 'textarea',
 							'label'       => __( 'Description', 'uabb' ),
-							'default'     => __( 'Use this space to tell a little about your team member. Make it interesting by mentioning his expertise, achievements, interests, hobbies and more.', 'uabb' ),
+							'default'     => __( 'Enter description text here.Lorem ipsum dolor sit amet consectetur adipiscing.', 'uabb' ),
 							'rows'        => '5',
 							'connections' => array( 'string', 'html' ),
 							'preview'     => array(
@@ -278,7 +329,7 @@ FLBuilder::register_module(
 						'enable_separator'        => array(
 							'type'    => 'select',
 							'label'   => __( 'Separator', 'uabb' ),
-							'default' => 'block',
+							'default' => 'none',
 							'options' => array(
 								'none'  => __( 'No', 'uabb' ),
 								'block' => __( 'Yes', 'uabb' ),
@@ -435,6 +486,17 @@ FLBuilder::register_module(
 							'form'         => 'uabb_social_icon_form', // ID from registered form below.
 							'preview_text' => 'icon', // Name of a field to use for the preview text.
 							'multiple'     => true,
+							'default'      => array(
+								array(
+									'icon' => 'ua-icon ua-icon-linkedin-with-circle',
+								),
+								array(
+									'icon' => 'ua-icon ua-icon-facebook-with-circle',
+								),
+								array(
+									'icon' => 'ua-icon ua-icon-twitter-with-circle',
+								),
+							),
 						),
 					),
 				),
@@ -442,10 +504,11 @@ FLBuilder::register_module(
 					'title'  => __( 'Icon Basics', 'uabb' ), // Section Title.
 					'fields' => array( // Section Fields.
 						'icon_size' => array(
-							'type'   => 'unit',
-							'label'  => __( 'Size', 'uabb' ),
-							'slider' => true,
-							'units'  => array( 'px' ),
+							'type'    => 'unit',
+							'label'   => __( 'Size', 'uabb' ),
+							'slider'  => true,
+							'default' => '30',
+							'units'   => array( 'px' ),
 						),
 						'spacing'   => array(
 							'type'   => 'unit',
@@ -636,6 +699,81 @@ FLBuilder::register_module(
 				),
 			),
 		),
+		'style_tab'            => array(
+			'title'    => __( 'Style', 'uabb' ),
+			'sections' => array(
+				'border_section' => array(
+					'title'  => __( 'Border & Dimension', 'uabb' ),
+					'fields' => array(
+						'box_border'  => array(
+							'type'    => 'border',
+							'label'   => __( 'Border', 'uabb' ),
+							'slider'  => true,
+							'units'   => array( 'px' ),
+							'preview' => array(
+								'type'     => 'css',
+								'selector' => '.uabb-team-wrap',
+								'property' => 'border',
+								'unit'     => 'px',
+							),
+						),
+						'box_padding' => array(
+							'type'       => 'dimension',
+							'label'      => __( 'Padding', 'uabb' ),
+							'slider'     => true,
+							'units'      => array( 'px' ),
+							'responsive' => true,
+							'preview'    => array(
+								'type'     => 'css',
+								'selector' => 'uabb-team-wrap',
+								'property' => 'padding',
+								'unit'     => 'px',
+							),
+						),
+					),
+				),
+				'bg_section'     => array(
+					'title'  => __( 'Background', 'uabb' ),
+					'fields' => array(
+						'box_bg_type'     => array(
+							'type'    => 'select',
+							'label'   => __( 'Background Type', 'uabb' ),
+							'default' => 'none',
+							'options' => array(
+								'none'     => __( 'None', 'uabb' ),
+								'color'    => __( 'Color', 'uabb' ),
+								'gradient' => __( 'Gradient', 'uabb' ),
+							),
+							'toggle'  => array(
+								'color'    => array(
+									'fields' => array( 'box_bg_color' ),
+								),
+								'gradient' => array(
+									'fields' => array( 'box_bg_gradient' ),
+								),
+							),
+						),
+						'box_bg_gradient' => array(
+							'type'  => 'gradient',
+							'label' => __( 'Gradient', 'uabb' ),
+						),
+						'box_bg_color'    => array(
+							'type'        => 'color',
+							'connections' => array( 'color' ),
+							'label'       => __( 'Background Color', 'uabb' ),
+							'show_reset'  => true,
+							'show_alpha'  => true,
+							'connections' => array( 'color' ),
+							'preview'     => array(
+								'type'     => 'css',
+								'selector' => '.uabb-team-wrap',
+								'property' => 'background-color',
+							),
+						),
+					),
+				),
+			),
+		),
 		'typography'           => array(
 			'title'    => __( 'Typography', 'uabb' ),
 			'sections' => array(
@@ -796,6 +934,7 @@ FLBuilder::register_module(
 							'type'    => 'unit',
 							'label'   => __( 'Margin Top', 'uabb' ),
 							'slider'  => true,
+							'default' => '10',
 							'units'   => array( 'px' ),
 							'preview' => array(
 								'type'      => 'css',
@@ -844,7 +983,6 @@ FLBuilder::register_settings_form(
 								'type'        => 'icon',
 								'label'       => __( 'Icon', 'uabb' ),
 								'show_remove' => true,
-								'default'     => 'ua-icon ua-icon-linkedin-with-circle',
 							),
 							'link' => array(
 								'type'          => 'link',

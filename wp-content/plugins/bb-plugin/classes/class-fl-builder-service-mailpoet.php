@@ -178,7 +178,6 @@ final class FLBuilderServiceMailPoet extends FLBuilderService {
 
 				// MailPoet 3.0
 			} elseif ( defined( 'MAILPOET_INITIALIZED' ) && true === MAILPOET_INITIALIZED ) {
-				$subscriber = new MailPoet\Models\Subscriber();
 
 				if ( $names && isset( $names[0] ) ) {
 					$user['first_name'] = $names[0];
@@ -187,16 +186,28 @@ final class FLBuilderServiceMailPoet extends FLBuilderService {
 					$user['last_name'] = $names[1];
 				}
 
-				$subscribed = $subscriber::subscribe( $user, array( $settings->list_id ) );
-				$errors     = $subscribed->getErrors();
+				$error = false;
 
-				if ( false !== $errors ) {
+				// old api
+				if ( ! class_exists( \MailPoet\API\API::class ) ) {
+					$subscriber = new MailPoet\Models\Subscriber();
+					$subscribed = $subscriber::subscribe( $user, array( $settings->list_id ) );
+					$errors     = method_exists( $subscribed, 'getErrors' ) ? $subscribed->getErrors() : false;
+					$error      = false !== $errors ? $errors[0] : '';
+				} else {
+					$mailpoet_api = \MailPoet\API\API::MP( 'v1' );
+					try {
+						$result = $mailpoet_api->addSubscriber( $user, array( $settings->list_id ) );
+					} catch ( \Exception $e ) {
+						$error = $e->getMessage();
+					}
+				}
+				if ( false !== $error ) {
 					/* translators: %s: error */
-					$response['error'] = sprintf( __( 'There was an error subscribing to MailPoet. %s', 'fl-builder' ), $errors[0] );
+					$response['error'] = sprintf( __( 'There was an error subscribing to MailPoet. %s', 'fl-builder' ), $error );
 				}
 			}
 		}
-
 		return $response;
 	}
 }

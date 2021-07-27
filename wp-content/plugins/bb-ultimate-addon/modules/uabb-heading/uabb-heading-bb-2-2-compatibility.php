@@ -14,6 +14,30 @@ FLBuilder::register_module(
 		'general'    => array(
 			'title'    => __( 'General', 'uabb' ),
 			'sections' => array(
+				'preset_section'   => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'default' => 'none',
+							'class'   => 'uabb-preset-select',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+								'preset-6' => __( 'Preset 6', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
 				'general'          => array(
 					'title'  => '',
 					'fields' => array(
@@ -42,11 +66,25 @@ FLBuilder::register_module(
 				'description'      => array(
 					'title'  => __( 'Description', 'uabb' ),
 					'fields' => array(
-						'description' => array(
+						'description_option' => array(
+							'type'    => 'select',
+							'label'   => __( 'Enable Description', 'uabb' ),
+							'default' => 'yes',
+							'options' => array(
+								'yes' => __( 'Yes', 'uabb' ),
+								'no'  => __( 'No', 'uabb' ),
+							),
+							'toggle'  => array(
+								'yes' => array(
+									'fields' => array( 'description', 'desc_position' ),
+								),
+							),
+						),
+						'description'        => array(
 							'type'        => 'editor',
 							'label'       => '',
 							'rows'        => 7,
-							'default'     => '',
+							'default'     => 'Description text',
 							'connections' => array( 'string', 'html' ),
 						),
 					),
@@ -278,7 +316,7 @@ FLBuilder::register_module(
 							'type'        => 'text',
 							'connections' => array( 'string' ),
 							'label'       => __( 'Text', 'uabb' ),
-							'default'     => 'Ultimate',
+							'default'     => 'Lorem Ipsum',
 							'preview'     => array(
 								'type'      => 'text',
 								'selector'  => '.uabb-divider-text',
@@ -737,7 +775,7 @@ FLBuilder::register_module(
 						'separator_text_tag_selection' => array(
 							'type'    => 'select',
 							'label'   => __( 'Text Tag', 'uabb' ),
-							'default' => 'h3',
+							'default' => 'h2',
 							'options' => array(
 								'h1'   => __( 'H1', 'uabb' ),
 								'h2'   => __( 'H2', 'uabb' ),
