@@ -48,34 +48,35 @@
         medium_breakpoint       : '',
 
         _initImageCarousel: function() {
-            var node = $( this.nodeClass ),
+            var self = this,
+                node = $( self.nodeClass ),
                 img_carousel = node.find( '.uabb-image-carousel' );
 
             img_carousel.uabbslick({
-                dots: this.enable_dots,
-                fade: this.enable_fade,
-                infinite: this.infinite,
-                arrows: this.arrows,
+                dots: self.enable_dots,
+                fade: self.enable_fade,
+                infinite: self.infinite,
+                arrows: self.arrows,
                 lazyLoad: 'ondemand',
-                slidesToShow: this.desktop,
-                slidesToScroll: this.slidesToScroll,
-                autoplay: this.autoplay,
-                pauseOnHover:this.on_pause_hover,
-                autoplaySpeed: this.autoplaySpeed,
+                slidesToShow: self.desktop,
+                slidesToScroll: self.slidesToScroll,
+                autoplay: self.autoplay,
+                pauseOnHover:self.on_pause_hover,
+                autoplaySpeed: self.autoplaySpeed,
                 adaptiveHeight: true,
-                prevArrow: '<button type="button" data-role="none" class="slick-prev" aria-label="Previous" tabindex="0" role="button"><i class=" '+ this.prev_arrow +' "></i></button>',
-                nextArrow: '<button type="button" data-role="none" class="slick-next" aria-label="Next" tabindex="0" role="button"><i class="'+ this.next_arrow +' "></i></button>',
+                prevArrow: '<button type="button" data-role="none" class="slick-prev" aria-label="Previous" tabindex="0" role="button"><i class=" '+ self.prev_arrow +' "></i></button>',
+                nextArrow: '<button type="button" data-role="none" class="slick-next" aria-label="Next" tabindex="0" role="button"><i class="'+ self.next_arrow +' "></i></button>',
                 responsive: [
                     {
-                        breakpoint: this.medium_breakpoint,
+                        breakpoint: self.medium_breakpoint,
                         settings: {
-                            slidesToShow: this.medium
+                            slidesToShow: self.medium
                         }
                     },
                     {
-                        breakpoint: this.small_breakpoint,
+                        breakpoint: self.small_breakpoint,
                         settings: {
-                            slidesToShow: this.small,
+                            slidesToShow: self.small,
                         }
                     }
                 ]

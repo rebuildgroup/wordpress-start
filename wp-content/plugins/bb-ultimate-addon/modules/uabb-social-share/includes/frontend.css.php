@@ -467,6 +467,16 @@ if ( isset( $settings->skins ) && 'default' !== $settings->skins ) {
 				}
 				?>
 			}
+			.uabb-ss-column-medium-auto .uabb-ss-wrap {
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+				overflow: hidden;
+				-webkit-flex-wrap: wrap;
+				-ms-flex-wrap: wrap;
+				flex-wrap: wrap;
+			}
 			.uabb-ss-column-medium-1 .uabb-ss-wrap {
 				grid-template-columns: repeat(1,1fr);
 				display: grid;
@@ -559,6 +569,16 @@ if ( isset( $settings->skins ) && 'default' !== $settings->skins ) {
 				display: none;
 			}
 			<?php } ?>
+			.uabb-ss-column-responsive-auto .uabb-ss-wrap {
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+				overflow: hidden;
+				-webkit-flex-wrap: wrap;
+				-ms-flex-wrap: wrap;
+				flex-wrap: wrap;
+			}
 			.uabb-ss-column-responsive-1 .uabb-ss-wrap {
 				grid-template-columns: repeat(1,1fr);
 				display: grid;

@@ -38,9 +38,9 @@
 			    enterPressed = false,
 				t, et;
 
-			this.button.on('click', $.proxy(this._buttonClick, this));
+			$this.button.on('click', $.proxy($this._buttonClick, $this));
 
-			if ( 'yes' == this.settings.enable_ajax ) {
+			if ( 'yes' == $this.settings.enable_ajax ) {
 				$(document).on('click touchend', function(e){
 					if( $(e.target).is('input') ) return;
 
@@ -56,7 +56,7 @@
                     e.preventDefault();
 	            });
 
-				this.input.on('keyup', function(e) {
+				$this.input.on('keyup', function(e) {
                     if (window.event) {
 						keyCode = window.event.keyCode;
                         keyType = window.event.type;
@@ -84,7 +84,7 @@
 					}
                 });
 
-				this.input.on('click input', function(e) {
+				$this.input.on('click input', function(e) {
 					if (window.event) {
 						keyCode = window.event.keyCode;
                         keyType = window.event.type;
@@ -131,12 +131,13 @@
 
 		_search: function(e) {
 			e.preventDefault();
+			var $this = this;
 
-			if ($.trim(this.input.val()).length < 1) {
+			if ($.trim($this.input.val()).length < 1) {
 				return;
 			}
 
-			if ( 'yes' == this.settings.enable_ajax ) {
+			if ( 'yes' == $this.settings.enable_ajax ) {
 				this._doAjaxSearch();
 			}
 			else {
@@ -147,21 +148,22 @@
 		},
 
 		_doAjaxSearch: function() {
-			var searchText     = this.input.val(),
-				postId         = this.searchForm.closest( '.fl-builder-content' ).data( 'post-id' ),
-				templateId     = this.searchForm.data( 'template-id' ),
-				templateNodeId = this.searchForm.data( 'template-node-id' ),
-				_nonce         = $(this.nodeClass).find( '.uabb-search-form-input-wrap form' ).data('nonce'),
+			var $this          = this,
+				searchText     = $this.input.val(),
+				postId         = $this.searchForm.closest( '.fl-builder-content' ).data( 'post-id' ),
+				templateId     = $this.searchForm.data( 'template-id' ),
+				templateNodeId = $this.searchForm.data( 'template-node-id' ),
+				_nonce         = $($this.nodeClass).find( '.uabb-search-form-input-wrap form' ).data('nonce'),
 				ajaxData       = {},
-				self           = this;
+				self           = $this;
 
-			if ( this.searching && 0 ) return;
+			if ( $this.searching && 0 ) return;
             if ( searchText.length < 1 ) return;
 
-			this.searching = true;
+			$this.searching = true;
 
 			// Show loader
-			this._showLoader();
+			$this._showLoader();
 
 			ajaxData = {
 				action           : 'uabb_search_query',
@@ -169,21 +171,21 @@
 				post_id          : postId,
 				template_id      : templateId,
 				template_node_id : templateNodeId,
-				node_id          : this.settings.id,
+				node_id          : $this.settings.id,
 				security         : _nonce,
 			}
 
 			// Check to see if searching the same keywords.
-			if ( JSON.stringify(ajaxData) === JSON.stringify(this.prevSearchData) ) {
-				if ( ! this.resultsEl.hasClass('uabb-search-open') ) {
-					this._showResults();
+			if ( JSON.stringify(ajaxData) === JSON.stringify($this.prevSearchData) ) {
+				if ( ! $this.resultsEl.hasClass('uabb-search-open') ) {
+					$this._showResults();
 				}
-                this._hideLoader();
+                $this._hideLoader();
                 return false;
             }
 
 			// Send server request.
-			this.request = $.post( FLBuilderLayoutConfig.paths.wpAjaxUrl, ajaxData, function(response){
+			$this.request = $.post( FLBuilderLayoutConfig.paths.wpAjaxUrl, ajaxData, function(response){
 				self._hideLoader();
 
 				self.resultsEl.html("");
@@ -195,14 +197,14 @@
 		},
 
 		_popupSearch: function() {
-			var inputWrap = this.searchForm.find('.uabb-search-form-input-wrap'),
-				$this     = this;
+			var $this     = this,
+				inputWrap = this.searchForm.find('.uabb-search-form-input-wrap');
 
-			if ('button' != this.settings.display || 'fullscreen' != this.settings.btnAction) {
+			if ('button' != $this.settings.display || 'fullscreen' != $this.settings.btnAction) {
 				return;
 			}
 
-			$( this.searchForm ).find('.uabb-search-close').click( function(){
+			$( $this.searchForm ).find('.uabb-search-close').click( function(){
 				$this.searchForm.removeClass('search-active');
 			});
 
@@ -212,50 +214,53 @@
 				}
 			});
 
-			this.overlay.on( 'click', function( ev ) {
+			$this.overlay.on( 'click', function( ev ) {
 				$this.searchForm.removeClass('search-active');
 			} );
 
-			this.resultsEl.appendTo( inputWrap );
+			$this.resultsEl.appendTo( inputWrap );
 		},
 
 		_buttonClick: function(e) {
 			e.stopImmediatePropagation();
-			if (this.searchForm.hasClass('uabb-search-button-expand')) {
-				this.searchForm.find('.uabb-search-form-wrap').toggleClass('uabb-search-expanded');
+			$this = this;
+			if ($this.searchForm.hasClass('uabb-search-button-expand')) {
+				$this.searchForm.find('.uabb-search-form-wrap').toggleClass('uabb-search-expanded');
 
-				if (this.searchForm.find('.uabb-search-form-wrap').hasClass('uabb-search-expanded')) {
-					this.input.focus();
+				if ($this.searchForm.find('.uabb-search-form-wrap').hasClass('uabb-search-expanded')) {
+					$this.input.focus();
 				}
 				else {
-					this._hideResults();
+					$this._hideResults();
 				}
 
 				return false;
 			} else {
-				this._search(e);
+				$this._search(e);
 			}
-			if ('button' == this.settings.display && 'fullscreen' == this.settings.btnAction) {
-				this.searchForm.addClass('search-active');
-				this.searchForm.find('.uabb-search-text').focus();
+			if ('button' == $this.settings.display && 'fullscreen' == $this.settings.btnAction) {
+				$this.searchForm.addClass('search-active');
+				$this.searchForm.find('.uabb-search-text').focus();
 			}
 		},
 
 		_showResults: function(){
 			// Close any search results in a page.
-			this._hideResults();
-			this.resultsEl.addClass('uabb-search-open');
+			var $this = this;
+			$this._hideResults();
+			$this.resultsEl.addClass('uabb-search-open');
 
-			if ('button' == this.settings.display && 'expand' == this.settings.btnAction) {
-				this.searchForm.find('.uabb-search-form-input-wrap').css('overflow', 'visible');
+			if ('button' == $this.settings.display && 'expand' == $this.settings.btnAction) {
+				$this.searchForm.find('.uabb-search-form-input-wrap').css('overflow', 'visible');
 			}
 		},
 
 		_hideResults: function(){
+			var $this = this;
 			$('.uabb-search-results-content').removeClass('uabb-search-open');
 
-			if ('button' == this.settings.display && 'expand' == this.settings.btnAction) {
-				this.searchForm.find('.uabb-search-form-input-wrap').removeAttr('style');
+			if ('button' == $this.settings.display && 'expand' == $this.settings.btnAction) {
+				$this.searchForm.find('.uabb-search-form-input-wrap').removeAttr('style');
 			}
 		},
 

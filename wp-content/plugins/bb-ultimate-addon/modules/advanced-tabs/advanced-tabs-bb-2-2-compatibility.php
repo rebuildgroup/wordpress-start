@@ -763,7 +763,7 @@ FLBuilder::register_module(
 							'responsive' => true,
 							'preview'    => array(
 								'type'      => 'css',
-								'selector'  => '.uabb-tabs li a, .uabb-tab-acc-title .uabb-title-tag',
+								'selector'  => '.uabb-tabs li a, .uabb-tab-acc-title .uabb-title-tag, .uabb-tabs .uabb-tabs-nav .uabb-tab-title',
 								'important' => true,
 							),
 						),

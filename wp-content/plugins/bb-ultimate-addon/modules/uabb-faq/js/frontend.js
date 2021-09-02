@@ -28,7 +28,9 @@
     _buttonClick: function( e ) {
 
 		e.preventDefault();
-		var button      = $( e.target ).closest( '.uabb-faq-questions' ),
+		var open_icon   = this.open_icon,
+			close_icon  = this.close_icon,
+			button      = $( e.target ).closest( '.uabb-faq-questions' ),
 			accordion   = button.closest( '.uabb-faq-module' ),
 			item	    = button.closest( '.uabb-faq-item' ),
 			allContent  = accordion.find( '.uabb-faq-content' ),
@@ -43,8 +45,8 @@
 			accordion.find( '.uabb-faq-content' ).attr('aria-hidden', 'true');
 
 			if ( 'none' === icon_animation ) {
-				allIcons.removeClass( this.open_icon );
-				allIcons.addClass( this.close_icon );
+				allIcons.removeClass( open_icon );
+				allIcons.addClass( close_icon );
 			}
 		}
 
@@ -55,8 +57,8 @@
 			content.slideDown( 'normal', this._slideDownComplete );
 
 			if ( 'none' === icon_animation ) {
-				icon.removeClass( this.close_icon );
-				icon.addClass( this.open_icon );
+				icon.removeClass( close_icon );
+				icon.addClass( open_icon );
 			}
 		} else {
 			button.attr('aria-expanded', 'false');
@@ -64,8 +66,8 @@
 			item.removeClass( 'uabb-faq-item-active' );
 			content.slideUp( 'normal', this._slideUpComplete );
 			if( 'none' === icon_animation ) {
-				icon.removeClass( this.open_icon );
-				icon.addClass( this.close_icon );
+				icon.removeClass( open_icon );
+				icon.addClass( close_icon );
 			}
 		}
 

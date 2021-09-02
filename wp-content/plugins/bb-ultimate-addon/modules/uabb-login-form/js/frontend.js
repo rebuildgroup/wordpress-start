@@ -53,6 +53,7 @@
 
 		_init: function()
 		{	
+			var nodeClass = this.nodeClass;
 			$(".toggle-password").click(function() {
 			  $(this).toggleClass("fa-eye fa-eye-slash");
 			  var input = $($(this).attr("toggle"));
@@ -63,9 +64,9 @@
 			  }
 			});
 
-			$( this.nodeClass + ' .uabb-google-login' ).click( $.proxy( this._googleClick, this ) );
-			$( this.nodeClass + ' .uabb-lf-submit-button' ).click( $.proxy( this._submit, this ) );
-			$( this.nodeClass + ' .uabb-facebook-content-wrapper' ).click( $.proxy( this._fbClick, this ) );
+			$( nodeClass + ' .uabb-google-login' ).click( $.proxy( this._googleClick, this ) );
+			$( nodeClass + ' .uabb-lf-submit-button' ).click( $.proxy( this._submit, this ) );
+			$( nodeClass + ' .uabb-facebook-content-wrapper' ).click( $.proxy( this._fbClick, this ) );
 			/**
 			 * Login with Facebook.
 			 *
@@ -211,28 +212,31 @@
 		_submit: function( event )
 		{
 			event.preventDefault();
+			var self = this,
+				username = self.username.val(),
+				password = self.password.val();
 
-			if ( '' === this.username.val() ) {
+			if ( '' === username ) {
 
-				this.errormessagewrap.css( "display", "inline-block" );
-				this.errormessage.text( this.uabb_lf_username_empty_err_msg );
+				self.errormessagewrap.css( "display", "inline-block" );
+				self.errormessage.text( self.uabb_lf_username_empty_err_msg );
 			}
-			if ( '' === this.password.val() ) {
-				this.errormessagewrap.css( "display", "inline-block" );
-				this.errormessage.text( this.uabb_lf_password_empty_err_msg );
+			if ( '' === password ) {
+				self.errormessagewrap.css( "display", "inline-block" );
+				self.errormessage.text( self.uabb_lf_password_empty_err_msg );
 			}
-			if ( '' === this.username.val() && '' === this.password.val() ) {
-				this.errormessagewrap.css( "display", "inline-block" );
-				this.errormessage.text( this.uabb_lf_both_empty_err_msg );
+			if ( '' === username && '' === password ) {
+				self.errormessagewrap.css( "display", "inline-block" );
+				self.errormessage.text( self.uabb_lf_both_empty_err_msg );
 			}
-			if  ( '' !== this.username.val() && '' !== this.password.val() ) {
+			if  ( '' !== username && '' !== password ) {
 
 				var data = {
 					'action'  : 'uabb-lf-form-submit',
-					'username'  : this.username.val(),
-					'password' : this.password.val(),
-					'rememberme' : this.rememberme.val(),
-					'nonce' : this.uabb_lf_nonce,
+					'username'  : username,
+					'password' : password,
+					'rememberme' : self.rememberme.val(),
+					'nonce' : self.uabb_lf_nonce,
 				};
 				
 				form_wrap.animate({
@@ -241,11 +245,12 @@
 
 				button_text.append( '<span class="uabb-login-form-loader"></span>' );
 
-				$.post( this.uabb_lf_ajaxurl, data, $.proxy( this._submitComplete, this ) );
+				$.post( self.uabb_lf_ajaxurl, data, $.proxy( this._submitComplete, this ) );
 			}
 		},
 		_submitComplete: function ( response )
 		{
+				var self = this;
 				button_text.find( '.uabb-login-form-loader' ).remove();
 
 				form_wrap.animate({
@@ -254,18 +259,18 @@
 
 				if ( true === response.success ) {
 
-					if ( 'default' === this.uabb_lf_wp_form_redirect_toggle ) {
-						$( location ).attr( 'href', this.uabb_lf_dashboard_url );
-					} else if ( 'custom' === this.uabb_lf_wp_form_redirect_toggle ) {
-						$( location ).attr( 'href', this.uabb_lf_wp_form_redirect_login_url );
+					if ( 'default' === self.uabb_lf_wp_form_redirect_toggle ) {
+						$( location ).attr( 'href', self.uabb_lf_dashboard_url );
+					} else if ( 'custom' === self.uabb_lf_wp_form_redirect_toggle ) {
+						$( location ).attr( 'href', self.uabb_lf_wp_form_redirect_login_url );
 					}
 				} else if ( false === response.success && 'Incorrect Password' === response.data ) {
-					this.errormessagewrap.css( "display", "inline-block" );
-					this.errormessage.text( this.uabb_lf_password_invalid_err_msg );
+					self.errormessagewrap.css( "display", "inline-block" );
+					self.errormessage.text( self.uabb_lf_password_invalid_err_msg );
 					
 				} else if ( false === response.success && 'Incorrect Username' === response.data ) {
-					this.errormessagewrap.css( "display", "inline-block" );
-					this.errormessage.text( this.uabb_lf_username_invalid_err_msg );
+					self.errormessagewrap.css( "display", "inline-block" );
+					self.errormessage.text( self.uabb_lf_username_invalid_err_msg );
 					
 				}
 		},

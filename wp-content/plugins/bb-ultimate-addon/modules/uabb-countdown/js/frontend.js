@@ -65,14 +65,15 @@
 	UABBCountdown.prototype = {
 
 		_initCountdown: function() {
-			fixed_timer_action = this.fixed_timer_action;
-			settings = this.settings;
+			var self = this;
+			fixed_timer_action = self.fixed_timer_action;
+			settings = self.settings;
 			var action = '';
 
-			if( this.timertype == "fixed" ) {
-				action = this.fixed_timer_action;
+			if( self.timertype == "fixed" ) {
+				action = self.fixed_timer_action;
 			} else {
-				action = this.evergreen_timer_action;
+				action = self.evergreen_timer_action;
 			}
 
 			$.cookie( "countdown-" + settings.id + "expiremsg", null);
@@ -108,122 +109,123 @@
 	
 		_initFixedTimer: function() {
 
-			var dateNow = new Date();
+			var self = this,
+				dateNow = new Date();
 
-			if( ( dateNow.getTime() - this.timer_date.getTime() ) > 0 ) {
-				if( this.fixed_timer_action == 'msg' ) {
+			if( ( dateNow.getTime() - self.timer_date.getTime() ) > 0 ) {
+				if( self.fixed_timer_action == 'msg' ) {
 					if( parseInt(window.location.href.toLowerCase().indexOf("?fl_builder")) === parseInt(-1) ) {
-						$( this.timerid ).append(this.timer_exp_text);
+						$( self.timerid ).append(self.timer_exp_text);
 					} else {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
-				        	expiryText: this.timer_exp_text
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
+				        	expiryText: self.timer_exp_text
 						});
 					}
 
-				} else if( this.fixed_timer_action == 'redirect' ) {
+				} else if( self.fixed_timer_action == 'redirect' ) {
 
 					if( parseInt(window.location.href.toLowerCase().indexOf("?fl_builder")) === parseInt(-1) ) {
-						window.open( this.redirect_link, this.redirect_link_target );
+						window.open( self.redirect_link, self.redirect_link_target );
 					} else {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
-				        	expiryText: this.timer_exp_text
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
+				        	expiryText: self.timer_exp_text
 						});
 					}
 
-				} else if( this.fixed_timer_action == 'hide' ) {
+				} else if( self.fixed_timer_action == 'hide' ) {
 					if( parseInt(window.location.href.toLowerCase().indexOf("?fl_builder")) === parseInt(-1) ) {
-						$( this.timerid ).countdown('destroy');
+						$( self.timerid ).countdown('destroy');
 					} else {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
-				        	expiryText: this.timer_exp_text
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
+				        	expiryText: self.timer_exp_text
 						});
 					}
 
 				} else {
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
 					});
 				}
 			} else {
-				if( this.fixed_timer_action == 'msg' ) {
+				if( self.fixed_timer_action == 'msg' ) {
 					if( parseInt(window.location.href.toLowerCase().indexOf("?fl_builder")) === parseInt(-1) ) {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
-				        	expiryText: this.timer_exp_text,
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
+				        	expiryText: self.timer_exp_text,
 						});
 					} else {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
 						});
 					}
-				} else if( this.fixed_timer_action == 'redirect' ) {
+				} else if( self.fixed_timer_action == 'redirect' ) {
 
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
-			        	expiryText: this.timer_exp_text,
-			        	onExpiry: this._redirectCounter
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
+			        	expiryText: self.timer_exp_text,
+			        	onExpiry: self._redirectCounter
 					});
 
-				} else if( this.fixed_timer_action == 'hide' ) {
+				} else if( self.fixed_timer_action == 'hide' ) {
 
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
-			        	expiryText: this.timer_exp_text,
-			        	onExpiry: this._destroyCounter
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
+			        	expiryText: self.timer_exp_text,
+			        	onExpiry: self._destroyCounter
 					});
 
 				} else {
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
-			        	expiryText: this.timer_exp_text
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
+			        	expiryText: self.timer_exp_text
 					});
 				}
 			}
@@ -248,146 +250,147 @@
 		},
 
 		_initEverGreenTimer: function() {
-			var dateNow = new Date();
-			if( ( dateNow.getTime() - this.timer_date.getTime() ) > 0 ) {
+			var self = this,
+				dateNow = new Date();
+			if( ( dateNow.getTime() - self.timer_date.getTime() ) > 0 ) {
 
-				if( this.evergreen_timer_action == 'msg' ) {
+				if( self.evergreen_timer_action == 'msg' ) {
 
 
 					if( parseInt(window.location.href.toLowerCase().indexOf("?fl_builder")) === parseInt(-1) ) {
-						$( this.timerid ).append($.cookie( "countdown-" + this.settings.id + "expiremsg" ));
+						$( self.timerid ).append($.cookie( "countdown-" + self.settings.id + "expiremsg" ));
 					} else {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
-				    		expiryText: $.cookie( "countdown-" + this.settings.id + "expiremsg" ),
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
+				    		expiryText: $.cookie( "countdown-" + self.settings.id + "expiremsg" ),
 						});
 					}
 
-				} else if( this.evergreen_timer_action == 'redirect' ) {
+				} else if( self.evergreen_timer_action == 'redirect' ) {
 
 					if( parseInt(window.location.href.toLowerCase().indexOf("?fl_builder")) === parseInt(-1) ) {
-						window.open( this.redirect_link, this.redirect_link_target );
+						window.open( self.redirect_link, self.redirect_link_target );
 					} else {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
-				    		onExpiry: this._redirectCounter
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
+				    		onExpiry: self._redirectCounter
 						});
 					}
 
-				} else if( this.evergreen_timer_action == 'hide' ) {
+				} else if( self.evergreen_timer_action == 'hide' ) {
 					if( parseInt(window.location.href.toLowerCase().indexOf("?fl_builder")) === parseInt(-1) ) {
-						$( this.timerid ).countdown('destroy');
+						$( self.timerid ).countdown('destroy');
 					} else {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
-				    		onExpiry: this._destroyCounter
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
+				    		onExpiry: self._destroyCounter
 						});
 					}
 
-				} else if( this.evergreen_timer_action == 'reset' ) {
+				} else if( self.evergreen_timer_action == 'reset' ) {
 
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
-			        	onExpiry: this._restartCountdown
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
+			        	onExpiry: self._restartCountdown
 					});
 
 				} else {
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
 					});
 				}
 			} else {
-				if( this.evergreen_timer_action == 'msg' ) {
+				if( self.evergreen_timer_action == 'msg' ) {
 					if( parseInt(window.location.href.toLowerCase().indexOf("?fl_builder")) === parseInt(-1) ) {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
-				        	expiryText: $.cookie( "countdown-" + this.settings.id + "expiremsg" ),
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
+				        	expiryText: $.cookie( "countdown-" + self.settings.id + "expiremsg" ),
 						});
 					} else {
-						$( this.timerid ).countdown({
-							until: this.timer_date,
-							format: this.timer_format,
-							layout: this.timer_layout,
-							labels: this.timer_labels.split(","),
-							timezone: this.timezone,
-				    		labels1: this.timer_labels_singular.split(","),
+						$( self.timerid ).countdown({
+							until: self.timer_date,
+							format: self.timer_format,
+							layout: self.timer_layout,
+							labels: self.timer_labels.split(","),
+							timezone: self.timezone,
+				    		labels1: self.timer_labels_singular.split(","),
 						});
 					}
 
-				} else if( this.evergreen_timer_action == 'redirect' ) {
+				} else if( self.evergreen_timer_action == 'redirect' ) {
 
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
-			        	onExpiry: this._redirectCounter
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
+			        	onExpiry: self._redirectCounter
 					});
 
-				} else if( this.evergreen_timer_action == 'hide' ) {
+				} else if( self.evergreen_timer_action == 'hide' ) {
 
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
-			        	onExpiry: this._destroyCounter
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
+			        	onExpiry: self._destroyCounter
 					});
 
-				} else if( this.evergreen_timer_action == 'reset' ) {
+				} else if( self.evergreen_timer_action == 'reset' ) {
 
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
-			        	onExpiry: this._restartCountdown
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
+			        	onExpiry: self._restartCountdown
 					});
 
 				} else {
-					$( this.timerid ).countdown({
-						until: this.timer_date,
-						format: this.timer_format,
-						layout: this.timer_layout,
-						labels: this.timer_labels.split(","),
-						timezone: this.timezone,
-			    		labels1: this.timer_labels_singular.split(","),
+					$( self.timerid ).countdown({
+						until: self.timer_date,
+						format: self.timer_format,
+						layout: self.timer_layout,
+						labels: self.timer_labels.split(","),
+						timezone: self.timezone,
+			    		labels1: self.timer_labels_singular.split(","),
 					});
 				}
 			}
@@ -396,21 +399,23 @@
 
 		_restartCountdown: function() {
 			
-			$.cookie( this.id + "-currdate", new Date() );
+			var self = this,
+				id   = self.id;
+			$.cookie( id + "-currdate", new Date() );
 
-			currdate = new Date( $.cookie( this.id + "-currdate") );
+			currdate = new Date( $.cookie( id + "-currdate") );
 
-			var evergreen_date_days = $.cookie( this.id + "-day" );
-			var evergreen_date_hour = $.cookie( this.id + "-hour" );
-			var evergreen_date_minutes = $.cookie( this.id + "-min" );
-			var evergreen_date_seconds = $.cookie( this.id + "-sec" );
+			var evergreen_date_days = $.cookie( id + "-day" );
+			var evergreen_date_hour = $.cookie( id + "-hour" );
+			var evergreen_date_minutes = $.cookie( id + "-min" );
+			var evergreen_date_seconds = $.cookie( id + "-sec" );
 
 			var timevar = ( parseFloat(evergreen_date_days*24*60*60) + parseFloat(evergreen_date_hour*60*60) + parseFloat(evergreen_date_minutes*60) + parseFloat( evergreen_date_seconds ) ) * 1000;
 			currdate.setTime(currdate.getTime() + timevar);
 
-			this.timer_date = currdate;
+			self.timer_date = currdate;
 
-			jQuery(this).countdown('option', {until: this.timer_date} );
+			jQuery(self).countdown('option', {until: self.timer_date} );
 		},
 	};
 

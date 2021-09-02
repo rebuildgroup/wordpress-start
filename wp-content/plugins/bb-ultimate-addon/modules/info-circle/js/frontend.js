@@ -17,26 +17,28 @@
 		infoCircle : '',
 
 		_initInfoCircle : function() {
-			this.infoCircle = $('.fl-node-'+this.node_IC).find('.uabb-info-circle-wrap');
+			var $this = this;
+			$this.infoCircle = $('.fl-node-'+$this.node_IC).find('.uabb-info-circle-wrap');
 			
-			if ( this.initial_animation != 'no' ) {
-				this._setInitialAnimation();
+			if ( $this.initial_animation != 'no' ) {
+				$this._setInitialAnimation();
 			}
 
-			if(this.autoplay == 'yes') {
-				this._setInfoCircleAutoPlay();
+			if($this.autoplay == 'yes') {
+				$this._setInfoCircleAutoPlay();
 			}
-			this._disableActiveAnimation();
+			$this._disableActiveAnimation();
 		},
 
 		/**
 		 * Set Initial Animation to Thumbnail Image/Icon
 		 */
 		_setInitialAnimation : function() {
-			var initial_animation = this.initial_animation,
-				infoCircle = this.infoCircle;
+			var $this = this,
+				initial_animation = $this.initial_animation,
+				infoCircle = $this.infoCircle;
 			
-			this.infoCircle.find('.uabb-info-circle-small > div').addClass('animated '+initial_animation);
+			$this.infoCircle.find('.uabb-info-circle-small > div').addClass('animated '+initial_animation);
 
 			setTimeout(function(){
 				infoCircle.find('.uabb-info-circle-small > div').attr('class','');
@@ -59,11 +61,12 @@
 		 */
 		_setInfoCircleAutoPlay : function () {
 
-			var Screen_Size = $(window).outerWidth();
-			if( this.responsive_nature != 'true' || ( this.responsive_nature == 'true' && Screen_Size > this.breakpoint ) ) {
+			var $this = this,
+				Screen_Size = $(window).outerWidth();
+			if( $this.responsive_nature != 'true' || ( $this.responsive_nature == 'true' && Screen_Size > $this.breakpoint ) ) {
 
-				var infoCircle = this.infoCircle,
-					interval_time = this.interval_time;
+				var infoCircle = $this.infoCircle,
+					interval_time = $this.interval_time;
 
 				var _interval = setInterval(function() {
 					autoPlaySelector( 1, infoCircle );

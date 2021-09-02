@@ -47,11 +47,18 @@ class UABBImageSeparatorModule extends FLBuilderModule {
 				'icon'            => 'format-image.svg',
 			)
 		);
+	}
 
-		$this->add_js( 'jquery-waypoints' );
+	/**
+	 * Function that enqueue's scripts
+	 */
+	public function enqueue_scripts() {
+		if ( isset( $this->settings->img_animation ) && 'no' !== $this->settings->img_animation ) {
+			$this->add_js( 'jquery-waypoints' );
 
-		// Register and enqueue your own.
-		$this->add_css( 'uabb-animate', BB_ULTIMATE_ADDON_URL . 'assets/css/uabb-animate.css' );
+			// Register and enqueue your own.
+			$this->add_css( 'uabb-animate', BB_ULTIMATE_ADDON_URL . 'assets/css/uabb-animate.css' );
+		}
 	}
 
 	/**

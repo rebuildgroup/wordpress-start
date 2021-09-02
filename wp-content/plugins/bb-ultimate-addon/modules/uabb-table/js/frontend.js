@@ -88,6 +88,8 @@
                     uabb_table = $(nodeClass + " .uabb-table");
                     switching = true;
                     dir = "asc";
+                    sortIcon = $( nodeClass + ' .uabb-table' + ' .uabb-sort-icon' );
+                    headingSortIcon = $( nodeClass + ' .uabb-table' + ' .table-heading-' + n + ' .uabb-sort-icon' );
 
                 while ( switching ) {
                     
@@ -107,15 +109,15 @@
 
                         if ( dir === "asc" ) {
 
-                            $( nodeClass + ' .uabb-table' + ' .uabb-sort-icon' ).removeClass('fa-sort-up');
+                            sortIcon.removeClass('fa-sort-up');
 
-                            $( nodeClass + ' .uabb-table' + ' .uabb-sort-icon' ).removeClass('fa-sort-down');
+                            sortIcon.removeClass('fa-sort-down');
 
-                            $( nodeClass + ' .uabb-table' + ' .uabb-sort-icon' ).addClass('fa-sort');
+                            sortIcon.addClass('fa-sort');
 
-                            $( nodeClass + ' .uabb-table' + ' .table-heading-' + n + ' .uabb-sort-icon' ).removeClass( "fa-sort-up" );
+                            headingSortIcon.removeClass( "fa-sort-up" );
 
-                            $( nodeClass + ' .uabb-table' + ' .table-heading-' + n + ' .uabb-sort-icon' ).addClass( "fa fa-sort-up" );
+                            headingSortIcon.addClass( "fa fa-sort-up" );
 
                             if ( first_sort_row.innerHTML.toLowerCase() > second_sort_row.innerHTML.toLowerCase() ) {
                                 //if so, mark as a switch and break the loop.
@@ -123,15 +125,15 @@
                                 break;
                             }
                         } else if ( dir === "desc" ) {
-                            $( nodeClass + ' .uabb-table' + ' .uabb-sort-icon' ).removeClass('fa-sort-up');
+                            sortIcon.removeClass('fa-sort-up');
 
-                            $( nodeClass + ' .uabb-table' + ' .uabb-sort-icon' ).removeClass('fa-sort-down');
+                            sortIcon.removeClass('fa-sort-down');
 
-                            $( nodeClass + ' .uabb-table' + ' .table-heading-' + n + ' .uabb-sort-icon' ).addClass('fa-sort');
+                            headingSortIcon.addClass('fa-sort');
 
-                            $( nodeClass + ' .uabb-table' + ' .table-heading-' + n + ' .uabb-sort-icon' ).removeClass( "fa-sort-down" );
+                            headingSortIcon.removeClass( "fa-sort-down" );
 
-                            $( nodeClass + ' .uabb-table' + ' .table-heading-' + n + ' .uabb-sort-icon' ).addClass( "fa fa-sort-down" );
+                            headingSortIcon.addClass( "fa fa-sort-down" );
 
                             if ( first_sort_row.innerHTML.toLowerCase() < second_sort_row.innerHTML.toLowerCase() ) {
                                 //if so, mark as a switch and break the loop.

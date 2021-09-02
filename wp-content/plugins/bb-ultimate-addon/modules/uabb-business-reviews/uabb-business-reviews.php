@@ -32,10 +32,19 @@ class UabbBusinessReview extends FLBuilderModule {
 				'icon'            => 'business-reviews.svg',
 			)
 		);
-		$this->add_js( 'carousel', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/jquery-carousel.js', array( 'jquery' ), '', true );
 		$this->add_css( 'font-awesome-5' );
 
 	}
+
+	/**
+	 * Function that enqueue's scripts
+	 */
+	public function enqueue_scripts() {
+		if ( isset( $this->settings->review_layout ) && 'carousel' === $this->settings->review_layout ) {
+			$this->add_js( 'carousel', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/jquery-carousel.js', array( 'jquery' ), '', true );
+		}
+	}
+
 	/**
 	 * Function to get the icon for the Video Gallery
 	 *

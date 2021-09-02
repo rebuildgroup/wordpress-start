@@ -102,9 +102,10 @@
 
 						e.preventDefault();
 						var iframe 		= $( "<iframe/>" );
-						var vurl 		= $( this ).data( 'url' );
-						var overlay		= $( this ).closest( '.uabb-video__gallery-item' ).find( '.uabb-vg__overlay' );
-						var wrap_outer  = $( this ).closest( '.uabb-video__gallery-iframe' );
+						var this_selector    = $( this );
+						var vurl 		= this_selector.data( 'url' );
+						var overlay		= this_selector.closest( '.uabb-video__gallery-item' ).find( '.uabb-vg__overlay' );
+						var wrap_outer  = this_selector.closest( '.uabb-video__gallery-iframe' );
 
 							iframe.attr( 'src', vurl );
 							iframe.attr( 'frameborder', '0' );

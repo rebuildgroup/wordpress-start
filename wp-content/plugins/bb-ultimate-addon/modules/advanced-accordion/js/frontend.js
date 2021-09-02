@@ -235,7 +235,6 @@
 			
 			accordion.trigger( 'fl-builder.uabb-adv-accordion-toggle-complete' );
 
-			//window.dispatchEvent(new Event('resize'));
 			var fireRefreshEventOnWindow = function () {
 				var evt = document.createEvent("uabbAccordionCreate");
 				evt.initEvent('resize', true, false);

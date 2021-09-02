@@ -33,10 +33,19 @@ class UABBImageCarouselModule extends FLBuilderModule {
 		);
 
 		$this->add_js( 'carousel', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/jquery-carousel.js', array( 'jquery' ), '', true );
-		$this->add_js( 'jquery-magnificpopup' );
 		$this->add_css( 'font-awesome-5' );
-		$this->add_css( 'jquery-magnificpopup' );
 	}
+
+	/**
+	 * Function that enqueue's scripts
+	 */
+	public function enqueue_scripts() {
+		if ( isset( $this->settings->click_action ) && 'lightbox' === $this->settings->click_action ) {
+			$this->add_css( 'jquery-magnificpopup' );
+			$this->add_js( 'jquery-magnificpopup' );
+		}
+	}
+
 	/**
 	 * Ensure backwards compatibility with old settings.
 	 *

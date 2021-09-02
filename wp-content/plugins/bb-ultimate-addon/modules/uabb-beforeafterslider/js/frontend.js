@@ -31,26 +31,28 @@ var UABBBeforeAfterSlider;
 
         _init: function() {
 
-            jQuery(".baslider-" + this.id).twentytwenty(
+            var self = this,
+                wrapperClass = jQuery( self.wrapperClass );
+            jQuery(".baslider-" + self.id).twentytwenty(
                 {
-                    default_offset_pct: this.initial_offset,
-                    move_on_hover: this.move_on_hover,
-                    orientation: this.before_after_orientation
+                    default_offset_pct: self.initial_offset,
+                    move_on_hover: self.move_on_hover,
+                    orientation: self.before_after_orientation
                 }
             );                
 
-            jQuery( this.wrapperClass ).css( 'width', '' );
-            jQuery( this.wrapperClass ).css( 'height', '' );
+            wrapperClass.css( 'width', '' );
+            wrapperClass.css( 'height', '' );
      
             
             max = -1;
-            jQuery( this.wrapperClass + " img" ).each(function() {
+            jQuery( self.wrapperClass + " img" ).each(function() {
                 if( max < jQuery(this).width() ) {
                     max = jQuery(this).width();
                 }
             });
             
-            jQuery( this.wrapperClass ).css( 'width', max + 'px' );
+            wrapperClass.css( 'width', max + 'px' );
         }
     };
 

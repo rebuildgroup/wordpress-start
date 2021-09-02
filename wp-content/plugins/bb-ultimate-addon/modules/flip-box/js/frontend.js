@@ -20,7 +20,6 @@ var UABBFlipBox;
         this.small_breakpoint               = settings.small_breakpoint;
         this.medium_breakpoint              = settings.medium_breakpoint;
         this.responsive_compatibility       = settings.responsive_compatibility;
-        //console.log(settings);
         this._init();   
     };
 
@@ -38,43 +37,33 @@ var UABBFlipBox;
         responsive_compatibility        : '',
 
         _init: function() {
-        	var delay = 500,
-        		id = this.id;
-
-			/*if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-				$('.fl-node-' + id + ' .uabb-flip-box-outter').click(function(){
-
-					if( $(this).hasClass( 'uabb-hover' ) ){
-				        $(this).removeClass('uabb-hover');
-				    } else {
-				        $(this).addClass('uabb-hover');
-				    }
-				});
-			}*/
+        	var $this = this,
+                delay = 500,
+        		id = $this.id;
 
 			if( !( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) ) {
 				$('.fl-node-' + id + ' .uabb-flip-box-outter').hover(function(event){
 					event.stopPropagation();
 					$(this).addClass('uabb-hover');
-                    $( this.nodeClass ).find('.uabb-face.uabb-front').css('opacity', '0');
+                    $( $this.nodeClass ).find('.uabb-face.uabb-front').css('opacity', '0');
 
 				}, function(event) {
 					event.stopPropagation();
 					$(this).removeClass('uabb-hover');
-                    $( this.nodeClass ).find('.uabb-face.uabb-front').css('opacity', '1');
+                    $( $this.nodeClass ).find('.uabb-face.uabb-front').css('opacity', '1');
 
 				});
 			}
 
 
-			if( this.flip_box_min_height_options == 'uabb-custom-height' ) {
-                if( this.responsive_compatibility == 'yes' ) {
-                    this._uabbFlipBoxResponsive();
+			if( $this.flip_box_min_height_options == 'uabb-custom-height' ) {
+                if( $this.responsive_compatibility == 'yes' ) {
+                    $this._uabbFlipBoxResponsive();
                 } else {
-                    this._uabbFlipBoxHeight();
+                    $this._uabbFlipBoxHeight();
                 }
 			} else {
-				this._uabbFlipBoxAdjustHeight();
+				$this._uabbFlipBoxAdjustHeight();
 			}
 
 			setTimeout(function() {
@@ -84,40 +73,45 @@ var UABBFlipBox;
 
         _uabbFlipBoxResponsive: function() {
 
-            $( this.nodeClass ).find( '.uabb-face' ).css( 'height', '100%' );
-            if( window.innerWidth <= this.small_breakpoint ) {
-                $('.uabb-flip-box-outter').parent().removeClass('uabb-custom-height');
-                $('.uabb-flip-box-outter').parent().css('height', '100%');
-                $('.uabb-flip-box-outter').css('height', '100%');
-                $('.uabb-flip-box-outter').parent().addClass('uabb-jq-height');
-                this._uabbFlipBoxAdjustHeight();
+            var $this = this,
+                outter = $('.uabb-flip-box-outter');
+
+            $( $this.nodeClass ).find( '.uabb-face' ).css( 'height', '100%' );
+            if( window.innerWidth <= $this.small_breakpoint ) {
+                outter.parent().removeClass('uabb-custom-height');
+                outter.parent().css('height', '100%');
+                outter.css('height', '100%');
+                outter.parent().addClass('uabb-jq-height');
+                $this._uabbFlipBoxAdjustHeight();
             } else {
-                $('.uabb-flip-box-outter').parent().addClass('uabb-custom-height');
-                $('.uabb-flip-box-outter').parent().removeClass('uabb-jq-height');
-                $('.uabb-flip-box-outter').parent().css('height', '');
-                $('.uabb-flip-box-outter').css('height', '');
-                this._uabbFlipBoxHeight();
+                outter.parent().addClass('uabb-custom-height');
+                outter.parent().removeClass('uabb-jq-height');
+                outter.parent().css('height', '');
+                outter.css('height', '');
+                $this._uabbFlipBoxHeight();
             }
         },
 
         _uabbFlipBoxAdjustHeight: function() {
 
         	var currentFlipBox = $( this.nodeClass ),
+                uabb_face = currentFlipBox.find( '.uabb-face' ),
+                uabb_outter = currentFlipBox.find( '.uabb-flip-box-outter' ),
         		backFlipSection = currentFlipBox.find( '.uabb-back .uabb-flip-box-section' ),
         		frontFlipSection = currentFlipBox.find( '.uabb-front .uabb-flip-box-section' ),
                 frontHeight = 0,
                 backHeight = 0;
 
             setTimeout(function() {
-                currentFlipBox.find( '.uabb-face' ).css( 'height', '100%' );
-                currentFlipBox.find( '.uabb-flip-box-outter' ).css( 'height', '100%' );
-                currentFlipBox.find( '.uabb-flip-box-outter' ).parent().css( 'height', '100%' );
+                uabb_face.css( 'height', '100%' );
+                uabb_outter.css( 'height', '100%' );
+                uabb_outter.parent().css( 'height', '100%' );
                 frontHeight = parseInt( frontFlipSection.outerHeight() ),
                 backHeight = parseInt( backFlipSection.outerHeight() );
 				if( ( backHeight >= frontHeight ) ) {
-					currentFlipBox.find(".uabb-face").css('height', backHeight );
+					uabb_face.css('height', backHeight );
 				} else {
-					currentFlipBox.find(".uabb-face").css('height', frontHeight );
+					uabb_face.css('height', frontHeight );
 				}
             }, 200);
 
@@ -125,16 +119,17 @@ var UABBFlipBox;
 
         _uabbFlipBoxHeight: function() {
 
-        	var currentFlipBox = $( this.nodeClass + ' .uabb-flip-box'),
+        	var $this = this,
+                currentFlipBox = $( $this.nodeClass + ' .uabb-flip-box'),
         		backFlip = currentFlipBox.find( '.uabb-back' ),
         		frontFlip = currentFlipBox.find( '.uabb-front' ),
-        		flip_box_min_height = this.flip_box_min_height,
-                flip_box_min_height_medium = this.flip_box_min_height_medium,
-                flip_box_min_height_small = this.flip_box_min_height_small,
-        		display_vertically_center = this.display_vertically_center,
+        		flip_box_min_height = $this.flip_box_min_height,
+                flip_box_min_height_medium = $this.flip_box_min_height_medium,
+                flip_box_min_height_small = $this.flip_box_min_height_small,
+        		display_vertically_center = $this.display_vertically_center,
         		backFlipSection = backFlip.find( '.uabb-flip-box-section' ),
-                medium_breakpoint = this.medium_breakpoint,
-                small_breakpoint = this.small_breakpoint,
+                medium_breakpoint = $this.medium_breakpoint,
+                small_breakpoint = $this.small_breakpoint,
         		frontFlipSection = frontFlip.find( '.uabb-flip-box-section' );
             
 

@@ -249,7 +249,7 @@ if ( 'iconfall' !== $settings->style ) {
 			array(
 				'settings'     => $settings,
 				'setting_name' => 'title_font_typo',
-				'selector'     => ".fl-node-$id .uabb-tabs .uabb-tabs-nav$id li a,.fl-node-$id .uabb-tab-acc-title .uabb-title-tag",
+				'selector'     => ".fl-node-$id .uabb-tabs .uabb-tabs-nav$id li a,.fl-node-$id .uabb-tab-acc-title .uabb-title-tag,.fl-node-$id .uabb-tabs .uabb-tabs-nav$id .uabb-tab-title",
 			)
 		);
 	}

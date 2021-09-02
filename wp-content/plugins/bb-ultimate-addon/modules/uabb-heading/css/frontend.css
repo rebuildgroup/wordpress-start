@@ -2,46 +2,65 @@
 	padding: 0;
 	margin: 0;
 }
+
 .uabb-module-content.uabb-heading-wrapper {
-    position: relative;
+	position: relative;
 }
 
-.uabb-heading-wrapper .uabb-heading a {
-	text-decoration: none;
-}
-.uabb-heading-align-left .uabb-heading,
-.uabb-heading-align-left .uabb-subheading,
-.uabb-heading-align-left .uabb-subheading * {
-	text-align: left;
+.uabb-module-content .uabb-text-editor :not(a) {
+	color: inherit;
 }
 
-.uabb-heading-align-center .uabb-heading,
-.uabb-heading-align-center .uabb-subheading,
-.uabb-heading-align-center .uabb-subheading * {
-	text-align: center;
+.uabb-module-content .uabb-text-editor :not(i) {
+	font-family: inherit;
 }
 
-.uabb-heading-align-right .uabb-heading,
-.uabb-heading-align-right .uabb-subheading,
-.uabb-heading-align-right .uabb-subheading * {
-	text-align: right;
+.uabb-module-content .uabb-text-editor :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+	font-size: inherit;
+	line-height: inherit;
 }
 
-/* Text editor support */
-.uabb-module-content .uabb-text-editor *:not(a) {
-    color: inherit;
-}
-.uabb-module-content .uabb-text-editor *:not(i) {
-    font-family: inherit;
-}
-.uabb-module-content .uabb-text-editor *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-    font-size: inherit;
-    line-height: inherit;	
-}
-.uabb-module-content .uabb-text-editor *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(strong):not(b):not(i) {
+.uabb-module-content .uabb-text-editor :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(strong):not(b):not(i) {
 	font-weight: inherit;
 }
 
+.uabb-background-heading-wrap {
+	z-index: 2;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+}
+
+.uabb-background-heading-wrap::before {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	z-index: 0;
+	display: block;
+	color: rgba(0, 0, 0, 0.09);
+	content: attr(data-background-text);
+	font-size: 100px;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.uabb-module-content.uabb-heading-wrapper.uabb-heading-align-center .uabb-background-heading-wrap:before {
+	top: 40%;
+	left: 50%;
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	-ms-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+}
+
+.uabb-module-content.uabb-heading-wrapper.uabb-heading-align-right .uabb-background-heading-wrap:before {
+	right: 0;
+	left: auto;
+}
+
+.uabb-heading-wrapper .uabb-heading a,
 .uabb-heading a,
 .uabb-heading a:hover,
 .uabb-heading a:focus,
@@ -49,44 +68,23 @@
 	text-decoration: none;
 }
 
-.uabb-background-heading-wrap {
-    z-index: 2;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-}
-.uabb-background-heading-wrap::before {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    z-index: 0;
-    display: block;
-    color: rgba(0, 0, 0, 0.09);
-    content: attr(data-background-text);
-    font-size: 100px;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
+.uabb-heading-align-left .uabb-heading,
+.uabb-heading-align-left .uabb-subheading,
+.uabb-heading-align-left .uabb-subheading *,
 .uabb-module-content.uabb-heading-wrapper.uabb-heading-align-left .uabb-background-heading-wrap {
-    text-align: left;
+	text-align: left;
 }
+
+.uabb-heading-align-center .uabb-heading,
+.uabb-heading-align-center .uabb-subheading,
+.uabb-heading-align-center .uabb-subheading *,
 .uabb-module-content.uabb-heading-wrapper.uabb-heading-align-center .uabb-background-heading-wrap {
-    text-align: center;
+	text-align: center;
 }
+
+.uabb-heading-align-right .uabb-heading,
+.uabb-heading-align-right .uabb-subheading,
+.uabb-heading-align-right .uabb-subheading *,
 .uabb-module-content.uabb-heading-wrapper.uabb-heading-align-right .uabb-background-heading-wrap {
-    text-align: right;
-}
-.uabb-module-content.uabb-heading-wrapper.uabb-heading-align-center .uabb-background-heading-wrap:before {
-    top: 40%;
-    left: 50%;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    -ms-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-}
-.uabb-module-content.uabb-heading-wrapper.uabb-heading-align-right .uabb-background-heading-wrap:before {
-    right: 0;
-    left: auto;
+	text-align: right;
 }

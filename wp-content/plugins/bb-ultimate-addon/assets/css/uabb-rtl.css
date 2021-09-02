@@ -14,26 +14,14 @@
     margin-left: 20px;
     margin-right: 0;
 }
-.infobox-icon-right-title .uabb-imgicon-wrap {
-    margin-left: 0px;
-    margin-right: 20px;
-}
-.infobox-icon-left-title .uabb-imgicon-wrap {
-    margin-right: 0px;
-    margin-left: 20px;
-}
-.infobox-photo-right .uabb-imgicon-wrap {
-    margin-left: 0px;
-    margin-right: 20px;
-}
-.infobox-photo-left .uabb-imgicon-wrap {
-    margin-right: 0px;
-    margin-left: 20px;
-}
+.infobox-icon-right-title .uabb-imgicon-wrap,
+.infobox-photo-right .uabb-imgicon-wrap,
 .infobox-photo-right-title .uabb-imgicon-wrap {
     margin-left: 0px;
     margin-right: 20px;
 }
+.infobox-icon-left-title .uabb-imgicon-wrap,
+.infobox-photo-left .uabb-imgicon-wrap,
 .infobox-photo-left-title .uabb-imgicon-wrap {
     margin-right: 0px;
     margin-left: 20px;
@@ -88,45 +76,27 @@
 /* Progress Bar end here */
 
 /* Slide Box */
-.uabb-slide-face.uabb-slide-front.uabb-slide-icon-right-title {
+.uabb-slide-face.uabb-slide-front.uabb-slide-icon-right-title,
+.uabb-slide-face.uabb-slide-front.uabb-slide-icon-right,
+.uabb-slide-face.uabb-slide-front.uabb-slide-photo-right-title,
+.uabb-slide-face.uabb-slide-front.uabb-slide-photo-right {
     text-align: left;
 }
-.uabb-slide-face.uabb-slide-front.uabb-slide-icon-left-title {
+.uabb-slide-face.uabb-slide-front.uabb-slide-icon-left-title,
+.uabb-slide-face.uabb-slide-front.uabb-slide-icon-left,
+.uabb-slide-face.uabb-slide-front.uabb-slide-photo-left-title,
+.uabb-slide-face.uabb-slide-front.uabb-slide-photo-left {
     text-align: right;
 }
-.uabb-slide-face.uabb-slide-front.uabb-slide-icon-right {
-    text-align: left;
-}
-.uabb-slide-face.uabb-slide-front.uabb-slide-icon-left {
-    text-align: right;
-}
-.uabb-slide-front-right-title-img {
-    padding-left: 0px;
-    padding-right: 15px;
-}
-.uabb-slide-front-left-title-img {
-    padding-right: 0;
-    padding-left: 15px;
-}
+.uabb-slide-front-right-title-img,
 .uabb-slide-front-right-img {
     padding-left: 0px;
     padding-right: 15px;
 }
+.uabb-slide-front-left-title-img,
 .uabb-slide-front-left-img {
-    padding-right: 0px;
+    padding-right: 0;
     padding-left: 15px;
-}
-.uabb-slide-face.uabb-slide-front.uabb-slide-photo-right-title {
-    text-align: left;
-}
-.uabb-slide-face.uabb-slide-front.uabb-slide-photo-left-title {
-    text-align: right;
-}
-.uabb-slide-face.uabb-slide-front.uabb-slide-photo-right {
-    text-align: left;
-}
-.uabb-slide-face.uabb-slide-front.uabb-slide-photo-left {
-    text-align: right;
 }
 /* Slide Box end here */
 

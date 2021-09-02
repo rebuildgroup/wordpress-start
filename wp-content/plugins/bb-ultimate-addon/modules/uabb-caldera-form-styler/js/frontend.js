@@ -15,7 +15,7 @@
 		{	
 			var scope = $( this.nodeClass );
 			
-			var	cafSelectFields = $( this.nodeClass ).find('select');
+			var	cafSelectFields = scope.find('select');
 			cafSelectFields.wrap( "<div class='uabb-caf-select-custom'></div>" );
 
 			this._checkRadioField(scope);

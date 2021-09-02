@@ -475,6 +475,7 @@ if ( ! class_exists( 'BB_Ultimate_Addon_Helper' ) ) {
 				'uabb-faq'                 => 'FAQ Schema',
 				'uabb-devices'             => 'Devices',
 				'uabb-search'              => 'Search',
+				'uabb-star-rating'         => 'Star Rating',
 			);
 
 			/* Include Contact form styler */

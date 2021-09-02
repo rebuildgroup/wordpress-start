@@ -75,22 +75,24 @@
 		
 		_submit: function( e )
 		{
-			var theForm	  	= $( this.nodeClass + ' .uabb-contact-form' ),
-				submit	  	= $( this.nodeClass + ' .uabb-contact-form-submit' ),
-				name	  	= $( this.nodeClass + ' .uabb-name input' ),
-				email		= $( this.nodeClass + ' .uabb-email input' ),
-				phone		= $( this.nodeClass + ' .uabb-phone input' ),
-				subject	  	= $( this.nodeClass + ' .uabb-subject input' ),
-				message	  	= $( this.nodeClass + ' .uabb-message textarea' ),
-				reCaptchaField  = $( '#'+ this.settings.id + '-uabb-grecaptcha' ),
+			var self        = this,
+				nodeClass   = self.nodeClass,
+				theForm	  	= $( nodeClass + ' .uabb-contact-form' ),
+				submit	  	= $( nodeClass + ' .uabb-contact-form-submit' ),
+				name	  	= $( nodeClass + ' .uabb-name input' ),
+				email		= $( nodeClass + ' .uabb-email input' ),
+				phone		= $( nodeClass + ' .uabb-phone input' ),
+				subject	  	= $( nodeClass + ' .uabb-subject input' ),
+				message	  	= $( nodeClass + ' .uabb-message textarea' ),
+				reCaptchaField  = $( '#'+ self.settings.id + '-uabb-grecaptcha' ),
 				reCaptchaValue	= reCaptchaField.data( 'uabb-grecaptcha-response' ),
-				mailto	  	= $( this.nodeClass + ' .uabb-mailto' ),
-				ajaxurl	  	= this.ajaxurl, //FLBuilderLayoutConfig.paths.wpAjaxUrl,
+				mailto	  	= $( nodeClass + ' .uabb-mailto' ),
+				ajaxurl	  	= self.ajaxurl, //FLBuilderLayoutConfig.paths.wpAjaxUrl,
 				_nonce      = theForm.data('nonce'),
 				email_regex = /\S+@\S+\.\S+/,
 				phone_regex = /^[ 0-9.()\[\]+-]*$/,
 				isValid	  	= true;
-				termsCheckbox 	= $( this.nodeClass + ' .uabb-terms-checkbox input' ),
+				termsCheckbox 	= $( nodeClass + ' .uabb-terms-checkbox input' ),
 				postId      	= theForm.closest( '.fl-builder-content' ).data( 'post-id' ),
 				templateId		= theForm.data( 'template-id' ),
 				templateNodeId	= theForm.data( 'template-node-id' ),
@@ -110,7 +112,7 @@
 			}
 			
 			// validate the name
-			if( this.name_required == 'yes' ) {
+			if( self.name_required == 'yes' ) {
 				if( name.length ) {
 					if ( name.val().trim() === '' ) {
 						isValid = false;
@@ -126,7 +128,7 @@
 			}
 			
 			// validate the email
-			if( this.email_required == 'yes' ) {
+			if( self.email_required == 'yes' ) {
 				if( email.length ) {
 					if ( email.val().trim() === '' ) {
 						isValid = false;
@@ -158,7 +160,7 @@
 			}
 
 			// validate the subject..just make sure it's there
-			if( this.subject_required == 'yes' ) {
+			if( self.subject_required == 'yes' ) {
 				if( subject.length ) {
 					if ( subject.val().trim() === '' ) {
 						isValid = false;
@@ -173,7 +175,7 @@
 			}
 			
 			// validate the phone..just make sure it's there
-			if( this.phone_required == 'yes' ) {
+			if( self.phone_required == 'yes' ) {
 				if( phone.length ) {
     				if( phone.val().trim() === '' ) {
     					isValid = false;
@@ -204,7 +206,7 @@
 			}
 			
 			// validate the message..just make sure it's there
-			if ( (this.msg_required == 'yes') && ( this.msg_toggle == 'show' ) ) {
+			if ( (self.msg_required == 'yes') && ( self.msg_toggle == 'show' ) ) {
 				if ( message.val().trim() === '' ) {
 					isValid = false;
 					message.parent().addClass( 'uabb-error' );
@@ -227,7 +229,7 @@
 			}
 
 			// validate if reCAPTCHA is enabled and checked
-			if ( 'v2' == this.recaptcha_version && reCaptchaField.length > 0 ) {
+			if ( 'v2' == self.recaptcha_version && reCaptchaField.length > 0 ) {
 				if ( 'undefined' === typeof reCaptchaValue || reCaptchaValue === false ) {
 					isValid = false;
 					reCaptchaField.parent().addClass( 'uabb-error' );
@@ -243,9 +245,9 @@
 			else {
 			
 				// disable send button
-				$recaptcha_version = this.recaptcha_version;
+				$recaptcha_version = self.recaptcha_version;
 				submit.addClass( 'uabb-disabled' );
-				submit.html( '<span>'+this.button.closest( '.uabb-contact-form-button' ).data( 'wait-text' )+'</span>' );
+				submit.html( '<span>'+self.button.closest( '.uabb-contact-form-button' ).data( 'wait-text' )+'</span>' );
 				$reCaptchaValue = reCaptchaValue;
 
 				// post the form data
@@ -265,7 +267,7 @@
 					node_id 			: nodeId,
 					template_id 		: templateId,
 					template_node_id 	: templateNodeId
-				}, $.proxy( this._submitComplete, this ) );
+				}, $.proxy( self._submitComplete, self ) );
 			}
 		},
 
@@ -281,16 +283,17 @@
 		},
 
 		_submitComplete: function( response ) {
-			var urlField 	= $( this.nodeClass + ' .uabb-success-url' ),
-				submit	  	= $( this.nodeClass + ' .uabb-contact-form-submit' ),
-				noMessage 	= $( this.nodeClass + ' .uabb-success-none' );
+			var nodeClass   = this.nodeClass,
+				urlField 	= $( nodeClass + ' .uabb-success-url' ),
+				submit	  	= $( nodeClass + ' .uabb-contact-form-submit' ),
+				noMessage 	= $( nodeClass + ' .uabb-success-none' );
 
 			submit.html( '<span>'+this.button_text+'</span>' );
 			
 			// On success show the success message
 			if( response === '1' || response == 1 || response == '1' ) {
 
-				$( this.nodeClass + ' .uabb-send-error' ).fadeOut();
+				$( nodeClass + ' .uabb-send-error' ).fadeOut();
 				
 				if ( urlField.length > 0 ) {
 					window.location.href = urlField.val();
@@ -299,14 +302,14 @@
 					noMessage.fadeIn();
 				}
 				else {
-					$( this.nodeClass + ' .uabb-contact-form' ).hide();
-					$( this.nodeClass + ' .uabb-success-msg' ).fadeIn();
+					$( nodeClass + ' .uabb-contact-form' ).hide();
+					$( nodeClass + ' .uabb-success-msg' ).fadeIn();
 				}
 			} 
 			// On failure show fail message and re-enable the send button
 			else {
-				$( this.nodeClass + ' .uabb-contact-form-submit' ).removeClass( 'uabb-disabled' );
-				$( this.nodeClass + ' .uabb-send-error' ).fadeIn();
+				$( nodeClass + ' .uabb-contact-form-submit' ).removeClass( 'uabb-disabled' );
+				$( nodeClass + ' .uabb-send-error' ).fadeIn();
 				return false;
 			}
 		}

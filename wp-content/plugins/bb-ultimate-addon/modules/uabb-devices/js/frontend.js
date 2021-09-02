@@ -30,34 +30,34 @@
 
 		_init: function()
 		{
+            var self = this;
+            $( self.nodeClass + ' .uabb-video__play' ).on('click', $.proxy( this._playVideo, this ) );
 
-            $( this.nodeClass + ' .uabb-video__play' ).on('click', $.proxy( this._playVideo, this ) );
-
-			if ( 'slider' === this.media_type ) {
-			var node = $( this.nodeClass ),
+			if ( 'slider' === self.media_type ) {
+			var node = $( self.nodeClass ),
                 img_carousel = node.find( '.uabb-device-media-slider .uabb-device-media-screen-inner' );
 
             img_carousel.uabbslick({
                 dots: false,
-                infinite: this.infinite,
-                arrows: this.arrows,
+                infinite: self.infinite,
+                arrows: self.arrows,
                 slidesToShow: 1,
                 slidesToScroll: 1,
-                autoplay: this.autoplay,
+                autoplay: self.autoplay,
                 adaptiveHeight: true,
-                prevArrow: '<button type="button" data-role="none" class="slick-prev" aria-label="Previous" tabindex="0" role="button"><i class=" '+ this.prev_arrow +' "></i></button>',
-                nextArrow: '<button type="button" data-role="none" class="slick-next" aria-label="Next" tabindex="0" role="button"><i class="'+ this.next_arrow +' "></i></button>',
+                prevArrow: '<button type="button" data-role="none" class="slick-prev" aria-label="Previous" tabindex="0" role="button"><i class=" '+ self.prev_arrow +' "></i></button>',
+                nextArrow: '<button type="button" data-role="none" class="slick-next" aria-label="Next" tabindex="0" role="button"><i class="'+ self.next_arrow +' "></i></button>',
                 responsive: [
                     {
-                        breakpoint: this.medium_breakpoint,
+                        breakpoint: self.medium_breakpoint,
                         settings: {
-                            slidesToShow: this.medium
+                            slidesToShow: self.medium
                         }
                     },
                     {
-                        breakpoint: this.small_breakpoint,
+                        breakpoint: self.small_breakpoint,
                         settings: {
-                            slidesToShow: this.small
+                            slidesToShow: self.small
                         }
                     }
                 ]
@@ -65,9 +65,9 @@
             img_carousel.on('afterChange', $.proxy( this._adaptiveImageHeight, this ) );
        		}
 
-            if ( 'iframe' === this.media_type ) {
+            if ( 'iframe' === self.media_type ) {
 
-                var node = $( this.nodeClass );
+                var node = $( self.nodeClass );
 
                     if( node.find( '.uabb-device-media-screen-inner iframe' ).length === 0 ) {
 
@@ -85,8 +85,6 @@
                                     node.find( '.uabb-device-media-screen-inner' ).html( iframe );
                                     node.find( '.uabb-device-media-screen-inner' ).append( '<div class="uabb-loader"></div>' );
 
-                        var id = this.node;
-
                         iframe.onload = function() {
                            node.find( 'uabb-devices-content .uabb-loader' ).fadeOut();
                             this.style.display='block';
@@ -100,15 +98,16 @@
 		{
 			var selector  = $( this ).find( '.uabb-video__play-icon' );
 			var iframe 	  = $( "<iframe/>" );
-			var vurl 	  = $(this.nodeClass).find('.uabb-video__play').data( 'src' );
+            var nodeClass = $(this.nodeClass);
+			var vurl 	  = nodeClass.find('.uabb-video__play').data( 'src' );
 			if ( 0 == selector.find( 'iframe' ).length ) {
 				iframe.attr( 'src', vurl );
 				iframe.attr( 'frameborder', '0' );
 				iframe.attr( 'allowfullscreen', '1' );
 				iframe.attr( 'allow', 'autoplay;encrypted-media;' );
-				$(this.nodeClass).find('.uabb-video__play').html( iframe );
-				$(this.nodeClass).find('.uabb-video__play').closest( '.uabb-video__outer-wrap' ).find( '.uabb-vimeo-wrap' ).hide();
-				$(this.nodeClass).find('.uabb-video-player-cover.uabb-player-cover' ).css("opacity","0");
+				nodeClass.find('.uabb-video__play').html( iframe );
+				nodeClass.find('.uabb-video__play').closest( '.uabb-video__outer-wrap' ).find( '.uabb-vimeo-wrap' ).hide();
+				nodeClass.find('.uabb-video-player-cover.uabb-player-cover' ).css("opacity","0");
 			}
 		},
 		_adaptiveImageHeight: function() {

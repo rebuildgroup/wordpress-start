@@ -40,7 +40,6 @@ class UABBWooProductsModule extends FLBuilderModule {
 
 		$this->add_css( 'font-awesome-5' );
 		$this->add_js( 'imagesloaded-uabb', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/imagesloaded.min.js', array( 'jquery' ), '', true );
-		$this->add_js( 'carousel', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/jquery-carousel.js', array( 'jquery' ), '', true );
 
 		add_filter( 'fl_builder_loop_query_args', array( $this, 'woo_filter_args' ) );
 
@@ -54,6 +53,15 @@ class UABBWooProductsModule extends FLBuilderModule {
 
 		add_action( 'wp_ajax_uabb_get_products', array( $this, 'uabb_get_products' ) );
 		add_action( 'wp_ajax_nopriv_uabb_get_products', array( $this, 'uabb_get_products' ) );
+	}
+
+	/**
+	 * Function that enqueue's scripts
+	 */
+	public function enqueue_scripts() {
+		if ( isset( $this->settings->layout ) && 'carousel' === $this->settings->layout ) {
+			$this->add_js( 'carousel', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/jquery-carousel.js', array( 'jquery' ), '', true );
+		}
 	}
 
 	/**

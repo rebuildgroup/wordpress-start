@@ -40,7 +40,7 @@ UABBGravityFormModule.prototype = {
       }
     }
     if ( typeof gform !== 'undefined' ) {
-      gform.addAction( 'gform_input_change', function( elem, formId, fieldId ) {
+      gform.addAction( 'gform_input_change', function( elem ) {
           if( nodeClass.find( '.gfield_radio .gchoice_button' ).length && 'radio' == jQuery( elem ).attr( 'type' ) ){
             if( jQuery( elem ).parent().hasClass( 'uabb-radio-active') ){
             jQuery( elem ).parent().removeClass( 'uabb-radio-active' );            

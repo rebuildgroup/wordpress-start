@@ -5,11 +5,12 @@
 			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 				$(this).click(function(){
 					//event.stopPropagation();
-					var node = jQuery(this).closest( '.fl-module-interactive-banner-2' ).attr( 'data-node' );
-					if( jQuery('.fl-node-' + node + ' .uabb-ib2-outter').hasClass( 'uabb-ib2-hover' ) ){
-				        jQuery('.fl-node-' + node + ' .uabb-ib2-outter').removeClass('uabb-ib2-hover');
+					var node = jQuery(this).closest( '.fl-module-interactive-banner-2' ).attr( 'data-node' ),
+						ib2_outter = jQuery('.fl-node-' + node + ' .uabb-ib2-outter');
+					if( ib2_outter.hasClass( 'uabb-ib2-hover' ) ){
+				        ib2_outter.removeClass('uabb-ib2-hover');
 				    } else {
-				        jQuery('.fl-node-' + node + ' .uabb-ib2-outter').addClass('uabb-ib2-hover');
+				        ib2_outter.addClass('uabb-ib2-hover');
 				    }
 				});
 			}

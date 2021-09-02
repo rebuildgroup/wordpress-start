@@ -31,10 +31,19 @@ class UABBAdvancedTestimonialsModule extends FLBuilderModule {
 			)
 		);
 
-		$this->add_css( 'jquery-bxslider' );
 		$this->add_css( 'font-awesome-5' );
-		$this->add_js( 'jquery-bxslider' );
 	}
+
+	/**
+	 * Function that enqueue's scripts
+	 */
+	public function enqueue_scripts() {
+		if ( isset( $this->settings->tetimonial_layout ) && 'slider' === $this->settings->tetimonial_layout ) {
+			$this->add_css( 'jquery-bxslider' );
+			$this->add_js( 'jquery-bxslider' );
+		}
+	}
+
 	/**
 	 * Ensure backwards compatibility with old settings.
 	 *

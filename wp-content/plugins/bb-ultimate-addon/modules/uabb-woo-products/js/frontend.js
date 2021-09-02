@@ -375,10 +375,10 @@ var key_array = new Array();
 
 				e.preventDefault();
 
-				var $form = $(this).closest('form');
+				var $thisbutton = $( this );
+				var $form = $thisbutton.closest('form');
 
-				var $thisbutton = $( this ),
-					product_id = $(this).val(),
+				var	product_id = $thisbutton.val(),
 					variation_id = $('input[name="variation_id"]').val() || '';
 
 				// Set Quantity.
@@ -445,15 +445,16 @@ var key_array = new Array();
 			 */
 			uabb_add_to_cart_ajax.prototype.updateButton = function( e, button ) {
 				button = typeof button === 'undefined' ? false : button;
+				var self = this;
 
 				if ( $(button) ) {
 					$(button).removeClass( 'loading' );
 					$(button).addClass( 'added' );
 
 					// View cart text.
-					if ( ! this.is_cart && $(button).parent().find( '.added_to_cart' ).length === 0  && this.is_single_product) {
-						$(button).after( ' <a href="' + this.cart_url + '" class="added_to_cart wc-forward" title="' +
-							this.view_cart + '">' + this.view_cart + '</a>' );
+					if ( ! self.is_cart && $(button).parent().find( '.added_to_cart' ).length === 0  && self.is_single_product) {
+						$(button).after( ' <a href="' + self.cart_url + '" class="added_to_cart wc-forward" title="' +
+							self.view_cart + '">' + self.view_cart + '</a>' );
 					}
 
 
@@ -536,37 +537,37 @@ var key_array = new Array();
 
 		_initCount: function(){
 
-			var $number = $( this.wrapperClass ).find( '.uabb-number-string' );
-
-			if( !isNaN( this.delay ) && this.delay > 0 ) {
+			var self = this;
+			if( !isNaN( self.delay ) && self.delay > 0 ) {
 				setTimeout( function(){
-					if( this.layout == 'circle' ){
-						this._triggerCircle();
-					} else if( this.layout == 'bars' ){
-						this._triggerBar();
-					} else if( this.layout == 'semi-circle' ){
-						this._triggerSemiCircle();
+					if( self.layout == 'circle' ){
+						self._triggerCircle();
+					} else if( self.layout == 'bars' ){
+						self._triggerBar();
+					} else if( self.layout == 'semi-circle' ){
+						self._triggerSemiCircle();
 					}
-					this._countNumber();
-				}.bind( this ), this.delay * 1000 );
+					self._countNumber();
+				}.bind( self ), self.delay * 1000 );
 			}
 			else {
-				if( this.layout == 'circle' ){
-					this._triggerCircle();
-				} else if( this.layout == 'bars' ){
-					this._triggerBar();
-				} else if( this.layout == 'semi-circle' ){
-						this._triggerSemiCircle();
+				if( self.layout == 'circle' ){
+					self._triggerCircle();
+				} else if( self.layout == 'bars' ){
+					self._triggerBar();
+				} else if( self.layout == 'semi-circle' ){
+						self._triggerSemiCircle();
 				}
-				this._countNumber();
+				self._countNumber();
 			}
 		},
 
 		_countNumber: function(){
 
-			var $number = $( this.wrapperClass ).find( '.uabb-number-string' ),
+			var self = this,
+				$number = $( self.wrapperClass ).find( '.uabb-number-string' ),
 				$string = $number.find( '.uabb-number-int' ),
-				$counter_number = this.number;
+				$counter_number = self.number;
 				current = 0;
 
 			var sAgent = window.navigator.userAgent;
@@ -588,13 +589,13 @@ var key_array = new Array();
 
 			if ( ! $number.hasClass( 'uabb-number-animated') ) {
 
-	        	var $numFormat = this.numberFormat;
-    			var $locale = this.locale.replace(/_/,'-');
+	        	var $numFormat = self.numberFormat;
+    			var $locale = self.locale.replace(/_/,'-');
 
 			    $string.prop( 'Counter',0 ).animate({
-			        Counter: this.number
+			        Counter: self.number
 			    }, {
-			        duration: this.speed,
+			        duration: self.speed,
 			        easing: 'swing',
 			        step: function ( now ) {
 
@@ -615,16 +616,17 @@ var key_array = new Array();
 
 		_triggerCircle: function(){
 
-			var $bar   = $( this.wrapperClass ).find( '.uabb-bar' ),
+			var self = this,
+				$bar   = $( self.wrapperClass ).find( '.uabb-bar' ),
 				r      = $bar.attr('r'),
 				circle = Math.PI*(r*2),
-				val    = this.number,
-				max    = this.type == 'percent' ? 100 : this.max;
+				val    = self.number,
+				max    = self.type == 'percent' ? 100 : self.max;
 
 			if (val < 0) { val = 0;}
 			if (val > max) { val = max;}
 
-			if( this.type == 'percent' ){
+			if( self.type == 'percent' ){
 				var pct = ( ( 100 - val ) /100) * circle;
 			} else {
 				var pct = ( 1 - ( val / max ) ) * circle;
@@ -633,7 +635,7 @@ var key_array = new Array();
 		    $bar.animate({
 		        strokeDashoffset: pct
 		    }, {
-		        duration: this.speed,
+		        duration: self.speed,
 		        easing: 'swing'
 		    });
 
@@ -641,16 +643,17 @@ var key_array = new Array();
 
 		_triggerSemiCircle: function(){
 
-			var $bar   = $( this.wrapperClass ).find( '.uabb-bar' ),
+			var self = this,
+				$bar   = $( self.wrapperClass ).find( '.uabb-bar' ),
 				r      = $bar.attr('r'),
 				circle = Math.PI*(r*2)/2,
-				val    = this.number,
-				max    = this.type == 'percent' ? 100 : this.max;
+				val    = self.number,
+				max    = self.type == 'percent' ? 100 : self.max;
 
 			if (val < 0) { val = 0;}
 			if (val > max) { val = max;}
 
-			if( this.type == 'percent' ){
+			if( self.type == 'percent' ){
 				var pct = ( ( 100 - val ) /100) * circle;
 			} else {
 				var pct = ( 1 - ( val / max ) ) * circle;
@@ -659,7 +662,7 @@ var key_array = new Array();
 		    $bar.animate({
 		        strokeDashoffset: pct
 		    }, {
-		        duration: this.speed,
+		        duration: self.speed,
 		        easing: 'swing'
 		    });
 
@@ -667,18 +670,19 @@ var key_array = new Array();
 
 		_triggerBar: function(){
 
-			var $bar = $( this.wrapperClass ).find( '.uabb-number-bar' );
+			var self = this,
+				$bar = $( self.wrapperClass ).find( '.uabb-number-bar' );
 
-			if( this.type == 'percent' ){
-				var number = this.number > 100 ? 100 : this.number;
+			if( self.type == 'percent' ){
+				var number = self.number > 100 ? 100 : self.number;
 			} else {
-				var number = ( ( this.number / this.max ) * 100 );
+				var number = ( ( self.number / self.max ) * 100 );
 			}
 
 		    $bar.animate({
 		        width: number + '%'
 		    }, {
-		        duration: this.speed,
+		        duration: self.speed,
 		        easing: 'swing'
 		    });
 

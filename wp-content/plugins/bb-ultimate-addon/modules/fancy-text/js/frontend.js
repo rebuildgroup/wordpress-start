@@ -97,20 +97,22 @@
     _initFancyText: function(){
 
       if( typeof jQuery.fn.waypoint !== 'undefined' ) {
-        $(this.nodeClass).waypoint({
-          offset: this.viewport_position + '%',
-          handler: $.proxy( this._triggerAnimation, this )
+      	var $this = this;
+        $($this.nodeClass).waypoint({
+          offset: $this.viewport_position + '%',
+          handler: $.proxy( $this._triggerAnimation, $this )
         });
       }
     },
     
     _fillWords: function()
 		{
-			var classes 		= this.classes,
-				dynamicWrapper 	= $(this.dynamicWrapper),
-				settings		= this.settings;
+			var $this = this,
+				classes 		= $this.classes,
+				dynamicWrapper 	= $($this.dynamicWrapper),
+				settings		= $this.settings;
 
-				var fancytext = this.settings.fancy_text.split('|');
+				var fancytext = settings.fancy_text.split('|');
 
 				fancytext.forEach( function( word, index ) {
 					var dynamicText = $('<span>', { 'class': classes.dynamicText }).html( word.replace( / /g, '&nbsp;' ) );
@@ -122,7 +124,7 @@
 					dynamicWrapper.append( dynamicText );
 				} );
 
-			this.elements.dynamicText = dynamicWrapper.children( '.' + classes.dynamicText );
+			$this.elements.dynamicText = dynamicWrapper.children( '.' + classes.dynamicText );
     },
 
     _initHeadlines: function()
@@ -132,19 +134,22 @@
 
 		_rotateHeadline: function() {
 
+			var $this = this;
+
 			//insert <span> element for each letter of a changing word
-			if ( $(this.headline).hasClass( this.classes.letters ) ) {
-				this._singleLetters();
+			if ( $($this.headline).hasClass( $this.classes.letters ) ) {
+				$this._singleLetters();
 			}
 
 			//initialise headline animation
-			this._animateHeadline();
+			$this._animateHeadline();
     },
 
     _singleLetters: function() {
-			var classes = this.classes;
+			var $this = this,
+				classes = $this.classes;
 
-			this.elements.dynamicText.each( function() {
+			$this.elements.dynamicText.each( function() {
 				var $word = $( this ),
 					letters = $word.text().split( '' ),
 					isActive = $word.hasClass( classes.textActive );
@@ -302,20 +307,21 @@
 		},
 
     _triggerAnimation: function(){
-      if ( this.animation == 'type' ) {
-       $( this.nodeClass + " .uabb-typed-main" ).typed({
-          strings: this.strings,
-          typeSpeed: this.typeSpeed,
-          startDelay: this.startDelay,
-          backSpeed: this.backSpeed,
-          backDelay: this.backDelay,
-          loop: this.loop,
-          showCursor: this.showCursor,
-          cursorChar: this.cursorChar,
+    var $this = this;
+      if ( $this.animation == 'type' ) {
+       $( $this.nodeClass + " .uabb-typed-main" ).typed({
+          strings: $this.strings,
+          typeSpeed: $this.typeSpeed,
+          startDelay: $this.startDelay,
+          backSpeed: $this.backSpeed,
+          backDelay: $this.backDelay,
+          loop: $this.loop,
+          showCursor: $this.showCursor,
+          cursorChar: $this.cursorChar,
         });
-      } else if ( this.animation == 'slide_up' ) { 
+      } else if ( $this.animation == 'slide_up' ) { 
 
-        if( ( this.suffix.trim() == '' && this.alignment == 'left' ) || ( this.suffix.trim() == '' && this.prefix.trim() == '' ) ) {
+        if( ( $this.suffix.trim() == '' && $this.alignment == 'left' ) || ( $this.suffix.trim() == '' && $this.prefix.trim() == '' ) ) {
 
           var max = 0;
           jQuery( '.uabb-slide-block' ).each(function(){
@@ -324,16 +330,16 @@
                   max = c_width;
               }
           });
-          jQuery( this.nodeClass + " .uabb-slide-main" ).css('min-width', max +'px');
+          jQuery( $this.nodeClass + " .uabb-slide-main" ).css('min-width', max +'px');
         } else {
-          jQuery( this.nodeClass + " .uabb-slide-main" ).removeAttr('style');          
+          jQuery( $this.nodeClass + " .uabb-slide-main" ).removeAttr('style');          
         }
 
-        $( this.nodeClass + " .uabb-slide-main")
+        $( $this.nodeClass + " .uabb-slide-main")
               .vTicker('init', {
-                  speed       : this.speed, 
-                  pause       : this.pause,
-                  mousePause  : this.mousePause,
+                  speed       : $this.speed, 
+                  pause       : $this.pause,
+                  mousePause  : $this.mousePause,
               });
       }
       

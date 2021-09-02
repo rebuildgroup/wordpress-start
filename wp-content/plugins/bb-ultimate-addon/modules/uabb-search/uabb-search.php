@@ -55,17 +55,6 @@ class UABBSearchModule extends FLBuilderModule {
 	}
 
 	/**
-	 * Function that enqueues scripts
-	 *
-	 * @method enqueue_scripts
-	 */
-	public function enqueue_scripts() {
-		if ( $this->settings && 'button' === $this->settings->display && 'fullscreen' === $this->settings->btn_action ) {
-			$this->add_css( 'font-awesome-5' );
-		}
-	}
-
-	/**
 	 * Function that runs search query
 	 *
 	 * @method search_query

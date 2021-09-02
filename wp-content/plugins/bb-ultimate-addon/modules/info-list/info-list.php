@@ -31,9 +31,18 @@ class UABBInfoList extends FLBuilderModule {
 				'icon'            => 'info-list.svg',
 			)
 		);
-		$this->add_js( 'jquery-waypoints' );
+
 		// Register and enqueue your own.
 		$this->add_css( 'uabb-animate', $this->url . 'css/animate.css' );
+	}
+
+	/**
+	 * Function that enqueue's scripts
+	 */
+	public function enqueue_scripts() {
+		if ( isset( $this->settings->list_icon_animation ) && 'yes' === $this->settings->list_icon_animation ) {
+			$this->add_js( 'jquery-waypoints' );
+		}
 	}
 
 	/**

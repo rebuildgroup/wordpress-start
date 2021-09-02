@@ -135,18 +135,6 @@ if ( ! class_exists( 'UABB_WPML_Translatable' ) ) {
 				),
 			);
 
-			// Countdown Module.
-			$form['uabb-countdown'] = array(
-				'conditions' => array( 'type' => 'uabb-countdown' ),
-				'fields'     => array(
-					array(
-						'field'       => 'expire_message',
-						'type'        => __( 'Countdown: Timer expiry message', 'uabb' ),
-						'editor_type' => 'VISUAL',
-					),
-				),
-			);
-
 			// Advanced Accordion Module.
 			$form['advanced-accordion'] = array(
 				'conditions'        => array( 'type' => 'advanced-accordion' ),
@@ -327,12 +315,12 @@ if ( ! class_exists( 'UABB_WPML_Translatable' ) ) {
 				'fields'     => array(
 					array(
 						'field'       => 'form_title',
-						'type'        => __( 'Gravity Form Title', 'uabb' ),
+						'type'        => __( 'Contact Form 7 Title', 'uabb' ),
 						'editor_type' => 'LINE',
 					),
 					array(
 						'field'       => 'form_desc',
-						'type'        => __( 'Gravity Form Description', 'uabb' ),
+						'type'        => __( 'Contact Form 7 Description', 'uabb' ),
 						'editor_type' => 'VISUAL',
 					),
 				),

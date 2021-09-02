@@ -15,14 +15,15 @@
     
     function uabb_ihover_init() {
         $('.uabb-ih-list').each(function(index, el){
-            var s   = $(el).attr('data-shape');
-            var h  = $(el).attr('data-height');
-            var w   = $(el).attr('data-width');
-            var rh = $(el).attr('data-res_height');
-            var rw  = $(el).attr('data-res_width');
+            var elem = $(el);
+            var s   = elem.attr('data-shape');
+            var h  = elem.attr('data-height');
+            var w   = elem.attr('data-width');
+            var rh = elem.attr('data-res_height');
+            var rw  = elem.attr('data-res_width');
             var ww = jQuery(window).width() || '';
                 
-            $(el).find('li').each(function(){
+            elem.find('li').each(function(){
                 // Shape
                 $(el).find('.uabb-ih-item').addClass('uabb-ih-' + s);
             });
@@ -34,12 +35,8 @@
     else
         var is_touch_device = true;
 
-    /*jQuery('#page').click(function(){
-        jQuery('.uabb-ih-hover').removeClass('uabb-ih-hover');
-    });*/
     if(!is_touch_device){
         jQuery('.uabb-ih-item').hover(function(event){
-            //event.stopPropagation();
             jQuery(this).addClass('uabb-ih-hover');
         },function(event){
             event.stopPropagation();
@@ -47,13 +44,13 @@
         });
     } else{
         jQuery('.uabb-ih-item').on( 'click', function(event){
-            //event.stopPropagation();
-            if(jQuery(this).hasClass('uabb-ih-hover')){
-                jQuery(this).removeClass('uabb-ih-hover');
+            var $this = jQuery(this);
+            if($this.hasClass('uabb-ih-hover')){
+                $this.removeClass('uabb-ih-hover');
             }
             else{
                 jQuery('.uabb-ih-hover').removeClass('uabb-ih-hover');
-                jQuery(this).addClass('uabb-ih-hover');
+                $this.addClass('uabb-ih-hover');
             }
         });
     }

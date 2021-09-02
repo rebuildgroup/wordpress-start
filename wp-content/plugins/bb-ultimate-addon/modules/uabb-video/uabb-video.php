@@ -32,9 +32,18 @@ class UABBVideo extends FLBuilderModule {
 				'icon'            => 'video-player.svg',
 			)
 		);
-		$this->add_js( 'jquery-waypoints' );
-		$this->add_js( 'jquery-ui-draggable' );
 	}
+
+	/**
+	 * Function that enqueue's scripts
+	 */
+	public function enqueue_scripts() {
+		if ( isset( $this->settings->enable_sticky ) && 'yes' === $this->settings->enable_sticky ) {
+			$this->add_js( 'jquery-waypoints' );
+			$this->add_js( 'jquery-ui-draggable' );
+		}
+	}
+
 	/**
 	 * Function to get the icon for the Info Circle
 	 *

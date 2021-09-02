@@ -34,8 +34,16 @@ class UABBDevices extends FLBuilderModule {
 				'icon'            => 'uabb-devices.svg',
 			)
 		);
-		$this->add_js( 'carousel', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/jquery-carousel.js', array( 'jquery' ), '', true );
 		$this->add_css( 'font-awesome-5' );
+	}
+
+	/**
+	 * Function that enqueue's scripts
+	 */
+	public function enqueue_scripts() {
+		if ( isset( $this->settings->media_type ) && 'slider' === $this->settings->media_type ) {
+			$this->add_js( 'carousel', BB_ULTIMATE_ADDON_URL . 'assets/js/global-scripts/jquery-carousel.js', array( 'jquery' ), '', true );
+		}
 	}
 
 	/**

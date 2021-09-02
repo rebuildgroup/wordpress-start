@@ -33,7 +33,6 @@ var UABBGoogleMaps;
         this.markers                = settings.markers;
         this.enable_info            = settings.enable_info;
         this.map_fit_marker         = settings.map_fit_marker;
-        //console.log(settings);
         this._uabbGoogleMapInit();
         
     };
@@ -42,7 +41,8 @@ var UABBGoogleMaps;
 
         _uabbGoogleMapInit: function() {
 
-            var image = '',
+            var $this = this,
+                image = '',
                 mapOptions = '',
                 styledMap = '',
                 enable_info = '',
@@ -70,90 +70,87 @@ var UABBGoogleMaps;
                     "earth" : "[{\"featureType\":\"landscape.man_made\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#f7f1df\"}]},{\"featureType\":\"landscape.natural\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#d0e3b4\"}]},{\"featureType\":\"landscape.natural.terrain\",\"elementType\":\"geometry\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"poi\",\"elementType\":\"labels\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"poi.business\",\"elementType\":\"all\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"poi.medical\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#fbd3da\"}]},{\"featureType\":\"poi.park\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#bde6ab\"}]},{\"featureType\":\"road\",\"elementType\":\"geometry.stroke\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"road\",\"elementType\":\"labels\",\"stylers\":[{\"visibility\":\"off\"}]},{\"featureType\":\"road.highway\",\"elementType\":\"geometry.fill\",\"stylers\":[{\"color\":\"#ffe15f\"}]},{\"featureType\":\"road.highway\",\"elementType\":\"geometry.stroke\",\"stylers\":[{\"color\":\"#efd151\"}]},{\"featureType\":\"road.arterial\",\"elementType\":\"geometry.fill\",\"stylers\":[{\"color\":\"#ffffff\"}]},{\"featureType\":\"road.local\",\"elementType\":\"geometry.fill\",\"stylers\":[{\"color\":\"black\"}]},{\"featureType\":\"transit.station.airport\",\"elementType\":\"geometry.fill\",\"stylers\":[{\"color\":\"#cfb2db\"}]},{\"featureType\":\"water\",\"elementType\":\"geometry\",\"stylers\":[{\"color\":\"#a2daf2\"}]}]"
                 };                     
 
-            if( this.map_style == null ) {
+            if( $this.map_style == null ) {
                 mapOptions = {
-                    zoom: parseInt( this.map_zoom ),
-                    center: {lat: parseFloat( this.markers[0].lat ), lng: parseFloat( this.markers[0].lng ) },
-                    scrollwheel: ( this.map_expand == 'yes' ) ? false : true,
-                    streetViewControl: this.street_view,
-                    mapTypeControl: this.map_type_control,
-                    zoomControl: this.zoom,
-                    draggable: ( $( document ).width() > 641 ) ? true : this.dragging,
+                    zoom: parseInt( $this.map_zoom ),
+                    center: {lat: parseFloat( $this.markers[0].lat ), lng: parseFloat( $this.markers[0].lng ) },
+                    scrollwheel: ( $this.map_expand == 'yes' ) ? false : true,
+                    streetViewControl: $this.street_view,
+                    mapTypeControl: $this.map_type_control,
+                    zoomControl: $this.zoom,
+                    draggable: ( $( document ).width() > 641 ) ? true : $this.dragging,
                     zoomControlOptions: {
-                        position: google.maps.ControlPosition[this.zoom_control_position]
+                        position: google.maps.ControlPosition[$this.zoom_control_position]
                     },
-                    mapTypeId: google.maps.MapTypeId[this.map_type]
+                    mapTypeId: google.maps.MapTypeId[$this.map_type]
                 };
             } else {
                 mapOptions = {
-                    zoom: parseInt( this.map_zoom ),
-                    center: {lat: parseFloat( this.markers[0].lat ), lng: parseFloat( this.markers[0].lng ) },
-                    scrollwheel: ( this.map_expand == 'yes' ) ? false : true,
-                    streetViewControl: this.street_view,
-                    mapTypeControl: this.map_type_control,
-                    zoomControl: this.zoom,
-                    draggable: ( $( document ).width() > 641 ) ? true : this.dragging,
+                    zoom: parseInt( $this.map_zoom ),
+                    center: {lat: parseFloat( $this.markers[0].lat ), lng: parseFloat( $this.markers[0].lng ) },
+                    scrollwheel: ( $this.map_expand == 'yes' ) ? false : true,
+                    streetViewControl: $this.street_view,
+                    mapTypeControl: $this.map_type_control,
+                    zoomControl: $this.zoom,
+                    draggable: ( $( document ).width() > 641 ) ? true : $this.dragging,
                     zoomControlOptions: {
-                        position: google.maps.ControlPosition[this.zoom_control_position]
+                        position: google.maps.ControlPosition[$this.zoom_control_position]
                     },
                     mapTypeControlOptions: {
-                        mapTypeIds: [google.maps.MapTypeId[this.map_type], 'map_style']
+                        mapTypeIds: [google.maps.MapTypeId[$this.map_type], 'map_style']
                     }
                 };
             }            
 
-            if( typeof $( this.nodeClass + ' .uabb-google-map-wrapper' )[0] != 'undefined' ) {
-                map = new google.maps.Map( $( this.nodeClass + ' .uabb-google-map-wrapper' )[0], mapOptions );       
+            if( typeof $( $this.nodeClass + ' .uabb-google-map-wrapper' )[0] != 'undefined' ) {
+                map = new google.maps.Map( $( $this.nodeClass + ' .uabb-google-map-wrapper' )[0], mapOptions );       
 
-                if( this.map_style != null ) {
+                if( $this.map_style != null ) {
 
-                    styledMap = new google.maps.StyledMapType( this.map_style, { name: "Styled Map" } );
+                    styledMap = new google.maps.StyledMapType( $this.map_style, { name: "Styled Map" } );
                     map.mapTypes.set( 'map_style', styledMap );
                     map.setMapTypeId( 'map_style' );                           
                 }     
 
-                if( !this.map_style ) {
-                    map.setMapTypeId( this.map_type.toLowerCase() );
+                if( !$this.map_style ) {
+                    map.setMapTypeId( $this.map_type.toLowerCase() );
                 }        
 
-                if ( this.map_type != 'SATELLITE' && this.map_skin != 'custom' && this.map_skin != 'standard' ) {    
+                if ( $this.map_type != 'SATELLITE' && $this.map_skin != 'custom' && $this.map_skin != 'standard' ) {    
 
-                    var map_skin_json = JSON.parse( skins[this.map_skin] );
-                    skinMap = new google.maps.StyledMapType( map_skin_json, { name: this.map_skin } );                    
+                    var map_skin_json = JSON.parse( skins[$this.map_skin] );
+                    skinMap = new google.maps.StyledMapType( map_skin_json, { name: $this.map_skin } );                    
                     map.mapTypes.set( 'map_skin', skinMap );
                     map.setMapTypeId( 'map_skin' );
                 } 
 
-                if ( this.map_skin == 'standard' && this.map_style != null ) { 
+                if ( $this.map_skin == 'standard' && $this.map_style != null ) { 
 
-                    if (this.map_type == 'ROADMAP') {
+                    if ($this.map_type == 'ROADMAP') {
                         map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
                     }
-                    else if (this.map_type == 'HYBRID') {
+                    else if ($this.map_type == 'HYBRID') {
                         map.setMapTypeId(google.maps.MapTypeId.HYBRID);   
                     }
-                    else if (this.map_type == 'SATELLITE') {
+                    else if ($this.map_type == 'SATELLITE') {
                         map.setMapTypeId(google.maps.MapTypeId.SATELLITE);   
                     }
-                    else if (this.map_type == 'TERRAIN') {
+                    else if ($this.map_type == 'TERRAIN') {
                         map.setMapTypeId(google.maps.MapTypeId.TERRAIN);   
                     }
                 } 
 
-                if ( this.map_type == 'SATELLITE' ) {
+                if ( $this.map_type == 'SATELLITE' ) {
                     map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
                 }                          
 
-                if( ( this.markers ).length > 0 ) {
-                    for( i = 0; i < ( this.markers ).length ; i++ ) {
+                if( ( $this.markers ).length > 0 ) {
+                    for( i = 0; i < ( $this.markers ).length ; i++ ) {
 
-                        if( this.marker_point[i] == 'custom' ) {
-                            if( this.marker_img_src[i] != '' ) {
+                        if( $this.marker_point[i] == 'custom' ) {
+                            if( $this.marker_img_src[i] != '' ) {
                                 image = { 
-                                    url: this.marker_img_src[i] ,
-                                    /*scaledSize: new google.maps.Size(1), // scaled size
-                                    origin: new google.maps.Point(0,0), // origin
-                                    anchor: new google.maps.Point(0, 0) // anchor*/
+                                    url: $this.marker_img_src[i] ,
                                 };
                             } else {
                                 image = '';
@@ -162,21 +159,21 @@ var UABBGoogleMaps;
                             image = '';
                         }
 
-                        if( this.map_fit_marker == 'yes' ) {
-                            loc = new google.maps.LatLng( parseFloat( this.markers[i].lat ), parseFloat( this.markers[i].lng ) );
+                        if( $this.map_fit_marker == 'yes' ) {
+                            loc = new google.maps.LatLng( parseFloat( $this.markers[i].lat ), parseFloat( $this.markers[i].lng ) );
                             bounds.extend(loc);
                             map.fitBounds(bounds);
                         }
 
                         marker = new google.maps.Marker({
-                            position: new google.maps.LatLng( parseFloat( this.markers[i].lat ), parseFloat( this.markers[i].lng ) ),
+                            position: new google.maps.LatLng( parseFloat( $this.markers[i].lat ), parseFloat( $this.markers[i].lng ) ),
                             icon: image,
                             map: map
                         });
 
-                        info_text = this.info_window_text;
-                        open_marker = this.open_marker;
-                        enable_info = this.enable_info;
+                        info_text = $this.info_window_text;
+                        open_marker = $this.open_marker;
+                        enable_info = $this.enable_info;
 
                         if ( info_text[i] != '' ) {
                             var infowindow = new google.maps.InfoWindow();

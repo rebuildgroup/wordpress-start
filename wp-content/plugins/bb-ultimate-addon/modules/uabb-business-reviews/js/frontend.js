@@ -33,17 +33,18 @@
         nodeClass   : '',
 
         _init:function() {
-            var nodeClass       = $( this.nodeClass );
+            var self = this,
+                nodeClass       = $( self.nodeClass );
 
-            if( this.layout == 'carousel' ) {
+            if( self.layout == 'carousel' ) {
 
-                if( this.equal_height_box == 'yes' ) {
+                if( self.equal_height_box == 'yes' ) {
                  
-                    jQuery( this.nodeClass ).find( '.uabb-review-layout-carousel' ).on( 'init', this._uabbReviewCarouselHeight );
-                    $( this.nodeClass ).find( '.uabb-review-layout-carousel' ).on('init', $.proxy( this._uabbReviewsCarouselEqualHeight, this ) );
+                    nodeClass.find( '.uabb-review-layout-carousel' ).on( 'init', this._uabbReviewCarouselHeight );
+                    nodeClass.find( '.uabb-review-layout-carousel' ).on('init', $.proxy( this._uabbReviewsCarouselEqualHeight, this ) );
                
                 }
-                    this._uabbReviewCarousel();
+                    self._uabbReviewCarousel();
 
             } 
         },

@@ -29,38 +29,38 @@
 	UABB_Hotspot.prototype = {
 		// Start of hotspot functionality.
 		_init: function() {
-			var marker_id = 0 ;
-		    clearInterval( this.hotspotInterval );
+			var marker_id = 0,
+				self = this;
+		    clearInterval( self.hotspotInterval );
 
-			if ( 'yes' ===  this.hotspot_tour && 'yes' === this.autoplay && 'click' ===  this.action_autoplay )
+			if ( 'yes' ===  self.hotspot_tour && 'yes' === self.autoplay && 'click' ===  self.action_autoplay )
 			 {
-			 	var bselector = jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item');
+			 	var bselector = jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item');
 				if ( bselector.hasClass( 'uabb-hotspot-hover' ) ) {
 					bselector.removeClass( 'uabb-hotspot-hover' );
 				}	
-			 	this._overlayInit( marker_id );
+			 	self._overlayInit( marker_id );
 			} 
 			else
 			{
 				//Initialy open first tooltip by default.
-				if ( 'yes' === this.autoplay ) {
-					jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item-' + this.marker_id ).css( "pointer-events", "none" );
-					this._tooltipNav( marker_id );
-					this._showtiooltips( marker_id );
-					this._buttonOverlay( marker_id );
+				if ( 'yes' === self.autoplay ) {
+					jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item-' + self.marker_id ).css( "pointer-events", "none" );
+					self._tooltipNav( marker_id );
+					self._showtiooltips( marker_id );
+					self._buttonOverlay( marker_id );
 				} 
-				if ( 'no' === this.autoplay ) {
-					jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item-' + this.marker_id ).css( "pointer-events", "none" );
-					clearInterval( this.hotspotInterval );
-					this._tooltipNav( marker_id );
-					this._showtiooltips( marker_id );		
+				if ( 'no' === self.autoplay ) {
+					jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item-' + self.marker_id ).css( "pointer-events", "none" );
+					clearInterval( self.hotspotInterval );
+					self._tooltipNav( marker_id );
+					self._showtiooltips( marker_id );		
 				} 
 
 			}
 			// Next , Prevoius and End Tour function intialisation with click.
-			var outer_wrap_nav_item = jQuery(this.nodeClass).find( '.uabb-tour' );
-			var outer_wrap_end_tour = jQuery(this.nodeClass).find( '.uabb-hotspot-end' );
-			var self = this;
+			var outer_wrap_nav_item = jQuery(self.nodeClass).find( '.uabb-tour' );
+			var outer_wrap_end_tour = jQuery(self.nodeClass).find( '.uabb-hotspot-end' );
 			outer_wrap_nav_item.off( 'click' ).on( 'click', function( event ) {
 				 event.preventDefault();
 				if ( jQuery(event.target).hasClass( 'uabb-next' ) ) {
@@ -82,13 +82,13 @@
 
 		// If overlay init funtion. 
 		_overlayInit : function( marker_id ) {
-			var selector = jQuery( '.fl-node-' + this.node_id + ' .uabb-overlay-button a ');
+			var self = this,
+				selector = jQuery( '.fl-node-' + self.node_id + ' .uabb-overlay-button a ');
 			selector.removeAttr( 'href' );
-			var self = this ;
 			selector.click( function( event ) {
 				self.overlay_id = self.form.find( '.uabb-hotspot-overlay' );
 				self.button_id 	= self.form.find( '.uabb-overlay-button' );
-				var bselector = jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item' );
+				var bselector = jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item' );
 				if ( bselector.hasClass( 'uabb-hotspot-hover' ) ) {
 					bselector.removeClass( 'uabb-hotspot-hover' );
 				}	
@@ -98,9 +98,10 @@
 
 		// Disable prev & next nav for 1st & last tooltip.
 		_tooltipNav : function( marker_id ) {
-			if ( 'yes' !== this.repeat ) {
-				$( '.fl-node-'+ this.node_id + ' .uabb-hotspot-items .uabb-prev-' + marker_id + '[data-tooltips-id="1"]' ).addClass( "inactive" );
-				$( '.fl-node-'+ this.node_id + ' .uabb-hotspot-items .uabb-next-' + marker_id + '[data-tooltips-id="' + this.length + '"]' ).addClass( "inactive" );
+			var self = this;
+			if ( 'yes' !== self.repeat ) {
+				$( '.fl-node-'+ self.node_id + ' .uabb-hotspot-items .uabb-prev-' + marker_id + '[data-tooltips-id="1"]' ).addClass( "inactive" );
+				$( '.fl-node-'+ self.node_id + ' .uabb-hotspot-items .uabb-next-' + marker_id + '[data-tooltips-id="' + self.length + '"]' ).addClass( "inactive" );
 			}
 		},
 
@@ -111,7 +112,7 @@
 			if ( marker_id == length - 1 ) {
 			   marker_id = 0 ;
 		    }
-       		this.hotspotInterval = setInterval( function() {
+       		self.hotspotInterval = setInterval( function() {
 
 				var bselector = jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item-' + marker_id );			
 				if (  bselector.hasClass( 'uabb-hotspot-hover' ) ) {
@@ -134,20 +135,20 @@
 							});
 						
 						} else {
-							if ( sid < this.length ) {
+							if ( sid < self.length ) {
 								if ( sid == self.marker_count ) {
 									sid = 0 ;
 								} else {
 									sid = sid + 1 ;
 								}
 		                   		self._showtiooltips( sid );
-							} else if ( sid === this.length ) {
-								if ( 'click' === this.action_autoplay ) {
-									this.bselector = jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item' );
-									if ( this.bselector.hasClass( 'uabb-hotspot-hover' ) ) {
-										this.bselector.removeClass( 'uabb-hotspot-hover' );
+							} else if ( sid === self.length ) {
+								if ( 'click' === self.action_autoplay ) {
+									self.bselector = jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item' );
+									if ( self.bselector.hasClass( 'uabb-hotspot-hover' ) ) {
+										self.bselector.removeClass( 'uabb-hotspot-hover' );
 									}	
-									clearInterval( this.hotspotInterval );
+									clearInterval( self.hotspotInterval );
 									self._buttonOverlay( marker_id );
 									$( '.uabb-hotspot-overlay' ).css({ 'display' : '', 'block' : '' });	
 								} 		
@@ -196,12 +197,12 @@
 			if ( bselector.hasClass( 'uabb-hotspot-hover' ) ) {
 				bselector.removeClass( 'uabb-hotspot-hover' );
 			}	
-		    clearInterval( this.hotspotInterval );
+		    clearInterval( self.hotspotInterval );
 			if ( 'click' === self.action_autoplay ) {
 		    	
-				if ( 'yes' === this.overlay ) {
+				if ( 'yes' === self.overlay ) {
 
-					if ( 'yes' == this.autoplay ) {
+					if ( 'yes' == self.autoplay ) {
 						jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-container .uabb-hotspot-overlay .uabb-overlay-button').click(function(event) {
 							event.stopPropagation();
 							jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-container .uabb-hotspot-overlay').hide();
@@ -224,36 +225,37 @@
 					}
 				}
 			} else {
-				this._tourPlay(0);
+				self._tourPlay(0);
 			}
 		},
 
 		// Execute Tooltip execution for tour functionality
 		_tourPlay: function( marker_id ) {
-		clearInterval( this.hotspotInterval );
+		var self = this;
+		clearInterval( self.hotspotInterval );
 			//Initialy open first tooltip by default.
-			if ( 'yes' === this.autoplay ) {
-				jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item-' + marker_id ).css( "pointer-events", "none" );
-				this._tooltipNav( marker_id );
-				this._showtiooltips( marker_id );
-				this._sectionInterval( marker_id );
-			} else if ( 'no' === this.autoplay ) {
-				jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item-' + id ).css( "pointer-events", "none" );
-				this.tooltipNav( marker_id );
-				this.showtiooltips( 0 );
+			if ( 'yes' === self.autoplay ) {
+				jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item-' + marker_id ).css( "pointer-events", "none" );
+				self._tooltipNav( marker_id );
+				self._showtiooltips( marker_id );
+				self._sectionInterval( marker_id );
+			} else if ( 'no' === self.autoplay ) {
+				jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item-' + id ).css( "pointer-events", "none" );
+				self.tooltipNav( marker_id );
+				self.showtiooltips( 0 );
 			}
 		},
 
 		// Open next tooltip on trigger.
 		_next: function( event ) {
 			var self = this;
-			if ( !jQuery(event.target).is( '.fl-node-' + this.node_id + ' .uabb-hotspot-item' ) ) {
+			if ( !jQuery(event.target).is( '.fl-node-' + self.node_id + ' .uabb-hotspot-item' ) ) {
 
 				var currentnode = jQuery(event.target).data('tooltips-id') - 1 ;
-				var sid = jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item-' + currentnode ).data('name');
-				if ( sid <= this.length ) {
-					if ( 'yes' === this.repeat ) {
-						 if ( sid === this.marker_count ) {
+				var sid = jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item-' + currentnode ).data('name');
+				if ( sid <= self.length ) {
+					if ( 'yes' === self.repeat ) {
+						 if ( sid === self.marker_count ) {
 							sid = 0;
 						} else {
 							sid = sid + 1;
@@ -270,13 +272,13 @@
 		// Open prev tooltip on trigger.
 		_previous: function( event ) {
 			var self = this;
-			if ( !jQuery(event.target).is('.fl-node-'+ this.node_id +' .uabb-hotspot-item') ) {
+			if ( !jQuery(event.target).is('.fl-node-'+ self.node_id +' .uabb-hotspot-item') ) {
 				var currentnode = jQuery(event.target).data('tooltips-id') - 1 ;
-				var sid = jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item-' + currentnode).data('name');
-				if ( sid <= this.length ) {
-					if ( 'yes' === this.repeat ) {
+				var sid = jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item-' + currentnode).data('name');
+				if ( sid <= self.length ) {
+					if ( 'yes' === self.repeat ) {
 						if (sid === 0) {
-							sid = this.marker_count ; 
+							sid = self.marker_count ; 
 						} else {
 							sid = sid - 1;		
 					    }
@@ -291,18 +293,19 @@
 
 		// End tour tooltip on trigger.
 		_endTour: function( event ) {
-			if ( !jQuery(event.target).is( '.fl-node-' + this.node_id + ' .uabb-hotspot-item' ) ) {
+			var self = this ;
+			if ( !jQuery(event.target).is( '.fl-node-' + self.node_id + ' .uabb-hotspot-item' ) ) {
           		var id = jQuery(event.target).data( 'itemid' ) ;
-				var bselector = jQuery( '.fl-node-' + this.node_id + ' .uabb-hotspot-item' );
+				var bselector = jQuery( '.fl-node-' + self.node_id + ' .uabb-hotspot-item' );
 				if ( bselector.hasClass( 'uabb-hotspot-hover' ) ) {
 					bselector.removeClass( 'uabb-hotspot-hover' );
 				}		
-				clearInterval( this.hotspotInterval );	
-				if ( 'auto' === this.action_autoplay && 'yes' === this.autoplay ) {
-					$( '.fl-node-'+ this.node_id +' .uabb-hotspot-item-'+ id ).css( "pointer-events", "none" );
+				clearInterval( self.hotspotInterval );	
+				if ( 'auto' === self.action_autoplay && 'yes' === self.autoplay ) {
+					$( '.fl-node-'+ self.node_id +' .uabb-hotspot-item-'+ id ).css( "pointer-events", "none" );
 				} else {
-					this._buttonOverlay( id );
-					$( '.fl-node-'+ this.node_id +' .uabb-hotspot-overlay' ).css({ 'display' : '' });
+					self._buttonOverlay( id );
+					$( '.fl-node-'+ self.node_id +' .uabb-hotspot-overlay' ).css({ 'display' : '' });
 				}						
 			}
 		},
