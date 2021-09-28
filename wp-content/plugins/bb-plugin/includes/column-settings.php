@@ -19,7 +19,7 @@ FLBuilder::register_settings_form('col', array(
 								'%',
 							),
 							'preview'    => array(
-								'type' => 'none',
+								'type' => 'refresh',
 							),
 						),
 						'min_height'        => array(
@@ -199,11 +199,54 @@ FLBuilder::register_settings_form('col', array(
 								'center top'    => __( 'Center Top', 'fl-builder' ),
 								'center center' => __( 'Center', 'fl-builder' ),
 								'center bottom' => __( 'Center Bottom', 'fl-builder' ),
+								'custom_pos'    => __( 'Custom Position', 'fl-builder' ),
+							),
+							'toggle'     => array(
+								'custom_pos' => array(
+									'fields' => array(
+										'bg_x_position',
+										'bg_y_position',
+									),
+								),
 							),
 							'preview'    => array(
 								'type'     => 'css',
 								'selector' => '> .fl-col-content',
 								'property' => 'background-position',
+							),
+						),
+						'bg_x_position' => array(
+							'type'         => 'unit',
+							'label'        => __( 'X Position', 'fl-builder' ),
+							'units'        => array( 'px', '%' ),
+							'default_unit' => '%',
+							'responsive'   => true,
+							'slider'       => array(
+								'min'  => 0,
+								'max'  => 1000,
+								'step' => 10,
+							),
+							'preview'      => array(
+								'type'     => 'css',
+								'selector' => '> .fl-col-content',
+								'property' => 'background-position-x',
+							),
+						),
+						'bg_y_position' => array(
+							'type'         => 'unit',
+							'label'        => __( 'Y Position', 'fl-builder' ),
+							'units'        => array( 'px', '%' ),
+							'default_unit' => '%',
+							'responsive'   => true,
+							'slider'       => array(
+								'min'  => 0,
+								'max'  => 1000,
+								'step' => 10,
+							),
+							'preview'      => array(
+								'type'     => 'css',
+								'selector' => '> .fl-col-content',
+								'property' => 'background-position-y',
 							),
 						),
 						'bg_attachment' => array(
@@ -500,6 +543,15 @@ FLBuilder::register_settings_form('col', array(
 							'label'   => __( 'CSS Class', 'fl-builder' ),
 							'help'    => __( "A class that will be applied to this column's HTML. Must start with a letter and only contain dashes, underscores, letters or numbers. Separate multiple classes with spaces.", 'fl-builder' ),
 							'preview' => array(
+								'type' => 'none',
+							),
+						),
+						'node_label'        => array(
+							'type'     => 'text',
+							'label'    => __( 'Label', 'fl-builder' ),
+							'help'     => __( 'A label that will applied and used in the UI for easy identification.', 'fl-builder' ),
+							'sanitize' => 'strip_tags',
+							'preview'  => array(
 								'type' => 'none',
 							),
 						),

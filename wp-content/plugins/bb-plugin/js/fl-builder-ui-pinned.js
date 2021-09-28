@@ -35,8 +35,8 @@
 
 			win.on( 'resize', _.throttle( this.windowResize.bind( this ), 250 ) );
 
-			body.delegate( '.fl-builder-ui-pinned-collapse', 'click', this.collapse );
-			body.delegate( '.fl-builder--content-library-panel .fl-builder--tabs', 'click', this.closeLightboxOnPanelClick );
+			body.on( 'click', '.fl-builder-ui-pinned-collapse', this.collapse );
+			body.on( 'click', '.fl-builder--content-library-panel .fl-builder--tabs', this.closeLightboxOnPanelClick );
 
 			FLBuilder.addHook( 'didShowLightbox', this.pinLightboxOnOpen.bind( this ) );
 			FLBuilder.addHook( 'didHideAllLightboxes', this.pinnedLightboxClosed.bind( this ) );
@@ -219,11 +219,13 @@
 		 * @method initPanel
 		 */
 		initPanel: function() {
-			var panel = $( '.fl-builder--content-library-panel' );
+			var panel = $( '.fl-builder--content-library-panel' ),
+				button = $( '.fl-builder-content-panel-button' ),
+				panelHandle = button.length == 0 ? '.fl-builder--tabs, .fl-lightbox-header' : '.fl-builder--tabs';
 
 			panel.draggable( {
 				cursor		: 'move',
-				handle		: '.fl-builder--tabs',
+				handle		: panelHandle,
 				cancel		: '.fl-builder--tabs button',
 				scroll		: false,
 				drag		: this.drag.bind( this ),
@@ -266,6 +268,9 @@
 			panel.on( 'resize', _.throttle( this.resize.bind( this ), 250 ) );
 			panel.attr( 'style', '' );
 			FLBuilder.ContentPanel.isShowing = true;
+			if( $( '.fl-builder-content-panel-button' ).length == 0 ) {
+				$('.fl-builder-panel-drag-handle').show();
+			}
 		},
 
         /**

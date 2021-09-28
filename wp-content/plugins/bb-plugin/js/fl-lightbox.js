@@ -277,6 +277,9 @@
 		{
 			this._node.find('.fl-lightbox-content').html(content);
 			this._resize();
+			if( $( '.fl-builder-content-panel-button' ).length == 0 ) {
+				$('.fl-builder-panel-drag-handle').show();
+			}
 		},
 
 		/**
@@ -425,7 +428,7 @@
 
 				mask.hide();
 				lightbox.addClass( 'fl-lightbox-resizable' );
-				lightbox.delegate( '.fl-lightbox-resize-toggle', 'click', this._resizeClicked.bind( this ) );
+				lightbox.on( 'click', '.fl-lightbox-resize-toggle', this._resizeClicked.bind( this ) );
 
 				lightbox.draggable( {
 					cursor		: 'move',

@@ -28,6 +28,37 @@ class FLPostSliderModule extends FLBuilderModule {
 	}
 
 	/**
+	 * @method update
+	 * @param $settings {object}
+	 * @return object
+	 */
+	public function update( $settings ) {
+		// remove old settings values
+		if ( isset( $settings->title_size ) ) {
+			unset( $settings->title_size );
+		}
+
+		if ( isset( $settings->title_custom_size ) ) {
+			unset( $settings->title_custom_size );
+			unset( $settings->title_custom_size_unit );
+		}
+
+		if ( isset( $settings->text_color ) ) {
+			unset( $settings->text_color );
+		}
+
+		if ( isset( $settings->link_color ) ) {
+			unset( $settings->link_color );
+		}
+
+		if ( isset( $settings->link_hover_color ) ) {
+			unset( $settings->link_hover_color );
+		}
+
+		return $settings;
+	}
+
+	/**
 	 * Ensure backwards compatibility with old settings.
 	 *
 	 * @since 2.2
@@ -39,6 +70,39 @@ class FLPostSliderModule extends FLBuilderModule {
 
 		// Handle old opacity inputs.
 		$helper->handle_opacity_inputs( $settings, 'text_bg_opacity', 'text_bg_color' );
+
+		// migrate old title size with typography
+		if ( isset( $settings->title_custom_size ) && ! empty( $settings->title_custom_size ) ) {
+			$settings->title_typography = array_merge(
+				is_array( $settings->title_typography ) ? $settings->title_typography : array(),
+				array(
+					'font_size' => array(
+						'unit'   => 'px',
+						'length' => $settings->title_custom_size,
+					),
+				)
+			);
+		}
+
+		// migrate old color settings
+		if ( isset( $settings->text_color ) && ! empty( $settings->text_color ) ) {
+			$settings->meta_color    = $settings->text_color;
+			$settings->content_color = $settings->text_color;
+		}
+
+		if ( isset( $settings->link_color ) && ! empty( $settings->link_color ) ) {
+			$settings->title_color        = $settings->link_color;
+			$settings->meta_link_color    = $settings->link_color;
+			$settings->content_link_color = $settings->link_color;
+			$settings->more_link_color    = $settings->link_color;
+		}
+
+		if ( isset( $settings->link_hover_color ) && ! empty( $settings->link_hover_color ) ) {
+			$settings->title_hover_color        = $settings->link_hover_color;
+			$settings->meta_link_hover_color    = $settings->link_hover_color;
+			$settings->content_link_hover_color = $settings->link_hover_color;
+			$settings->more_link_hover_color    = $settings->link_hover_color;
+		}
 
 		return $settings;
 	}
@@ -510,7 +574,7 @@ FLBuilder::register_module('FLPostSliderModule', array(
 		'title'    => __( 'Layout', 'fl-builder' ),
 		'sections' => array(
 			'featured_img' => array(
-				'title'  => '',
+				'title'  => __( 'Featured Image', 'fl-builder' ),
 				'fields' => array(
 					'show_thumb' => array(
 						'type'    => 'select',
@@ -522,16 +586,10 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						),
 						'toggle'  => array(
 							'show' => array(
-								'sections' => array( 'image' ),
-								'fields'   => array( 'text_position', 'text_width' ),
+								'fields' => array( 'image_type', 'thumb_size', 'thumb_crop', 'text_position', 'text_width' ),
 							),
 						),
 					),
-				),
-			),
-			'image'        => array(
-				'title'  => __( 'Featured Image', 'fl-builder' ),
-				'fields' => array(
 					'image_type' => array(
 						'type'    => 'select',
 						'label'   => __( 'Image', 'fl-builder' ),
@@ -623,15 +681,20 @@ FLBuilder::register_module('FLPostSliderModule', array(
 				),
 			),
 			'content'      => array(
-				'title'  => __( 'Content', 'fl-builder' ),
+				'title'  => __( 'Post Content', 'fl-builder' ),
 				'fields' => array(
 					'show_content'   => array(
 						'type'    => 'select',
-						'label'   => __( 'Content', 'fl-builder' ),
+						'label'   => __( 'Post Content', 'fl-builder' ),
 						'default' => '1',
 						'options' => array(
 							'1' => __( 'Show', 'fl-builder' ),
 							'0' => __( 'Hide', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'1' => array(
+								'sections' => array( 'content_style' ),
+							),
 						),
 					),
 					'show_more_link' => array(
@@ -641,6 +704,12 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						'options' => array(
 							'1' => __( 'Show', 'fl-builder' ),
 							'0' => __( 'Hide', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'1' => array(
+								'sections' => array( 'more_link_style' ),
+								'fields'   => array( 'more_link_text' ),
+							),
 						),
 					),
 					'more_link_text' => array(
@@ -652,58 +721,11 @@ FLBuilder::register_module('FLPostSliderModule', array(
 			),
 		),
 	),
-
 	'style'   => array( // Tab
 		'title'    => __( 'Style', 'fl-builder' ), // Tab title
 		'sections' => array( // Tab Sections
-			'title'           => array(
-				'title'  => __( 'Heading', 'fl-builder' ),
-				'fields' => array(
-					'title_tag'         => array(
-						'type'    => 'select',
-						'label'   => __( 'Heading Tag', 'fl-builder' ),
-						'default' => 'h2',
-						'options' => array(
-							'h1' => 'h1',
-							'h2' => 'h2',
-							'h3' => 'h3',
-							'h4' => 'h4',
-							'h5' => 'h5',
-							'h6' => 'h6',
-						),
-					),
-					'title_size'        => array(
-						'type'    => 'select',
-						'label'   => __( 'Heading Size', 'fl-builder' ),
-						'default' => 'default',
-						'options' => array(
-							'default' => __( 'Default', 'fl-builder' ),
-							'custom'  => __( 'Custom', 'fl-builder' ),
-						),
-						'toggle'  => array(
-							'custom' => array(
-								'fields' => array( 'title_custom_size' ),
-							),
-						),
-					),
-					'title_custom_size' => array(
-						'type'    => 'unit',
-						'label'   => __( 'Heading Size', 'fl-builder' ),
-						'default' => '24',
-						'units'   => array( 'px' ),
-						'slider'  => true,
-						'preview' => array(
-							'type'      => 'css',
-							'selector'  => '.fl-post-slider-title',
-							'property'  => 'font-size',
-							'unit'      => 'px',
-							'important' => true,
-						),
-					),
-				),
-			),
 			'text_position'   => array(
-				'title'  => __( 'Text', 'fl-builder' ),
+				'title'  => __( 'Content', 'fl-builder' ),
 				'fields' => array(
 					'text_position'       => array(
 						'type'    => 'select',
@@ -756,15 +778,98 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						'units'   => array( 'px' ),
 						'slider'  => true,
 					),
-				),
-			),
-			'text_style'      => array(
-				'title'  => __( 'Colors', 'fl-builder' ),
-				'fields' => array(
-					'text_color'       => array(
+					'text_bg_color'       => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
-						'label'       => __( 'Text Color', 'fl-builder' ),
+						'label'       => __( 'Background Color', 'fl-builder' ),
+						'help'        => __( 'The color applies to the overlay behind text over the background selections.', 'fl-builder' ),
+						'default'     => '333333',
+						'show_reset'  => true,
+						'show_alpha'  => true,
+					),
+					'bg_gradient'         => array(
+						'type'    => 'select',
+						'label'   => __( 'Background Gradient', 'fl-builder' ),
+						'default' => 'no',
+						'options' => array(
+							'no'  => __( 'No', 'fl-builder' ),
+							'yes' => __( 'Yes', 'fl-builder' ),
+						),
+					),
+					'text_bg_height'      => array(
+						'type'    => 'select',
+						'label'   => __( 'Background Height', 'fl-builder' ),
+						'default' => '100%',
+						'help'    => __( 'Auto will allow the overlay to fit however long the text content is. 100% will fit the overlay to the top and bottom of the slide.', 'fl-builder' ),
+						'options' => array(
+							'auto' => _x( 'Auto', 'Background height.', 'fl-builder' ),
+							'100%' => '100%',
+						),
+					),
+				),
+			),
+			'title_style'     => array(
+				'title'  => __( 'Post Title', 'fl-builder' ),
+				'fields' => array(
+					'title_tag'         => array(
+						'type'    => 'select',
+						'label'   => __( 'Title Tag', 'fl-builder' ),
+						'default' => 'h2',
+						'options' => array(
+							'h1' => 'h1',
+							'h2' => 'h2',
+							'h3' => 'h3',
+							'h4' => 'h4',
+							'h5' => 'h5',
+							'h6' => 'h6',
+						),
+					),
+					'title_color'       => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => 'cccccc',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-slider-title a',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'title_hover_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => 'ffffff',
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'title_typography'  => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-post-slider-title, {node} .fl-post-slider-title a',
+						),
+					),
+				),
+			),
+			'info_style'      => array(
+				'title'  => __( 'Post Info', 'fl-builder' ),
+				'fields' => array(
+					'meta_color'            => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Color', 'fl-builder' ),
 						'show_reset'  => true,
 						'show_alpha'  => true,
 						'default'     => 'ffffff',
@@ -772,14 +877,13 @@ FLBuilder::register_module('FLPostSliderModule', array(
 							'type'  => 'css',
 							'rules' => array(
 								array(
-									'selector'  => '.fl-module-content .fl-post-slider .fl-post-slider-post .fl-post-slider-content, .fl-module-content .fl-post-slider .fl-post-slider-post .fl-post-slider-content *',
-									'property'  => 'color',
-									'important' => true,
+									'selector' => '{node} .fl-post-slider-feed-meta',
+									'property' => 'color',
 								),
 							),
 						),
 					),
-					'link_color'       => array(
+					'meta_link_color'       => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
 						'label'       => __( 'Link Color', 'fl-builder' ),
@@ -790,15 +894,73 @@ FLBuilder::register_module('FLPostSliderModule', array(
 							'type'  => 'css',
 							'rules' => array(
 								array(
-									'selector'  => '.fl-module-content .fl-post-slider .fl-post-slider-post .fl-post-slider-content a',
-									'property'  => 'color',
-									'important' => true,
+									'selector' => '{node} .fl-post-slider-feed-meta a',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'meta_link_hover_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => 'ffffff',
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'meta_typography'       => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-post-slider-feed-meta, {node} .fl-post-slider-feed-meta a',
+						),
+					),
+				),
+			),
+			'content_style'   => array(
+				'title'  => __( 'Post Content', 'fl-builder' ),
+				'fields' => array(
+					'content_color'            => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => 'ffffff',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-slider-feed-content',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'content_link_color'       => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => 'cccccc',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-slider-feed-content a:not(.fl-post-slider-feed-more)',
+									'property' => 'color',
 								),
 							),
 						),
 
 					),
-					'link_hover_color' => array(
+					'content_link_hover_color' => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
 						'label'       => __( 'Link Hover Color', 'fl-builder' ),
@@ -809,32 +971,55 @@ FLBuilder::register_module('FLPostSliderModule', array(
 							'type' => 'none',
 						),
 					),
-					'text_bg_color'    => array(
-						'type'        => 'color',
-						'connections' => array( 'color' ),
-						'label'       => __( 'Text Background Color', 'fl-builder' ),
-						'help'        => __( 'The color applies to the overlay behind text over the background selections.', 'fl-builder' ),
-						'default'     => '333333',
-						'show_reset'  => true,
-						'show_alpha'  => true,
-					),
-					'bg_gradient'      => array(
-						'type'    => 'select',
-						'label'   => __( 'Text Background Gradient', 'fl-builder' ),
-						'default' => 'no',
-						'options' => array(
-							'no'  => __( 'No', 'fl-builder' ),
-							'yes' => __( 'Yes', 'fl-builder' ),
+					'content_typography'       => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-post-slider-feed-content',
 						),
 					),
-					'text_bg_height'   => array(
-						'type'    => 'select',
-						'label'   => __( 'Text Background Height', 'fl-builder' ),
-						'default' => '100%',
-						'help'    => __( 'Auto will allow the overlay to fit however long the text content is. 100% will fit the overlay to the top and bottom of the slide.', 'fl-builder' ),
-						'options' => array(
-							'auto' => _x( 'Auto', 'Background height.', 'fl-builder' ),
-							'100%' => '100%',
+				),
+			),
+			'more_link_style' => array(
+				'title'  => __( 'More Link', 'fl-builder' ),
+				'fields' => array(
+					'more_link_color'       => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-slider-feed-more',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'more_link_hover_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'more_link_typography'  => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-post-slider-feed-more',
 						),
 					),
 				),

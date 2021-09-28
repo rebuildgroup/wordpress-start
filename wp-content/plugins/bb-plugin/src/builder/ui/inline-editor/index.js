@@ -108,7 +108,7 @@ class InlineEditor extends Component {
 		const { connections } = settings
 
 		module.append( overlay )
-		module.delegate( '.fl-block-overlay', 'click', this.onModuleOverlayClick.bind( this ) )
+		module.on( 'click', '.fl-block-overlay', this.onModuleOverlayClick.bind( this ) )
 		module.on( 'mouseleave', this.onModuleMouseleave.bind( this ) )
 
 		for ( const key in config ) {

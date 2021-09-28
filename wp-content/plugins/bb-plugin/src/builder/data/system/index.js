@@ -30,3 +30,4 @@ export const getSystemStore = () => getStore( key )
 export const getSystemState = () => getStore( key ).getState()
 export const getSystemActions = () => getDispatch( key )
 export const getSystemSelectors = () => getSelectors( key )
+export const getSystemConfig = () => window.FLBuilderConfig

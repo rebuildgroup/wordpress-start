@@ -17,12 +17,9 @@ final class FLBuilderWPBlocksLayout {
 		add_action( 'current_screen', __CLASS__ . '::init_template' );
 		add_action( 'pre_post_update', __CLASS__ . '::disable_builder_on_post_update', 10, 2 );
 
+		$hook = version_compare( $wp_version, '5.8-alpha', '<' ) ? 'block_editor_preload_paths' : 'block_editor_rest_api_preload_paths';
 		// Filters
-		if ( version_compare( $wp_version, '5.8', '<' ) ) {
-			add_filter( 'block_editor_preload_paths', __CLASS__ . '::update_legacy_post', 10, 2 );
-		} else {
-			add_filter( 'block_editor_rest_api_preload_paths', __CLASS__ . '::update_legacy_post', 10, 2 );
-		}
+		add_action( $hook, __CLASS__ . '::update_legacy_post', 10, 2 );
 		add_filter( 'fl_builder_editor_content', __CLASS__ . '::filter_editor_content' );
 		add_filter( 'fl_builder_migrated_post_content', __CLASS__ . '::filter_migrated_post_content' );
 	}
@@ -47,6 +44,11 @@ final class FLBuilderWPBlocksLayout {
 			$unrestricted = FLBuilderUserAccess::current_user_can( 'unrestricted_editing' );
 
 			if ( $render_ui && in_array( $screen->post_type, $post_types ) ) {
+
+				if ( $enabled ) {
+					add_filter( 'user_can_richedit', '__return_true' ); // WP 5.5
+				}
+
 				$post_type = get_post_type_object( $screen->post_type );
 
 				if ( $post_type && ( $enabled || ( $user_access && $unrestricted ) ) ) {
@@ -66,24 +68,29 @@ final class FLBuilderWPBlocksLayout {
 	 * Updates posts being edited in the admin that we're built
 	 * using Beaver Builder before WordPress blocks existed.
 	 *
-	 * We do this on the `block_editor_rest_api_preload_paths` filter because
+	 * We do this on the `block_editor_preload_paths` filter because
 	 * that is the earliest we can hook into updating the post before
 	 * it is preloaded by the REST API.
 	 *
 	 * @since 2.1
 	 * @param array $paths
-	 * @param object $editor_context
+	 * @param object $post
 	 * @return array
 	 */
-	static public function update_legacy_post( $paths, $editor_context ) {
-		if ( isset( $editor_context->ID ) ) {
-			$post = $editor_context;
-		} else {
-			$post = $editor_context->post;
-		}
-		if ( is_object( $post ) ) {
+	static public function update_legacy_post( $paths, $context ) {
+
+		if ( is_object( $context ) ) {
+			$post    = ( $context instanceof WP_Block_Editor_Context ) ? $context->post : $context;
+
+			/**
+			 * Fix for widgets page.
+			 */
+			if ( ! is_object( $post ) ) {
+				return $paths;
+			}
 			$enabled = FLBuilderModel::is_builder_enabled( $post->ID );
 			$blocks  = preg_match( '/<!-- wp:(.*) \/?-->/', $post->post_content );
+
 			if ( $enabled && ! $blocks ) {
 				$block  = '<!-- wp:fl-builder/layout -->';
 				$block .= self::remove_broken_p_tags( $post->post_content );
@@ -180,7 +187,7 @@ final class FLBuilderWPBlocksLayout {
 			'—' => '-',
 			'…' => '&#8230;',
 		);
-		$content = preg_replace( '@<p.*?></p>@', '', $content );
+		$content = preg_replace( '@<([^>]+)\s*>\s*<\/\1\s*>@m', '', $content );
 		$content = preg_replace( '/<p>(.*)<\/p>/i', '<fl-p-placeholder>$1</fl-p-placeholder>', $content );
 		$content = preg_replace( '/<\/?p[^>]*\>/i', '', $content );
 		$content = preg_replace( '/fl-p-placeholder/i', 'p', $content );

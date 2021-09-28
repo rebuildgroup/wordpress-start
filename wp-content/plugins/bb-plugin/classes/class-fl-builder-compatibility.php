@@ -51,6 +51,8 @@ final class FLBuilderCompatibility {
 		add_action( 'pre_get_posts', array( __CLASS__, 'fix_tribe_events_hide_from_listings_archive' ) );
 		add_action( 'fl_builder_menu_module_before_render', array( __CLASS__, 'fix_menu_module_before_render' ) );
 		add_action( 'fl_builder_menu_module_after_render', array( __CLASS__, 'fix_menu_module_after_render' ) );
+		add_action( 'wp_before_admin_bar_render', array( __CLASS__, 'fix_dulicate_page' ), 11 );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'fix_3cx_live_chat' ) );
 
 		// Filters
 		add_filter( 'fl_builder_is_post_editable', array( __CLASS__, 'bp_pages_support' ), 11, 2 );
@@ -73,11 +75,16 @@ final class FLBuilderCompatibility {
 		add_filter( 'option_wp-smush-lazy_load', array( __CLASS__, 'fix_smush' ) );
 		add_filter( 'fl_row_bg_video_wrapper_class', array( __CLASS__, 'fix_twenty_twenty_video' ) );
 		add_filter( 'fl_builder_loop_rewrite_rules', array( __CLASS__, 'fix_wpseo_category_pagination_rule' ) );
+		add_filter( 'fl_builder_loop_rewrite_rules', array( __CLASS__, 'fix_seopress_category_pagination_rule' ) );
 		add_filter( 'fl_builder_loop_rewrite_rules', array( __CLASS__, 'fix_polylang_pagination_rule' ) );
 		add_filter( 'fl_builder_loop_query_args', array( __CLASS__, 'fix_tribe_events_hide_from_listings' ) );
 		add_filter( 'tribe_events_rewrite_rules_custom', array( __CLASS__, 'fix_tribe_events_pagination_rule' ), 10, 3 );
 		add_filter( 'aioseo_conflicting_shortcodes', array( __CLASS__, 'aioseo_conflicting_shortcodes' ) );
 		add_filter( 'fl_builder_responsive_ignore', array( __CLASS__, 'fix_real_media_library_lite' ) );
+		add_filter( 'duplicate_post_show_link', array( __CLASS__, 'fix_duplicate_post_show_link' ), 10, 2 );
+		add_filter( 'fl_builder_photo_crop_path', array( __CLASS__, 'fix_flywheel_crop_path' ), 10, 2 );
+		add_filter( 'post_row_actions', array( __CLASS__, 'fix_duplicate_post_admin_link' ), 12, 2 );
+		add_filter( 'page_row_actions', array( __CLASS__, 'fix_duplicate_post_admin_link' ), 12, 2 );
 	}
 
 	/**
@@ -160,7 +167,7 @@ final class FLBuilderCompatibility {
 	 */
 	public static function fa_kit_support() {
 		$kit_url = FLBuilder::fa5_kit_url();
-		if ( FLBuilder::fa5_pro_enabled() && '' !== $kit_url ) {
+		if ( FLBuilder::fa5_pro_enabled() && '' !== $kit_url && ! isset( $_GET['fl_builder'] ) && ! FLBuilderFontAwesome::is_installed() ) {
 			wp_dequeue_style( 'font-awesome' );
 			wp_dequeue_style( 'font-awesome-5' );
 			wp_deregister_style( 'font-awesome' );
@@ -862,6 +869,35 @@ final class FLBuilderCompatibility {
 	}
 
 	/**
+	 * Fix compatibility issue with SEOPress when category prefix is removed
+	 * in the settings.
+	 *
+	 * @since 2.4
+	 */
+	public static function fix_seopress_category_pagination_rule( $rewrite_rules ) {
+		if ( ! function_exists( 'seopress_filter_category_rewrite_rules' ) ) {
+			return $rewrite_rules;
+		}
+
+		$seopress_cat_rules = seopress_filter_category_rewrite_rules( array() );
+		$flpaged_rules      = array();
+
+		foreach ( $seopress_cat_rules as $regex => $redirect ) {
+			if ( strpos( $regex, '/page/' ) !== false ) {
+				if ( preg_match( '#\((.*?)\)#', $regex, $matches ) ) {
+					$flregex = $matches[0] . '/paged-[0-9]{1,}/([0-9]{1,})/?$';
+
+					// Adds our custom paged rule.
+					$flpaged_rules[ $flregex ] = 'index.php?category_name=$matches[1]&flpaged=$matches[2]';
+				}
+			}
+		}
+		$rewrite_rules = array_merge( $flpaged_rules, $rewrite_rules );
+
+		return $rewrite_rules;
+	}
+
+	/**
 	 * Fix pagination compatibility with Polylang pages.
 	 *
 	 * @since 2.4
@@ -885,6 +921,7 @@ final class FLBuilderCompatibility {
 
 		return $rewrite_rules;
 	}
+
 	/**
 	 * Fix compatibility issue Woocommerce Products Filter Add-on
 	 *
@@ -1039,6 +1076,62 @@ final class FLBuilderCompatibility {
 	public static function fix_real_media_library_lite( $ignore ) {
 		$ignore[] = 'real-media-library-lite';
 		return $ignore;
+	}
+
+	/**
+	 * Disable Yoast duplicate if BB layout is enabled.
+	 * @since 2.5
+	 */
+	public static function fix_duplicate_post_show_link( $enabled, $post ) {
+		if ( get_post_meta( $post->ID, '_fl_builder_enabled', true ) ) {
+			return false;
+		}
+		return $enabled;
+	}
+
+	/**
+	 * Disable duplicate page plugin link in adminbar for BB layouts
+	 * @since 2.5
+	 */
+	public static function fix_dulicate_page() {
+		global $wp_admin_bar, $post;
+		if ( ! is_admin() && $post instanceof WP_Post && get_post_meta( $post->ID, '_fl_builder_enabled', true ) ) {
+			$wp_admin_bar->remove_node( 'duplicate_this' );
+		}
+	}
+	/**
+	 * Disable duplicate page plugin link in admin pages list for BB layouts
+	 * @since 2.5
+	 */
+	public static function fix_duplicate_post_admin_link( $actions, $post ) {
+		if ( get_post_meta( $post->ID, '_fl_builder_enabled', true ) ) {
+			if ( isset( $actions['duplicate'] ) ) {
+				unset( $actions['duplicate'] );
+			}
+			if ( isset( $actions['duplicate_post'] ) ) {
+				unset( $actions['duplicate_post'] );
+			}
+		}
+		return $actions;
+	}
+
+	/**
+	 * @since 2.5
+	 */
+	public static function fix_3cx_live_chat() {
+		if ( class_exists( 'TCXSettings' ) && isset( $_GET['page'] ) && 'fl-builder-add-new' == $_GET['page'] ) {
+			remove_action( 'admin_enqueue_scripts', 'wplc_initiate_admin_js', 11 );
+		}
+	}
+
+	/**
+	 * @since 2.5
+	 */
+	public static function fix_flywheel_crop_path( $url_path, $original ) {
+		if ( defined( 'FLYWHEEL_CONFIG_DIR' ) ) {
+			return trailingslashit( WP_CONTENT_DIR ) . ltrim( str_replace( basename( WP_CONTENT_DIR ), '', wp_make_link_relative( $original ) ), '/' );
+		}
+		return $url_path;
 	}
 }
 FLBuilderCompatibility::init();

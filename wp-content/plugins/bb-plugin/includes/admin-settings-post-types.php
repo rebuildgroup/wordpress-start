@@ -46,7 +46,7 @@
 				), 'objects' );
 				/**
 				 * Use this filter to modify the post types that are shown in the admin settings for enabling and disabling post types.
-				 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+				 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 				 * @see fl_builder_admin_settings_post_types
 				 */
 				$post_types = apply_filters( 'fl_builder_admin_settings_post_types', $post_types );

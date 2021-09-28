@@ -97,35 +97,34 @@ body.rtl .fl-post-carousel-post {
 }
 
 /* Layout - post grid */
-.fl-post-carousel-grid .fl-post-carousel-post {
+.fl-post-carousel-post {
 	border: 1px solid #e6e6e6;
 	border: 1px solid rgba(0,0,0,0.1);
 }
-.fl-post-carousel-grid .fl-post-carousel-text {
+.fl-post-carousel-text {
 	padding: 20px;
 }
-.fl-post-carousel-grid .fl-post-carousel-title {
+.fl-post-carousel-title {
 	padding-bottom: 7px;
 }
-body .fl-post-carousel-text,
-body .fl-post-carousel-content p {
+.fl-post-carousel-content {
 	font-size: 14px;
 	line-height: 22px;
 }
-body .fl-post-carousel-grid .fl-post-carousel-content p:last-of-type {
+.fl-post-carousel-content p:last-of-type {
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
-
-body .fl-post-carousel-grid .fl-post-carousel-title {
+.fl-post-carousel-title {
 	font-size: 20px;
 	line-height: 26px;
 	margin: 0 0 10px;
 	padding: 0;
 }
-body .fl-post-carousel-grid .fl-post-carousel-meta {
+.fl-post-carousel-meta {
 	font-size: 14px;
-	padding-bottom: 10px;
+	margin: 0 0 10px;
+	padding: 0;
 }
 
 /* Layout - post gallery */

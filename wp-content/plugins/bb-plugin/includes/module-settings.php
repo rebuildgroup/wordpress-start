@@ -137,6 +137,15 @@ FLBuilder::register_settings_form('module_advanced', array(
 						'type' => 'none',
 					),
 				),
+				'node_label'        => array(
+					'type'     => 'text',
+					'label'    => __( 'Label', 'fl-builder' ),
+					'help'     => __( 'A label that will applied and used in the UI for easy identification.', 'fl-builder' ),
+					'sanitize' => 'strip_tags',
+					'preview'  => array(
+						'type' => 'none',
+					),
+				),
 			),
 		),
 		'export_import' => array(

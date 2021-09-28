@@ -22,7 +22,6 @@ YUI({'logExclude': { 'yui': true } }).use('fl-slideshow', function(Y){
 			<?php if ( $settings->crop ) : ?>
 			crop: true,
 			<?php endif; ?>
-			googlePlusButtonEnabled: <?php echo $settings->google; ?>,
 			height: <?php echo $settings->height; ?>,
 			imageNavEnabled: <?php echo $settings->image_nav; ?>,
 			likeButtonEnabled: <?php echo $settings->facebook; ?>,

@@ -145,9 +145,22 @@ FLBuilder::register_module(
 		'general' => array(
 			'title'    => __( 'General', 'fl-builder' ),
 			'sections' => array(
-				'display'                => array(
-					'title'  => __( 'Display', 'fl-builder' ),
+				'list_items_section'     => array(
+					'title'  => __( 'List Items', 'fl-builder' ),
 					'fields' => array(
+						'list_items' => array(
+							'type'         => 'form',
+							'label'        => __( 'List Item', 'fl-builder' ),
+							'form'         => 'list_item_form', // ID from registered form below
+							'preview_text' => 'label', // Name of a field to use for the preview text
+							'multiple'     => true,
+						),
+					),
+				),
+				'display'                => array(
+					'title'     => __( 'Display', 'fl-builder' ),
+					'collapsed' => true,
+					'fields'    => array(
 						'list_type'           => array(
 							'type'    => 'select',
 							'label'   => __( 'List Type', 'fl-builder' ),
@@ -248,18 +261,6 @@ FLBuilder::register_module(
 								'section' => __( 'section', 'fl-builder' ),
 							),
 							'help'    => __( 'The wrapper tag for the text content of each list item. Text content is right below the list item heading.', 'fl-builder' ),
-						),
-					),
-				),
-				'list_items_section'     => array(
-					'title'  => __( 'List Items', 'fl-builder' ),
-					'fields' => array(
-						'list_items' => array(
-							'type'         => 'form',
-							'label'        => __( 'List Item', 'fl-builder' ),
-							'form'         => 'list_item_form', // ID from registered form below
-							'preview_text' => 'label', // Name of a field to use for the preview text
-							'multiple'     => true,
 						),
 					),
 				),

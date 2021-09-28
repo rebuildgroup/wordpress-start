@@ -35,47 +35,155 @@
 	position: relative;
 }
 
-<?php if ( 'grid' == $layout ) : ?>
+<?php
+if ( 'grid' == $layout ) {
+	// title
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-title a",
+		'enabled'  => ! empty( $settings->title_color ),
+		'props'    => array(
+			'color' => $settings->title_color,
+		),
+	) );
 
-	<?php if ( ! empty( $settings->text_color ) ) : ?>
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-post .fl-post-carousel-text,
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-post .fl-post-carousel-text .fl-post-carousel-title,
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-post .fl-post-carousel-text .fl-post-carousel-meta * {
-		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
-	}
-	<?php endif; ?>
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-title a:hover",
+		'enabled'  => ! empty( $settings->title_hover_color ),
+		'props'    => array(
+			'color' => $settings->title_hover_color,
+		),
+	) );
+
+	FLBuilderCSS::typography_field_rule( array(
+		'settings'     => $settings,
+		'setting_name' => 'title_typography',
+		'selector'     => ".fl-node-$id .fl-post-carousel-title",
+	) );
+
+	// meta
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-meta",
+		'enabled'  => ! empty( $settings->meta_color ),
+		'props'    => array(
+			'color' => $settings->meta_color,
+		),
+	) );
+
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-meta a",
+		'enabled'  => ! empty( $settings->meta_link_color ),
+		'props'    => array(
+			'color' => $settings->meta_link_color,
+		),
+	) );
+
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-meta a:hover",
+		'enabled'  => ! empty( $settings->meta_link_hover_color ),
+		'props'    => array(
+			'color' => $settings->meta_link_hover_color,
+		),
+	) );
+
+	FLBuilderCSS::typography_field_rule( array(
+		'settings'     => $settings,
+		'setting_name' => 'meta_typography',
+		'selector'     => ".fl-node-$id .fl-post-carousel-meta",
+	) );
+
+	// content
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-content",
+		'enabled'  => '1' == $settings->show_content && ! empty( $settings->content_color ),
+		'props'    => array(
+			'color' => $settings->content_color,
+		),
+	) );
+
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-content a:not(.fl-post-carousel-more)",
+		'enabled'  => '1' == $settings->show_content && ! empty( $settings->content_link_color ),
+		'props'    => array(
+			'color' => $settings->content_link_color,
+		),
+	) );
+
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-content a:not(.fl-post-carousel-more):hover",
+		'enabled'  => '1' == $settings->show_content && ! empty( $settings->content_link_hover_color ),
+		'props'    => array(
+			'color' => $settings->content_link_hover_color,
+		),
+	) );
+
+	FLBuilderCSS::typography_field_rule( array(
+		'settings'     => $settings,
+		'setting_name' => 'content_typography',
+		'selector'     => ".fl-node-$id .fl-post-carousel-content :not(.fl-post-carousel-more)",
+	) );
+
+	// more link
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-more",
+		'enabled'  => '1' == $settings->show_more_link && ! empty( $settings->more_link_color ),
+		'props'    => array(
+			'color' => $settings->more_link_color,
+		),
+	) );
+
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-more:hover",
+		'enabled'  => '1' == $settings->show_more_link && ! empty( $settings->more_link_hover_color ),
+		'props'    => array(
+			'color' => $settings->more_link_hover_color,
+		),
+	) );
+
+	FLBuilderCSS::typography_field_rule( array(
+		'settings'     => $settings,
+		'setting_name' => 'more_link_typography',
+		'selector'     => ".fl-node-$id .fl-post-carousel-more",
+	) );
+} elseif ( 'gallery' == $layout ) {
+	// title
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-title",
+		'enabled'  => ! empty( $settings->title_color ),
+		'props'    => array(
+			'color' => $settings->title_color,
+		),
+	) );
+
+	FLBuilderCSS::typography_field_rule( array(
+		'settings'     => $settings,
+		'setting_name' => 'title_typography',
+		'selector'     => ".fl-node-$id .fl-post-carousel-title",
+	) );
+
+	// meta
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-post-carousel-meta",
+		'enabled'  => ! empty( $settings->meta_color ),
+		'props'    => array(
+			'color' => $settings->meta_color,
+		),
+	) );
+
+	FLBuilderCSS::typography_field_rule( array(
+		'settings'     => $settings,
+		'setting_name' => 'meta_typography',
+		'selector'     => ".fl-node-$id .fl-post-carousel-meta",
+	) );
+}
+?>
+
+<?php if ( 'grid' == $layout ) : ?>
 
 	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-post{
 		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
 	}
 
-	<?php if ( ! empty( $settings->link_color ) ) : ?>
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-text a {
-		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ); ?>;
-	}
-	<?php endif; ?>
-
-	<?php if ( ! empty( $settings->link_hover_color ) ) : ?>
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-text a:hover {
-		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
-	}
-	<?php endif; ?>
-
 <?php elseif ( 'gallery' == $layout ) : ?>
-
-	<?php if ( ! empty( $settings->text_color ) ) : ?>
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-post .fl-post-carousel-text,
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-post .fl-post-carousel-text .fl-post-carousel-meta *{
-		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
-	}
-	<?php endif; ?>
-
-	<?php if ( ! empty( $settings->link_hover_color ) ) : ?>
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-post .fl-post-carousel-link,
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-post .fl-post-carousel-link .fl-post-carousel-title {
-		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
-	}
-	<?php endif; ?>
 
 	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-carousel-text-wrap{
 		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
@@ -94,8 +202,6 @@
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-navigation path{
 	<?php if ( isset( $settings->arrows_text_color ) && ! empty( $settings->arrows_text_color ) ) : ?>
 		fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_text_color ); ?>;
-	<?php elseif ( 'gallery' == $layout && ! empty( $settings->link_hover_color ) ) : ?>
-		fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
 	<?php else : ?>
 		fill: currentColor;
 	<?php endif; ?>

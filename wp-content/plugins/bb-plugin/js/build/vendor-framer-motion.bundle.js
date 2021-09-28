@@ -10,7 +10,7 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _emotion_memoize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @emotion/memoize */ "./node_modules/@emotion/memoize/dist/memoize.browser.esm.js");
 
@@ -40,7 +40,7 @@ var index = (0,_emotion_memoize__WEBPACK_IMPORTED_MODULE_0__.default)(function (
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function memoize(fn) {
   var cache = {};
@@ -76,57 +76,57 @@ window.FramerMotion = window.FramerMotion || vendor_framer_motion__WEBPACK_IMPOR
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AnimateLayoutFeature": () => /* binding */ AnimateLayout,
-/* harmony export */   "AnimatePresence": () => /* binding */ AnimatePresence,
-/* harmony export */   "AnimateSharedLayout": () => /* binding */ AnimateSharedLayout,
-/* harmony export */   "AnimationControls": () => /* binding */ AnimationControls,
-/* harmony export */   "AnimationFeature": () => /* binding */ Animation,
-/* harmony export */   "DragControls": () => /* binding */ DragControls,
-/* harmony export */   "DragFeature": () => /* binding */ Drag,
-/* harmony export */   "ExitFeature": () => /* binding */ Exit,
-/* harmony export */   "FramerTreeLayoutContext": () => /* binding */ FramerTreeLayoutContext,
-/* harmony export */   "GesturesFeature": () => /* binding */ Gestures,
-/* harmony export */   "HTMLVisualElement": () => /* binding */ HTMLVisualElement,
-/* harmony export */   "LayoutGroupContext": () => /* binding */ LayoutGroupContext,
-/* harmony export */   "MotionConfig": () => /* binding */ MotionConfig,
-/* harmony export */   "MotionConfigContext": () => /* binding */ MotionConfigContext,
-/* harmony export */   "MotionValue": () => /* binding */ MotionValue,
-/* harmony export */   "PresenceContext": () => /* binding */ PresenceContext,
-/* harmony export */   "SharedLayoutContext": () => /* binding */ SharedLayoutContext,
-/* harmony export */   "VisibilityAction": () => /* binding */ VisibilityAction,
-/* harmony export */   "addScaleCorrection": () => /* binding */ addScaleCorrection,
-/* harmony export */   "animate": () => /* binding */ animate,
-/* harmony export */   "animateVisualElement": () => /* binding */ animateVisualElement,
-/* harmony export */   "animationControls": () => /* binding */ animationControls,
-/* harmony export */   "createBatcher": () => /* binding */ createBatcher,
-/* harmony export */   "createDomMotionComponent": () => /* binding */ createDomMotionComponent,
-/* harmony export */   "createMotionComponent": () => /* binding */ createMotionComponent,
-/* harmony export */   "isValidMotionProp": () => /* binding */ isValidMotionProp,
-/* harmony export */   "m": () => /* binding */ m,
-/* harmony export */   "motion": () => /* binding */ motion,
-/* harmony export */   "motionValue": () => /* binding */ motionValue,
-/* harmony export */   "resolveMotionValue": () => /* binding */ resolveMotionValue,
-/* harmony export */   "transform": () => /* binding */ transform,
-/* harmony export */   "useAnimation": () => /* binding */ useAnimation,
-/* harmony export */   "useCycle": () => /* binding */ useCycle,
-/* harmony export */   "useDeprecatedAnimatedState": () => /* binding */ useAnimatedState,
-/* harmony export */   "useDeprecatedInvertedScale": () => /* binding */ useInvertedScale,
-/* harmony export */   "useDomEvent": () => /* binding */ useDomEvent,
-/* harmony export */   "useDragControls": () => /* binding */ useDragControls,
-/* harmony export */   "useElementScroll": () => /* binding */ useElementScroll,
-/* harmony export */   "useExternalRef": () => /* binding */ useExternalRef,
-/* harmony export */   "useGestures": () => /* binding */ useGestures,
-/* harmony export */   "useIsPresent": () => /* binding */ useIsPresent,
-/* harmony export */   "useMotionTemplate": () => /* binding */ useMotionTemplate,
-/* harmony export */   "useMotionValue": () => /* binding */ useMotionValue,
-/* harmony export */   "usePanGesture": () => /* binding */ usePanGesture,
-/* harmony export */   "usePresence": () => /* binding */ usePresence,
-/* harmony export */   "useReducedMotion": () => /* binding */ useReducedMotion,
-/* harmony export */   "useSpring": () => /* binding */ useSpring,
-/* harmony export */   "useTapGesture": () => /* binding */ useTapGesture,
-/* harmony export */   "useTransform": () => /* binding */ useTransform,
-/* harmony export */   "useVariantContext": () => /* binding */ useVariantContext,
-/* harmony export */   "useViewportScroll": () => /* binding */ useViewportScroll
+/* harmony export */   "AnimateLayoutFeature": () => (/* binding */ AnimateLayout),
+/* harmony export */   "AnimatePresence": () => (/* binding */ AnimatePresence),
+/* harmony export */   "AnimateSharedLayout": () => (/* binding */ AnimateSharedLayout),
+/* harmony export */   "AnimationControls": () => (/* binding */ AnimationControls),
+/* harmony export */   "AnimationFeature": () => (/* binding */ Animation),
+/* harmony export */   "DragControls": () => (/* binding */ DragControls),
+/* harmony export */   "DragFeature": () => (/* binding */ Drag),
+/* harmony export */   "ExitFeature": () => (/* binding */ Exit),
+/* harmony export */   "FramerTreeLayoutContext": () => (/* binding */ FramerTreeLayoutContext),
+/* harmony export */   "GesturesFeature": () => (/* binding */ Gestures),
+/* harmony export */   "HTMLVisualElement": () => (/* binding */ HTMLVisualElement),
+/* harmony export */   "LayoutGroupContext": () => (/* binding */ LayoutGroupContext),
+/* harmony export */   "MotionConfig": () => (/* binding */ MotionConfig),
+/* harmony export */   "MotionConfigContext": () => (/* binding */ MotionConfigContext),
+/* harmony export */   "MotionValue": () => (/* binding */ MotionValue),
+/* harmony export */   "PresenceContext": () => (/* binding */ PresenceContext),
+/* harmony export */   "SharedLayoutContext": () => (/* binding */ SharedLayoutContext),
+/* harmony export */   "VisibilityAction": () => (/* binding */ VisibilityAction),
+/* harmony export */   "addScaleCorrection": () => (/* binding */ addScaleCorrection),
+/* harmony export */   "animate": () => (/* binding */ animate),
+/* harmony export */   "animateVisualElement": () => (/* binding */ animateVisualElement),
+/* harmony export */   "animationControls": () => (/* binding */ animationControls),
+/* harmony export */   "createBatcher": () => (/* binding */ createBatcher),
+/* harmony export */   "createDomMotionComponent": () => (/* binding */ createDomMotionComponent),
+/* harmony export */   "createMotionComponent": () => (/* binding */ createMotionComponent),
+/* harmony export */   "isValidMotionProp": () => (/* binding */ isValidMotionProp),
+/* harmony export */   "m": () => (/* binding */ m),
+/* harmony export */   "motion": () => (/* binding */ motion),
+/* harmony export */   "motionValue": () => (/* binding */ motionValue),
+/* harmony export */   "resolveMotionValue": () => (/* binding */ resolveMotionValue),
+/* harmony export */   "transform": () => (/* binding */ transform),
+/* harmony export */   "useAnimation": () => (/* binding */ useAnimation),
+/* harmony export */   "useCycle": () => (/* binding */ useCycle),
+/* harmony export */   "useDeprecatedAnimatedState": () => (/* binding */ useAnimatedState),
+/* harmony export */   "useDeprecatedInvertedScale": () => (/* binding */ useInvertedScale),
+/* harmony export */   "useDomEvent": () => (/* binding */ useDomEvent),
+/* harmony export */   "useDragControls": () => (/* binding */ useDragControls),
+/* harmony export */   "useElementScroll": () => (/* binding */ useElementScroll),
+/* harmony export */   "useExternalRef": () => (/* binding */ useExternalRef),
+/* harmony export */   "useGestures": () => (/* binding */ useGestures),
+/* harmony export */   "useIsPresent": () => (/* binding */ useIsPresent),
+/* harmony export */   "useMotionTemplate": () => (/* binding */ useMotionTemplate),
+/* harmony export */   "useMotionValue": () => (/* binding */ useMotionValue),
+/* harmony export */   "usePanGesture": () => (/* binding */ usePanGesture),
+/* harmony export */   "usePresence": () => (/* binding */ usePresence),
+/* harmony export */   "useReducedMotion": () => (/* binding */ useReducedMotion),
+/* harmony export */   "useSpring": () => (/* binding */ useSpring),
+/* harmony export */   "useTapGesture": () => (/* binding */ useTapGesture),
+/* harmony export */   "useTransform": () => (/* binding */ useTransform),
+/* harmony export */   "useVariantContext": () => (/* binding */ useVariantContext),
+/* harmony export */   "useViewportScroll": () => (/* binding */ useViewportScroll)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var framesync__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! framesync */ "./node_modules/framesync/dist/framesync.es.js");
@@ -2840,10 +2840,21 @@ var useDomVisualElement = function (Component, props, isStatic, ref) {
      * TODO: Investigate if we need this
      */
     (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+        var cancelViewportBoxUpdate;
+        var cancelLayoutMeasureUpdate;
         if (props.onViewportBoxUpdate) {
-            return visualElement.onViewportBoxUpdate(props.onViewportBoxUpdate);
+            cancelViewportBoxUpdate = visualElement.onViewportBoxUpdate(props.onViewportBoxUpdate);
         }
-    }, [props.onViewportBoxUpdate]);
+        if (props._onLayoutMeasure) {
+            cancelLayoutMeasureUpdate = visualElement.onLayoutMeasure(props._onLayoutMeasure);
+        }
+        if (cancelViewportBoxUpdate || cancelLayoutMeasureUpdate) {
+            return function () {
+                cancelViewportBoxUpdate === null || cancelViewportBoxUpdate === void 0 ? void 0 : cancelViewportBoxUpdate();
+                cancelLayoutMeasureUpdate === null || cancelLayoutMeasureUpdate === void 0 ? void 0 : cancelLayoutMeasureUpdate();
+            };
+        }
+    }, [props.onViewportBoxUpdate, props._onLayoutMeasure]);
     return visualElement;
 };
 
@@ -4339,6 +4350,7 @@ var validMotionProps = new Set((0,tslib__WEBPACK_IMPORTED_MODULE_3__.__spread)([
     "onDragStart",
     "onDrag",
     "onDragEnd",
+    "_onLayoutMeasure",
     "onMeasureDragConstraints",
     "onDirectionLock",
     "onDragTransitionEnd",
@@ -7545,9 +7557,9 @@ function useInvertedScale(scale) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__,
-/* harmony export */   "cancelSync": () => /* binding */ cancelSync,
-/* harmony export */   "getFrameData": () => /* binding */ getFrameData
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "cancelSync": () => (/* binding */ cancelSync),
+/* harmony export */   "getFrameData": () => (/* binding */ getFrameData)
 /* harmony export */ });
 var defaultTimestep = 1 / 60 * 1000;
 var onNextFrame = typeof window !== "undefined" ? function (callback) {
@@ -7679,8 +7691,8 @@ var getFrameData = function () {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "invariant": () => /* binding */ invariant,
-/* harmony export */   "warning": () => /* binding */ warning
+/* harmony export */   "invariant": () => (/* binding */ invariant),
+/* harmony export */   "warning": () => (/* binding */ warning)
 /* harmony export */ });
 var warning = function () { };
 var invariant = function () { };
@@ -7710,57 +7722,57 @@ if (true) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "angle": () => /* binding */ angle,
-/* harmony export */   "animate": () => /* binding */ animate,
-/* harmony export */   "anticipate": () => /* binding */ anticipate,
-/* harmony export */   "applyOffset": () => /* binding */ applyOffset,
-/* harmony export */   "attract": () => /* binding */ attract,
-/* harmony export */   "attractExpo": () => /* binding */ attractExpo,
-/* harmony export */   "backIn": () => /* binding */ backIn,
-/* harmony export */   "backInOut": () => /* binding */ backInOut,
-/* harmony export */   "backOut": () => /* binding */ backOut,
-/* harmony export */   "bounceIn": () => /* binding */ bounceIn,
-/* harmony export */   "bounceInOut": () => /* binding */ bounceInOut,
-/* harmony export */   "bounceOut": () => /* binding */ bounceOut,
-/* harmony export */   "circIn": () => /* binding */ circIn,
-/* harmony export */   "circInOut": () => /* binding */ circInOut,
-/* harmony export */   "circOut": () => /* binding */ circOut,
-/* harmony export */   "clamp": () => /* binding */ clamp,
-/* harmony export */   "createAnticipate": () => /* binding */ createAnticipate,
-/* harmony export */   "createAttractor": () => /* binding */ createAttractor,
-/* harmony export */   "createBackIn": () => /* binding */ createBackIn,
-/* harmony export */   "createExpoIn": () => /* binding */ createExpoIn,
-/* harmony export */   "cubicBezier": () => /* binding */ cubicBezier,
-/* harmony export */   "decay": () => /* binding */ decay,
-/* harmony export */   "degreesToRadians": () => /* binding */ degreesToRadians,
-/* harmony export */   "distance": () => /* binding */ distance,
-/* harmony export */   "easeIn": () => /* binding */ easeIn,
-/* harmony export */   "easeInOut": () => /* binding */ easeInOut,
-/* harmony export */   "easeOut": () => /* binding */ easeOut,
-/* harmony export */   "inertia": () => /* binding */ inertia,
-/* harmony export */   "interpolate": () => /* binding */ interpolate,
-/* harmony export */   "isPoint": () => /* binding */ isPoint,
-/* harmony export */   "isPoint3D": () => /* binding */ isPoint3D,
-/* harmony export */   "keyframes": () => /* binding */ keyframes,
-/* harmony export */   "linear": () => /* binding */ linear,
-/* harmony export */   "mirrorEasing": () => /* binding */ mirrorEasing,
-/* harmony export */   "mix": () => /* binding */ mix,
-/* harmony export */   "mixColor": () => /* binding */ mixColor,
-/* harmony export */   "mixComplex": () => /* binding */ mixComplex,
-/* harmony export */   "pipe": () => /* binding */ pipe,
-/* harmony export */   "pointFromVector": () => /* binding */ pointFromVector,
-/* harmony export */   "progress": () => /* binding */ progress,
-/* harmony export */   "radiansToDegrees": () => /* binding */ radiansToDegrees,
-/* harmony export */   "reverseEasing": () => /* binding */ reverseEasing,
-/* harmony export */   "smooth": () => /* binding */ smooth,
-/* harmony export */   "smoothFrame": () => /* binding */ smoothFrame,
-/* harmony export */   "snap": () => /* binding */ snap,
-/* harmony export */   "spring": () => /* binding */ spring,
-/* harmony export */   "steps": () => /* binding */ steps,
-/* harmony export */   "toDecimal": () => /* binding */ toDecimal,
-/* harmony export */   "velocityPerFrame": () => /* binding */ velocityPerFrame,
-/* harmony export */   "velocityPerSecond": () => /* binding */ velocityPerSecond,
-/* harmony export */   "wrap": () => /* binding */ wrap
+/* harmony export */   "angle": () => (/* binding */ angle),
+/* harmony export */   "animate": () => (/* binding */ animate),
+/* harmony export */   "anticipate": () => (/* binding */ anticipate),
+/* harmony export */   "applyOffset": () => (/* binding */ applyOffset),
+/* harmony export */   "attract": () => (/* binding */ attract),
+/* harmony export */   "attractExpo": () => (/* binding */ attractExpo),
+/* harmony export */   "backIn": () => (/* binding */ backIn),
+/* harmony export */   "backInOut": () => (/* binding */ backInOut),
+/* harmony export */   "backOut": () => (/* binding */ backOut),
+/* harmony export */   "bounceIn": () => (/* binding */ bounceIn),
+/* harmony export */   "bounceInOut": () => (/* binding */ bounceInOut),
+/* harmony export */   "bounceOut": () => (/* binding */ bounceOut),
+/* harmony export */   "circIn": () => (/* binding */ circIn),
+/* harmony export */   "circInOut": () => (/* binding */ circInOut),
+/* harmony export */   "circOut": () => (/* binding */ circOut),
+/* harmony export */   "clamp": () => (/* binding */ clamp),
+/* harmony export */   "createAnticipate": () => (/* binding */ createAnticipate),
+/* harmony export */   "createAttractor": () => (/* binding */ createAttractor),
+/* harmony export */   "createBackIn": () => (/* binding */ createBackIn),
+/* harmony export */   "createExpoIn": () => (/* binding */ createExpoIn),
+/* harmony export */   "cubicBezier": () => (/* binding */ cubicBezier),
+/* harmony export */   "decay": () => (/* binding */ decay),
+/* harmony export */   "degreesToRadians": () => (/* binding */ degreesToRadians),
+/* harmony export */   "distance": () => (/* binding */ distance),
+/* harmony export */   "easeIn": () => (/* binding */ easeIn),
+/* harmony export */   "easeInOut": () => (/* binding */ easeInOut),
+/* harmony export */   "easeOut": () => (/* binding */ easeOut),
+/* harmony export */   "inertia": () => (/* binding */ inertia),
+/* harmony export */   "interpolate": () => (/* binding */ interpolate),
+/* harmony export */   "isPoint": () => (/* binding */ isPoint),
+/* harmony export */   "isPoint3D": () => (/* binding */ isPoint3D),
+/* harmony export */   "keyframes": () => (/* binding */ keyframes),
+/* harmony export */   "linear": () => (/* binding */ linear),
+/* harmony export */   "mirrorEasing": () => (/* binding */ mirrorEasing),
+/* harmony export */   "mix": () => (/* binding */ mix),
+/* harmony export */   "mixColor": () => (/* binding */ mixColor),
+/* harmony export */   "mixComplex": () => (/* binding */ mixComplex),
+/* harmony export */   "pipe": () => (/* binding */ pipe),
+/* harmony export */   "pointFromVector": () => (/* binding */ pointFromVector),
+/* harmony export */   "progress": () => (/* binding */ progress),
+/* harmony export */   "radiansToDegrees": () => (/* binding */ radiansToDegrees),
+/* harmony export */   "reverseEasing": () => (/* binding */ reverseEasing),
+/* harmony export */   "smooth": () => (/* binding */ smooth),
+/* harmony export */   "smoothFrame": () => (/* binding */ smoothFrame),
+/* harmony export */   "snap": () => (/* binding */ snap),
+/* harmony export */   "spring": () => (/* binding */ spring),
+/* harmony export */   "steps": () => (/* binding */ steps),
+/* harmony export */   "toDecimal": () => (/* binding */ toDecimal),
+/* harmony export */   "velocityPerFrame": () => (/* binding */ velocityPerFrame),
+/* harmony export */   "velocityPerSecond": () => (/* binding */ velocityPerSecond),
+/* harmony export */   "wrap": () => (/* binding */ wrap)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var hey_listen__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hey-listen */ "./node_modules/hey-listen/dist/hey-listen.es.js");
@@ -8759,22 +8771,22 @@ var steps = function (steps, direction) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "alpha": () => /* binding */ alpha,
-/* harmony export */   "color": () => /* binding */ color,
-/* harmony export */   "complex": () => /* binding */ complex,
-/* harmony export */   "degrees": () => /* binding */ degrees,
-/* harmony export */   "filter": () => /* binding */ filter,
-/* harmony export */   "hex": () => /* binding */ hex,
-/* harmony export */   "hsla": () => /* binding */ hsla,
-/* harmony export */   "number": () => /* binding */ number,
-/* harmony export */   "percent": () => /* binding */ percent,
-/* harmony export */   "progressPercentage": () => /* binding */ progressPercentage,
-/* harmony export */   "px": () => /* binding */ px,
-/* harmony export */   "rgbUnit": () => /* binding */ rgbUnit,
-/* harmony export */   "rgba": () => /* binding */ rgba,
-/* harmony export */   "scale": () => /* binding */ scale,
-/* harmony export */   "vh": () => /* binding */ vh,
-/* harmony export */   "vw": () => /* binding */ vw
+/* harmony export */   "alpha": () => (/* binding */ alpha),
+/* harmony export */   "color": () => (/* binding */ color),
+/* harmony export */   "complex": () => (/* binding */ complex),
+/* harmony export */   "degrees": () => (/* binding */ degrees),
+/* harmony export */   "filter": () => (/* binding */ filter),
+/* harmony export */   "hex": () => (/* binding */ hex),
+/* harmony export */   "hsla": () => (/* binding */ hsla),
+/* harmony export */   "number": () => (/* binding */ number),
+/* harmony export */   "percent": () => (/* binding */ percent),
+/* harmony export */   "progressPercentage": () => (/* binding */ progressPercentage),
+/* harmony export */   "px": () => (/* binding */ px),
+/* harmony export */   "rgbUnit": () => (/* binding */ rgbUnit),
+/* harmony export */   "rgba": () => (/* binding */ rgba),
+/* harmony export */   "scale": () => (/* binding */ scale),
+/* harmony export */   "vh": () => (/* binding */ vh),
+/* harmony export */   "vw": () => (/* binding */ vw)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 
@@ -9002,29 +9014,29 @@ var filter = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__assign)((0,tslib__WEBPACK_I
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "__extends": () => /* binding */ __extends,
-/* harmony export */   "__assign": () => /* binding */ __assign,
-/* harmony export */   "__rest": () => /* binding */ __rest,
-/* harmony export */   "__decorate": () => /* binding */ __decorate,
-/* harmony export */   "__param": () => /* binding */ __param,
-/* harmony export */   "__metadata": () => /* binding */ __metadata,
-/* harmony export */   "__awaiter": () => /* binding */ __awaiter,
-/* harmony export */   "__generator": () => /* binding */ __generator,
-/* harmony export */   "__createBinding": () => /* binding */ __createBinding,
-/* harmony export */   "__exportStar": () => /* binding */ __exportStar,
-/* harmony export */   "__values": () => /* binding */ __values,
-/* harmony export */   "__read": () => /* binding */ __read,
-/* harmony export */   "__spread": () => /* binding */ __spread,
-/* harmony export */   "__spreadArrays": () => /* binding */ __spreadArrays,
-/* harmony export */   "__await": () => /* binding */ __await,
-/* harmony export */   "__asyncGenerator": () => /* binding */ __asyncGenerator,
-/* harmony export */   "__asyncDelegator": () => /* binding */ __asyncDelegator,
-/* harmony export */   "__asyncValues": () => /* binding */ __asyncValues,
-/* harmony export */   "__makeTemplateObject": () => /* binding */ __makeTemplateObject,
-/* harmony export */   "__importStar": () => /* binding */ __importStar,
-/* harmony export */   "__importDefault": () => /* binding */ __importDefault,
-/* harmony export */   "__classPrivateFieldGet": () => /* binding */ __classPrivateFieldGet,
-/* harmony export */   "__classPrivateFieldSet": () => /* binding */ __classPrivateFieldSet
+/* harmony export */   "__extends": () => (/* binding */ __extends),
+/* harmony export */   "__assign": () => (/* binding */ __assign),
+/* harmony export */   "__rest": () => (/* binding */ __rest),
+/* harmony export */   "__decorate": () => (/* binding */ __decorate),
+/* harmony export */   "__param": () => (/* binding */ __param),
+/* harmony export */   "__metadata": () => (/* binding */ __metadata),
+/* harmony export */   "__awaiter": () => (/* binding */ __awaiter),
+/* harmony export */   "__generator": () => (/* binding */ __generator),
+/* harmony export */   "__createBinding": () => (/* binding */ __createBinding),
+/* harmony export */   "__exportStar": () => (/* binding */ __exportStar),
+/* harmony export */   "__values": () => (/* binding */ __values),
+/* harmony export */   "__read": () => (/* binding */ __read),
+/* harmony export */   "__spread": () => (/* binding */ __spread),
+/* harmony export */   "__spreadArrays": () => (/* binding */ __spreadArrays),
+/* harmony export */   "__await": () => (/* binding */ __await),
+/* harmony export */   "__asyncGenerator": () => (/* binding */ __asyncGenerator),
+/* harmony export */   "__asyncDelegator": () => (/* binding */ __asyncDelegator),
+/* harmony export */   "__asyncValues": () => (/* binding */ __asyncValues),
+/* harmony export */   "__makeTemplateObject": () => (/* binding */ __makeTemplateObject),
+/* harmony export */   "__importStar": () => (/* binding */ __importStar),
+/* harmony export */   "__importDefault": () => (/* binding */ __importDefault),
+/* harmony export */   "__classPrivateFieldGet": () => (/* binding */ __classPrivateFieldGet),
+/* harmony export */   "__classPrivateFieldSet": () => (/* binding */ __classPrivateFieldSet)
 /* harmony export */ });
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -9289,8 +9301,8 @@ module.exports = React;
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
 /******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				() => module['default'] :
-/******/ 				() => module;
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
@@ -9310,7 +9322,7 @@ module.exports = React;
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */

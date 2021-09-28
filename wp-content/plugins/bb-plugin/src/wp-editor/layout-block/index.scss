@@ -1,9 +1,21 @@
+// center block content
+.wp-block[data-type="fl-builder/layout"] {
+	.components-placeholder__fieldset,
+	.components-placeholder.components-placeholder {
+		justify-content: center;
+		align-items: center;
+	}
+}
+
 /**
  * We don't want this stuff for our block, ever.
  */
-.wp-block[data-type="fl-builder/layout"] {
-
-	.editor-block-contextual-toolbar {
+body.fl-builder-layout-enabled {
+	.block-editor-block-list__insertion-point-indicator,
+	.block-editor-block-list__insertion-point-inserter,
+	.block-editor-rich-text__editable,
+	.block-editor-default-block-appender,
+	.block-editor-block-contextual-toolbar {
 		display: none !important;
 	}
 }
@@ -41,6 +53,8 @@
 		max-width: none;
 	}
 }
+
+
 
 /**
  * Loading View

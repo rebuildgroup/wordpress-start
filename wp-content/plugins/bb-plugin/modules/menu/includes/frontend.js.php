@@ -6,7 +6,8 @@
 	$below_row         = 'below' == $settings->mobile_full_width ? 'true' : 'false';
 	$flyout_menu       = $module->is_responsive_menu_flyout() ? 'true' : 'false';
 	$mobile_breakpoint = isset( $settings->mobile_breakpoint ) ? $settings->mobile_breakpoint : 'mobile';
-
+	$post_id           = FLBuilderModel::get_post_id();
+	$mobile_stacked    = isset( $settings->mobile_stacked ) && 'no' === $settings->mobile_stacked ? 'false' : 'true';
 ?>
 
 (function($) {
@@ -23,7 +24,9 @@
 				medium: <?php echo FLBuilderUtils::sanitize_number( $global_settings->medium_breakpoint ); ?>,
 				small: <?php echo FLBuilderUtils::sanitize_number( $global_settings->responsive_breakpoint ); ?>
 			},
-			mobileBreakpoint: '<?php echo $mobile_breakpoint; ?>'
+			mobileBreakpoint: '<?php echo $mobile_breakpoint; ?>',
+			postId : '<?php echo $post_id; ?>',
+			mobileStacked: <?php echo $mobile_stacked; ?>,
 		});
 
 	});

@@ -73,15 +73,16 @@ final class FLBuilderServiceMailPoet extends FLBuilderService {
 				// MailPoet 3.0
 			} elseif ( defined( 'MAILPOET_INITIALIZED' ) && true === MAILPOET_INITIALIZED ) {
 
-				$listing      = new MailPoet\Listing\Handler();
-				$listing_data = $listing->get( '\MailPoet\Models\Segment', array() );
-
-				if ( isset( $listing_data['items'] ) ) {
-					foreach ( $listing_data['items'] as $segment ) {
-						$lists[] = array(
-							'list_id' => $segment->id,
-							'name'    => $segment->name,
-						);
+				$mailpoet_api = \MailPoet\API\API::MP( 'v1' );
+				$listing_data = $mailpoet_api->getLists();
+				if ( ! empty( $listing_data ) ) {
+					foreach ( $listing_data as $segment ) {
+						if ( ! $segment['deleted_at'] ) {
+							$lists[] = array(
+								'list_id' => $segment['id'],
+								'name'    => $segment['name'],
+							);
+						}
 					}
 				}
 			}
@@ -196,10 +197,24 @@ final class FLBuilderServiceMailPoet extends FLBuilderService {
 					$error      = false !== $errors ? $errors[0] : '';
 				} else {
 					$mailpoet_api = \MailPoet\API\API::MP( 'v1' );
+					$subscriber   = false;
 					try {
-						$result = $mailpoet_api->addSubscriber( $user, array( $settings->list_id ) );
+						$subscriber = $mailpoet_api->getSubscriber( $user['email'] );
 					} catch ( \Exception $e ) {
-						$error = $e->getMessage();
+						try {
+							$result = $mailpoet_api->addSubscriber( $user, array( $settings->list_id ) );
+						} catch ( \Exception $e ) {
+							$error = $e->getMessage();
+						}
+					}
+
+					if ( $subscriber ) {
+						try {
+							$subscribe_id = $subscriber['id'];
+							$result       = $mailpoet_api->subscribeToList( $subscribe_id, $settings->list_id );
+						} catch ( \Exception $e ) {
+							$error = $e->getMessage();
+						}
 					}
 				}
 				if ( false !== $error ) {

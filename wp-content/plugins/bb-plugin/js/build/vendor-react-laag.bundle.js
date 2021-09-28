@@ -23,14 +23,14 @@ window.ReactLaag = window.ReactLaag || vendor_react_laag__WEBPACK_IMPORTED_MODUL
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Arrow": () => /* binding */ Arrow,
-/* harmony export */   "ToggleLayer": () => /* binding */ ToggleLayer,
-/* harmony export */   "Transition": () => /* binding */ Transition,
-/* harmony export */   "anchor": () => /* binding */ Anchor,
-/* harmony export */   "useBreakpoint": () => /* binding */ useBreakpoint,
-/* harmony export */   "useHover": () => /* binding */ useHover,
-/* harmony export */   "useToggleLayer": () => /* binding */ useToggleLayer,
-/* harmony export */   "useTooltip": () => /* binding */ useTooltip
+/* harmony export */   "Arrow": () => (/* binding */ Arrow),
+/* harmony export */   "ToggleLayer": () => (/* binding */ ToggleLayer),
+/* harmony export */   "Transition": () => (/* binding */ Transition),
+/* harmony export */   "anchor": () => (/* binding */ Anchor),
+/* harmony export */   "useBreakpoint": () => (/* binding */ useBreakpoint),
+/* harmony export */   "useHover": () => (/* binding */ useHover),
+/* harmony export */   "useToggleLayer": () => (/* binding */ useToggleLayer),
+/* harmony export */   "useTooltip": () => (/* binding */ useTooltip)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -2065,8 +2065,8 @@ module.exports = ReactDOM;
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
 /******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				() => module['default'] :
-/******/ 				() => module;
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
@@ -2086,7 +2086,7 @@ module.exports = ReactDOM;
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */

@@ -25,6 +25,7 @@
 
 		this._enableFirst();
 	},
+
     _buttonClick: function( e ) {
 
 		e.preventDefault();
@@ -70,7 +71,6 @@
 				icon.addClass( close_icon );
 			}
 		}
-
 	},
 
 	_focusIn: function( e )

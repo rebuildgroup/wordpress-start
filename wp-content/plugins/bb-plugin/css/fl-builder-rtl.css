@@ -254,7 +254,7 @@ body .fl-dimension-field-units > *:first-child > input[type] {
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
 }
-body .fl-dimension-field-units > *:last-child > * {
+body .fl-dimension-field-units > *:last-child > input {
     border-top-right-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
 	border-top-left-radius: 4px !important;

@@ -1,21 +1,161 @@
+<h4>2.5.0.1 - 09/21/2021</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+		<li>Improve updates message to account for different license situations</li>
+		<li>Update welcome page image</li>
+		<li>Update readme for Lite modules</li>
+		<li>Cache Clearing Tool: Improve Pagely cache clear</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+		<li>Subscribe Module: Fix error message alignment when Search module included in the layout</li>
+		<li>Icon Picker: various FontAwesome fixes including fixing broken domain check in kit settings, compatibility with FontAwesome plugin, AJAX search now respects admin icon settings, and fix kit displaying even if kit displays no icons</li>
+		<li>Number Counter Module: Fix preview not updating properly when changing the number</li>
+		<li>Code Editor: right click paste options now appears</li>
+		<li>Menu Module: Fix flyout menu panel showing after adding a new module</li>
+		<li>Global Modules: Fix global modules opening for editing after dropping it on the page to be consistent with Global Rows/Columns behavior</li>
+		<li>Cache Clear Tool: fix Pantheon cache clear not working properly</li>
+		<li>Fix certain HTML elements being stripped from post_content fl-builder block on publish</li>
+		<li>Fix images not being able to be cropped on the demo server</li>
+		<li>Menu Module: Fix separators being different sizes when search enabled</li>
+</ul>
+
+<h4>2.5 - 08/19/2021</h4>
+<p><strong>New & Major Updates</strong></p>
+<ul>
+		<li>Add Outline Panel to easily see the structure of your page and move things around</li>
+		<li>Add Duplicate option for BB posts in the WP Admin</li>
+		<li>Premium Templates added - 2 new Landing page templates and several content page templates. Some older templates were also removed.</li>
+		<li>In WP Admin list for for saved elements, show shortcode and add click to copy to clipboard</li>
+		<li>Icon Picker: various enhancements including live search, recently used icons section and compatibility with FontAwesome plugin</li>
+		<li>Menu Module: Add responsive dropdown styles and default menu items when no menus exist on the site</li>
+		<li>Menu Module: Now has styling options for sub-menu link colors and the responsive toggle, also new option to have a logo in the center of the menu, new option to add search to the menu, and add support for showing WooCommerce cart contents in the menu</li>
+		<li>Pricing Table Module: Add toggle for monthly/yearly pricing, add the ability to add icons for each feature, add Typography options, and add option to display a ribbon</li>
+		<li>Subscribe Module: Add filter for users to add their own service <code>fl_builder_subscribe_form_services</code></li>
+</ul>
+
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Button Group Module: Add width for the horizontal layout</li>
+	<li>Contact Form Module: Labels are now translatable</li>
+	<li>Content Slider Module: Make Button Padding Responsive</li>
+	<li>Content Slider: Add Background Overlay option for individual slides</li>
+	<li>Countdown Module: Add Typography Options</li>
+	<li>Countdown Module: Add overall Alignment option</li>
+	<li>List Module: Update icon and move List items section to the top of the first tab</li>
+	<li>Menu Module: Add support for Menu Module closing when tabbing through the last of the items</li>
+	<li>Number Counter Module: Add Typography</li>
+	<li>Number Counter: Add option to choose height of bar and not show number with Bar layout as well as add field connection for number</li>
+	<li>Post Modules: Make the suggest fields sortable</li>
+	<li>Post Carousel Module: Add Typography options</li>
+	<li>Post Slider Module: Now has Typography options</li>
+	<li>Separator Module:  Height and Alignment are now responsive</li>
+	<li>Subscribe Module:  Mailpoet 3 integration now shows all lists</li>
+	<li>Subscribe Module: Add better error handling if no service is selected</li>
+	<li>Testimonials Module: Accessibility improvements with navigation</li>
+	<li>Post Modules: Make the suggest fields sortable</li>
+	<li>Video Module: Add structured data options for contentUrl and embedUrl</li>
+	<li>Columns: Now have custom position available for backgrounds</li>
+	<li>Columns: Make width field available even for Single Columns</li>
+	<li>Add icons for border, border radius, padding, and margin labels</li>
+	<li>Add some improvements to the display of the Launch BB area in WP Editor</li>
+	<li>Cache Clearing Tool: Improve integration with CloudFlare plugin</li>
+	<li>Developers: Post type field now supports multi-select</li>
+	<li>Outline Panel: Add filter to disable <code>fl_builder_outline_panel_enabled</code></li>
+	<li>Add support for SEOPress</li>
+	<li>Update the Welcome page in WP Admin for 2.5 version</li>
+	<li>Update internal links to the Knowledge Base</li>
+	<li>Remove Google+ Icon from Slideshow Module</li>
+	<li>Shift some wp_options to autoload = false</li>
+	<li>Update jQuery deprecated code</li>
+	<li>Code Editor: Enable word wrap and line numbers by default</li>
+	<li>Fix conflict with 3CX Live Chat plugin</li>
+	<li>Add Layout Type As Parameter to the <code>FLBuilder::render_content_classes()</code> method</li>
+	<li>Try to remove other Duplicate plugin Duplicate links since they are not compatible with BB</li>
+	<li>Border Field Type: Add ability to disable parts of the compound field</li>
+	<li>Add custom position for column backgrounds as well</li>
+	<li>Allow line height to be 0 in Typography settings</li>
+	<li>WPCLI Enhancements: <code>wp beaver global list</code> shows list of all options and <code>wp beaver global-update --id=default_heading_selector --value=.fl-post-header</code> updates a single option</li>
+	<li>Add new mode to disable history temporarily</li>
+	<li>Debug Mode: Only output errors if <code>showerrors</code> parameter is in the URL</li>
+	<li>Disable smooth scroll via custom class <code>fl-no-scroll</code></li>
+	<li>Automatically clear CSS/JS files when URL changes</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Make sure content panel icons for modules are all the same size</li>
+	<li>Photo Module: Fix fatal error when using PHP8 and border is a string</li>
+	<li>Menu Module: Fix flyout menu being visible while builder is active</li>
+	<li>Contact Form Module: Fix console notices when multiple modules are present on the same page</li>
+	<li>Icon Module: Fix alignment issues when using multiple modules to create a group of icons</li>
+	<li>Icon Module: Fix screen reader text being visible when it should not in some cases</li>
+	<li>Menu Module: Adjust search placement on vertical layouts</li>
+	<li>Text Editor Module: Fix strong/bold tag styling ignored when font weight is set in module</li>
+	<li>Fix SVGs used in layout/global CSS</li>
+	<li>Fix notices on WP 5.8 Block Widget Screen</li>
+	<li>Photo Module: Fix issue with cropping on some hosts</li>
+	<li>UI: Fix node visibility icon flashing on hover</li>
+	<li>Fixed PHP Notices when Applying a Template</li>
+	<li>Fixed responsive editing being glitchy when inline assets is enabled</li>
+	<li>Fixed issue where due to custom code the post_id could be set wrong in AJAX</li>
+	<li>Callout Module: Fix image set to show on right being off centered vertically when a link is entered</li>
+	<li>Content Slider: Fix mobile image alt tag being empty when using slide content layout</li>
+	<li>Slideshow Module: Fix tweet button visibility and issues with icon alignment</li>
+	<li>Fixed issue with smooth scrolling when clicking on a "Back to Top" link when Themer "Sticky" Header is enabled</li>
+	<li>Fix unneeded AJAX call for notifications</li>
+	<li>Text Editor Module: Fix bold not working properly with Google Fonts as that version wasn't being enqueued</li>
+	<li>Contact Module: Fix Ampersand displaying as entity in From Email</li>
+	<li>Content Slider: Fix delay not resetting and fix issues with slides skipping while in transition</li>
+	<li>Countdown Module: Fix circle being clipped at certain sizes</li>
+	<li>Icon Picker: Fix missing Icon</li>
+	<li>Menu Module: Fix issues with preview showing incorrectly until save</li>
+	<li>Subscribe Module: Fix conflict with WooCommerce Mailer Lite</li>
+	<li>Subscribe Module: Fix issue where users couldn't join multiple Mailer Lite lists & remove trashed lists from List dropdown</li>
+	<li>IE 11: Fix visibility issues where items set to hide on screens were showing unexpectedly</li>
+	<li>Restricted Editing: Make sure users can still unpin content panel</li>
+	<li>Font Settings: Sanitize FontAwesome Pro Kit URL Field to prevent HTML</li>
+	<li>Improvements to prevent Google fonts from being enqueued twice in some circumstances with Global elements</li>
+	<li>Row/Column BG color need sanitizing</li>
+	<li>Fix YouTube row BG videos not working if you choose a start time</li>
+	<li>Fix JS errors when editing/saving form items</li>
+	<li>Content Slider: Fix JS error if link clicked after mobile layout kicks in and fix some styles shifting when styles re-arranged</li>
+	<li>Photo Fields: fix photo field forgetting selected size if you edited alt text and other data and add new filter to select default size <code>fl_builder_default_image_select_size</code></li>
+	<li>Posts Module: Fix JS error seen in FireFox</li
+	<li>Subscribe Module: Fix MailPoet Integration after they upgraded their API without backwards compatibility</li>
+	<li>Fix: Video background not resizing correctly when picked from Media Library</li>
+	<li>Fix custom row/col background positions hiding when they shouldn't</li>
+	<li>Fix preview not showing on subforms</li>
+	<li>Fix debug URL throwing an error if child theme is active with no functions.php</li>
+	<li>Fix JS/CSS error when options keys have a non alphanumeric character</li>
+	<li>Fix Molle Google Font not working properly</li>
+	<li>Fix inconsistent font-family in builder UI</li>
+	<li>Widgets: Fix showing no longer exists message if the title is blank</li>
+	<li>SEOPress: Fix issue with second post module on the page pagination doesn't work if category slug is removed in SEOPress.</li>
+	<li>Revisions now show correct time when Site Timezone changed</li>
+	<li>Fixed issue with color pickers in Dark Mode</li>
+	<li>Fixed issue with ampersand used in Categories not showing properly in Loop filters section</li>
+</ul>
+
 <h4>2.4.2.5 - 07/21/2021</h4>
 <strong>Hot Fix</strong>
 <ul>
-	<li>Fix responsive editing while inline CSS is enabled</li>
-	<li>Accordion Module: Fix spacing issue in HTML when collapse is disabled</li>
-	<li>Subscribe Module: Fix conflict with WooCommerce Mailer Lite</li>
-	<li>Subscribe Module: Fix integration with Campaign Monitor when using PHP 8</li>
-	<li>Subscribe Module: Update MailPoet integration for their new API</li>
-	<li>Fix notice for block preload path when using WP 5.8</li>
+ 	<li>Fix responsive editing while inline CSS is enabled</li>
+ 	<li>Accordion Module: Fix spacing issue in HTML when collapse is disabled</li>
+ 	<li>Subscribe Module: Fix conflict with WooCommerce Mailer Lite</li>
+ 	<li>Subscribe Module: Fix integration with Campaign Monitor when using PHP 8</li>
+ 	<li>Subscribe Module: Update MailPoet integration for their new API</li>
+ 	<li>Fix notice for block preload path when using WP 5.8</li>
 </ul>
 
 <h4>2.4.2.4 - 06/15/2021</h4>
 <strong>Hot Fix</strong>
 <ul>
-	<li>Callout Module: Fix link on icon ignoring link target setting</li>
-	<li>Allow .webp uploads when using WordPress 5.8 which adds support for .webp files</li>
-	<li>Add plugin data to data collected when opted into Sending Usage Data</li>
-	<li>Add support for SendinBlue API v3 since  v2 will be discontinued at the end of the month</li>
+ 	<li>Callout Module: Fix link on icon ignoring link target setting</li>
+ 	<li>Allow .webp uploads when using WordPress 5.8 which adds support for .webp files</li>
+ 	<li>Add plugin data to data collected when opted into Sending Usage Data</li>
+ 	<li>Add support for SendinBlue API v3 since v2 will be discontinued at the end of the month</li>
 </ul>
 
 <h4>2.4.2.3 - 05/25/2021</h4>
@@ -24,15 +164,14 @@
 	<li>Fixed column width resetting to very small/narrow</li>
 </ul>
 
-<h4>2.4.2.2 - 03/01/2021</h4>
+<h4>2.4.2.2 - 03/04/2021</h4>
 <strong>Hot Fix</strong>
 <ul>
-	<li>Fixed photo cropping issue for subdomain multisite users</li>
+	<li>Fixed photo cropping issue for non-subdomain multisite users</li>
 	<li>Fixed update issue with Godaddy booster plugin</li>
 	<li>Fixed Post Carousel blur issue with Google Chrome</li>
-	<li>Fixed issue with Google Fonts not loading when applying a template</li>
+	<li>Fixed issue with Google Fonts not loading when applying a template<li>
 </ul>
-
 
 <h4>2.4.2.1 - 02/11/2021</h4>
 <strong>Hot Fix</strong>

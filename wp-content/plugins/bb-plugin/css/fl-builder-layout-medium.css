@@ -1,6 +1,9 @@
 /* Responsive Utilities
 ------------------------------------------------------ */
-
+body.fl-builder-ie-11 .fl-row.fl-row-full-height.fl-visible-desktop,
+body.fl-builder-ie-11 .fl-row.fl-row-custom-height.fl-visible-desktop {
+	display: none !important;
+}
 .fl-visible-desktop,
 .fl-visible-mobile,
 .fl-col-group .fl-visible-desktop.fl-col,

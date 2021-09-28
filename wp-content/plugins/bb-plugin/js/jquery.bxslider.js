@@ -634,7 +634,7 @@
       for (var i = 0; i < pagerQty; i++) {
         linkContent = '';
         // if a buildPager function is supplied, use it to get pager link value, else use index + 1
-        if (slider.settings.buildPager && $.isFunction(slider.settings.buildPager) || slider.settings.pagerCustom) {
+        if (slider.settings.buildPager && typeof slider.settings.buildPager === 'function' || slider.settings.pagerCustom) {
           linkContent = slider.settings.buildPager(i);
           slider.pagerEl.addClass('bx-custom-pager');
         } else {
@@ -1217,6 +1217,11 @@
         }
       }
       slider.viewport.unbind('touchend', onTouchEnd);
+      // fix for https://github.com/stevenwanderski/bxslider-4/issues/1086
+      if ('function' === typeof PointerEvent && orig.pointerId === undefined) {
+        return;
+      }
+      // end fix
       if (slider.viewport.get(0).releasePointerCapture) {
         slider.viewport.get(0).releasePointerCapture(slider.pointerId);
       }

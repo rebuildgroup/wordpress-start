@@ -1,6 +1,9 @@
-<svg version="1.1" class="fl-list-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
-<rect class="fl-list-icon-top" width="512" height="102"/>
-<rect class="fl-list-icon-middle" y="205" width="512" height="102"/>
-<rect class="fl-list-icon-bottom" y="410" width="512" height="102"/>
-<rect fill="#ffffff" stroke-width="0" x="104.296296" y="-1.448567" width="58.995888" height="518.320987" stroke="#000000"/>
+<svg version="1.1" class="fl-list-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <defs></defs>
+  <rect class="fl-list-icon-top-left" width="2.781" height="2.847" style="" x="2.061" y="3.232"></rect>
+  <rect class="fl-list-icon-top-right" width="10.567" height="2.847" x="7.344" style="" y="3.232"></rect>
+  <rect class="fl-list-icon-mid-left" width="2.781" height="2.847" y="9.071" style="" x="2.061"></rect>
+  <rect class="fl-list-icon-mid-right" width="10.567" height="2.847" x="7.344" y="9.071" style=""></rect>
+  <rect class="fl-list-icon-bottom-left" width="2.781" height="2.847" y="14.908" style="" x="2.061"></rect>
+  <rect class="fl-list-icon-mid-right" width="10.567" height="2.847" x="7.344" y="14.908" style=""></rect>
 </svg>

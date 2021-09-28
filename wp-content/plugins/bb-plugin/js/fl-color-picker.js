@@ -80,7 +80,7 @@ var FLBuilderColorPicker;
 	 */
 	function createGradient( origin, stops ) {
 		origin 	= ( origin === 'top' ) ? 'top' : 'left';
-		stops 	= $.isArray( stops ) ? stops : Array.prototype.slice.call( arguments, 1 );
+		stops 	= Array.isArray( stops ) ? stops : Array.prototype.slice.call( arguments, 1 );
 
 		if ( gradientType === 'webkit' ) {
 			return legacyWebkitGradient( origin, stops );
@@ -102,7 +102,7 @@ var FLBuilderColorPicker;
 		var type, self, lastIndex, filter, startPosProp, endPosProp, dimensionProp, template, html;
 
 		origin = ( origin === 'top' ) ? 'top' : 'left';
-		stops  = $.isArray( stops ) ? stops : Array.prototype.slice.call( arguments, 1 );
+		stops  = Array.isArray( stops ) ? stops : Array.prototype.slice.call( arguments, 1 );
 		// 8 hex: AARRGGBB
 		// GradientType: 0 vertical, 1 horizontal
 		type 		  = ( origin === 'top' ) ? 0 : 1;
@@ -1098,7 +1098,7 @@ var FLBuilderColorPicker;
 				totalPadding = 20,
 				innerWidth = opts.border ? opts.width - totalPadding : opts.width,
 				controlsHeight;
-				//paletteCount = $.isArray( opts.palettes ) ? opts.palettes.length : self._palettes.length,
+				//paletteCount = Array.isArray( opts.palettes ) ? opts.palettes.length : self._palettes.length,
 				//paletteMargin, paletteWidth, paletteContainerWidth;
 
 			if ( reset ) {

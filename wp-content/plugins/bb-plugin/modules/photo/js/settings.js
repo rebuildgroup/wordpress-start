@@ -12,15 +12,33 @@
 				crop 		= form.find( 'select[name=crop]' );
 
 			this._sourceChanged();
+			this._cacheSetup();
 
 			source.on( 'change', this._sourceChanged );
 			source.on( 'change', this._previewImage );
 			source.on( 'change', this._previewCaption );
 			attachment.on( 'change', this._previewImage );
+			attachment.on( 'change', this._cacheSetup );
 			url.on( 'keyup', this._previewImage );
 			showCaption.on( 'change', this._previewCaption );
 			caption.on( 'keyup', this._previewCaption );
 			crop.on( 'change', this._cropChanged );
+		},
+
+		_cacheSetup: function() {
+			var form     = $( '.fl-builder-settings' ),
+			attachment 	= form.find( 'select[name=photo_src]' );
+
+			size = attachment.find(':selected').attr('data-size') || false;
+
+			if ( size ) {
+				FLBuilderConfig.photomodulesize = size;
+			}
+		},
+
+		submit: function() {
+			FLBuilderConfig.photomodulesize = false;
+			return true;
 		},
 
 		_sourceChanged: function() {
@@ -41,6 +59,7 @@
 		_previewImage: function( e ) {
 			var preview		= FLBuilder.preview,
 				node		= preview.elements.node,
+				content		= node.find( '.fl-photo-content' ),
 				img			= null,
 				form        = $( '.fl-builder-settings' ),
 				source 		= form.find( 'select[name=photo_source]' ).val(),
@@ -49,17 +68,17 @@
 				crop 		= form.find( 'select[name=crop]' ).val();
 
 			if ( '' === crop ) {
+				var src = 'library' === source ? attachment.val() : url.val();
+				var ext = src.split( '.' ).pop();
 				img = node.find( '.fl-photo-img' );
 				img.show();
 				img.removeAttr( 'height' );
 				img.removeAttr( 'width' );
 				img.removeAttr( 'srcset' );
 				img.removeAttr( 'sizes' );
-				if ( 'library' === source ) {
-					img.attr( 'src', attachment.val() );
-				} else {
-					img.attr( 'src', url.val() );
-				}
+				img.attr( 'src', src );
+				content.removeClass( 'fl-photo-img-jpg fl-photo-img-png fl-photo-img-gif fl-photo-img-svg' );
+				content.addClass( 'fl-photo-img-' + ext );
 			} else {
 				preview.delayPreview( e );
 			}

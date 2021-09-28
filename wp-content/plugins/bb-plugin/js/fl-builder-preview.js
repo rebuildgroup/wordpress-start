@@ -2113,7 +2113,7 @@
 				break;
 
 				case 'form':
-					field.delegate('input', 'change', callback);
+					field.on( 'change', 'input', callback);
 				break;
 
 				case 'editor':
@@ -2397,7 +2397,11 @@
 			});
 
 			$.each( fontArray, function( font, weight ){
-				href += font + ':' + weight.join() + '|';
+				if ( 'Molle' === font ) {
+					href += font + ':i|';
+				} else {
+					href += font + ':' + weight.join() + '|';
+				}
 			} );
 
 			// remove last character and replace spaces with plus signs

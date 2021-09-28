@@ -33,6 +33,9 @@ if ( 'yes' === $settings->list_connector_option ) {
 		<?php if ( '' !== $settings->list_connector_style ) { ?>
 			border-style: <?php echo esc_attr( $settings->list_connector_style ); ?>;
 		<?php } ?>
+		<?php if ( '' !== $settings->list_connector_thickness ) { ?>
+			border-left-width: <?php echo esc_attr( $settings->list_connector_thickness ); ?>px;
+		<?php } ?>
 	}
 	<?php
 	if ( 'custom' === $settings->list_icon_style && '' !== $settings->list_icon_bg_padding ) {
@@ -74,7 +77,9 @@ if ( 'yes' === $settings->list_connector_option ) {
 	<?php endif; ?>
 
 	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-info-list-wrapper.uabb-info-list-top li .uabb-info-list-connector {
-		border-top-width: 1px;
+		<?php if ( '' !== $settings->list_connector_thickness ) { ?>
+			border-top-width: <?php echo esc_attr( $settings->list_connector_thickness ); ?>px;
+		<?php } ?>
 	}
 
 	<?php

@@ -105,12 +105,37 @@ final class FLBuilderAJAXLayout {
 		 */
 		do_action( 'fl_builder_after_render_ajax_layout_html' );
 
+		/**
+		 * New Nodes
+		 *
+		 * We need whole objects for any newly-created nodes.
+		*/
+		$new_nodes               = FLBuilderModel::get_nested_nodes( $row->node );
+		$new_nodes[ $row->node ] = $row;
+
+		/**
+		 * Get Siblings who's positions have changed.
+		 * Only need node fragments for this.
+		 */
+		$siblings      = FLBuilderModel::get_nodes( 'row' );
+		$updated_nodes = array();
+		foreach ( $siblings as $sibling ) {
+			if ( is_object( $sibling ) && isset( $sibling->node ) && $sibling->node !== $row->node ) {
+
+				// Sibling position should be the only thing that has changed
+				$updated_nodes[ $sibling->node ]           = new StdClass();
+				$updated_nodes[ $sibling->node ]->position = $sibling->position;
+			}
+		}
+
 		// Return the response.
 		return array(
-			'partial'  => true,
-			'nodeType' => $row->type,
-			'html'     => $html,
-			'js'       => 'FLBuilder._renderLayoutComplete();',
+			'partial'      => true,
+			'nodeType'     => $row->type,
+			'html'         => $html,
+			'js'           => 'FLBuilder._renderLayoutComplete();',
+			'newNodes'     => $new_nodes,
+			'updatedNodes' => $updated_nodes,
 		);
 	}
 
@@ -133,9 +158,34 @@ final class FLBuilderAJAXLayout {
 			$row = FLBuilderModel::apply_node_template( $template_id, null, $position );
 		}
 
+		/**
+		 * New Nodes
+		 *
+		 * We need whole objects for any newly-created nodes.
+		*/
+		$new_nodes               = FLBuilderModel::get_nested_nodes( $row->node );
+		$new_nodes[ $row->node ] = $row;
+
+		/**
+		 * Get Siblings who's positions have changed.
+		 * Only need node fragments for this.
+		 */
+		$siblings      = FLBuilderModel::get_nodes( 'row' );
+		$updated_nodes = array();
+		foreach ( $siblings as $sibling ) {
+			if ( is_object( $sibling ) && isset( $sibling->node ) && $sibling->node !== $row->node ) {
+
+				// Sibling position should be the only thing that has changed
+				$updated_nodes[ $sibling->node ]           = new StdClass();
+				$updated_nodes[ $sibling->node ]->position = $sibling->position;
+			}
+		}
+
 		return array(
-			'layout' => self::render( $row->node ),
-			'config' => FLBuilderUISettingsForms::get_node_js_config(),
+			'layout'       => self::render( $row->node ),
+			'config'       => FLBuilderUISettingsForms::get_node_js_config(),
+			'newNodes'     => $new_nodes,
+			'updatedNodes' => $updated_nodes,
 		);
 	}
 
@@ -149,9 +199,38 @@ final class FLBuilderAJAXLayout {
 	 * @return array
 	 */
 	static public function copy_row( $node_id, $settings = null, $settings_id = null ) {
-		$row = FLBuilderModel::copy_row( $node_id, $settings, $settings_id );
+		$row      = FLBuilderModel::copy_row( $node_id, $settings, $settings_id );
+		$response = self::render( $row->node );
 
-		return self::render( $row->node );
+		/**
+		 * New Nodes
+		 *
+		 * We need whole objects for any newly-created nodes.
+		*/
+		$new_nodes               = FLBuilderModel::get_nested_nodes( $row->node );
+		$new_nodes[ $row->node ] = $row;
+
+		/**
+		 * Get Siblings who's positions have changed.
+		 * Only need node fragments for this.
+		 */
+		$siblings      = FLBuilderModel::get_nodes( 'row' );
+		$updated_nodes = array();
+		foreach ( $siblings as $sibling ) {
+			if ( is_object( $sibling ) && isset( $sibling->node ) && $sibling->node !== $row->node ) {
+
+				// Sibling position should be the only thing that has changed
+				$updated_nodes[ $sibling->node ]           = new StdClass();
+				$updated_nodes[ $sibling->node ]->position = $sibling->position;
+			}
+		}
+
+		$affected_nodes = array(
+			'newNodes'     => $new_nodes,
+			'updatedNodes' => $updated_nodes,
+		);
+
+		return array_merge( $response, $affected_nodes );
 	}
 
 	/**
@@ -183,12 +262,37 @@ final class FLBuilderAJAXLayout {
 		 */
 		do_action( 'fl_builder_after_render_ajax_layout_html' );
 
+		/**
+		 * New Nodes
+		 *
+		 * We need whole objects for any newly-created nodes.
+		*/
+		$new_nodes                 = FLBuilderModel::get_nested_nodes( $group->node );
+		$new_nodes[ $group->node ] = $group;
+
+		/**
+		 * Get Siblings who's positions have changed.
+		 * Only need node fragments for this.
+		 */
+		$siblings      = FLBuilderModel::get_nodes( 'column-group', $group->parent );
+		$updated_nodes = array();
+		foreach ( $siblings as $sibling ) {
+			if ( is_object( $sibling ) && isset( $sibling->node ) && $sibling->node !== $group->node ) {
+
+				// Sibling position should be the only thing that has changed
+				$updated_nodes[ $sibling->node ]           = new StdClass();
+				$updated_nodes[ $sibling->node ]->position = $sibling->position;
+			}
+		}
+
 		// Return the response.
 		return array(
-			'partial'  => true,
-			'nodeType' => $group->type,
-			'html'     => $html,
-			'js'       => 'FLBuilder._renderLayoutComplete();',
+			'partial'      => true,
+			'nodeType'     => $group->type,
+			'html'         => $html,
+			'js'           => 'FLBuilder._renderLayoutComplete();',
+			'newNodes'     => $new_nodes,
+			'updatedNodes' => $updated_nodes,
 		);
 	}
 
@@ -205,10 +309,21 @@ final class FLBuilderAJAXLayout {
 	 */
 	static public function render_new_columns( $node_id, $insert, $type, $nested, $module = null ) {
 		// Add the column(s).
-		$group = FLBuilderModel::add_cols( $node_id, $insert, $type, $nested, $module );
+		$group    = FLBuilderModel::add_cols( $node_id, $insert, $type, $nested, $module );
+		$response = self::render( $group->node );
+
+		/**
+		 * Ideally we'd only ship full nodes for the newly-created columns and only position info for the siblings
+		 * but its pretty tough to determine the new nodes from just the $group here.
+		 */
+		$new_nodes = FLBuilderModel::get_nested_nodes( $group->node );
+
+		$affected_nodes = array(
+			'newNodes' => $new_nodes,
+		);
 
 		// Return the response.
-		return self::render( $group->node );
+		return array_merge( $response, $affected_nodes );
 	}
 
 	/**
@@ -232,23 +347,52 @@ final class FLBuilderAJAXLayout {
 		// Get the new column parent.
 		$parent = ! $parent_id ? null : FLBuilderModel::get_node( $parent_id );
 
-		// Get the node to render.
+		// Get the root node to render.
 		if ( ! $parent ) {
 			$row       = FLBuilderModel::get_col_parent( 'row', $column );
 			$render_id = $row->node;
+			$root      = $row;
 		} elseif ( 'row' == $parent->type ) {
 			$group     = FLBuilderModel::get_col_parent( 'column-group', $column );
 			$render_id = $group->node;
+			$root      = $group;
 		} elseif ( 'column-group' == $parent->type ) {
 			$render_id = $parent->node;
+			$root      = $column;
 		} else {
 			$render_id = $column->node;
+			$root      = $column;
+		}
+
+		/**
+		 * New Nodes
+		 *
+		 * We need whole objects for any newly-created nodes.
+		*/
+		$new_nodes                = FLBuilderModel::get_nested_nodes( $root->node );
+		$new_nodes[ $root->node ] = $root;
+
+		/**
+		 * Get Siblings who's positions have changed.
+		 * Only need node fragments for this.
+		 */
+		$siblings      = FLBuilderModel::get_nodes( $root->type, $root->parent );
+		$updated_nodes = array();
+		foreach ( $siblings as $sibling ) {
+			if ( is_object( $sibling ) && isset( $sibling->node ) && $sibling->node !== $root->node ) {
+
+				// Sibling position should be the only thing that has changed
+				$updated_nodes[ $sibling->node ]           = new StdClass();
+				$updated_nodes[ $sibling->node ]->position = $sibling->position;
+			}
 		}
 
 		// Return the response.
 		return array(
-			'layout' => self::render( $render_id ),
-			'config' => FLBuilderUISettingsForms::get_node_js_config(),
+			'layout'       => self::render( $render_id ),
+			'config'       => FLBuilderUISettingsForms::get_node_js_config(),
+			'newNodes'     => $new_nodes,
+			'updatedNodes' => $updated_nodes,
 		);
 	}
 
@@ -262,9 +406,41 @@ final class FLBuilderAJAXLayout {
 	 * @return array
 	 */
 	static public function copy_col( $node_id, $settings = null, $settings_id = null ) {
-		$col = FLBuilderModel::copy_col( $node_id, $settings, $settings_id );
+		$col      = FLBuilderModel::copy_col( $node_id, $settings, $settings_id );
+		$response = self::render( $col->node );
 
-		return self::render( $col->node );
+		/**
+		 * New Nodes
+		 *
+		 * We need whole objects for any newly-created nodes.
+		*/
+		$new_nodes               = FLBuilderModel::get_nested_nodes( $col->node );
+		$new_nodes[ $col->node ] = $col;
+
+		/**
+		 * Get Siblings who's positions and sizes have changed.
+		 * Only need node fragments for this.
+		 */
+		$siblings      = FLBuilderModel::get_nodes( 'column', $col->parent );
+		$updated_nodes = array();
+		foreach ( $siblings as $sibling ) {
+			if ( is_object( $sibling ) && isset( $sibling->node ) && $sibling->node !== $col->node ) {
+
+				// Sibling position and size should be the only things that have changed
+				$updated_nodes[ $sibling->node ]           = new StdClass();
+				$updated_nodes[ $sibling->node ]->position = $sibling->position;
+				$updated_nodes[ $sibling->node ]->settings = array(
+					'size' => $sibling->settings->size,
+				);
+			}
+		}
+
+		$affected_nodes = array(
+			'newNodes'     => $new_nodes,
+			'updatedNodes' => $updated_nodes,
+		);
+
+		return array_merge( $response, $affected_nodes );
 	}
 
 	/**
@@ -316,15 +492,64 @@ final class FLBuilderAJAXLayout {
 			$render_id = null;
 		}
 
-		// Return the response.
+		// Get node data for redux store
+		if ( $module->partial_refresh ) {
+			if ( ! $parent ) {
+				$scope    = 'new-row';
+				$root     = FLBuilderModel::get_module_parent( 'row', $module );
+				$siblings = FLBuilderModel::get_nodes( 'row' );
+			} elseif ( 'row' == $parent->type ) {
+				$scope    = 'new-column-group';
+				$root     = FLBuilderModel::get_module_parent( 'column-group', $module );
+				$siblings = FLBuilderModel::get_nodes( 'column-group', $root->parent );
+			} elseif ( 'column-group' == $parent->type ) {
+				$scope    = 'new-column';
+				$root     = FLBuilderModel::get_module_parent( 'column', $module );
+				$siblings = FLBuilderModel::get_nodes( 'column', $root->parent );
+			} else {
+				$scope    = 'new-module';
+				$root     = $module;
+				$siblings = FLBuilderModel::get_nodes( 'module', $root->parent );
+			}
+
+			/**
+			 * New Nodes
+			 *
+			 * We need whole nodes for any newly-created nodes.
+			 * Depending on where the module was dropped, $root is the top-most new node.
+			*/
+			$children  = FLBuilderModel::get_nested_nodes( $root->node );
+			$new_nodes = array_merge( array( $root->node => $root ), $children );
+			$new_nodes = FLBuilderModel::clean_layout_data( $new_nodes );
+
+			/**
+			 * Get Siblings who's positions have changed.
+			 * Only need node fragments for this.
+			 */
+			$updated_nodes = array();
+			foreach ( $siblings as $sibling ) {
+				if ( is_object( $sibling ) && isset( $sibling->node ) && $sibling->node !== $root->node ) {
+
+					// Sibling position should be the only thing that has changed
+					$updated_nodes[ $sibling->node ]           = new StdClass();
+					$updated_nodes[ $sibling->node ]->position = $sibling->position;
+				}
+			}
+		} else {
+			$new_nodes     = FLBuilderModel::get_layout_data();
+			$updated_nodes = array();
+		}
+
 		return array(
-			'type'     => $module->settings->type,
-			'nodeId'   => $module->node,
-			'parentId' => $module->parent,
-			'global'   => FLBuilderModel::is_node_global( $module ),
-			'layout'   => self::render( $render_id ),
-			'settings' => null === $template_id && ! $alias ? null : $module->settings,
-			'legacy'   => FLBuilderUISettingsForms::pre_render_legacy_module_settings( $module->settings->type, $module->settings ),
+			'type'         => $module->settings->type,
+			'nodeId'       => $module->node,
+			'parentId'     => $module->parent,
+			'global'       => FLBuilderModel::is_node_global( $module ),
+			'layout'       => self::render( $render_id ),
+			'settings'     => $module->settings,
+			'legacy'       => FLBuilderUISettingsForms::pre_render_legacy_module_settings( $module->settings->type, $module->settings ),
+			'newNodes'     => $new_nodes,
+			'updatedNodes' => $updated_nodes,
 		);
 	}
 
@@ -337,9 +562,39 @@ final class FLBuilderAJAXLayout {
 	 * @return array
 	 */
 	static public function copy_module( $node_id, $settings = null ) {
-		$module = FLBuilderModel::copy_module( $node_id, $settings );
+		$module   = FLBuilderModel::copy_module( $node_id, $settings );
+		$response = self::render( $module->node );
 
-		return self::render( $module->node );
+		/**
+		 * New Nodes
+		 *
+		 * We need whole nodes for any newly-created nodes.
+		 * Depending on where the module was dropped, $root is the top-most new node.
+		*/
+		$new_nodes = FLBuilderModel::clean_layout_data( array( $module->node => $module ) );
+
+		/**
+		 * Get Siblings who's positions have changed.
+		 * Only need node fragments for this.
+		 */
+		$siblings      = FLBuilderModel::get_nodes( 'module', $module->parent );
+		$siblings      = FLBuilderModel::clean_layout_data( $siblings );
+		$updated_nodes = array();
+		foreach ( $siblings as $sibling ) {
+			if ( is_object( $sibling ) && isset( $sibling->node ) && $sibling->node !== $module->node ) {
+
+				// Sibling position should be the only thing that has changed
+				$updated_nodes[ $sibling->node ]           = new StdClass();
+				$updated_nodes[ $sibling->node ]->position = $sibling->position;
+			}
+		}
+
+		$affected_nodes = array(
+			'newNodes'     => $new_nodes,
+			'updatedNodes' => $updated_nodes,
+		);
+
+		return array_merge( $response, $affected_nodes );
 	}
 
 	/**
@@ -503,7 +758,7 @@ final class FLBuilderAJAXLayout {
 		 * Use this filter to prevent the builder from rendering shortcodes.
 		 * It is useful if you don't want shortcodes rendering while the builder UI is active.
 		 * @see fl_builder_render_shortcodes
-		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 */
 		if ( apply_filters( 'fl_builder_render_shortcodes', true ) ) {
 			/**
@@ -693,5 +948,19 @@ final class FLBuilderAJAXLayout {
 
 		// Return the scripts and styles markup.
 		return ob_get_clean();
+	}
+
+	/**
+	 * Get full layout data
+	 *
+	 * @since 2.5
+	 * @access public
+	 * @return array
+	 */
+	static public function get_layout() {
+		return array(
+			'nodes'       => FLBuilderModel::get_layout_data(),
+			'attachments' => array(), // @TODO - where do attachments initially come from???
+		);
 	}
 }

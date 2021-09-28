@@ -157,7 +157,7 @@ final class FLBuilderHistoryManager {
 	 * when the builder is active.
 	 */
 	static public function init_states() {
-		if ( FL_BUILDER_HISTORY_STATES && FL_BUILDER_HISTORY_STATES > 0 ) {
+		if ( FL_BUILDER_HISTORY_STATES && FL_BUILDER_HISTORY_STATES > 0 && ! isset( $_GET['nohistory'] ) ) {
 			$states = self::get_states();
 
 			if ( empty( $states ) ) {
@@ -311,6 +311,7 @@ final class FLBuilderHistoryManager {
 				'global' => FLBuilderModel::get_global_settings(),
 				'layout' => FLBuilderModel::get_layout_settings( 'draft' ),
 			),
+			'newNodes' => FLBuilderModel::get_layout_data(),
 		);
 	}
 }

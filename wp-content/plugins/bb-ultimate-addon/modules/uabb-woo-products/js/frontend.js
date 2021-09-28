@@ -416,7 +416,7 @@ var key_array = new Array();
 						jQuery.ajax ({
 							url: self.ajaxurl,
 							type:'POST',
-							data:'action=uabb_add_cart_single_product&product_id=' + product_id + '&variation_id=' + variation_id + '&quantity=' + quantity + '&security=' + _nonce, 
+							data:'action=uabb_add_cart_single_product&product_id=' + product_id + '&security=' + _nonce + '&'+ cartFormData,
 
 							success:function(results) {
 								// Trigger event so themes can refresh other areas.

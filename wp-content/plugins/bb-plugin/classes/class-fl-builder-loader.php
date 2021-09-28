@@ -48,7 +48,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @return void
 		 */
 		static private function define_constants() {
-			define( 'FL_BUILDER_VERSION', '2.4.2.5' );
+			define( 'FL_BUILDER_VERSION', '2.5.0.1' );
 			define( 'FL_BUILDER_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'fl-builder.php' );
 			define( 'FL_BUILDER_DIR', plugin_dir_path( FL_BUILDER_FILE ) );
 			define( 'FL_BUILDER_URL', plugins_url( '/', FL_BUILDER_FILE ) );
@@ -113,6 +113,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-privacy.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-settings-presets.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-compatibility.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-font-awesome.php';
 
 			/* WP CLI Commands */
 			if ( defined( 'WP_CLI' ) ) {

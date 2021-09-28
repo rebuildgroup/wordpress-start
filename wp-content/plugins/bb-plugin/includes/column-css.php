@@ -140,19 +140,39 @@ FLBuilderCSS::rule( array(
 ) );
 
 // Background Photo - Desktop
+if ( 'custom_pos' == $settings->bg_position ) {
+	$bg_position_lg  = empty( $settings->bg_x_position ) ? '0' : $settings->bg_x_position;
+	$bg_position_lg .= $settings->bg_x_position_unit;
+	$bg_position_lg .= ' ';
+	$bg_position_lg .= empty( $settings->bg_y_position ) ? '0' : $settings->bg_y_position;
+	$bg_position_lg .= $settings->bg_y_position_unit;
+} else {
+	$bg_position_lg = $settings->bg_position;
+}
+
 FLBuilderCSS::rule( array(
 	'selector' => ".fl-node-$id > .fl-col-content",
 	'enabled'  => 'photo' === $settings->bg_type,
 	'props'    => array(
 		'background-image'      => $settings->bg_image_src,
 		'background-repeat'     => $settings->bg_repeat,
-		'background-position'   => $settings->bg_position,
+		'background-position'   => $bg_position_lg,
 		'background-attachment' => $settings->bg_attachment,
 		'background-size'       => $settings->bg_size,
 	),
 ) );
 
 // Background Photo - Medium
+if ( 'custom_pos' == $settings->bg_position_medium ) {
+	$bg_position_medium  = empty( $settings->bg_x_position_medium ) ? '0' : $settings->bg_x_position_medium;
+	$bg_position_medium .= $settings->bg_x_position_medium_unit;
+	$bg_position_medium .= ' ';
+	$bg_position_medium .= empty( $settings->bg_y_position_medium ) ? '0' : $settings->bg_y_position_medium;
+	$bg_position_medium .= $settings->bg_y_position_medium_unit;
+} else {
+	$bg_position_medium = $settings->bg_position_medium;
+}
+
 FLBuilderCSS::rule( array(
 	'media'    => 'medium',
 	'selector' => ".fl-node-$id > .fl-col-content",
@@ -160,13 +180,23 @@ FLBuilderCSS::rule( array(
 	'props'    => array(
 		'background-image'      => $settings->bg_image_medium_src,
 		'background-repeat'     => $settings->bg_repeat_medium,
-		'background-position'   => $settings->bg_position_medium,
+		'background-position'   => $bg_position_medium,
 		'background-attachment' => $settings->bg_attachment_medium,
 		'background-size'       => $settings->bg_size_medium,
 	),
 ) );
 
 // Background Photo - Responsive
+if ( 'custom_pos' == $settings->bg_position_responsive ) {
+	$bg_position_responsive  = empty( $settings->bg_x_position_responsive ) ? '0' : $settings->bg_x_position_responsive;
+	$bg_position_responsive .= $settings->bg_x_position_responsive_unit;
+	$bg_position_responsive .= ' ';
+	$bg_position_responsive .= empty( $settings->bg_y_position_responsive ) ? '0' : $settings->bg_y_position_responsive;
+	$bg_position_responsive .= $settings->bg_y_position_responsive_unit;
+} else {
+	$bg_position_responsive = $settings->bg_position_responsive;
+}
+
 FLBuilderCSS::rule( array(
 	'media'    => 'responsive',
 	'selector' => ".fl-node-$id > .fl-col-content",
@@ -174,7 +204,7 @@ FLBuilderCSS::rule( array(
 	'props'    => array(
 		'background-image'      => $settings->bg_image_responsive_src,
 		'background-repeat'     => $settings->bg_repeat_responsive,
-		'background-position'   => $settings->bg_position_responsive,
+		'background-position'   => $bg_position_responsive,
 		'background-attachment' => $settings->bg_attachment_responsive,
 		'background-size'       => $settings->bg_size_responsive,
 	),

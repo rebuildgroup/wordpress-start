@@ -108,6 +108,7 @@ final class FLBuilderAJAX {
 		self::add_action( 'clear_cache', 'FLBuilderModel::delete_all_asset_cache' );
 
 		// FLBuilderAJAXLayout
+		self::add_action( 'get_layout', 'FLBuilderAJAXLayout::get_layout' );
 		self::add_action( 'render_layout', 'FLBuilderAJAXLayout::render' );
 		self::add_action( 'render_node', 'FLBuilderAJAXLayout::render', array( 'node_id' ) );
 		self::add_action( 'render_new_row', 'FLBuilderAJAXLayout::render_new_row', array( 'cols', 'position', 'module' ) );
@@ -222,7 +223,7 @@ final class FLBuilderAJAX {
 		/**
 		 * Allow developers to hook before the action runs.
 		 * @see fl_ajax_before_
-		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 */
 		do_action( 'fl_ajax_before_' . $action['action'], $keys_args );
 
@@ -235,7 +236,7 @@ final class FLBuilderAJAX {
 		/**
 		 * Allow developers to hook after the action runs.
 		 * @see fl_ajax_after_
-		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 */
 		do_action( 'fl_ajax_after_' . $action['action'], $keys_args );
 

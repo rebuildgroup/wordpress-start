@@ -50,6 +50,30 @@ for ( $i = 0; $i < count( $settings->slides ); $i++ ) {
 	// Slide Settings
 	$slide = $settings->slides[ $i ];
 
+	// Slide Background Photo
+	if ( ! empty( $slide->bg_photo_src ) ) {
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-bg-photo';
+		echo '{';
+		echo '   background-image: url("' . $slide->bg_photo_src . '");';
+		echo '}';
+	}
+
+	// Slide Background Photo Color Overlay
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-slide-$i .fl-slide-bg-photo:after",
+		'enabled'  => 'photo' === $slide->bg_layout,
+		'props'    => array(
+			'background-color' => $slide->bg_photo_overlay_color,
+			'content'          => '" "',
+			'display'          => 'block',
+			'position'         => 'absolute',
+			'top'              => '0',
+			'left'             => '0',
+			'right'            => '0',
+			'bottom'           => '0',
+		),
+	) );
+
 	// Slide Background Color
 	if ( 'color' == $slide->bg_layout && ! empty( $slide->bg_color ) ) {
 		echo '.fl-node-' . $id . ' .fl-slide-' . $i;

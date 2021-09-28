@@ -15,12 +15,10 @@
 			},
 			isRTL: <?php echo is_rtl() ? 'true' : 'false'; ?>
 		});
-	});
 
-	<?php if ( 'grid' == $settings->layout ) : ?>
-	$(window).on('load', function() {
-		$('.fl-node-<?php echo $id; ?> .fl-post-<?php echo $settings->layout; ?>').masonry('reloadItems');
+		<?php if ( 'grid' == $settings->layout ) : ?>
+			$('.fl-node-<?php echo $id; ?> .fl-post-<?php echo $settings->layout; ?>').masonry('reloadItems');
+		<?php endif; ?>
 	});
-	<?php endif; ?>
 
 })(jQuery);

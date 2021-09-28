@@ -36,9 +36,9 @@ export const togglePanel = ( name = null ) => {
 	}
 }
 
-export const hideCurrentPanel = () => ({
+export const hideCurrentPanel = () => ( {
 	type: 'HIDE_CURRENT_PANEL'
-})
+} )
 
 export const setIsEditing = ( value = true ) => {
 	return {

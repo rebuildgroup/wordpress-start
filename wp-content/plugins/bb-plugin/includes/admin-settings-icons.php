@@ -57,6 +57,7 @@
 
 			?>
 			<hr />
+			<?php if ( ! FLBuilderFontAwesome::is_installed() ) : ?>
 			<p>
 				<?php if ( $legacy ) : ?>
 					<?php _e( 'Font Awesome PRO already enabled via fl_enable_fa5_pro filter.', 'fl-builder' ); ?>
@@ -64,7 +65,7 @@
 				<input type="checkbox" name="fl-enable-fa-pro" <?php echo $kit_checked; ?> /> <?php _e( 'Enable Font Awesome PRO icons.', 'fl-builder' ); ?>
 			<?php endif; ?>
 			</p>
-			<?php if ( $fa5_pro_enabled || $legacy ) : ?>
+				<?php if ( $fa5_pro_enabled || $legacy ) : ?>
 				<p>
 				<input style="width:300px;" placeholder="https://kit.fontawesome.com/nnnnnn.js" type="text" name="fl-fa-pro-kit" value="<?php echo esc_attr( get_option( '_fl_builder_kit_fa_pro' ) ); ?>" />
 				<br /><?php _e( 'For KIT support enter the kit URL here otherwise the Pro CDN will be used.', 'fl-builder' ); ?>
@@ -74,10 +75,20 @@
 					<?php _e( 'If you do not see a colored star icon below there may be an issue with your KIT URL, or you have not added your sites domain to the CDN settings at fontawesome.com', 'fl-builder' ); ?>
 				</p>
 				<p><i class="fad fa-star fa-3x" style="--fa-primary-color:yellow;--fa-secondary-color:orange;--fa-secondary-opacity:1" ></i></p>
+				<?php endif; ?>
+				<hr />
+			<?php else : ?>
+				<?php $data = FLBuilderFontAwesome::get_fa_data(); ?>
+				<h4>Font Awesome Integration</h4>
+				<ul>
+					<?php
+					foreach ( $data as $k => $item ) {
+						printf( '<li><strong>%s</strong>: %s</li>', $item['name'], $item['value'] );
+					}
+					?>
+				</ul>
 			<?php endif; ?>
 		</div>
-
-		<hr />
 		<p class="submit">
 			<input type="button" name="fl-upload-icon" class="button" value="<?php esc_attr_e( 'Upload Icon Set', 'fl-builder' ); ?>" />
 			<input type="submit" name="fl-save-icons" class="button-primary" value="<?php esc_attr_e( 'Save Icon Settings', 'fl-builder' ); ?>" />

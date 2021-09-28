@@ -658,17 +658,7 @@
 	-webkit-transition: all .35s ease-in-out;
 	-moz-transition: all .35s ease-in-out;
 	transition: all .35s ease-in-out;
-	opacity: 0;
 	z-index: -1;
-	visibility: hidden;
-	-webkit-transform: scale(0.5);
-	-moz-transform: scale(0.5);
-	-ms-transform: scale(0.5);
-	-o-transform: scale(0.5);
-	transform: scale(0.5);
-	-webkit-transition: all .35s ease-in-out;
-	-moz-transition: all .35s ease-in-out;
-	transition: all .35s ease-in-out;
 }
 
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect14 .uabb-ih-image-block,
@@ -1500,11 +1490,7 @@
 }
 
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect5.uabb-ih-hover .uabb-ih-info .uabb-ih-info-back,
-.uabb-ih-item.uabb-ih-square.uabb-ih-effect5.uabb-ih-hover .uabb-ih-info .uabb-ih-info-back,
-.uabb-ih-item.uabb-ih-circle.uabb-ih-effect13.uabb-ih-hover .uabb-ih-heading,
-.uabb-ih-item.uabb-ih-square.uabb-ih-effect13.uabb-ih-hover .uabb-ih-heading,
-.uabb-ih-item.uabb-ih-circle.uabb-ih-effect13.uabb-ih-hover .uabb-ih-description,
-.uabb-ih-item.uabb-ih-square.uabb-ih-effect13.uabb-ih-hover .uabb-ih-description {
+.uabb-ih-item.uabb-ih-square.uabb-ih-effect5.uabb-ih-hover .uabb-ih-info .uabb-ih-info-back {
 	visibility: visible;
 }
 
@@ -1675,25 +1661,12 @@
 	-ms-transform: translateX(100%) rotate(180deg);
 	-o-transform: translateX(100%) rotate(180deg);
 	transform: translateX(100%) rotate(180deg);
-	-webkit-transform: translateX(100%) rotate(180deg);
-	-moz-transform: translateX(100%) rotate(180deg);
-	-ms-transform: translateX(100%) rotate(180deg);
-	-o-transform: translateX(100%) rotate(180deg);
-	transform: translateX(100%) rotate(180deg);
 }
 
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect12.uabb-ih-left_to_right.uabb-ih-hover .uabb-ih-info,
 .uabb-ih-item.uabb-ih-square.uabb-ih-effect12.uabb-ih-left_to_right.uabb-ih-hover .uabb-ih-info,
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect12.uabb-ih-right_to_left.uabb-ih-hover .uabb-ih-info,
 .uabb-ih-item.uabb-ih-square.uabb-ih-effect12.uabb-ih-right_to_left.uabb-ih-hover .uabb-ih-info {
-	-webkit-transform: translateX(0) rotate(0);
-	-moz-transform: translateX(0) rotate(0);
-	-ms-transform: translateX(0) rotate(0);
-	-o-transform: translateX(0) rotate(0);
-	transform: translateX(0) rotate(0);
-	-webkit-transition-delay: .4s;
-	-moz-transition-delay: .4s;
-	transition-delay: .4s;
 	-webkit-transform: translateX(0) rotate(0);
 	-moz-transform: translateX(0) rotate(0);
 	-ms-transform: translateX(0) rotate(0);
@@ -1713,11 +1686,6 @@
 	-ms-transform: translateX(0) rotate(0);
 	-o-transform: translateX(0) rotate(0);
 	transform: translateX(0) rotate(0);
-	-webkit-transform: translateX(0) rotate(0);
-	-moz-transform: translateX(0) rotate(0);
-	-ms-transform: translateX(0) rotate(0);
-	-o-transform: translateX(0) rotate(0);
-	transform: translateX(0) rotate(0);
 }
 
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect12.uabb-ih-right_to_left.uabb-ih-hover .uabb-ih-image-block,
@@ -1729,22 +1697,12 @@
 	-ms-transform: translateX(-100%) rotate(-180deg);
 	-o-transform: translateX(-100%) rotate(-180deg);
 	transform: translateX(-100%) rotate(-180deg);
-	-webkit-transform: translateX(-100%) rotate(-180deg);
-	-moz-transform: translateX(-100%) rotate(-180deg);
-	-ms-transform: translateX(-100%) rotate(-180deg);
-	-o-transform: translateX(-100%) rotate(-180deg);
-	transform: translateX(-100%) rotate(-180deg);
 }
 
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect12.uabb-ih-top_to_bottom.uabb-ih-hover .uabb-ih-image-block,
 .uabb-ih-item.uabb-ih-square.uabb-ih-effect12.uabb-ih-top_to_bottom.uabb-ih-hover .uabb-ih-image-block,
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect12.uabb-ih-top_to_bottom .uabb-ih-info,
 .uabb-ih-item.uabb-ih-square.uabb-ih-effect12.uabb-ih-top_to_bottom .uabb-ih-info {
-	-webkit-transform: translateY(-100%) rotate(-180deg);
-	-moz-transform: translateY(-100%) rotate(-180deg);
-	-ms-transform: translateY(-100%) rotate(-180deg);
-	-o-transform: translateY(-100%) rotate(-180deg);
-	transform: translateY(-100%) rotate(-180deg);
 	-webkit-transform: translateY(-100%) rotate(-180deg);
 	-moz-transform: translateY(-100%) rotate(-180deg);
 	-ms-transform: translateY(-100%) rotate(-180deg);
@@ -1764,14 +1722,6 @@
 	-webkit-transition-delay: .4s;
 	-moz-transition-delay: .4s;
 	transition-delay: .4s;
-	-webkit-transform: translateY(0) rotate(0);
-	-moz-transform: translateY(0) rotate(0);
-	-ms-transform: translateY(0) rotate(0);
-	-o-transform: translateY(0) rotate(0);
-	transform: translateY(0) rotate(0);
-	-webkit-transition-delay: .4s;
-	-moz-transition-delay: .4s;
-	transition-delay: .4s;
 }
 
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect12.uabb-ih-top_to_bottom .uabb-ih-image-block,
@@ -1783,22 +1733,12 @@
 	-ms-transform: translateY(0) rotate(0);
 	-o-transform: translateY(0) rotate(0);
 	transform: translateY(0) rotate(0);
-	-webkit-transform: translateY(0) rotate(0);
-	-moz-transform: translateY(0) rotate(0);
-	-ms-transform: translateY(0) rotate(0);
-	-o-transform: translateY(0) rotate(0);
-	transform: translateY(0) rotate(0);
 }
 
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect12.uabb-ih-bottom_to_top.uabb-ih-hover .uabb-ih-image-block,
 .uabb-ih-item.uabb-ih-square.uabb-ih-effect12.uabb-ih-bottom_to_top.uabb-ih-hover .uabb-ih-image-block,
 .uabb-ih-item.uabb-ih-circle.uabb-ih-effect12.uabb-ih-bottom_to_top .uabb-ih-info,
 .uabb-ih-item.uabb-ih-square.uabb-ih-effect12.uabb-ih-bottom_to_top .uabb-ih-info {
-	-webkit-transform: translateY(100%) rotate(180deg);
-	-moz-transform: translateY(100%) rotate(180deg);
-	-ms-transform: translateY(100%) rotate(180deg);
-	-o-transform: translateY(100%) rotate(180deg);
-	transform: translateY(100%) rotate(180deg);
 	-webkit-transform: translateY(100%) rotate(180deg);
 	-moz-transform: translateY(100%) rotate(180deg);
 	-ms-transform: translateY(100%) rotate(180deg);
@@ -1845,4 +1785,11 @@
 	-ms-transform: rotateX(0);
 	-o-transform: rotateX(0);
 	transform: rotateX(0);
+}
+
+.uabb-ih-item.uabb-ih-circle.uabb-ih-effect13.uabb-ih-hover .uabb-ih-heading,
+.uabb-ih-item.uabb-ih-square.uabb-ih-effect13.uabb-ih-hover .uabb-ih-heading,
+.uabb-ih-item.uabb-ih-circle.uabb-ih-effect13.uabb-ih-hover .uabb-ih-description,
+.uabb-ih-item.uabb-ih-square.uabb-ih-effect13.uabb-ih-hover .uabb-ih-description {
+    visibility: visible;
 }

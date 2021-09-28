@@ -75,8 +75,8 @@
 			FLBuilder.addHook( 'preview-init', this._switchAllSettingsToCurrentMode );
 			FLBuilder.addHook( 'responsive-editing-switched', this._showSize );
 
-			$( 'body' ).delegate( '.fl-field-responsive-toggle', 'click', this._settingToggleClicked );
-			$( 'body' ).delegate( '.fl-responsive-preview-message button', 'click', this._previewToggleClicked );
+			$( 'body' ).on( 'click', '.fl-field-responsive-toggle', this._settingToggleClicked );
+			$( 'body' ).on( 'click', '.fl-responsive-preview-message button', this._previewToggleClicked );
 		},
 
 		/**
@@ -95,8 +95,10 @@
 					FLBuilderConfig.relativePluginUrl
 				]
 			)
-
-			FLBuilderSimulateMediaQuery.ignore( FLBuilderConfig.responsiveIgnore );
+			ignorelist = $.map(FLBuilderConfig.responsiveIgnore, function(value, index) {
+				return [value];
+			});
+			FLBuilderSimulateMediaQuery.ignore( ignorelist );
 
 			// Reparse stylesheets that match these paths on each update.
 			FLBuilderSimulateMediaQuery.reparse( [

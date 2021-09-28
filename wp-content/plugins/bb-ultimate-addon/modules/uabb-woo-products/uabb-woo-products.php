@@ -729,7 +729,11 @@ class UABBWooProductsModule extends FLBuilderModule {
 		}
 
 		if ( $variation_id ) {
-			WC()->cart->add_to_cart( $product_id, $quantity, $variation_id );
+			add_action( 'wp_loaded', array( 'WC_Form_Handler', 'add_to_cart_action' ), 20 );
+
+			if ( is_callable( array( 'WC_AJAX', 'get_refreshed_fragments' ) ) ) {
+				home_url() . \WC_Ajax::get_refreshed_fragments();
+			}
 		} else {
 			WC()->cart->add_to_cart( $product_id, $quantity );
 		}

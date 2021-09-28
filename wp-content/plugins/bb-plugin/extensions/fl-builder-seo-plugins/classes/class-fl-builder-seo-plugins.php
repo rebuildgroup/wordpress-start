@@ -19,6 +19,9 @@ class FLBuilderSeoPlugins {
 		add_filter( 'the_seo_framework_sitemap_exclude_cpt', array( $this, 'sf_sitemap' ) );
 
 		add_filter( 'rank_math/sitemap/excluded_post_types', array( $this, 'rankmath_types' ) );
+
+		add_filter( 'seopress_content_analysis_content', array( $this, 'sp_content_analysis_content' ), 10, 2 );
+
 	}
 
 	function init() {
@@ -118,13 +121,13 @@ class FLBuilderSeoPlugins {
 		}
 	}
 
-	function content_data() {
+	function content_data( $post_id = false ) {
 
-		if ( ! isset( $_GET['post'] ) ) {
+		if ( ! $post_id && ! isset( $_GET['post'] ) ) {
 			return false;
 		}
 
-		$id = $_GET['post'];
+		$id = ( false === $post_id ) ? $_GET['post'] : $post_id;
 
 		if ( ! get_post_meta( $id, '_fl_builder_enabled', true ) ) {
 			return false;
@@ -146,6 +149,13 @@ class FLBuilderSeoPlugins {
 	public function sf_sitemap( $types ) {
 		$types[] = 'fl-builder-template';
 		return $types;
+	}
+
+	function sp_content_analysis_content( $content, $id ) {
+		if ( get_post_meta( $id, '_fl_builder_enabled', true ) ) {
+			return $this->content_data( $id );
+		}
+		return $content;
 	}
 
 }

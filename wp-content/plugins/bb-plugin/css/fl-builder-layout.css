@@ -31,14 +31,6 @@
 .fl-module-content:after {
 	clear: both;
 }
-.fl-row,
-.fl-row-content,
-.fl-col-group,
-.fl-col,
-.fl-module,
-.fl-module-content {
-	zoom:1;
-}
 .fl-clear {
 	clear: both;
 }
@@ -54,8 +46,15 @@
 .fl-clearfix:after {
 	clear: both;
 }
-.fl-clearfix {
-	zoom:1;
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
 }
 
 /* Responsive Utilities
@@ -512,7 +511,7 @@
 	text-decoration: none;
 }
 .fl-icon i {
-	float: left;
+	float: right;
 	height: auto;
 	width: auto;
 }

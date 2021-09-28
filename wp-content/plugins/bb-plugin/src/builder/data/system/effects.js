@@ -7,7 +7,7 @@ export const before = {}
  * Effects that fire after an action.
  */
 export const after = {
-	TOGGLE_PANEL: ( action, store ) => {
+	TOGGLE_PANEL( action, store ) {
 		const { currentPanel } = store.getState()
 		const html = document.querySelector( 'html' )
 
@@ -21,8 +21,8 @@ export const after = {
 			html.classList.remove( 'fl-builder-assistant-visible' )
 		}
 	},
-	HIDE_CURRENT_PANEL: () => {
+	HIDE_CURRENT_PANEL() {
 		const html = document.querySelector( 'html' )
 		html.classList.remove( 'fl-builder-assistant-visible' )
-	}
+	},
 }

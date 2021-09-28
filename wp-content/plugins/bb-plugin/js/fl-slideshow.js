@@ -4057,10 +4057,6 @@ Y.namespace('FL').SlideshowSocial = Y.Base.create('fl-slideshow-social', Y.Widge
 	renderUI: function()
 	{
 		this._buttons = {};
-
-		if(this.get('root').get('googlePlusButtonEnabled')) {
-			this._renderGooglePlusButton();
-		}
 	},
 
 	/**
@@ -4076,9 +4072,6 @@ Y.namespace('FL').SlideshowSocial = Y.Base.create('fl-slideshow-social', Y.Widge
 		}
 		if(root.get('tweetButtonEnabled')) {
 			root.on('imageLoadComplete', Y.bind(this._updateTweetButton, this));
-		}
-		if(root.get('googlePlusButtonEnabled')) {
-			root.on('imageLoadComplete', Y.bind(this._updateGooglePlusButton, this));
 		}
 		if(root.get('pinterestButtonEnabled')) {
 			root.on('imageLoadComplete', Y.bind(this._updatePinterestButton, this));
@@ -4160,61 +4153,6 @@ Y.namespace('FL').SlideshowSocial = Y.Base.create('fl-slideshow-social', Y.Widge
 		});
 
 		cb.appendChild(this._buttons.tweet);
-	},
-
-	/**
-	 * @method _renderGooglePlusButton
-	 * @protected
-	 */
-	_renderGooglePlusButton: function()
-	{
-		var po, head;
-
-		po = document.createElement('script');
-		po.type = 'text/javascript';
-    	po.src = 'https://apis.google.com/js/plusone.js';
-
-		head = document.getElementsByTagName('head')[0];
-		head.parentNode.appendChild(po);
-	},
-
-	/**
-	 * @method _updateGooglePlusButton
-	 * @protected
-	 */
-	_updateGooglePlusButton: function()
-	{
-		if(typeof gapi == 'undefined') {
-			setTimeout(Y.bind(this._updateGooglePlusButtonCallback, this), 500);
-		}
-		else {
-			this._updateGooglePlusButtonCallback();
-		}
-	},
-
-	/**
-	 * @method _updateGooglePlusButtonCallback
-	 * @protected
-	 */
-	_updateGooglePlusButtonCallback: function()
-	{
-		var imageInfo 	= this.get('root').imageInfo,
-			cb			= this.get('contentBox');
-
-		if(this._buttons.plus) {
-			this._buttons.plus.remove();
-			this._buttons.plus = null;
-		}
-		if(typeof gapi != 'undefined') {
-			this._buttons.plus = Y.Node.create('<div></div>');
-			cb.appendChild(this._buttons.plus);
-
-			gapi.plusone.render(this._buttons.plus._node, {
-				href: encodeURIComponent(imageInfo.largeURL),
-				annotation: 'bubble',
-				size: 'medium'
-			});
-		}
 	},
 
 	/**
@@ -8072,7 +8010,6 @@ Y.namespace('FL').Slideshow = Y.Base.create('fl-slideshow', Y.FL.SlideshowBase, 
 		if(nav) {
 			navHeight = parseInt(nav.get('boundingBox').getComputedStyle('height'), 10);
 		}
-
 		if(nav && navOverlay) {
 			socialBB.setStyle(paddingType, navHeight + 'px');
 			socialBB.setStyle(navPosition, '0px');
@@ -8091,6 +8028,10 @@ Y.namespace('FL').Slideshow = Y.Base.create('fl-slideshow', Y.FL.SlideshowBase, 
 	_toggleSocial: function()
 	{
 		this._toggleOverlay(this.social.slideshowOverlay);
+		// Refresh iframe to fix tweet button issue visibility inside hidden elements
+		var iFrame = jQuery('.fl-slideshow-social-content').find('iframe');
+		iFrame.remove();
+		jQuery('.fl-slideshow-social-content').prepend(iFrame);
 	},
 
 	/**
@@ -8952,17 +8893,6 @@ Y.namespace('FL').Slideshow = Y.Base.create('fl-slideshow', Y.FL.SlideshowBase, 
 		 */
 		verticalThumbsTransitionEasing: {
 			value: 'ease-out'
-		},
-
-		/**
-		 * Whether to use the Google Plus button or not.
-		 *
-		 * @attribute googlePlusButtonEnabled
-		 * @type Boolean
-		 * @default true
-		 */
-		googlePlusButtonEnabled: {
-			value: true
 		},
 
 		/**

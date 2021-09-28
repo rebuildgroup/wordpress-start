@@ -9,13 +9,6 @@
 
 ?>
 
-<?php if ( ! empty( $settings->text_color ) ) : ?>
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-slider-post .fl-post-slider-content .fl-post-slider-feed-meta *,
-	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-slider-post .fl-post-slider-content .fl-post-slider-feed-content * {
-			color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
-	}
-<?php endif; ?>
-
 <?php if ( $global_settings->responsive_enabled ) : ?>
 
 	<?php if ( isset( $settings->image_type ) && 'background' == $settings->image_type ) : ?>
@@ -251,29 +244,10 @@
 	}
 <?php endif; ?>
 
-
-<?php if ( ! empty( $settings->link_color ) ) : ?>
-.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-slider-post .fl-post-slider-content .fl-post-slider-title a,
-.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-slider-post .fl-post-slider-content .fl-post-slider-feed-meta a,
-.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-slider-post .fl-post-slider-content .fl-post-slider-feed-meta-content a {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ); ?>;
-}
-<?php endif; ?>
-
-<?php if ( ! empty( $settings->link_hover_color ) ) : ?>
-.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-slider-post .fl-post-slider-content .fl-post-slider-title a:hover,
-.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-slider-post .fl-post-slider-content .fl-post-slider-feed-meta a:hover,
-.fl-builder-content .fl-node-<?php echo $id; ?> .fl-post-slider-post .fl-post-slider-content .fl-post-slider-feed-meta-content a:hover {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
-}
-<?php endif; ?>
-
 <?php if ( 'yes' == $settings->navigation ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-post-slider-navigation path{
 		<?php if ( isset( $settings->arrows_text_color ) && ! empty( $settings->arrows_text_color ) ) : ?>
 			fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_text_color ); ?>;
-		<?php elseif ( ! empty( $settings->text_color ) ) : ?>
-			fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 		<?php endif; ?>
 	}
 
@@ -299,8 +273,109 @@
 	<?php endif; ?>
 <?php endif; ?>
 
-<?php if ( ! empty( $settings->title_custom_size ) && 'custom' == $settings->title_size ) : ?>
-	.fl-node-<?php echo $id; ?> .fl-post-slider-title{
-		font-size: <?php echo $settings->title_custom_size; ?>px;
-	}
-<?php endif; ?>
+<?php
+
+// post title
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-title a",
+	'props'    => array(
+		'color' => $settings->title_color,
+	),
+) );
+
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-title a:hover",
+	'props'    => array(
+		'color' => $settings->title_hover_color,
+	),
+) );
+
+FLBuilderCSS::typography_field_rule( array(
+	'settings'     => $settings,
+	'setting_name' => 'title_typography',
+	'selector'     => ".fl-node-$id .fl-post-slider-title, .fl-node-$id .fl-post-slider-title a",
+) );
+
+// post meta
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-feed-meta",
+	'props'    => array(
+		'color' => $settings->meta_color,
+	),
+) );
+
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-feed-meta a",
+	'props'    => array(
+		'color' => $settings->meta_link_color,
+	),
+) );
+
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-feed-meta a:hover",
+	'props'    => array(
+		'color' => $settings->meta_link_hover_color,
+	),
+) );
+
+FLBuilderCSS::typography_field_rule( array(
+	'settings'     => $settings,
+	'setting_name' => 'meta_typography',
+	'selector'     => ".fl-node-$id .fl-post-slider-feed-meta, .fl-node-$id .fl-post-slider-feed-meta a",
+) );
+
+// post content
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-feed-content",
+	'enabled'  => '1' == $settings->show_content,
+	'props'    => array(
+		'color' => $settings->content_color,
+	),
+) );
+
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-feed-content a:not(.fl-post-slider-feed-more)",
+	'enabled'  => '1' == $settings->show_content,
+	'props'    => array(
+		'color' => $settings->content_link_color,
+	),
+) );
+
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-feed-content a:not(.fl-post-slider-feed-more):hover",
+	'enabled'  => '1' == $settings->show_content,
+	'props'    => array(
+		'color' => $settings->content_link_hover_color,
+	),
+) );
+
+FLBuilderCSS::typography_field_rule( array(
+	'settings'     => $settings,
+	'setting_name' => 'content_typography',
+	'enabled'      => '1' == $settings->show_content,
+	'selector'     => ".fl-node-$id .fl-post-slider-feed-content",
+) );
+
+// more link
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-feed-more",
+	'enabled'  => '1' == $settings->show_more_link,
+	'props'    => array(
+		'color' => $settings->more_link_color,
+	),
+) );
+
+FLBuilderCSS::rule( array(
+	'selector' => ".fl-node-$id .fl-post-slider-feed-more:hover",
+	'enabled'  => '1' == $settings->show_more_link,
+	'props'    => array(
+		'color' => $settings->more_link_hover_color,
+	),
+) );
+
+FLBuilderCSS::typography_field_rule( array(
+	'settings'     => $settings,
+	'setting_name' => 'more_link_typography',
+	'enabled'      => '1' == $settings->show_more_link,
+	'selector'     => ".fl-node-$id .fl-post-slider-feed-more",
+) );

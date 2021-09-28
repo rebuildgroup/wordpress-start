@@ -52,6 +52,7 @@ if ( ! class_exists( 'UABB_WPML_Translatable' ) ) {
 				require_once BB_ULTIMATE_ADDON_DIR . 'classes/wpml/class-wpml-uabb-pricing-box.php';
 				require_once BB_ULTIMATE_ADDON_DIR . 'classes/wpml/class-wpml-uabb-how-to.php';
 				require_once BB_ULTIMATE_ADDON_DIR . 'classes/wpml/class-wpml-uabb-faq.php';
+				require_once BB_ULTIMATE_ADDON_DIR . 'classes/wpml/class-wpml-uabb-timeline.php';
 			}
 
 		}
@@ -1312,6 +1313,29 @@ if ( ! class_exists( 'UABB_WPML_Translatable' ) ) {
 						'editor_type' => 'LINE',
 					),
 				),
+			);
+
+			// UABB Advanced Timeline.
+			$form['uabb-timeline'] = array(
+				'conditions'        => array( 'type' => 'uabb-timeline' ),
+				'fields'            => array(
+					array(
+						'field'       => 'link_text',
+						'type'        => __( 'UABB Advanced Timeline : Link Text', 'uabb' ),
+						'editor_type' => 'LINE',
+					),
+					array(
+						'field'       => 'custom_meta_key',
+						'type'        => __( 'UABB Advanced Timeline : Custom Meta Key', 'uabb' ),
+						'editor_type' => 'LINE',
+					),
+					array(
+						'field'       => 'no_results_message',
+						'type'        => __( 'UABB Advanced Timeline : No Results Message', 'uabb' ),
+						'editor_type' => 'LINE',
+					),
+				),
+				'integration-class' => 'WPML_UABB_TIMELINE',
 			);
 
 			return $form;

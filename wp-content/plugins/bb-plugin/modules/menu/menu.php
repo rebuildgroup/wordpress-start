@@ -20,10 +20,16 @@ class FLMenuModule extends FLBuilderModule {
 			'category'        => __( 'Actions', 'fl-builder' ),
 			'partial_refresh' => true,
 			'editor_export'   => false,
-			'icon'            => 'hamburger-menu.svg',
+			'icon'            => 'menu.svg',
 		));
 
+		// Actions
 		add_action( 'pre_get_posts', __CLASS__ . '::set_pre_get_posts_query', 10, 2 );
+
+		// Filters
+		if ( class_exists( 'WooCommerce' ) ) {
+			add_filter( 'woocommerce_add_to_cart_fragments', array( $this, 'woo_menu_cart_ajax_fragments' ) );
+		}
 	}
 
 	/**
@@ -130,12 +136,13 @@ class FLMenuModule extends FLBuilderModule {
 			'hide_empty' => true,
 		) );
 		$fields    = array(
-			'type'   => 'select',
-			'label'  => __( 'Menu', 'fl-builder' ),
-			'helper' => __( 'Select a WordPress menu that you created in the admin under Appearance > Menus.', 'fl-builder' ),
+			'label' => __( 'Menu', 'fl-builder' ),
+			'help'  => __( 'Select a WordPress menu that you created in the admin under Appearance > Menus.', 'fl-builder' ),
 		);
 
 		if ( $get_menus ) {
+
+			$fields['type'] = 'select';
 
 			foreach ( $get_menus as $key => $menu ) {
 
@@ -149,9 +156,12 @@ class FLMenuModule extends FLBuilderModule {
 			$fields['options'] = $menus;
 
 		} else {
-			$fields['options'] = array(
-				'' => __( 'No Menus Found', 'fl-builder' ),
-			);
+
+			$url  = current_user_can( 'edit_theme_options' ) ? admin_url( 'nav-menus.php' ) : esc_url( home_url( '/' ) );
+			$text = current_user_can( 'edit_theme_options' ) ? __( 'Add a menu', 'fl-builder' ) : __( 'Home', 'fl-builder' );
+
+			$fields['type']    = 'raw';
+			$fields['content'] = sprintf( '<p class="fl-builder-settings-tab-description">%s&nbsp;<a target="_blank" href="%s">%s</a></p>', __( 'No Menus Found.', 'fl-builder' ), $url, $text );
 		}
 
 		return $fields;
@@ -266,6 +276,226 @@ class FLMenuModule extends FLBuilderModule {
 	public function is_responsive_menu_flyout() {
 		return strpos( $this->settings->mobile_full_width, 'flyout-' ) !== false;
 	}
+
+	/**
+	 * Gets the total number of top level menu items.
+	 *
+	 * @since 2.5
+	 * @return int
+	 */
+	public function get_total_top_lvl_items() {
+		$settings = $this->settings;
+		$count    = count( wp_list_filter( wp_get_nav_menu_items( $this->settings->menu ), array( 'menu_item_parent' => 0 ) ) );
+
+		if ( isset( $settings->woo_menu_cart ) && 'show' == $settings->woo_menu_cart ) {
+			$count++;
+		}
+
+		if ( isset( $settings->menu_search ) && 'show' == $settings->menu_search ) {
+			$count++;
+		}
+
+		return $count;
+	}
+
+	/**
+	 * Filters nav menu items.
+	 *
+	 * @return string
+	 */
+	public function filter_nav_menu_items( $items ) {
+		$settings = $this->settings;
+
+		if ( isset( $settings->woo_menu_cart ) && 'show' == $settings->woo_menu_cart ) {
+			$items = $this->render_menu_woo_cart( $items );
+		}
+
+		if ( isset( $settings->menu_search ) && 'show' == $settings->menu_search ) {
+			$items = $this->render_menu_search( $items );
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Add Woo cart to menu.
+	 *
+	 * @return string
+	 */
+	public function render_menu_woo_cart( $items ) {
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			return $items;
+		}
+
+		// Bail out if no data to load.
+		if ( empty( WC()->cart ) ) {
+			return $items;
+		}
+
+		$settings = $this->settings;
+		$classes  = 'menu-item fl-menu-cart-item';
+
+		$show_on_checkout = isset( $settings->show_menu_cart_checkout ) && 'yes' == $settings->show_menu_cart_checkout;
+
+		if ( ! $show_on_checkout && ( is_checkout() || is_cart() ) ) {
+			$classes .= ' fl-menu-cart-item-hidden';
+		}
+
+		$menu_cart_content = $this->woo_menu_cart_content();
+		$menu_item_li      = "<li class='$classes'>$menu_cart_content</li>";
+		$items            .= $menu_item_li;
+
+		return $items;
+	}
+
+	/**
+	 * Add search icon as menu item.
+	 *
+	 * @return string
+	 */
+	public function render_menu_search( $items ) {
+		$settings = $this->menu_search_settings();
+
+		ob_start();
+		FLBuilder::render_module_html( 'search', $settings );
+		$search_content = ob_get_clean();
+
+		$items .= "<li class='menu-item fl-menu-search-item'>$search_content</li>";
+
+		return $items;
+	}
+
+	/**
+	 * Returns an array of settings used to render a button module in the search module.
+	 *
+	 * @return array
+	 */
+	public function menu_search_settings() {
+		$settings = array(
+			'layout'     => 'button',
+			'btn_text'   => '',
+			'btn_action' => 'reveal',
+		);
+
+		foreach ( $this->settings as $key => $value ) {
+			if ( strstr( $key, 'search_btn_' ) ) {
+				$key              = str_replace( 'search_btn_', 'btn_', $key );
+				$settings[ $key ] = $value;
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Enable Woo ajax cart.
+	 *
+	 * @return array
+	 */
+	public function woo_menu_cart_ajax_fragments( $fragments ) {
+		if ( ! defined( 'WOOCOMMERCE_CART' ) ) {
+			define( 'WOOCOMMERCE_CART', true );
+		}
+
+		$menu_fragment = $this->woo_menu_cart_content();
+		if ( ! empty( $menu_fragment ) ) {
+			$fragments['a.fl-menu-cart-contents'] = $menu_fragment;
+		}
+
+		return $fragments;
+	}
+
+	/**
+	 * Woo cart menu content.
+	 *
+	 * @return string
+	 */
+	public function woo_menu_cart_content() {
+		$cart_count   = WC()->cart->cart_contents_count;
+		$settings     = null;
+		$item_content = '';
+
+		if ( 0 == $cart_count ) {
+			$menu_item_title   = __( 'Start shopping', 'fl-builder' );
+			$menu_item_classes = 'fl-menu-cart-contents empty-fl-menu-cart-visible';
+			$cart_url          = wc_get_page_permalink( 'shop' );
+		} else {
+			$menu_item_title   = __( 'View your shopping cart', 'fl-builder' );
+			$menu_item_classes = 'fl-menu-cart-contents';
+			$cart_url          = wc_get_cart_url();
+		}
+
+		if ( isset( $this->settings ) ) {
+			$settings = $this->settings;
+		} elseif ( $_REQUEST && isset( $_REQUEST['fl-menu-node'] ) ) {
+			$menu_node = $_REQUEST['fl-menu-node'];
+			$post_id   = (int) $_REQUEST['post-id'];
+
+			$data = FLBuilderModel::get_layout_data( 'published', $post_id );
+			if ( isset( $data[ $menu_node ] ) ) {
+				$menu = $data[ $menu_node ];
+
+				if ( $menu && isset( $menu->settings->woo_menu_cart ) && 'show' == $menu->settings->woo_menu_cart ) {
+					$settings = $menu->settings;
+				}
+			}
+		}
+
+		if ( $settings ) {
+			$display_type = isset( $settings->cart_display_type ) ? $settings->cart_display_type : 'count';
+			/* translators: %d: item count */
+			$items_count  = sprintf( _n( '%d item', '%d items', $cart_count, 'fl-builder' ), $cart_count );
+			$cart_total   = $this->get_woo_cart_total();
+			$cart_content = '<span class="fl-menu-cart-count">' . $items_count . '</span>';
+			$icon         = '';
+
+			if ( isset( $settings->cart_icon ) && ! empty( $settings->cart_icon ) ) {
+				$icon = '<i class="fl-menu-cart-icon ' . $settings->cart_icon . '" role="img" aria-label="' . __( 'Cart', 'fl-builder' ) . '"></i>';
+			}
+
+			if ( in_array( $display_type, array( 'total', 'count-total' ) ) ) {
+				$total_content = '<span class="fl-menu-cart-total">' . $cart_total . '</span>';
+				if ( 'count-total' == $display_type ) {
+					$cart_content .= ' &ndash; ' . $total_content;
+				} else {
+					$cart_content = $total_content;
+				}
+			}
+
+			$menu_item_classes .= ' fl-menu-cart-type-' . $display_type;
+
+			$item_content  = '<a class="' . $menu_item_classes . '" href="' . $cart_url . '" title="' . $menu_item_title . '">';
+			$item_content .= $icon . $cart_content;
+			$item_content .= '</a>';
+		}
+
+		return $item_content;
+	}
+
+	/**
+	 * Get Woo cart total price.
+	 */
+	public function get_woo_cart_total() {
+		$cart_total_type     = 'subtotal'; // subtotal | checkout_total
+		$cart_contents_total = 0;
+		if ( 'subtotal' == $cart_total_type ) {
+			if ( WC()->cart->display_prices_including_tax() ) {
+				$cart_contents_total = wc_price( WC()->cart->get_subtotal() + WC()->cart->get_subtotal_tax() );
+			} else {
+				$cart_contents_total = wc_price( WC()->cart->get_subtotal() );
+			}
+		} elseif ( 'checkout_total' == $cart_total_type ) {
+			$cart_contents_total = wc_price( WC()->cart->get_total( 'edit' ) );
+		} else {
+			if ( WC()->cart->display_prices_including_tax() ) {
+				$cart_contents_total = wc_price( WC()->cart->get_cart_contents_total() + WC()->cart->get_cart_contents_tax() );
+			} else {
+				$cart_contents_total = wc_price( WC()->cart->get_cart_contents_total() );
+			}
+		}
+
+		return $cart_contents_total;
+	}
 }
 
 /**
@@ -275,7 +505,7 @@ FLBuilder::register_module('FLMenuModule', array(
 	'general' => array( // Tab
 		'title'    => __( 'General', 'fl-builder' ), // Tab title
 		'sections' => array( // Tab Sections
-			'general' => array( // Section
+			'general'              => array( // Section
 				'title'  => '', // Section Title
 				'fields' => array( // Section Fields
 					'menu'                 => FLMenuModule::_get_menus(),
@@ -291,10 +521,12 @@ FLBuilder::register_module('FLMenuModule', array(
 						),
 						'toggle'  => array(
 							'horizontal' => array(
-								'fields' => array( 'submenu_hover_toggle', 'menu_align' ),
+								'fields'   => array( 'submenu_hover_toggle', 'menu_align' ),
+								'sections' => array( 'centered_inline_logo', 'search' ),
 							),
 							'vertical'   => array(
-								'fields' => array( 'submenu_hover_toggle' ),
+								'fields'   => array( 'submenu_hover_toggle' ),
+								'sections' => array( 'search' ),
 							),
 							'accordion'  => array(
 								'fields' => array( 'submenu_click_toggle', 'collapse' ),
@@ -341,7 +573,53 @@ FLBuilder::register_module('FLMenuModule', array(
 					),
 				),
 			),
-			'mobile'  => array(
+			'centered_inline_logo' => array(
+				'title'  => __( 'Centered + Inline Logo', 'fl-builder' ),
+				'fields' => array(
+					'menu_logo_image'        => array(
+						'type'        => 'photo',
+						'label'       => __( 'Logo Image', 'fl-builder' ),
+						'show_remove' => true,
+					),
+					'menu_logo_odd_position' => array(
+						'type'    => 'select',
+						'label'   => __( 'Inline Logo Position', 'fl-builder' ),
+						'default' => 'left',
+						'help'    => __( 'The inline logo will appear on the left or right side of odd menu items.', 'fl-builder' ),
+						'options' => array(
+							'left'  => __( 'Left', 'fl-builder' ),
+							'right' => __( 'Right', 'fl-builder' ),
+						),
+					),
+				),
+			),
+			'search'               => array(
+				'title'  => __( 'Search', 'fl-builder' ),
+				'fields' => array(
+					'menu_search'     => array(
+						'type'    => 'select',
+						'label'   => __( 'Search Menu', 'fl-builder' ),
+						'default' => 'hide',
+						'options' => array(
+							'show' => __( 'Show', 'fl-builder' ),
+							'hide' => __( 'Hide', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'show' => array(
+								'fields'   => array( 'search_btn_icon' ),
+								'sections' => array( 'search_style' ),
+							),
+						),
+					),
+					'search_btn_icon' => array(
+						'type'        => 'icon',
+						'default'     => 'fas fa-search',
+						'label'       => __( 'Icon', 'fl-builder' ),
+						'show_remove' => true,
+					),
+				),
+			),
+			'mobile'               => array(
 				'title'  => __( 'Responsive', 'fl-builder' ),
 				'fields' => array(
 					'mobile_toggle'     => array(
@@ -356,13 +634,19 @@ FLBuilder::register_module('FLMenuModule', array(
 						),
 						'toggle'  => array(
 							'hamburger'       => array(
-								'fields' => array( 'mobile_full_width', 'mobile_breakpoint' ),
+								'fields'   => array( 'mobile_full_width', 'mobile_breakpoint' ),
+								'sections' => array( 'mobile_toggle_style' ),
 							),
 							'hamburger-label' => array(
-								'fields' => array( 'mobile_full_width', 'mobile_breakpoint' ),
+								'fields'   => array( 'mobile_full_width', 'mobile_breakpoint' ),
+								'sections' => array( 'mobile_toggle_style' ),
 							),
 							'text'            => array(
-								'fields' => array( 'mobile_full_width', 'mobile_breakpoint' ),
+								'fields'   => array( 'mobile_full_width', 'mobile_breakpoint' ),
+								'sections' => array( 'mobile_toggle_style' ),
+							),
+							'expanded'        => array(
+								'fields' => array( 'mobile_stacked' ),
 							),
 						),
 					),
@@ -370,6 +654,9 @@ FLBuilder::register_module('FLMenuModule', array(
 						'type'    => 'select',
 						'label'   => __( 'Responsive Style', 'fl-builder' ),
 						'default' => 'no',
+						'preview' => array(
+							'type' => 'refresh',
+						),
 						'options' => array(
 							'no'                  => __( 'Inline', 'fl-builder' ),
 							'below'               => __( 'Below Row', 'fl-builder' ),
@@ -418,6 +705,67 @@ FLBuilder::register_module('FLMenuModule', array(
 							'mobile'        => __( 'Small Devices Only', 'fl-builder' ),
 						),
 					),
+					'mobile_stacked'    => array(
+						'type'    => 'select',
+						'label'   => __( 'Stacked Layout', 'fl-builder' ),
+						'default' => 'yes',
+						'options' => array(
+							'yes' => __( 'Yes', 'fl-builder' ),
+							'no'  => __( 'No', 'fl-builder' ),
+						),
+					),
+				),
+			),
+		),
+	),
+	'woo_tab' => array( // Section
+		'title'    => 'WooCommerce', // Section Title
+		'sections' => array( // Tab Sections
+			'general_woo' => array(
+				'title'  => '',
+				'fields' => array( // Section Fields
+					'woo_menu_cart'           => array(
+						'type'    => 'select',
+						'label'   => __( 'Menu Cart', 'fl-builder' ),
+						'default' => 'hide',
+						'options' => array(
+							'show' => __( 'Show', 'fl-builder' ),
+							'hide' => __( 'Hide', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'show' => array(
+								'fields'   => array( 'cart_icon', 'show_menu_cart_checkout', 'cart_display_type' ),
+								'sections' => array( 'woo_menu_cart_style' ),
+							),
+						),
+					),
+					'cart_icon'               => array(
+						'type'        => 'icon',
+						'label'       => __( 'Cart Icon', 'fl-builder' ),
+						'show_remove' => true,
+					),
+					'show_menu_cart_checkout' => array(
+						'type'    => 'select',
+						'label'   => __( 'Show on Checkout', 'fl-builder' ),
+						'default' => 'no',
+						'options' => array(
+							'yes' => __( 'Yes', 'fl-builder' ),
+							'no'  => __( 'No', 'fl-builder' ),
+						),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'cart_display_type'       => array(
+						'type'    => 'select',
+						'label'   => __( 'Display Type', 'fl-builder' ),
+						'default' => 'count',
+						'options' => array(
+							'count'       => __( 'Items Count', 'fl-builder' ),
+							'total'       => __( 'Total Amount', 'fl-builder' ),
+							'count-total' => __( 'Items Count and Total Amount', 'fl-builder' ),
+						),
+					),
 				),
 			),
 		),
@@ -425,7 +773,7 @@ FLBuilder::register_module('FLMenuModule', array(
 	'style'   => array( // Tab
 		'title'    => __( 'Style', 'fl-builder' ), // Tab title
 		'sections' => array( // Tab Sections
-			'general_style'   => array(
+			'general_style'        => array(
 				'title'  => __( 'Menu', 'fl-builder' ),
 				'fields' => array(
 					'menu_align'     => array(
@@ -455,9 +803,10 @@ FLBuilder::register_module('FLMenuModule', array(
 					),
 				),
 			),
-			'text_style'      => array(
-				'title'  => __( 'Links', 'fl-builder' ),
-				'fields' => array(
+			'text_style'           => array(
+				'title'     => __( 'Links', 'fl-builder' ),
+				'collapsed' => true,
+				'fields'    => array(
 					'link_color'          => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
@@ -540,9 +889,10 @@ FLBuilder::register_module('FLMenuModule', array(
 					),
 				),
 			),
-			'separator_style' => array(
-				'title'  => __( 'Separators', 'fl-builder' ),
-				'fields' => array(
+			'separator_style'      => array(
+				'title'     => __( 'Separators', 'fl-builder' ),
+				'collapsed' => true,
+				'fields'    => array(
 					'show_separator'  => array(
 						'type'    => 'select',
 						'label'   => __( 'Show Separators', 'fl-builder' ),
@@ -572,10 +922,55 @@ FLBuilder::register_module('FLMenuModule', array(
 					),
 				),
 			),
-			'submenu_style'   => array(
-				'title'  => __( 'Dropdowns', 'fl-builder' ),
-				'fields' => array(
-					'submenu_bg_color'     => array(
+			'submenu_style'        => array(
+				'title'     => __( 'Dropdowns', 'fl-builder' ),
+				'collapsed' => true,
+				'fields'    => array(
+					'submenu_link_color'          => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '.fl-menu .sub-menu > li > .fl-has-submenu-container > a, .fl-menu .sub-menu > li > a',
+									'property' => 'color',
+								),
+								array(
+									'selector' => '.fl-menu .sub-menu .fl-has-submenu-container .fl-menu-toggle:before, .fl-menu .sub-menu .fl-has-submenu-container .fl-menu-toggle:after',
+									'property' => 'border-color',
+								),
+							),
+						),
+					),
+					'submenu_link_hover_color'    => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '.sub-menu > li.current-menu-item > .fl-has-submenu-container > a, .sub-menu > li.current-menu-item > a',
+							'property' => 'color',
+						),
+					),
+					'submenu_link_hover_bg_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Hover Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '.sub-menu > li.current-menu-item > a, .sub-menu > li.current-menu-item > .fl-has-submenu-container > a',
+							'property' => 'background-color',
+						),
+					),
+					'submenu_bg_color'            => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
 						'label'       => __( 'Dropdown Background Color', 'fl-builder' ),
@@ -588,7 +983,7 @@ FLBuilder::register_module('FLMenuModule', array(
 							'property' => 'background-color',
 						),
 					),
-					'drop_shadow'          => array(
+					'drop_shadow'                 => array(
 						'type'    => 'select',
 						'label'   => __( 'Dropdown Shadow', 'fl-builder' ),
 						'default' => 'yes',
@@ -597,7 +992,7 @@ FLBuilder::register_module('FLMenuModule', array(
 							'yes' => __( 'Yes', 'fl-builder' ),
 						),
 					),
-					'submenu_spacing'      => array(
+					'submenu_spacing'             => array(
 						'type'    => 'dimension',
 						'label'   => __( 'Dropdown Padding', 'fl-builder' ),
 						'default' => '0',
@@ -609,7 +1004,7 @@ FLBuilder::register_module('FLMenuModule', array(
 							'property' => 'padding',
 						),
 					),
-					'submenu_link_spacing' => array(
+					'submenu_link_spacing'        => array(
 						'type'    => 'dimension',
 						'label'   => __( 'Dropdown Link Padding', 'fl-builder' ),
 						'default' => '',
@@ -621,6 +1016,342 @@ FLBuilder::register_module('FLMenuModule', array(
 							'property' => 'padding',
 						),
 					),
+					'submenu_border'              => array(
+						'type'       => 'border',
+						'label'      => __( 'Dropdown Border', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '.fl-menu .sub-menu',
+							'important' => true,
+						),
+					),
+					'submenu_border_hover_color'  => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Dropdown Border Hover Color', 'fl-builder' ),
+						'default'     => '',
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'submenu_typography'          => array(
+						'type'       => 'typography',
+						'label'      => __( 'Dropdown Typography', 'fl-builder' ),
+						'responsive' => array(
+							'default'    => array(
+								'default' => array(
+									'font_size'   => array(
+										'length' => '16',
+										'unit'   => 'px',
+									),
+									'line_height' => array(
+										'length' => '1',
+									),
+								),
+							),
+							'medium'     => array(),
+							'responsive' => array(),
+						),
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '.fl-menu .sub-menu',
+							'important' => true,
+						),
+					),
+				),
+			),
+			'mobile_submenu_style' => array(
+				'title'     => __( 'Responsive Dropdowns', 'fl-builder' ),
+				'collapsed' => true,
+				'fields'    => array(
+					'mobile_submenu_link_color'          => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Color', 'fl-builder' ),
+						'default'     => '',
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'mobile_submenu_link_hover_color'    => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'mobile_submenu_link_hover_bg_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Hover Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'mobile_submenu_bg_color'            => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Dropdown Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+				),
+			),
+			'mobile_toggle_style'  => array(
+				'title'     => __( 'Responsive Toggle', 'fl-builder' ),
+				'collapsed' => true,
+				'fields'    => array(
+					'mobile_toggle_size'           => array(
+						'type'     => 'unit',
+						'label'    => __( 'Size', 'fl-builder' ),
+						'default'  => '16',
+						'sanitize' => 'floatval',
+						'units'    => array( 'px', 'em', 'rem' ),
+						'slider'   => true,
+						'preview'  => array(
+							'type'     => 'css',
+							'selector' => '.fl-menu-mobile-toggle',
+							'property' => 'font-size',
+						),
+					),
+					'mobile_toggle_bg_color'       => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '.fl-menu-mobile-toggle',
+							'property' => 'background-color',
+						),
+					),
+					'mobile_toggle_hover_bg_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Hover Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'mobile_toggle_color'          => array(
+						'label'       => __( 'Color', 'fl-builder' ),
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '.fl-menu-mobile-toggle',
+							'property' => 'color',
+						),
+					),
+					'mobile_toggle_hover_color'    => array(
+						'label'       => __( 'Hover Color', 'fl-builder' ),
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'mobile_toggle_border'         => array(
+						'type'    => 'border',
+						'label'   => __( 'Border', 'fl-builder' ),
+						'preview' => array(
+							'type'      => 'css',
+							'selector'  => '.fl-menu-mobile-toggle',
+							'important' => true,
+						),
+					),
+				),
+			),
+			'search_style'         => array(
+				'title'     => __( 'Search Menu', 'fl-builder' ),
+				'collapsed' => true,
+				'fields'    => array(
+					'search_icon_size'            => array(
+						'type'       => 'unit',
+						'label'      => __( 'Icon Size', 'fl-builder' ),
+						'default'    => '16',
+						'sanitize'   => 'floatval',
+						'responsive' => true,
+						'units'      => array( 'px', 'em', 'rem' ),
+						'slider'     => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '.fl-menu-search-item a.fl-button, .fl-menu-search-item a.fl-button:visited',
+							'property' => 'font-size',
+						),
+					),
+					'search_btn_icon_color'       => array(
+						'type'       => 'color',
+						'default'    => '808080',
+						'label'      => __( 'Icon Color', 'fl-builder' ),
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'property'  => 'color',
+							'selector'  => 'i.fl-button-icon.fas:before',
+							'important' => true,
+						),
+					),
+					'search_btn_icon_color_hover' => array(
+						'type'       => 'color',
+						'label'      => __( 'Icon Hover Color', 'fl-builder' ),
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type' => 'none',
+						),
+					),
+					'form_width'                  => array(
+						'type'     => 'unit',
+						'label'    => __( 'Form Width', 'fl-builder' ),
+						'default'  => '400',
+						'sanitize' => 'absint',
+						'units'    => array( 'px', '%' ),
+						'slider'   => array(
+							'min'  => 0,
+							'max'  => 1100,
+							'step' => 10,
+						),
+						'preview'  => array(
+							'type'     => 'css',
+							'selector' => '.fl-menu-search-item .fl-search-form-input-wrap',
+							'property' => 'width',
+						),
+					),
+					'search_form_bg_color'        => array(
+						'type'        => 'color',
+						'label'       => __( 'Form Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'connections' => array( 'color' ),
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '.fl-menu-search-item .fl-search-form-input-wrap',
+							'property' => 'background-color',
+						),
+					),
+					'search_form_bg_hover_color'  => array(
+						'type'        => 'color',
+						'label'       => __( 'Form Background Hover Color', 'fl-builder' ),
+						'default'     => '',
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'connections' => array( 'color' ),
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'search_form_border'          => array(
+						'type'    => 'border',
+						'label'   => __( 'Form Border', 'fl-builder' ),
+						'preview' => array(
+							'type'      => 'css',
+							'selector'  => '.fl-menu-search-item .fl-search-form-input-wrap',
+							'important' => true,
+						),
+					),
+					'search_form_border_hover'    => array(
+						'type'    => 'border',
+						'label'   => __( 'Form Border Hover', 'fl-builder' ),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'search_form_padding'         => array(
+						'type'       => 'dimension',
+						'label'      => __( 'Form Padding', 'fl-builder' ),
+						'default'    => '10',
+						'responsive' => true,
+						'slider'     => true,
+						'units'      => array( 'px' ),
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '.fl-menu-search-item .fl-search-form-input-wrap',
+							'property' => 'padding',
+						),
+					),
+				),
+			),
+			'woo_menu_cart_style'  => array(
+				'title'     => __( 'WooCommerce Menu Cart', 'fl-builder' ),
+				'collapsed' => true,
+				'fields'    => array(
+					'menu_cart_bg_color'       => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type'      => 'css',
+							'selector'  => 'li.fl-menu-cart-item',
+							'important' => true,
+							'property'  => 'background-color',
+						),
+					),
+					'menu_cart_hover_bg_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Hover Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'menu_cart_color'          => array(
+						'label'       => __( 'Color', 'fl-builder' ),
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => 'li.fl-menu-cart-item, .fl-menu-cart-item > a.fl-menu-cart-contents',
+							'property' => 'color',
+						),
+					),
+					'menu_cart_hover_color'    => array(
+						'label'       => __( 'Hover Color', 'fl-builder' ),
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'menu_cart_typography'     => array(
+						'type'    => 'typography',
+						'label'   => __( 'Typography', 'fl-builder' ),
+						'preview' => array(
+							'type'      => 'css',
+							'selector'  => 'li.fl-menu-cart-item > a.fl-menu-cart-contents',
+							'important' => true,
+						),
+					),
 				),
 			),
 		),
@@ -629,6 +1360,8 @@ FLBuilder::register_module('FLMenuModule', array(
 
 
 class FL_Menu_Module_Walker extends Walker_Nav_Menu {
+
+	protected $walk_counter = 0;
 
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
@@ -666,6 +1399,27 @@ class FL_Menu_Module_Walker extends Walker_Nav_Menu {
 		$item_output .= $args->has_children ? '</div>' : '';
 
 		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+	}
+
+	function end_el( &$output, $item, $depth = 0, $args = array() ) {
+		if ( isset( $args->menu_logo_image_src ) && 0 == (int) $item->menu_item_parent ) {
+			$this->walk_counter++;
+
+			$total_menu_items = $args->total_top_lvl_items;
+			$logo_position    = ceil( $total_menu_items / 2 );
+
+			if ( 'left' == $args->menu_logo_odd_position && 0 != $total_menu_items % 2 ) {
+				$logo_position = $logo_position - 1;
+			}
+
+			if ( $this->walk_counter == $logo_position ) {
+				$output .= "</li><li class='fl-menu-logo'><a href='$args->menu_logo_link' itemprop='url'>";
+				$output .= "<img data-no-lazy='1' class='fl-logo-img' src='$args->menu_logo_image_src' />";
+				$output .= '</a></li>';
+			} else {
+				$output .= '</li>';
+			}
+		}
 	}
 
 	function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {

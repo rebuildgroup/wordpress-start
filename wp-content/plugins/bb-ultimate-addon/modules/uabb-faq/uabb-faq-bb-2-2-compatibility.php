@@ -531,11 +531,13 @@ FLBuilder::register_settings_form(
 							'faq_question' => array(
 								'type'        => 'text',
 								'label'       => __( 'Question', 'uabb' ),
+								'default'     => __( 'What is FAQ?', 'uabb' ),
 								'connections' => array( 'string', 'html' ),
 							),
 							'faq_answer'   => array(
 								'type'        => 'editor',
 								'label'       => __( 'Answer', 'uabb' ),
+								'default'     => __( 'This is FAQ answer. Click to edit this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'uabb' ),
 								'connections' => array( 'string', 'html' ),
 							),
 						),

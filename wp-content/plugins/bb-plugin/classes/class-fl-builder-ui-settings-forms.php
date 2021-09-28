@@ -892,7 +892,7 @@ class FLBuilderUISettingsForms {
 		/**
 		 * Use this filter to modify the config array for a field before it is rendered.
 		 * @see fl_builder_render_settings_field
-		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 * @since 2.0
 		 */
 		$field = apply_filters( 'fl_builder_render_settings_field', $field, $name, $settings ); // Allow field settings filtering first
@@ -981,6 +981,29 @@ class FLBuilderUISettingsForms {
 	 */
 	static public function render_icon_selector() {
 		$icon_sets = FLBuilderIcons::get_sets();
+		$enabled   = FLBuilderModel::get_enabled_icons();
+
+		if ( ! in_array( 'font-awesome-kit', $enabled ) ) {
+			unset( $icon_sets['font-awesome-kit'] );
+		}
+
+		// deal with fa plugin js
+		if ( FLBuilderFontAwesome::is_installed() ) {
+			$kit_enabled = false;
+			$enabled     = FLBuilderModel::get_enabled_icons();
+			$kit_icons   = FLBuilderFontAwesome::get_kit_icons();
+
+			if ( in_array( 'font-awesome-kit', $enabled ) ) {
+				$kit_enabled = true;
+			}
+			if ( $kit_enabled && count( $kit_icons ) > 0 ) {
+				unset( $icon_sets['font-awesome-5-solid'] );
+				unset( $icon_sets['font-awesome-5-regular'] );
+				unset( $icon_sets['font-awesome-5-brands'] );
+				unset( $icon_sets['font-awesome-5-light'] );
+				unset( $icon_sets['font-awesome-5-duotone'] );
+			}
+		}
 
 		ob_start();
 		include FL_BUILDER_DIR . 'includes/icon-selector.php';

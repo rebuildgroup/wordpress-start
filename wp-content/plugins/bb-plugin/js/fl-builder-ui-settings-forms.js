@@ -117,10 +117,11 @@
 			}
 
 			// Clear any visible registered panels
-            if ( 'Builder' in FL && 'data' in FL.Builder ) {
-                const actions = FL.Builder.data.getSystemActions()
-                actions.hideCurrentPanel()
-            }
+			const panel = FL.Builder.data.getSystemState().currentPanel
+			if ( null !== panel && 'outline' !== panel ) {
+				const actions = FL.Builder.data.getSystemActions()
+				actions.hideCurrentPanel()
+			}
 		},
 
 		/**
@@ -140,6 +141,10 @@
 				node_id  : config.nodeId,
 			}, function( response ) {
 				config.settings = FLBuilder._jsonParse( response );
+
+				const actions = FL.Builder.data.getLayoutActions()
+				actions.updateNodeSettings( config.nodeId, config.settings )
+
 				FLBuilderSettingsConfig.nodes[ config.nodeId ] = config.settings;
 				FLBuilderSettingsForms.render( config, callback );
 				FLBuilder.hideAjaxLoader();
@@ -975,6 +980,10 @@
 
 			var nodeId  = '',
 				content = $( FLBuilder._contentClass ).html();
+
+			if ( ! content ) {
+				return
+			}
 
 			for ( nodeId in this.nodes ) {
 				if ( content.indexOf( nodeId ) === -1 ) {

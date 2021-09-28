@@ -12,6 +12,9 @@
 }
 
 /* Horizontal menus */
+.fl-menu-horizontal {
+	text-align: left;
+}
 .fl-menu li{
 	position: relative;
 }

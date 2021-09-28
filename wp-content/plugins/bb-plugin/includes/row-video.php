@@ -77,7 +77,7 @@ data-webm-type="video/webm"
 	$video_data = FLBuilderUtils::get_video_data( do_shortcode( $row->settings->bg_video_service_url ) ); ?>
 <div class="<?php echo $bg_video_wrapper_classes; ?>"
 data-fallback="<?php if ( isset( $row->settings->bg_video_fallback_src ) ) { echo $row->settings->bg_video_fallback_src;} ?>"
-<?php if ( isset( $row->settings->bg_video_service_url ) ) : ?>
+<?php if ( isset( $row->settings->bg_video_service_url ) && isset( $video_data['type'] ) ) : ?>
 data-<?php echo $video_data['type']; ?>="<?php echo do_shortcode( $row->settings->bg_video_service_url );  ?>"
 data-video-id="<?php echo $video_data['video_id']; ?>"
 data-enable-audio="<?php echo $row->settings->bg_video_audio; ?>"

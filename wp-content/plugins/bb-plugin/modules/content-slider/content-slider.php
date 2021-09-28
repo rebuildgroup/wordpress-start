@@ -62,6 +62,12 @@ class FLContentSliderModule extends FLBuilderModule {
 				'btn_border_radius'      => 'border_radius',
 				'btn_border_size'        => 'border_size',
 			) );
+
+		}
+
+		// shuffle the slide as earliest
+		if ( isset( $settings->shuffle ) && '1' === $settings->shuffle && ! FLBuilderModel::is_builder_active() ) {
+			shuffle( $settings->slides );
 		}
 
 		return $settings;
@@ -73,7 +79,7 @@ class FLContentSliderModule extends FLBuilderModule {
 	public function render_background( $slide ) {
 		// Background photo
 		if ( 'photo' == $slide->bg_layout && ! empty( $slide->bg_photo_src ) ) {
-			echo '<div class="fl-slide-bg-photo" style="background-image: url(' . $slide->bg_photo_src . ');"></div>';
+			echo '<div class="fl-slide-bg-photo"></div>';
 		} elseif ( 'video' == $slide->bg_layout && ! empty( $slide->bg_video ) ) {
 			echo '<div class="fl-slide-bg-video">' . $slide->bg_video . '</div>';
 		}
@@ -162,7 +168,7 @@ class FLContentSliderModule extends FLBuilderModule {
 			if ( 'main' == $slide->r_photo_type && ! empty( $slide->fg_photo_src ) ) {
 				$id  = $slide->fg_photo;
 				$src = $slide->fg_photo_src;
-				$alt = get_post_meta( $slide->bg_photo, '_wp_attachment_image_alt', true );
+				$alt = get_post_meta( $slide->fg_photo, '_wp_attachment_image_alt', true );
 			} elseif ( 'another' == $slide->r_photo_type && ! empty( $slide->r_photo_src ) ) {
 				$id  = $slide->r_photo;
 				$src = $slide->r_photo_src;
@@ -170,8 +176,16 @@ class FLContentSliderModule extends FLBuilderModule {
 			}
 
 			if ( ! empty( $src ) ) {
+
+				$mobile_photo_link_open  = '';
+				$mobile_photo_link_close = '';
+
+				if ( ! empty( $slide->link ) ) {
+					$mobile_photo_link_open  = '<a href="' . $slide->link . '" target="' . $slide->link_target . '">';
+					$mobile_photo_link_close = '</a>';
+				}
 				echo '<div class="fl-slide-mobile-photo">';
-				printf( '<img %s class="fl-slide-mobile-photo-img wp-image-%s" src="%s" alt="%s" />', FLBuilderUtils::img_lazyload( 'false' ), $id, $src, esc_attr( $alt ) );
+				printf( '%s<img %s class="fl-slide-mobile-photo-img wp-image-%s" src="%s" alt="%s" />%s', $mobile_photo_link_open, FLBuilderUtils::img_lazyload( 'false' ), $id, $src, esc_attr( $alt ), $mobile_photo_link_close );
 				echo '</div>';
 			}
 		} elseif ( 'video' == $slide->content_layout && ! empty( $slide->fg_video ) ) {
@@ -308,6 +322,9 @@ FLBuilder::register_module('FLContentSliderModule', array(
 						'options' => array(
 							'0' => __( 'No', 'fl-builder' ),
 							'1' => __( 'Yes', 'fl-builder' ),
+						),
+						'preview' => array(
+							'type' => 'none',
 						),
 					),
 					'auto_hover' => array(
@@ -488,7 +505,7 @@ FLBuilder::register_settings_form('content_slider_slide', array(
 				'background' => array(
 					'title'  => __( 'Background Layout', 'fl-builder' ),
 					'fields' => array(
-						'bg_layout' => array(
+						'bg_layout'              => array(
 							'type'    => 'select',
 							'label'   => __( 'Type', 'fl-builder' ),
 							'default' => 'photo',
@@ -501,7 +518,7 @@ FLBuilder::register_settings_form('content_slider_slide', array(
 							),
 							'toggle'  => array(
 								'photo' => array(
-									'fields'   => array( 'bg_photo' ),
+									'fields'   => array( 'bg_photo', 'bg_photo_overlay_color' ),
 									'sections' => array( 'content', 'text' ),
 								),
 								'color' => array(
@@ -516,19 +533,26 @@ FLBuilder::register_settings_form('content_slider_slide', array(
 								),
 							),
 						),
-						'bg_photo'  => array(
+						'bg_photo'               => array(
 							'type'        => 'photo',
 							'show_remove' => true,
 							'label'       => __( 'Background Photo', 'fl-builder' ),
 						),
-						'bg_color'  => array(
+						'bg_photo_overlay_color' => array(
+							'type'        => 'color',
+							'connections' => array( 'color' ),
+							'label'       => __( 'Overlay Color', 'fl-builder' ),
+							'show_reset'  => true,
+							'show_alpha'  => true,
+						),
+						'bg_color'               => array(
 							'type'        => 'color',
 							'connections' => array( 'color' ),
 							'label'       => __( 'Background Color', 'fl-builder' ),
 							'show_reset'  => true,
 							'show_alpha'  => true,
 						),
-						'bg_video'  => array(
+						'bg_video'               => array(
 							'type'  => 'textarea',
 							'label' => __( 'Background Video Code', 'fl-builder' ),
 							'rows'  => '6',

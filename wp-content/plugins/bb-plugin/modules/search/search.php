@@ -272,702 +272,737 @@ class FLSearchModule extends FLBuilderModule {
 /**
  * Register the module and its form settings.
  */
-FLBuilder::register_module(
-	'FLSearchModule', array(
-		'layout'  => array(
-			'title'    => __( 'Layout', 'fl-builder' ),
-			'sections' => array(
-				'general'     => array(
-					'title'  => '',
-					'fields' => array(
-						'layout'          => array(
-							'type'    => 'select',
-							'label'   => __( 'Layout', 'fl-builder' ),
-							'default' => 'inline',
-							'options' => array(
-								'input'   => __( 'Input Text Only', 'fl-builder' ),
-								'inline'  => __( 'Inline', 'fl-builder' ),
-								'button'  => __( 'Button Only', 'fl-builder' ),
-								'stacked' => __( 'Stacked', 'fl-builder' ),
+FLBuilder::register_module('FLSearchModule', array(
+	'layout'  => array(
+		'title'    => __( 'Layout', 'fl-builder' ),
+		'sections' => array(
+			'general'     => array(
+				'title'  => '',
+				'fields' => array(
+					'layout'          => array(
+						'type'    => 'select',
+						'label'   => __( 'Layout', 'fl-builder' ),
+						'default' => 'inline',
+						'options' => array(
+							'input'   => __( 'Input Text Only', 'fl-builder' ),
+							'inline'  => __( 'Inline', 'fl-builder' ),
+							'button'  => __( 'Button Only', 'fl-builder' ),
+							'stacked' => __( 'Stacked', 'fl-builder' ),
 
-								//  TODO:
-								// 'combine' => __( 'Combine', 'fl-builder' ),
-							),
-							'toggle'  => array(
-								'input'   => array(
-									'fields'   => array( 'placeholder' ),
-									'sections' => array( 'form_style' ),
-								),
-								'inline'  => array(
-									'fields'   => array( 'placeholder', 'btn_text' ),
-									'sections' => array( 'button_icon', 'form_style', 'button_style', 'button_icon_color' ),
-								),
-								'stacked' => array(
-									'fields'   => array( 'placeholder', 'btn_text', 'btn_align', 'btn_width' ),
-									'sections' => array( 'button_icon', 'form_style', 'button_style', 'button_icon_color' ),
-								),
-								// 'combine' => array(
-								//     'fields'   => array( 'placeholder', 'btn_text' ),
-								//     'sections' => array( 'form_style', 'button_style' ),
-								// ),
-								'button'  => array(
-									'fields'   => array( 'placeholder', 'btn_action', 'btn_text', 'btn_align', 'btn_width' ),
-									'sections' => array( 'button_icon', 'button_style', 'form_style', 'button_icon_color' ),
-								),
-							),
+							//  TODO:
+							// 'combine' => __( 'Combine', 'fl-builder' ),
 						),
-						'placeholder'     => array(
-							'type'    => 'text',
-							'label'   => 'Placeholder Text',
-							'default' => __( 'Search...', 'fl-builder' ),
-							'preview' => array(
-								'type'      => 'attribute',
-								'attribute' => 'placeholder',
-								'selector'  => '.fl-search-text',
+						'toggle'  => array(
+							'input'   => array(
+								'fields'   => array( 'placeholder' ),
+								'sections' => array( 'form_style' ),
 							),
-						),
-						'btn_text'        => array(
-							'type'    => 'text',
-							'label'   => __( 'Button Text', 'fl-builder' ),
-							'default' => __( 'Search', 'fl-builder' ),
-							'preview' => array(
-								'type'     => 'text',
-								'selector' => '.fl-button-text',
+							'inline'  => array(
+								'fields'   => array( 'placeholder', 'btn_text' ),
+								'sections' => array( 'button_icon', 'form_style', 'button_style', 'button_icon_color' ),
 							),
-						),
-						'btn_action'      => array(
-							'type'    => 'select',
-							'label'   => __( 'Action', 'fl-builder' ),
-							'default' => 'expand',
-							'options' => array(
-								'expand'     => __( 'Expand on click', 'fl-builder' ),
-								'fullscreen' => __( 'Full Screen', 'fl-builder' ),
-
-								// TODO:
-								// 'reveal'     => __( 'Reveal', 'fl-builder' ),
+							'stacked' => array(
+								'fields'   => array( 'placeholder', 'btn_text', 'btn_align', 'btn_width' ),
+								'sections' => array( 'button_icon', 'form_style', 'button_style', 'button_icon_color' ),
 							),
-							'toggle'  => array(
-								'expand'     => array(
-									'fields' => array( 'expand_position' ),
-								),
-								'fullscreen' => array(
-									'sections' => array( 'fullscreen_style' ),
-								),
-							),
-							'preview' => array(
-								'type' => 'none',
-							),
-
-						),
-						'expand_position' => array(
-							'type'    => 'select',
-							'label'   => __( 'Expand Position', 'fl-builder' ),
-							'default' => 'left',
-							'options' => array(
-								'left'  => __( 'Left', 'fl-builder' ),
-								'right' => __( 'Right', 'fl-builder' ),
-							),
-							'preview' => array(
-								'type' => 'none',
+							// 'combine' => array(
+							// 	'fields'   => array( 'placeholder', 'btn_text' ),
+							// 	'sections' => array( 'form_style', 'button_style' ),
+							// ),
+							'button'  => array(
+								'fields'   => array( 'placeholder', 'btn_action', 'btn_text', 'btn_align', 'btn_width' ),
+								'sections' => array( 'button_icon', 'button_style', 'form_style', 'button_icon_color' ),
 							),
 						),
 					),
+					'placeholder'     => array(
+						'type'    => 'text',
+						'label'   => __( 'Placeholder Text', 'fl-builder' ),
+						'default' => __( 'Search...', 'fl-builder' ),
+						'preview' => array(
+							'type'      => 'attribute',
+							'attribute' => 'placeholder',
+							'selector'  => '.fl-search-text',
+						),
+					),
+					'btn_text'        => array(
+						'type'    => 'text',
+						'label'   => __( 'Button Text', 'fl-builder' ),
+						'default' => __( 'Search', 'fl-builder' ),
+						'preview' => array(
+							'type'     => 'text',
+							'selector' => '.fl-button-text',
+						),
+					),
+					'btn_action'      => array(
+						'type'    => 'select',
+						'label'   => __( 'Action', 'fl-builder' ),
+						'default' => 'expand',
+						'options' => array(
+							'expand'     => __( 'Expand on click', 'fl-builder' ),
+							'fullscreen' => __( 'Full Screen', 'fl-builder' ),
+
+							// TODO:
+							// 'reveal'     => __( 'Reveal', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'expand'     => array(
+								'fields' => array( 'expand_position' ),
+							),
+							'fullscreen' => array(
+								'sections' => array( 'fullscreen_style' ),
+							),
+						),
+						'preview' => array(
+							'type' => 'none',
+						),
+
+					),
+					'expand_position' => array(
+						'type'    => 'select',
+						'label'   => __( 'Expand Position', 'fl-builder' ),
+						'default' => 'left',
+						'options' => array(
+							'left'  => __( 'Left', 'fl-builder' ),
+							'right' => __( 'Right', 'fl-builder' ),
+						),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
 				),
-				'button_icon' => array(
-					'title'  => __( 'Button Icon', 'fl-builder' ),
-					'fields' => array(
-						'btn_icon'          => array(
-							'type'        => 'icon',
-							'label'       => __( 'Icon', 'fl-builder' ),
-							'show_remove' => true,
-							'show'        => array(
-								'fields'   => array( 'btn_icon_position' ),
-								'sections' => array( 'button_icon_color' ),
-							),
+			),
+			'button_icon' => array(
+				'title'  => __( 'Button Icon', 'fl-builder' ),
+				'fields' => array(
+					'btn_icon'          => array(
+						'type'        => 'icon',
+						'label'       => __( 'Icon', 'fl-builder' ),
+						'show_remove' => true,
+						'show'        => array(
+							'fields'   => array( 'btn_icon_position' ),
+							'sections' => array( 'button_icon_color' ),
 						),
-						'btn_duo_color1'    => array(
-							'label'      => __( 'DuoTone Primary Color', 'fl-builder' ),
-							'type'       => 'color',
-							'default'    => '',
-							'show_reset' => true,
-							'show_alpha' => true,
-							'preview'    => array(
-								'type'      => 'css',
-								'selector'  => '.fl-button-icon.fad:before',
-								'property'  => 'color',
-								'important' => true,
-							),
+					),
+					'btn_duo_color1'    => array(
+						'label'      => __( 'DuoTone Primary Color', 'fl-builder' ),
+						'type'       => 'color',
+						'default'    => '',
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '.fl-button-icon.fad:before',
+							'property'  => 'color',
+							'important' => true,
 						),
-						'btn_duo_color2'    => array(
-							'label'      => __( 'DuoTone Secondary Color', 'fl-builder' ),
-							'type'       => 'color',
-							'default'    => '',
-							'show_reset' => true,
-							'show_alpha' => true,
-							'preview'    => array(
-								'type'      => 'css',
-								'selector'  => '.fl-button-icon.fad:after',
-								'property'  => 'color',
-								'important' => true,
-							),
+					),
+					'btn_duo_color2'    => array(
+						'label'      => __( 'DuoTone Secondary Color', 'fl-builder' ),
+						'type'       => 'color',
+						'default'    => '',
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '.fl-button-icon.fad:after',
+							'property'  => 'color',
+							'important' => true,
 						),
-						'btn_icon_position' => array(
-							'type'    => 'select',
-							'label'   => __( 'Icon Position', 'fl-builder' ),
-							'default' => 'before',
-							'options' => array(
-								'before' => __( 'Before Text', 'fl-builder' ),
-								'after'  => __( 'After Text', 'fl-builder' ),
-							),
+					),
+					'btn_icon_position' => array(
+						'type'    => 'select',
+						'label'   => __( 'Icon Position', 'fl-builder' ),
+						'default' => 'before',
+						'options' => array(
+							'before' => __( 'Before Text', 'fl-builder' ),
+							'after'  => __( 'After Text', 'fl-builder' ),
 						),
 					),
 				),
 			),
 		),
-		'style'   => array(
-			'title'    => __( 'Style', 'fl-builder' ),
-			'sections' => array(
-				'general_style'     => array(
-					'title'  => '',
-					'fields' => array(
-						'width'               => array(
-							'type'    => 'select',
-							'label'   => __( 'Width', 'fl-builder' ),
-							'default' => 'full',
-							'options' => array(
-								'auto'   => _x( 'Auto', 'Width.', 'fl-builder' ),
-								'full'   => __( 'Full Width', 'fl-builder' ),
-								'custom' => __( 'Custom', 'fl-builder' ),
+	),
+	'style'   => array(
+		'title'    => __( 'Style', 'fl-builder' ),
+		'sections' => array(
+			'general_style'     => array(
+				'title'  => '',
+				'fields' => array(
+					'width'               => array(
+						'type'    => 'select',
+						'label'   => __( 'Width', 'fl-builder' ),
+						'default' => 'full',
+						'options' => array(
+							'auto'   => _x( 'Auto', 'Width.', 'fl-builder' ),
+							'full'   => __( 'Full Width', 'fl-builder' ),
+							'custom' => __( 'Custom', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'auto'   => array(
+								'fields' => array( 'form_align' ),
 							),
-							'toggle'  => array(
-								'auto'   => array(
-									'fields' => array( 'form_align' ),
-								),
-								'full'   => array(),
-								'custom' => array(
-									'fields' => array( 'form_align', 'custom_width' ),
-								),
+							'full'   => array(),
+							'custom' => array(
+								'fields' => array( 'form_align', 'custom_width' ),
 							),
 						),
-						'custom_width'        => array(
-							'type'     => 'unit',
-							'label'    => __( 'Custom Width', 'fl-builder' ),
-							'default'  => '1100',
-							'sanitize' => 'absint',
-							'units'    => array( 'px', '%' ),
-							'slider'   => array(
+					),
+					'custom_width'        => array(
+						'type'     => 'unit',
+						'label'    => __( 'Custom Width', 'fl-builder' ),
+						'default'  => '1100',
+						'sanitize' => 'absint',
+						'units'    => array( 'px', '%' ),
+						'slider'   => array(
+							'min'  => 0,
+							'max'  => 1100,
+							'step' => 10,
+						),
+						'help'     => __( 'The max width of the search form container.', 'fl-builder' ),
+						'preview'  => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-search-form-wrap',
+							'property' => 'width',
+						),
+					),
+					'form_height'         => array(
+						'type'       => 'unit',
+						'label'      => __( 'Height', 'fl-builder' ),
+						'default'    => '0',
+						'responsive' => true,
+						'sanitize'   => 'absint',
+						'units'      => array(
+							'px',
+							'vw',
+							'vh',
+						),
+						'slider'     => array(
+							'max'  => 600,
+							'step' => 10,
+						),
+						'help'       => __( 'This setting is the minimum height of the form. Content will expand the height automatically.', 'fl-builder' ),
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '{node} .fl-search-form-wrap',
+							'property'  => 'min-height',
+							'important' => true,
+						),
+					),
+					'form_align'          => array(
+						'type'       => 'align',
+						'label'      => __( 'Alignment', 'fl-builder' ),
+						'default'    => 'center',
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '.fl-search-form',
+							'property' => 'text-align',
+						),
+					),
+					'form_bg_color'       => array(
+						'type'        => 'color',
+						'label'       => __( 'Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'connections' => array( 'color' ),
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '{node}.fl-module-search .fl-search-form-wrap',
+							'property' => 'background-color',
+						),
+					),
+					'form_bg_hover_color' => array(
+						'type'        => 'color',
+						'label'       => __( 'Background Hover Color', 'fl-builder' ),
+						'default'     => '',
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'connections' => array( 'color' ),
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'form_border'         => array(
+						'type'    => 'border',
+						'label'   => __( 'Border', 'fl-builder' ),
+						'preview' => array(
+							'type'      => 'css',
+							'selector'  => '{node}.fl-module-search .fl-search-form-wrap',
+							'important' => true,
+						),
+					),
+					'form_border_hover'   => array(
+						'type'    => 'border',
+						'label'   => __( 'Border Hover', 'fl-builder' ),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'form_padding'        => array(
+						'type'       => 'dimension',
+						'label'      => __( 'Padding', 'fl-builder' ),
+						'default'    => '10',
+						'responsive' => true,
+						'slider'     => true,
+						'units'      => array( 'px' ),
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node}.fl-module-search .fl-search-form-wrap',
+							'property' => 'padding',
+						),
+					),
+				),
+			),
+			'input_style'       => array(
+				'title'  => __( 'Input Text', 'fl-builder' ),
+				'fields' => array(
+					'input_color'          => array(
+						'type'        => 'color',
+						'label'       => __( 'Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'connections' => array( 'color' ),
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '{node}.fl-module-search .fl-search-text, {node}.fl-module-search .fl-search-text::placeholder',
+							'property' => 'color',
+						),
+					),
+					'input_hover_color'    => array(
+						'type'        => 'color',
+						'label'       => __( 'Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'connections' => array( 'color' ),
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '{node}.fl-module-search .fl-search-text:hover, {node}.fl-module-search .fl-search-text:focus, {node}.fl-module-search .fl-search-text:hover::placeholder, {node}.fl-module-search .fl-search-text:focus::placeholder',
+							'property' => 'color',
+						),
+					),
+					'input_bg_color'       => array(
+						'type'        => 'color',
+						'label'       => __( 'Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'connections' => array( 'color' ),
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '{node}.fl-module-search .fl-search-text',
+							'property' => 'background-color',
+						),
+					),
+					'input_bg_hover_color' => array(
+						'type'        => 'color',
+						'label'       => __( 'Background Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'connections' => array( 'color' ),
+						'preview'     => array(
+							'type'     => 'css',
+							'selector' => '{node}.fl-module-search .fl-search-text:hover, {node}.fl-module-search .fl-search-text:focus',
+							'property' => 'background-color',
+						),
+					),
+					'input_typography'     => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '{node}.fl-module-search .fl-search-text',
+							'important' => true,
+						),
+					),
+					'input_border'         => array(
+						'type'    => 'border',
+						'label'   => __( 'Border', 'fl-builder' ),
+						'preview' => array(
+							'type'      => 'css',
+							'selector'  => '{node}.fl-module-search .fl-search-text',
+							'important' => true,
+						),
+					),
+					'input_border_hover'   => array(
+						'type'    => 'border',
+						'label'   => __( 'Border Hover', 'fl-builder' ),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'input_padding'        => array(
+						'type'       => 'dimension',
+						'label'      => __( 'Padding', 'fl-builder' ),
+						'default'    => '12',
+						'responsive' => true,
+						'slider'     => true,
+						'units'      => array( 'px' ),
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node}.fl-module-search .fl-search-text',
+							'property' => 'padding',
+						),
+					),
+				),
+			),
+			'button_style'      => array(
+				'title'  => 'Button',
+				'fields' => array(
+					'btn_align'            => array(
+						'type'    => 'align',
+						'label'   => __( 'Alignment', 'fl-builder' ),
+						'default' => 'center',
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'btn_width'            => array(
+						'type'    => 'select',
+						'label'   => __( 'Width', 'fl-builder' ),
+						'default' => 'auto',
+						'options' => array(
+							'auto'   => _x( 'Auto', 'Width.', 'fl-builder' ),
+							'custom' => __( 'Custom', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'auto'   => array(
+								'fields' => array( 'btn_align' ),
+							),
+							'full'   => array(),
+							'custom' => array(
+								'fields' => array( 'btn_align', 'btn_custom_width' ),
+							),
+						),
+					),
+					'btn_custom_width'     => array(
+						'type'    => 'unit',
+						'label'   => __( 'Custom Width', 'fl-builder' ),
+						'default' => '200',
+						'slider'  => array(
+							'px' => array(
 								'min'  => 0,
-								'max'  => 1100,
+								'max'  => 1000,
 								'step' => 10,
 							),
-							'help'     => __( 'The max width of the search form container.', 'fl-builder' ),
-							'preview'  => array(
-								'type'     => 'css',
-								'selector' => '{node} .fl-search-form-wrap',
-								'property' => 'width',
-							),
 						),
-						'form_height'         => array(
-							'type'       => 'unit',
-							'label'      => __( 'Height', 'fl-builder' ),
-							'default'    => '0',
-							'responsive' => true,
-							'sanitize'   => 'absint',
-							'units'      => array(
-								'px',
-								'vw',
-								'vh',
-							),
-							'slider'     => array(
-								'max'  => 600,
-								'step' => 10,
-							),
-							'help'       => __( 'This setting is the minimum height of the form. Content will expand the height automatically.', 'fl-builder' ),
-							'preview'    => array(
-								'type'      => 'css',
-								'selector'  => '{node} .fl-search-form-wrap',
-								'property'  => 'min-height',
-								'important' => true,
-							),
+						'units'   => array(
+							'px',
+							'vw',
+							'%',
 						),
-						'form_align'          => array(
-							'type'       => 'align',
-							'label'      => __( 'Alignment', 'fl-builder' ),
-							'default'    => 'center',
-							'responsive' => true,
-							'preview'    => array(
-								'type'     => 'css',
-								'selector' => '.fl-search-form',
-								'property' => 'text-align',
-							),
+						'preview' => array(
+							'type'     => 'css',
+							'selector' => 'a.fl-button',
+							'property' => 'width',
 						),
-						'form_bg_color'       => array(
-							'type'        => 'color',
-							'label'       => __( 'Background Color', 'fl-builder' ),
-							'show_reset'  => true,
-							'show_alpha'  => true,
-							'connections' => array( 'color' ),
-							'preview'     => array(
-								'type'     => 'css',
-								'selector' => '{node}.fl-module-search .fl-search-form-wrap',
-								'property' => 'background-color',
-							),
+					),
+					'btn_padding'          => array(
+						'type'       => 'dimension',
+						'label'      => __( 'Padding', 'fl-builder' ),
+						'responsive' => true,
+						'slider'     => true,
+						'units'      => array( 'px' ),
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => 'a.fl-button, .fl-form-field input[type=search]',
+							'property' => 'padding',
 						),
-						'form_bg_hover_color' => array(
-							'type'        => 'color',
-							'label'       => __( 'Background Hover Color', 'fl-builder' ),
-							'default'     => '',
-							'show_reset'  => true,
-							'show_alpha'  => true,
-							'connections' => array( 'color' ),
-							'preview'     => array(
-								'type' => 'none',
-							),
+					),
+					'btn_text_color'       => array(
+						'type'       => 'color',
+						'label'      => __( 'Text Color', 'fl-builder' ),
+						'default'    => '',
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => 'a.fl-button, a.fl-button *',
+							'property'  => 'color',
+							'important' => true,
 						),
-						'form_border'         => array(
-							'type'    => 'border',
-							'label'   => __( 'Border', 'fl-builder' ),
-							'preview' => array(
-								'type'      => 'css',
-								'selector'  => '{node}.fl-module-search .fl-search-form-wrap',
-								'important' => true,
-							),
+					),
+					'btn_text_hover_color' => array(
+						'type'       => 'color',
+						'label'      => __( 'Text Hover Color', 'fl-builder' ),
+						'default'    => '',
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type' => 'none',
 						),
-						'form_border_hover'   => array(
-							'type'    => 'border',
-							'label'   => __( 'Border Hover', 'fl-builder' ),
-							'preview' => array(
-								'type' => 'none',
-							),
+					),
+					'btn_typography'       => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => 'a.fl-button',
+							// 'important' => true,
 						),
-						'form_padding'        => array(
-							'type'       => 'dimension',
-							'label'      => __( 'Padding', 'fl-builder' ),
-							'default'    => '10',
-							'responsive' => true,
-							'slider'     => true,
-							'units'      => array( 'px' ),
-							'preview'    => array(
-								'type'     => 'css',
-								'selector' => '{node}.fl-module-search .fl-search-form-wrap',
-								'property' => 'padding',
-							),
+					),
+					'btn_bg_color'         => array(
+						'type'       => 'color',
+						'label'      => __( 'Button Background Color', 'fl-builder' ),
+						'default'    => '',
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type' => 'none',
+						),
+					),
+					'btn_bg_hover_color'   => array(
+						'type'       => 'color',
+						'label'      => __( 'Button Background Hover Color', 'fl-builder' ),
+						'default'    => '',
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type' => 'none',
+						),
+					),
+					'btn_style'            => array(
+						'type'    => 'select',
+						'label'   => __( 'Button Background Style', 'fl-builder' ),
+						'default' => 'flat',
+						'options' => array(
+							'flat'     => __( 'Flat', 'fl-builder' ),
+							'gradient' => __( 'Gradient', 'fl-builder' ),
+						),
+					),
+					'btn_border'           => array(
+						'type'       => 'border',
+						'label'      => __( 'Border', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '{node}.fl-module-search a.fl-button',
+							'important' => true,
+						),
+					),
+					'btn_border_hover'     => array(
+						'type'       => 'border',
+						'label'      => __( 'Border Hover', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type' => 'none',
 						),
 					),
 				),
-				'input_style'       => array(
-					'title'  => 'Input Text',
-					'fields' => array(
-						'input_color'        => array(
-							'type'       => 'color',
-							'label'      => __( 'Color', 'fl-builder' ),
-							'show_reset' => true,
-							'show_alpha' => true,
-							'preview'    => array(
-								'type'     => 'css',
-								'selector' => '{node}.fl-module-search .fl-search-text, {node}.fl-module-search .fl-search-text::placeholder',
-								'property' => 'color',
-							),
+			),
+			'button_icon_color' => array(
+				'title'  => 'Button Icon Colors',
+				'fields' => array(
+					'btn_icon_color'       => array(
+						'type'       => 'color',
+						'default'    => '',
+						'label'      => __( 'Icon Color', 'fl-builder' ),
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'property'  => 'color',
+							'selector'  => 'i.fl-button-icon.fas:before',
+							'important' => true,
 						),
-						'input_typography'   => array(
-							'type'       => 'typography',
-							'label'      => __( 'Typography', 'fl-builder' ),
-							'responsive' => true,
-							'preview'    => array(
-								'type'      => 'css',
-								'selector'  => '{node}.fl-module-search .fl-search-text',
-								'important' => true,
-							),
-						),
-						'input_border'       => array(
-							'type'    => 'border',
-							'label'   => __( 'Border', 'fl-builder' ),
-							'preview' => array(
-								'type'      => 'css',
-								'selector'  => '{node}.fl-module-search .fl-search-text',
-								'important' => true,
-							),
-						),
-						'input_border_hover' => array(
-							'type'    => 'border',
-							'label'   => __( 'Border Hover', 'fl-builder' ),
-							'preview' => array(
-								'type' => 'none',
-							),
-						),
-						'input_padding'      => array(
-							'type'       => 'dimension',
-							'label'      => __( 'Padding', 'fl-builder' ),
-							'default'    => '12',
-							'responsive' => true,
-							'slider'     => true,
-							'units'      => array( 'px' ),
-							'preview'    => array(
-								'type'     => 'css',
-								'selector' => '{node}.fl-module-search .fl-search-text',
-								'property' => 'padding',
-							),
+					),
+					'btn_icon_color_hover' => array(
+						'type'       => 'color',
+						'label'      => __( 'Icon Hover Color', 'fl-builder' ),
+						'show_reset' => true,
+						'show_alpha' => true,
+						'preview'    => array(
+							'type' => 'none',
 						),
 					),
 				),
-				'button_style'      => array(
-					'title'  => 'Button',
-					'fields' => array(
-						'btn_align'            => array(
-							'type'    => 'align',
-							'label'   => __( 'Alignment', 'fl-builder' ),
-							'default' => 'center',
-							'preview' => array(
-								'type' => 'none',
-							),
+			),
+			'fullscreen_style'  => array(
+				'title'  => 'Fullscreen',
+				'fields' => array(
+					'fs_input_width'  => array(
+						'type'     => 'unit',
+						'label'    => __( 'Input Width', 'fl-builder' ),
+						'default'  => '600',
+						'sanitize' => 'absint',
+						'units'    => array( 'px', '%' ),
+						'slider'   => array(
+							'min'  => 0,
+							'max'  => 1100,
+							'step' => 10,
 						),
-						'btn_width'            => array(
-							'type'    => 'select',
-							'label'   => __( 'Width', 'fl-builder' ),
-							'default' => 'auto',
-							'options' => array(
-								'auto'   => _x( 'Auto', 'Width.', 'fl-builder' ),
-								'custom' => __( 'Custom', 'fl-builder' ),
-							),
-							'toggle'  => array(
-								'auto'   => array(
-									'fields' => array( 'btn_align' ),
-								),
-								'full'   => array(),
-								'custom' => array(
-									'fields' => array( 'btn_align', 'btn_custom_width' ),
-								),
-							),
-						),
-						'btn_custom_width'     => array(
-							'type'    => 'unit',
-							'label'   => __( 'Custom Width', 'fl-builder' ),
-							'default' => '200',
-							'slider'  => array(
-								'px' => array(
-									'min'  => 0,
-									'max'  => 1000,
-									'step' => 10,
-								),
-							),
-							'units'   => array(
-								'px',
-								'vw',
-								'%',
-							),
-							'preview' => array(
-								'type'     => 'css',
-								'selector' => 'a.fl-button',
-								'property' => 'width',
-							),
-						),
-						'btn_padding'          => array(
-							'type'       => 'dimension',
-							'label'      => __( 'Padding', 'fl-builder' ),
-							'responsive' => true,
-							'slider'     => true,
-							'units'      => array( 'px' ),
-							'preview'    => array(
-								'type'     => 'css',
-								'selector' => 'a.fl-button, .fl-form-field input[type=search]',
-								'property' => 'padding',
-							),
-						),
-						'btn_text_color'       => array(
-							'type'       => 'color',
-							'label'      => __( 'Text Color', 'fl-builder' ),
-							'default'    => '',
-							'show_reset' => true,
-							'show_alpha' => true,
-							'preview'    => array(
-								'type'      => 'css',
-								'selector'  => 'a.fl-button, a.fl-button *',
-								'property'  => 'color',
-								'important' => true,
-							),
-						),
-						'btn_text_hover_color' => array(
-							'type'       => 'color',
-							'label'      => __( 'Text Hover Color', 'fl-builder' ),
-							'default'    => '',
-							'show_reset' => true,
-							'show_alpha' => true,
-							'preview'    => array(
-								'type' => 'none',
-							),
-						),
-						'btn_typography'       => array(
-							'type'       => 'typography',
-							'label'      => __( 'Typography', 'fl-builder' ),
-							'responsive' => true,
-							'preview'    => array(
-								'type'     => 'css',
-								'selector' => 'a.fl-button',
-								// 'important' => true,
-							),
-						),
-						'btn_bg_color'         => array(
-							'type'       => 'color',
-							'label'      => __( 'Button Background Color', 'fl-builder' ),
-							'default'    => '',
-							'show_reset' => true,
-							'show_alpha' => true,
-							'preview'    => array(
-								'type' => 'none',
-							),
-						),
-						'btn_bg_hover_color'   => array(
-							'type'       => 'color',
-							'label'      => __( 'Button Background Hover Color', 'fl-builder' ),
-							'default'    => '',
-							'show_reset' => true,
-							'show_alpha' => true,
-							'preview'    => array(
-								'type' => 'none',
-							),
-						),
-						'btn_style'            => array(
-							'type'    => 'select',
-							'label'   => __( 'Button Background Style', 'fl-builder' ),
-							'default' => 'flat',
-							'options' => array(
-								'flat'     => __( 'Flat', 'fl-builder' ),
-								'gradient' => __( 'Gradient', 'fl-builder' ),
-							),
-						),
-						'btn_border'           => array(
-							'type'       => 'border',
-							'label'      => __( 'Border', 'fl-builder' ),
-							'responsive' => true,
-							'preview'    => array(
-								'type'      => 'css',
-								'selector'  => '{node}.fl-module-search a.fl-button',
-								'important' => true,
-							),
-						),
-						'btn_border_hover'     => array(
-							'type'       => 'border',
-							'label'      => __( 'Border Hover', 'fl-builder' ),
-							'responsive' => true,
-							'preview'    => array(
-								'type' => 'none',
-							),
+						'help'     => __( 'The max width of the input field inside the lightbox.', 'fl-builder' ),
+						'preview'  => array(
+							'type' => 'none',
 						),
 					),
-				),
-				'button_icon_color' => array(
-					'title'  => 'Button Icon Colors',
-					'fields' => array(
-						'btn_icon_color'       => array(
-							'type'       => 'color',
-							'default'    => '',
-							'label'      => __( 'Icon Color', 'fl-builder' ),
-							'show_reset' => true,
-							'show_alpha' => true,
-							'preview'    => array(
-								'type'      => 'css',
-								'property'  => 'color',
-								'selector'  => 'i.fl-button-icon.fas:before',
-								'important' => true,
-							),
-						),
-						'btn_icon_color_hover' => array(
-							'type'       => 'color',
-							'label'      => __( 'Icon Hover Color', 'fl-builder' ),
-							'show_reset' => true,
-							'show_alpha' => true,
-							'preview'    => array(
-								'type' => 'none',
-							),
+					'fs_overlay_bg'   => array(
+						'type'        => 'color',
+						'label'       => __( 'Overlay Background Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'connections' => array( 'color' ),
+						'preview'     => array(
+							'type' => 'none',
 						),
 					),
-				),
-				'fullscreen_style'  => array(
-					'title'  => 'Fullscreen',
-					'fields' => array(
-						'fs_input_width'  => array(
-							'type'     => 'unit',
-							'label'    => __( 'Input Width', 'fl-builder' ),
-							'default'  => '600',
-							'sanitize' => 'absint',
-							'units'    => array( 'px', '%' ),
-							'slider'   => array(
-								'min'  => 0,
-								'max'  => 1100,
-								'step' => 10,
-							),
-							'help'     => __( 'The max width of the input field inside the lightbox.', 'fl-builder' ),
-							'preview'  => array(
-								'type' => 'none',
-							),
+					'fs_close_button' => array(
+						'type'    => 'select',
+						'label'   => __( 'Close Button', 'fl-builder' ),
+						'default' => 'show',
+						'options' => array(
+							'hide' => __( 'Hide', 'fl-builder' ),
+							'show' => __( 'Show', 'fl-builder' ),
 						),
-						'fs_overlay_bg'   => array(
-							'type'        => 'color',
-							'label'       => __( 'Overlay Background Color', 'fl-builder' ),
-							'show_reset'  => true,
-							'show_alpha'  => true,
-							'connections' => array( 'color' ),
-							'preview'     => array(
-								'type' => 'none',
-							),
-						),
-						'fs_close_button' => array(
-							'type'    => 'select',
-							'label'   => __( 'Close Button', 'fl-builder' ),
-							'default' => 'show',
-							'options' => array(
-								'hide' => __( 'Hide', 'fl-builder' ),
-								'show' => __( 'Show', 'fl-builder' ),
-							),
-							'preview' => array(
-								'type' => 'none',
-							),
+						'preview' => array(
+							'type' => 'none',
 						),
 					),
 				),
 			),
 		),
-		'content' => array(
-			'title'    => __( 'Content', 'fl-builder' ),
-			'sections' => array(
-				'general'     => array(
-					'title'  => '',
-					'fields' => array(
-						'result' => array(
-							'type'    => 'select',
-							'label'   => __( 'Results', 'fl-builder' ),
-							'default' => 'redirect',
-							'options' => array(
-								'redirect' => __( 'Redirect to search page', 'fl-builder' ),
-								'ajax'     => __( 'Display results below via Ajax', 'fl-builder' ),
+	),
+	'content' => array(
+		'title'    => __( 'Content', 'fl-builder' ),
+		'sections' => array(
+			'general'     => array(
+				'title'  => '',
+				'fields' => array(
+					'result' => array(
+						'type'    => 'select',
+						'label'   => __( 'Results', 'fl-builder' ),
+						'default' => 'redirect',
+						'options' => array(
+							'redirect' => __( 'Redirect to search page', 'fl-builder' ),
+							'ajax'     => __( 'Display results below via Ajax', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'ajax' => array(
+								'sections' => array( 'ajax_result' ),
 							),
-							'toggle'  => array(
-								'ajax' => array(
-									'sections' => array( 'ajax_result' ),
-								),
-							),
-							'preview' => array(
-								'type' => 'none',
-							),
+						),
+						'preview' => array(
+							'type' => 'none',
 						),
 					),
 				),
-				'ajax_result' => array(
-					'title'  => __( 'Ajax Result', 'fl-builder' ),
-					'fields' => array(
-						'result_width'        => array(
-							'type'    => 'select',
-							'label'   => __( 'Width', 'fl-builder' ),
-							'default' => 'full',
-							'options' => array(
-								'full'   => __( 'Full Width', 'fl-builder' ),
-								'custom' => __( 'Custom', 'fl-builder' ),
-							),
-							'toggle'  => array(
-								'full'   => array(),
-								'custom' => array(
-									'fields' => array( 'custom_result_width' ),
-								),
-							),
-							'preview' => array(
-								'type' => 'none',
-							),
-						),
-						'custom_result_width' => array(
-							'type'     => 'unit',
-							'label'    => __( 'Custom Width', 'fl-builder' ),
-							'default'  => '1100',
-							'sanitize' => 'absint',
-							'units'    => array( 'px', '%' ),
-							'slider'   => array(
-								'min'  => 0,
-								'max'  => 1100,
-								'step' => 10,
-							),
-							'help'     => __( 'The max width of the ajax result container.', 'fl-builder' ),
-							'preview'  => array(
-								'type' => 'none',
-							),
-						),
-						'show_image'          => array(
-							'type'    => 'select',
-							'label'   => __( 'Featured Image', 'fl-builder' ),
-							'default' => '1',
-							'options' => array(
-								'1' => __( 'Show', 'fl-builder' ),
-								'0' => __( 'Hide', 'fl-builder' ),
-							),
-							'toggle'  => array(
-								'1' => array(
-									'fields' => array( 'image_size', 'crop', 'image_fallback' ),
-								),
-							),
-							'preview' => array(
-								'type' => 'none',
-							),
-						),
-						'image_size'          => array(
-							'type'    => 'photo-sizes',
-							'label'   => __( 'Size', 'fl-builder' ),
-							'default' => 'medium',
-							'preview' => array(
-								'type' => 'none',
-							),
-						),
-						'crop'                => array(
-							'type'    => 'select',
-							'label'   => __( 'Crop', 'fl-builder' ),
-							'default' => 'landscape',
-							'options' => array(
-								''       => _x( 'None', 'Photo Crop.', 'fl-builder' ),
-								'square' => __( 'Square', 'fl-builder' ),
-								'circle' => __( 'Circle', 'fl-builder' ),
-							),
-							'preview' => array(
-								'type' => 'none',
-							),
-						),
-						'image_fallback'      => array(
-							'default'     => '',
-							'type'        => 'photo',
-							'show_remove' => true,
-							'label'       => __( 'Fallback Image', 'fl-builder' ),
-							'preview'     => array(
-								'type' => 'none',
-							),
-						),
-						'show_content'        => array(
-							'type'    => 'select',
-							'label'   => __( 'Content', 'fl-builder' ),
-							'default' => '0',
-							'options' => array(
-								'1' => __( 'Show', 'fl-builder' ),
-								'0' => __( 'Hide', 'fl-builder' ),
-							),
-							'preview' => array(
-								'type' => 'none',
-							),
-						),
-						'no_results_message'  => array(
-							'type'    => 'textarea',
-							'label'   => __( 'No Results Message', 'fl-builder' ),
-							'default' => __( "Sorry, we couldn't find any posts. Please try a different search.", 'fl-builder' ),
-							'rows'    => 6,
-							'preview' => array(
-								'type' => 'none',
-							),
-						),
-					),
-				),
-				// 'advanced_filter'   => array(
-				//     'title'    => '',
-				//     'services' => 'autoresponder',
-				//     'template' => array(
-				//         'id'   => 'fl-builder-service-settings',
-				//         'file' => FL_BUILDER_DIR . 'includes/ui-service-settings.php',
-				//     ),
-				// ),
 			),
+			'ajax_result' => array(
+				'title'  => __( 'Ajax Result', 'fl-builder' ),
+				'fields' => array(
+					'result_width'        => array(
+						'type'    => 'select',
+						'label'   => __( 'Width', 'fl-builder' ),
+						'default' => 'full',
+						'options' => array(
+							'full'   => __( 'Full Width', 'fl-builder' ),
+							'custom' => __( 'Custom', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'full'   => array(),
+							'custom' => array(
+								'fields' => array( 'custom_result_width' ),
+							),
+						),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'custom_result_width' => array(
+						'type'     => 'unit',
+						'label'    => __( 'Custom Width', 'fl-builder' ),
+						'default'  => '1100',
+						'sanitize' => 'absint',
+						'units'    => array( 'px', '%' ),
+						'slider'   => array(
+							'min'  => 0,
+							'max'  => 1100,
+							'step' => 10,
+						),
+						'help'     => __( 'The max width of the ajax result container.', 'fl-builder' ),
+						'preview'  => array(
+							'type' => 'none',
+						),
+					),
+					'show_image'          => array(
+						'type'    => 'select',
+						'label'   => __( 'Featured Image', 'fl-builder' ),
+						'default' => '1',
+						'options' => array(
+							'1' => __( 'Show', 'fl-builder' ),
+							'0' => __( 'Hide', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'1' => array(
+								'fields' => array( 'image_size', 'crop', 'image_fallback' ),
+							),
+						),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'image_size'          => array(
+						'type'    => 'photo-sizes',
+						'label'   => __( 'Size', 'fl-builder' ),
+						'default' => 'medium',
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'crop'                => array(
+						'type'    => 'select',
+						'label'   => __( 'Crop', 'fl-builder' ),
+						'default' => 'landscape',
+						'options' => array(
+							''       => _x( 'None', 'Photo Crop.', 'fl-builder' ),
+							'square' => __( 'Square', 'fl-builder' ),
+							'circle' => __( 'Circle', 'fl-builder' ),
+						),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'image_fallback'      => array(
+						'default'     => '',
+						'type'        => 'photo',
+						'show_remove' => true,
+						'label'       => __( 'Fallback Image', 'fl-builder' ),
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'show_content'        => array(
+						'type'    => 'select',
+						'label'   => __( 'Content', 'fl-builder' ),
+						'default' => '0',
+						'options' => array(
+							'1' => __( 'Show', 'fl-builder' ),
+							'0' => __( 'Hide', 'fl-builder' ),
+						),
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+					'no_results_message'  => array(
+						'type'    => 'textarea',
+						'label'   => __( 'No Results Message', 'fl-builder' ),
+						'default' => __( "Sorry, we couldn't find any posts. Please try a different search.", 'fl-builder' ),
+						'rows'    => 6,
+						'preview' => array(
+							'type' => 'none',
+						),
+					),
+				),
+			),
+			// 'advanced_filter'   => array(
+			// 	'title'    => '',
+			// 	'services' => 'autoresponder',
+			// 	'template' => array(
+			// 		'id'   => 'fl-builder-service-settings',
+			// 		'file' => FL_BUILDER_DIR . 'includes/ui-service-settings.php',
+			// 	),
+			// ),
 		),
-	)
-);
+	),
+));

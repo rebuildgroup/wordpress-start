@@ -489,6 +489,13 @@ FLBuilder::register_module(
 								'property' => 'text-align',
 							),
 						),
+						'tab_align'                => array(
+							'type'    => 'align',
+							'label'   => __( 'Tablet Alignment', 'uabb' ),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
 						'mob_align'                => array(
 							'type'    => 'align',
 							'label'   => __( 'Mobile Alignment', 'uabb' ),

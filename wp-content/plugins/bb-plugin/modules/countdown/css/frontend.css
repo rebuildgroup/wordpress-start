@@ -2,7 +2,9 @@
 	text-align: center;
 	font-size: 1px;
 }
-
+.fl-countdown .fl-countdown-unit-number {
+	display: block;
+}
 .fl-countdown .fl-countdown-number{
 	position: relative;
 	display: inline-block;

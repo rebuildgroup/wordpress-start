@@ -12,83 +12,88 @@
 	clear: both;
 }
 .fl-pricing-table {
+	display: flex;
 	margin-left: auto;
 	margin-right: auto;
-	zoom:1;
+}
+.fl-pricing-table-wrap {
+	flex: 1;
 }
 .fl-pricing-table [class^='fl-pricing-table-col-'] {
-	float: left;
-	position: relative;
 	min-height: 1px;
 }
-.fl-pricing-table .fl-pricing-table-col-8 { width: 12.5%; }
-.fl-pricing-table .fl-pricing-table-col-7 { width: 14.28%; }
-.fl-pricing-table .fl-pricing-table-col-6 { width: 16.66%; }
-.fl-pricing-table .fl-pricing-table-col-5 { width: 20%; }
-.fl-pricing-table .fl-pricing-table-col-4 { width: 25%; }
-.fl-pricing-table .fl-pricing-table-col-3 { width: 33.33%; }
-.fl-pricing-table .fl-pricing-table-col-2 { width: 50%; }
-.fl-pricing-table .fl-pricing-table-col-1 { width: 100%; }
+.fl-pricing-table .fl-pricing-table-payment-frequency {
+	text-align: center;
+	margin: auto;
+	padding-bottom: 30px;
+}
+.fl-pricing-table .fl-button-wrap {
+	padding-bottom: 20px;
+}
+.fl-pricing-table .fl-button-wrap a.fl-button {
+	margin: 0 15px;
+}
+.fl-pricing-table .second_option-price {
+	display: none;
+}
+.fl-module-pricing-table .fl-builder-switch {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 60px;
+	height: 34px;
+}
+.fl-module-pricing-table .fl-builder-switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+.fl-module-pricing-table .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+.fl-module-pricing-table .fl-builder-switch .slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: #fff;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+.fl-module-pricing-table .fl-builder-switch input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
 
+/* Rounded sliders */
+.fl-module-pricing-table .fl-builder-switch .slider.round {
+	-webkit-border-radius: 34px;
+  	-moz-border-radius: 34px;
+	border-radius: 34px;
+}
+.fl-module-pricing-table .fl-builder-switch .slider.round:before {
+	-webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+	border-radius: 50%;
+}
 
 /**
 * Pricing Box Spacing
 *
 * medium, large, and None
+*
+* Moved to frontend.css.php
 */
-
-/*medium*/
-.fl-pricing-table.fl-pricing-table-spacing-tight,
-.fl-pricing-table.fl-pricing-table-spacing-medium {
-	margin-left: -6px;
-	margin-right: -6px;
-}
-.fl-pricing-table.fl-pricing-table-spacing-tight [class^='fl-pricing-table-col-'],
-.fl-pricing-table.fl-pricing-table-spacing-medium [class^='fl-pricing-table-col-'] {
-	padding-right: 6px;
-	padding-left: 6px;
-}
-
-/*large*/
-.fl-pricing-table.fl-pricing-table-spacing-wide,
-.fl-pricing-table.fl-pricing-table-spacing-large {
-	margin-left: -12px;
-	margin-right: -12px;
-}
-.fl-pricing-table.fl-pricing-table-spacing-wide [class^='fl-pricing-table-col-'],
-.fl-pricing-table.fl-pricing-table-spacing-large [class^='fl-pricing-table-col-'] {
-	padding-right: 12px;
-	padding-left: 12px;
-}
-
-/*None*/
-.fl-pricing-table.fl-pricing-table-spacing-none {
-	margin-left: 0;
-	margin-right: 0;
-}
-.fl-pricing-table.fl-pricing-table-spacing-none [class^='fl-pricing-table-col-'] {
-	padding-right: 0;
-	padding-left: 0;
-}
-
-/*Fix noneing borders*/
-.fl-pricing-table.fl-pricing-table-spacing-none.fl-pricing-table-border-large [class^='fl-pricing-table-col-'] .fl-pricing-table-column,
-.fl-pricing-table.fl-pricing-table-spacing-none.fl-pricing-table-border-medium [class^='fl-pricing-table-col-'] .fl-pricing-table-column {
-	border-right-width: 0 !important;
-}
-.fl-pricing-table.fl-pricing-table-spacing-none.fl-pricing-table-border-large [class^='fl-pricing-table-col-']:last-child .fl-pricing-table-column,
-.fl-pricing-table.fl-pricing-table-spacing-none.fl-pricing-table-border-medium [class^='fl-pricing-table-col-']:last-child .fl-pricing-table-column {
-	border-right-width: 1px !important;
-}
-.fl-pricing-table.fl-pricing-table-spacing-none.fl-pricing-table-border-small [class^='fl-pricing-table-col-'] .fl-pricing-table-inner-wrap {
-	/*border-right-width: 0 !important;*/
-	margin-right: -1px !important;
-}
-.fl-pricing-table.fl-pricing-table-spacing-none.fl-pricing-table-border-small [class^='fl-pricing-table-col-']:last-child .fl-pricing-table-inner-wrap {
-	/*border-right-width: 1px !important;*/
-	margin-right: 0 !important;
-}
-
 
 /**
 * Pricing Boxes
@@ -98,9 +103,11 @@
 
 .fl-pricing-table .fl-pricing-table-column {
 	text-align: center;
+	position: relative;
 }
 .fl-pricing-table .fl-pricing-table-inner-wrap {
 	margin: 12px;
+	position: relative;
 }
 .fl-pricing-table .fl-pricing-table-column .fl-pricing-table-price {
 	padding: 13px 0;
@@ -126,7 +133,6 @@
 	padding: 0;
 }
 .fl-pricing-table .fl-pricing-table-features li {
-	border-bottom: 1px solid rgba(0,0,0,0.15);
 	text-align: left;
 	padding: 13px 4px;
 	list-style-type: none;
@@ -140,48 +146,62 @@
 .fl-pricing-table a.fl-button .fl-button-text {
 	line-height: 18px;
 }
-/*Curvy Boxes*/
-.fl-pricing-table.fl-pricing-table-rounded .fl-pricing-table-column {
-	border-radius: 6px;
-}
-.fl-pricing-table.fl-pricing-table-rounded .fl-pricing-table-inner-wrap {
-	border-radius: 3px;
-}
-
 
 /**
 * Pricing Box Borders
 *
-* Large, Medium, Small
+* Large, Medium, Small -- Moved to frontend.css.php in version 2.5.
+*
 */
 
-/*Large*/
-.fl-pricing-table.fl-pricing-table-border-large .fl-pricing-table-inner-wrap {
-	margin: 12px;
+.fl-pricing-table .fl-pricing-table-features .fl-pricing-table-feature-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
-.fl-pricing-table.fl-pricing-table-border-large .fl-pricing-table-column .fl-pricing-table-price {
-	margin: 0 -15px;
+.fl-pricing-table .fl-pricing-table-features .fl-feature-icon,
+.fl-pricing-table .fl-pricing-table-features .fl-feature-text,
+.fl-pricing-table .fl-pricing-table-features .fl-builder-tooltip {
+	display: inline-block;
 }
-/*adjust for no spacing*/
-.fl-pricing-table.fl-pricing-table-border-large.fl-pricing-table-spacing-none .fl-pricing-table-column .fl-pricing-table-price {
-	margin: 0 -14px;
+.fl-pricing-table .fl-pricing-table-features .fl-feature-icon {
+	text-align: center;
+	width: 1.25em;
+}
+body:not(.rtl) .fl-pricing-table .fl-pricing-table-features .fl-feature-icon {
+	padding-right: 2em;
+}
+body.rtl .fl-pricing-table .fl-pricing-table-features .fl-feature-icon {
+	padding-left: 2em;
+}
+.fl-pricing-table .fl-feature-text {
+	margin-right: auto;
 }
 
-/*Medium*/
-.fl-pricing-table.fl-pricing-table-border-medium .fl-pricing-table-inner-wrap {
-	margin: 6px;
+/* Tooltips */
+.fl-pricing-table .fl-builder-tooltip-icon {
+	color: #999;
+	cursor: pointer;
+	padding: 5px;
+	vertical-align: middle;
+	position: static;
 }
-.fl-pricing-table.fl-pricing-table-border-medium .fl-pricing-table-column .fl-pricing-table-price {
-	margin: 0 -10px;
+.fl-pricing-table .fl-builder-tooltip-text {
+	box-sizing: border-box;
+	background: #fff;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 5px #ccc;
+	-moz-box-shadow: 0 0 5px #ccc;
+	-webkit-box-shadow: 0 0 5px #ccc;
+	display: none;
+	position: absolute;
+	padding: 10px 13px;
+	font-weight: normal;
+	z-index: 1000;
+	border-radius: 4px;
+	width: 100%;
+	left: 0;
 }
-
-/*Small Border*/
-.fl-pricing-table.fl-pricing-table-border-small .fl-pricing-table-column {
-	border: 0 !important;
-}
-.fl-pricing-table.fl-pricing-table-border-small .fl-pricing-table-inner-wrap {
-	margin: 0px;
-}
-.fl-pricing-table.fl-pricing-table-border-small .fl-pricing-table-column .fl-pricing-table-price {
-	margin: 0 -1px;
+.fl-builder-edit .fl-pricing-table .fl-builder-tooltip-text {
+	display: none !important;
 }

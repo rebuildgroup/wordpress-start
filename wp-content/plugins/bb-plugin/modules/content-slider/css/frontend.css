@@ -148,6 +148,7 @@ body.rtl .fl-module-content-slider .bx-viewport {
 }
 .fl-content-slider-navigation a.disabled,
 .bx-controls a.disabled {
+	cursor: not-allowed;
 	pointer-events: none;
 }
 

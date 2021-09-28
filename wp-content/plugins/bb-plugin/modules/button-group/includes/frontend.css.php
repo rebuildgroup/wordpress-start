@@ -2,8 +2,8 @@
 
 // Width, Alignment, Space Between buttons
 
-$width = 'full';
-if ( 'full' === $settings->width ) {
+$width = '';
+if ( '' === $settings->width ) {
 	$width = '100%';
 } elseif ( 'custom' === $settings->width ) {
 	$width = $settings->custom_width . $settings->custom_width_unit;
@@ -322,7 +322,7 @@ for ( $i = 0; $i < count( $settings->items ); $i++ ) :
 	endif;
 
 	// Border
-	if ( ! empty( $settings->items[ $i ]->border ) && ( 'none' !== $settings->items[ $i ]->border->style ) ) {
+	if ( ! empty( $settings->items[ $i ]->border ) ) {
 		FLBuilderCSS::border_field_rule( array(
 			'settings'     => $settings->items[ $i ],
 			'setting_name' => 'border',

@@ -199,10 +199,8 @@
         */
         onEndEditingSession: function() {
 
-            if ( 'Builder' in FL && 'data' in FL.Builder ) {
-                const actions = FL.Builder.data.getSystemActions()
-                actions.setIsEditing(false)
-            }
+            const actions = FL.Builder.data.getSystemActions()
+            actions.setIsEditing( false )
 
 			document.documentElement.classList.remove( 'fl-builder-assistant-visible' )
 
@@ -216,10 +214,8 @@
         */
         onRestartEditingSession: function() {
 
-            if ( 'Builder' in FL && 'data' in FL.Builder ) {
-                const actions = FL.Builder.data.getSystemActions()
-                actions.setIsEditing(true)
-            }
+            const actions = FL.Builder.data.getSystemActions()
+            actions.setIsEditing( true )
 
 			const currentPanel = FL.Builder.data.getSystemState().currentPanel
 			if ( 'assistant' === currentPanel ) {
@@ -673,6 +669,8 @@
          */
         onEnterBuilder: function() {
             history.replaceState( {}, document.title, FLBuilderConfig.editUrl );
+            const actions = FL.Builder.data.getSystemActions()
+            actions.setIsEditing( true )
             this.isEditing = true;
         },
 
@@ -683,6 +681,8 @@
          */
         onLeaveBuilder: function() {
             history.replaceState( {}, document.title, FLBuilderConfig.url );
+            const actions = FL.Builder.data.getSystemActions()
+            actions.setIsEditing( false )
             this.isEditing = false;
         },
     };
@@ -834,8 +834,8 @@
             if ( this.userCanResize() ) {
                 var $layoutContent = $( FLBuilder._contentClass );
 
-				$layoutContent.delegate('.fl-row', 'mouseenter touchstart', this.onDragHandleHover.bind(this) );
-                $layoutContent.delegate('.fl-block-row-resize', 'mousedown touchstart', this.onDragHandleDown.bind(this) );
+				$layoutContent.on( 'mouseenter touchstart', '.fl-row', this.onDragHandleHover.bind(this) );
+                $layoutContent.on( 'mousedown touchstart', '.fl-block-row-resize', this.onDragHandleDown.bind(this) );
             }
         },
 
@@ -1056,6 +1056,12 @@
                 if ( this.row.form.length ) {
 	                this.row.form.find( '[name=max_content_width]' ).val( this.drag.calculatedWidth );
                 }
+
+                // Dispatch update to store
+				requestAnimationFrame( () => {
+					const actions = FL.Builder.data.getLayoutActions()
+					actions.resizeRowContent( this.row.node, this.drag.calculatedWidth, false )
+				} )
             }
         },
 
@@ -1072,16 +1078,12 @@
                 this.$feedback.hide();
             }
 
-            var data = {
-	                action: 'resize_row_content',
-	                node: this.row.node,
-	                width: this.drag.calculatedWidth
-	            },
-            	body = $( 'body' );
+            // Dispatch update to store
+            const actions = FL.Builder.data.getLayoutActions()
+            actions.resizeRowContent( this.row.node, this.drag.calculatedWidth )
 
-            FLBuilder.ajax(data);
             FLBuilder._bindOverlayEvents();
-            body.removeClass( 'fl-builder-row-resizing' );
+            $( 'body' ).removeClass( 'fl-builder-row-resizing' );
 
             $( '.fl-block-overlay' ).each( function() {
 	            FLBuilder._buildOverlayOverflowMenu( $( this ) );

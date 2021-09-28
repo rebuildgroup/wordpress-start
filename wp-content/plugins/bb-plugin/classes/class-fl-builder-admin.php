@@ -147,6 +147,8 @@ final class FLBuilderAdmin {
 				sprintf( __( 'Install Error! You appear to have a %s file in your uploads folder that will block all javascript files resulting in 403 errors. If you did not add this file please consult your host.', 'fl-builder' ), '<code>.htaccess</code>' ) );
 			}
 		}
+
+		do_action( 'fl_builder_after_sanity_checks' );
 	}
 
 	/**
@@ -284,7 +286,7 @@ final class FLBuilderAdmin {
 
 		if ( ! $curl ) {
 			$text     = __( 'We’ve detected that your server does not have the PHP cURL extension installed. Ask your hosting provider to install it so you’ll be able to perform automatic updates without error.', 'fl-builder' );
-			$link     = 'https://kb.wpbeaverbuilder.com/article/740-troubleshooting-error-when-trying-to-install-update';
+			$link     = 'https://docs.wpbeaverbuilder.com/beaver-builder/troubleshooting/common-issues/error-when-trying-to-install-update';
 			$link_txt = __( 'See our Knowledge Base for more info.', 'fl-builder' );
 			printf( '<div class="curl-alert"><p>%s</p><p><a target="_blank" href="%s">%s</a></p></div>', $text, $link, $link_txt );
 		}

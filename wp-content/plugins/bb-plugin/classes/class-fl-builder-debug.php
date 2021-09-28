@@ -21,9 +21,11 @@ final class FL_Debug {
 
 
 	public static function enable_logging() {
-		@ini_set( 'display_errors', 1 ); // @codingStandardsIgnoreLine
-		@ini_set( 'display_startup_errors', 1 ); // @codingStandardsIgnoreLine
-		@error_reporting( E_ALL ); // @codingStandardsIgnoreLine
+		if ( isset( $_GET['showerrors'] ) ) {
+			@ini_set( 'display_errors', 1 ); // @codingStandardsIgnoreLine
+			@ini_set( 'display_startup_errors', 1 ); // @codingStandardsIgnoreLine
+			@error_reporting( E_ALL ); // @codingStandardsIgnoreLine
+		}
 	}
 
 	public static function display_tests() {
@@ -251,8 +253,9 @@ final class FL_Debug {
 		// child theme functions
 		if ( $theme->get( 'Template' ) ) {
 			$functions_file = trailingslashit( get_stylesheet_directory() ) . 'functions.php';
-			$contents       = file_get_contents( $functions_file );
-			$args           = array(
+			$contents       = file_exists( $functions_file ) ? file_get_contents( $functions_file ) : 'No functions.php found.';
+
+			$args = array(
 				'name' => 'Child Theme Functions',
 				'data' => $contents,
 			);

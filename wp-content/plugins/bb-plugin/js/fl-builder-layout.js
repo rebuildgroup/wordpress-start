@@ -513,6 +513,7 @@
 				enableAudio = playerWrap.data('enable-audio'),
 				audioButton = playerWrap.find('.fl-bg-video-audio'),
 				startTime   = 'undefined' !== typeof playerWrap.data('start') ? playerWrap.data('start') : 0,
+				startTime   = 'undefined' !== typeof playerWrap.data('t') && startTime === 0 ? playerWrap.data('t') : startTime,
 				endTime     = 'undefined' !== typeof playerWrap.data('end') ? playerWrap.data('end') : 0,
 				loop        = 'undefined' !== typeof playerWrap.data('loop') ? playerWrap.data('loop') : 1,
 				stateCount  = 0,
@@ -826,22 +827,27 @@
 
 				}
 				else {
-
 					if(newHeight < wrapHeight) {
-						newHeight   = wrapHeight;
-						newWidth    = Math.round(vidWidth * wrapHeight/vidHeight);
-						newLeft     = -((newWidth - wrapWidth)/2);
+						newHeight = wrapHeight;
+						newLeft   = -((newWidth - wrapWidth) / 2);
+
+						if ( 0 != vidHeight ) {
+							newWidth = Math.round(vidWidth * wrapHeight/vidHeight);
+						}
 					}
 					else {
-						newTop      = -((newHeight - wrapHeight)/2);
+						newTop = -((newHeight - wrapHeight)/2);
 					}
 
 					vid.css({
-						'left'      : newLeft + 'px',
-						'top'       : newTop + 'px',
-						'height'    : newHeight + 'px',
-						'width'     : newWidth + 'px'
+						'left'   : newLeft + 'px',
+						'top'    : newTop + 'px',
+						'height' : newHeight + 'px',
+						'width'  : newWidth + 'px'
 					});
+					
+					vid.on('loadedmetadata', FLBuilderLayout._resizeOnLoadedMeta);
+
 				}
 			}
 			else if ( iframe.length ) {
@@ -1063,7 +1069,9 @@
 				href    = link.attr( 'href' ),
 				loc     = window.location,
 				id      = null,
-				element = null;
+				element = null,
+				flNode  = false;
+
 			if ( 'undefined' != typeof href && href.indexOf( '#' ) > -1 && link.closest('svg').length < 1 ) {
 
 				if ( loc.pathname.replace( /^\//, '' ) == this.pathname.replace( /^\//, '' ) && loc.hostname == this.hostname ) {
@@ -1079,7 +1087,8 @@
 						element = $( '#' + id );
 
 						if ( element.length > 0 ) {
-							if ( link.hasClass( 'fl-scroll-link' ) || element.hasClass( 'fl-row' ) || element.hasClass( 'fl-col' ) || element.hasClass( 'fl-module' ) ) {
+							flNode = element.hasClass( 'fl-row' ) || element.hasClass( 'fl-col' ) || element.hasClass( 'fl-module' );
+							if ( !element.hasClass( 'fl-no-scroll' ) && ( link.hasClass( 'fl-scroll-link' ) || flNode ) ) {
 								$( link ).on( 'click', FLBuilderLayout._scrollToElementOnLinkClick );
 							}
 							if ( element.hasClass( 'fl-accordion-item' ) ) {
@@ -1131,7 +1140,10 @@
 
 			if ( element.length > 0 ) {
 
-				if ( element.offset().top > doc.height() - win.height() ) {
+				if ( 'fixed' === element.css('position') || 'fixed' === element.parent().css('position') ) {
+					dest = element.position().top;
+				}
+				else if ( element.offset().top > doc.height() - win.height() ) {
 					dest = doc.height() - win.height();
 				}
 				else {

@@ -53,7 +53,7 @@ $.extend($.simulate.prototype, {
 
 		var relatedTarget = $(e.relatedTarget)[0];
 
-		if ($.isFunction(document.createEvent)) {
+		if (typeof document.createEvent === 'function') {
 			evt = document.createEvent("MouseEvents");
 			evt.initMouseEvent(type, e.bubbles, e.cancelable, e.view, e.detail,
 				e.screenX, e.screenY, e.clientX, e.clientY,
@@ -74,7 +74,7 @@ $.extend($.simulate.prototype, {
 			keyCode: 0, charCode: 0
 		}, options);
 
-		if ($.isFunction(document.createEvent)) {
+		if (typeof document.createEvent === 'function') {
 			try {
 				evt = document.createEvent("KeyEvents");
 				evt.initKeyEvent(type, e.bubbles, e.cancelable, e.view,
@@ -109,8 +109,8 @@ $.extend($.simulate.prototype, {
 	},
 
 	drag: function(el) {
-		var self = this, center = this.findCenter(this.target), 
-			options = this.options,	x = Math.floor(center.x), y = Math.floor(center.y), 
+		var self = this, center = this.findCenter(this.target),
+			options = this.options,	x = Math.floor(center.x), y = Math.floor(center.y),
 			dx = options.dx || 0, dy = options.dy || 0, target = this.target;
 		var coord = { clientX: x, clientY: y };
 		this.simulateEvent(target, "mousedown", coord);

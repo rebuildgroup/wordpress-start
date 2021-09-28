@@ -29,8 +29,10 @@
 				$('.fl-slide-0:not(.bx-clone) video[autoplay]').trigger('play');
 			},
 			onSlideBefore: function(ele, oldIndex, newIndex) {
+				this.stopAuto( true );
 				$('.fl-node-<?php echo $id; ?> .fl-content-slider-navigation a').addClass('disabled');
-				$('.fl-node-<?php echo $id; ?> .bx-viewport > .bx-controls .bx-pager-link').addClass('disabled');
+				$('.fl-node-<?php echo $id; ?> .bx-controls .bx-pager-link').addClass('disabled');
+				this.startAuto( true );
 			},
 			onSlideAfter: function( ele, oldIndex, newIndex ) {
 				var prevSlide = $( '.fl-node-<?php echo $id; ?> .fl-slide-' + oldIndex + ':not(.bx-clone)'),
@@ -52,7 +54,7 @@
 				}
 
 				$('.fl-node-<?php echo $id; ?> .fl-content-slider-navigation a').removeClass('disabled');
-				$('.fl-node-<?php echo $id; ?> .bx-viewport > .bx-controls .bx-pager-link').removeClass('disabled');
+				$('.fl-node-<?php echo $id; ?> .bx-controls .bx-pager-link').removeClass('disabled');
 
 				/* Pause and play videos if autoplay */
 				if ( prevSlide.find( 'video').length ) {
@@ -70,12 +72,16 @@
 
 			$('.fl-node-<?php echo $id; ?> .slider-prev').on( 'click', function( e ){
 				e.preventDefault();
+				slider.stopAuto( true );
 				slider.goToPrevSlide();
+				slider.startAuto( true );
 			} );
 
 			$('.fl-node-<?php echo $id; ?> .slider-next').on( 'click', function( e ){
 				e.preventDefault();
+				slider.stopAuto( true );
 				slider.goToNextSlide();
+				slider.startAuto( true );
 			} );
 
 		<?php endif; ?>

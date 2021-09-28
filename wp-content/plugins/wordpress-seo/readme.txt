@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.0
+Stable tag: 17.2.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,44 +236,45 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 17.0 =
-Release Date: August 24th, 2021
-
-Say hello to Yoast SEO 17.0! This release includes some behind-the-scenes improvements, including several fixes for our indexables data management. For now, please enjoy Yoast SEO and write the best possible content in the language of your choice! Read more about what’s new in Yoast SEO 17.0 in [our release post](https://yoa.st/release-17-0)!
-
-Enhancements:
-
-* Speeds up load times of admin pages by preventing unnecessary counts of unindexed objects.
-* Cleans up items from the database that are not used anymore, thereby reducing the size of many sites' database.
-* Improves the overall performance and responsiveness in Gutenberg.
+= 17.2.1 =
+Release Date: September 28th, 2021
 
 Bugfixes:
 
-* Fixes a bug where the `Save all` button in the bulk editor did not work.
-* Fixes a bug where the `Existing` column in the bulk editor did not update after save.
+* Fixes a bug that could lead to a fatal error in the breadcrumbs block for auto-draft posts.
+
+= 17.2 =
+Release Date: September 21st, 2021
+
+Yoast SEO 17.2 is out now! Yoast SEO comes with many powerful tools that will help you write SEO-proof and readable texts. And as of today, you can also work on your readability in the Farsi language. Readable content is awesome content! Read more about what’s new in Yoast SEO 17.2 in [our release post](https://yoa.st/release-17-2)!
+
+Enhancements:
+
+* Completes the readability analysis for Farsi by adding the transition words, sentence beginnings and passive voice assessments, and by adjusting the sentence length assessment to make it more appropriate for the Farsi language.
+* Improves keyword detection for Farsi by adding more categories to the list of function words. E.g., general adjectives and adverbs category, conjunctions, and articles.
+* Cleans up indexables for posts with an `auto-draft` post-status, in order to speed-up your admin pages.
+
+Bugfixes:
+
+* Fixes a bug where indexables would be created for post auto-drafts when the SEO optimization is run.
 
 Other:
 
-* Updates the message that recommends you to install WooCommerce SEO when WooCommerce is installed.
+* Loads our help beacon on the workouts page.
 
-= 16.9 =
-Release Date: August 10th, 2021
+= 17.1 =
+Release Date: September 7th, 2021
 
-Meet Yoast SEO 16.9: This release comes with two new image SEO assessments and improved performance. Happy updating! Read more about what’s new in Yoast SEO 16.9 in [our release post](https://yoa.st/release-16-9)!
+Yoast SEO 17.1 is out today! In this release, you’ll find a couple of small changes that’ll help you write great titles that stand up to Google’s scrutiny. It also includes some behind-the-scenes improvements, including several fixes for our indexables data management. For now, please enjoy Yoast SEO and write the best possible content in the language of your choice! Read more about what’s new in Yoast SEO 17.1 in [our release post](https://yoa.st/release-17-1)!
 
 Enhancements:
 
-* Splits the `Image alt attributes` assessment into two assessments. The `Images` assessment checks if the page contains at least one image. The `Image Keyphrase` assessment checks if the images have alt texts, and if those alt texts contain the keyphrase.
-* Makes the `Transition Word` assessment not applicable when the text has less than 200 words, as transition words are less relevant for very short texts.
-* Reduces the load time of admin pages, by reducing the number of database queries and optimizing the queries themselves.
-* Improves the performance of large posts in the Block editor, Classic editor and Elementor.
-* Adds error details to the error message if SEO optimization fails for some unforeseen reason.
-* Cleans up indexables for WooCommerce check-out pages from the indexable table, in order to improve performance.
-* Adds post link indexing and term link indexing to the `wp yoast index` WP-CLI command.
-
-Bugfixes:
-
-* Fixes a bug where the `robots` meta tag could have incorrect values if users called the `wp_robots` filter to set certain values to `false`. Props to [Roy-Orbison](https://github.com/Roy-Orbison).
+* Improves the performance of saving posts by excluding unchanged items, especially noticeable on posts with many links.
+* Stops showing the SEO Optimization notification on non-production sites.
+* Improves the filtering of function words in Dutch, English, Indonesian, Russian, and Spanish by including time-related words like 'minute'.
+* Updates the styling of our Google preview, to reflect the updated styling of the Google search results.
+* Stops warning users when they have short titles, because concise, specific titles are less likely to be altered by Google.
+* Removes the `|` and `~` separator options from titles, because Google frequently replaces these in search results.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

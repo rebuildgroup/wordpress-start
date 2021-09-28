@@ -625,18 +625,6 @@ FLBuilder::register_module('FLSlideshowModule', array(
 							'type' => 'none',
 						),
 					),
-					'google'    => array(
-						'type'    => 'select',
-						'label'   => __( 'Google Plus Button', 'fl-builder' ),
-						'default' => 'true',
-						'options' => array(
-							'false' => __( 'No', 'fl-builder' ),
-							'true'  => __( 'Yes', 'fl-builder' ),
-						),
-						'preview' => array(
-							'type' => 'none',
-						),
-					),
 					'pinterest' => array(
 						'type'    => 'select',
 						'label'   => __( 'Pinterest Button', 'fl-builder' ),

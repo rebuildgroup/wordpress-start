@@ -19,6 +19,46 @@ class FLCountdownModule extends FLBuilderModule {
 	}
 
 	/**
+	 * @method update
+	 * @param $settings {object}
+	 * @return object
+	 */
+	public function update( $settings ) {
+		// remove old settings values
+		if ( isset( $settings->number_size ) ) {
+			unset( $settings->number_size );
+			unset( $settings->number_size_unit );
+		}
+
+		if ( isset( $settings->number_size_medium ) ) {
+			unset( $settings->number_size_medium );
+			unset( $settings->number_size_medium_unit );
+		}
+
+		if ( isset( $settings->number_size_responsive ) ) {
+			unset( $settings->number_size_responsive );
+			unset( $settings->number_size_responsive_unit );
+		}
+
+		if ( isset( $settings->label_size ) ) {
+			unset( $settings->label_size );
+			unset( $settings->label_size_unit );
+		}
+
+		if ( isset( $settings->label_size_medium ) ) {
+			unset( $settings->label_size_medium );
+			unset( $settings->label_size_medium_unit );
+		}
+
+		if ( isset( $settings->label_size_responsive ) ) {
+			unset( $settings->label_size_responsive );
+			unset( $settings->label_size_responsive_unit );
+		}
+
+		return $settings;
+	}
+
+	/**
 	 * Ensure backwards compatibility with old settings.
 	 *
 	 * @since 2.2
@@ -27,6 +67,78 @@ class FLCountdownModule extends FLBuilderModule {
 	 * @return object
 	 */
 	public function filter_settings( $settings, $helper ) {
+		// migrate old font size
+		if ( isset( $settings->number_size ) && ! empty( $settings->number_size ) ) {
+			$settings->number_typography = array_merge(
+				is_array( $settings->number_typography ) ? $settings->number_typography : array(),
+				array(
+					'font_size' => array(
+						'unit'   => $settings->number_size_unit,
+						'length' => $settings->number_size,
+					),
+				)
+			);
+		}
+
+		if ( isset( $settings->number_size_medium ) && ! empty( $settings->number_size_medium ) ) {
+			$settings->number_typography_medium = array_merge(
+				is_array( $settings->number_typography_medium ) ? $settings->number_typography_medium : array(),
+				array(
+					'font_size' => array(
+						'unit'   => $settings->number_size_medium_unit,
+						'length' => $settings->number_size_medium,
+					),
+				)
+			);
+		}
+
+		if ( isset( $settings->number_size_responsive ) && ! empty( $settings->number_size_responsive ) ) {
+			$settings->number_typography_responsive = array_merge(
+				is_array( $settings->number_typography_responsive ) ? $settings->number_typography_responsive : array(),
+				array(
+					'font_size' => array(
+						'unit'   => $settings->number_size_responsive_unit,
+						'length' => $settings->number_size_responsive,
+					),
+				)
+			);
+		}
+
+		if ( isset( $settings->label_size ) && ! empty( $settings->label_size ) ) {
+			$settings->label_typography = array_merge(
+				is_array( $settings->label_typography ) ? $settings->label_typography : array(),
+				array(
+					'font_size' => array(
+						'unit'   => $settings->label_size_unit,
+						'length' => $settings->label_size,
+					),
+				)
+			);
+		}
+
+		if ( isset( $settings->label_size_medium ) && ! empty( $settings->label_size_medium ) ) {
+			$settings->label_typography_medium = array_merge(
+				is_array( $settings->label_typography_medium ) ? $settings->label_typography_medium : array(),
+				array(
+					'font_size' => array(
+						'unit'   => $settings->label_size_medium_unit,
+						'length' => $settings->label_size_medium,
+					),
+				)
+			);
+		}
+
+		if ( isset( $settings->label_size_responsive ) && ! empty( $settings->label_size_responsive ) ) {
+			$settings->label_typography_responsive = array_merge(
+				is_array( $settings->label_typography_responsive ) ? $settings->label_typography_responsive : array(),
+				array(
+					'font_size' => array(
+						'unit'   => $settings->label_size_responsive_unit,
+						'length' => $settings->label_size_responsive,
+					),
+				)
+			);
+		}
 
 		// Old opacity setting.
 		$helper->handle_opacity_inputs( $settings, 'number_bg_opacity', 'number_bg_color' );
@@ -42,6 +154,7 @@ class FLCountdownModule extends FLBuilderModule {
 			unset( $settings->month );
 			unset( $settings->year );
 		}
+
 		return $settings;
 	}
 
@@ -142,7 +255,7 @@ FLBuilder::register_module('FLCountdownModule', array(
 			'general'          => array(
 				'title'  => '',
 				'fields' => array(
-					'layout' => array(
+					'layout'    => array(
 						'type'    => 'select',
 						'label'   => __( 'Layout', 'fl-builder' ),
 						'default' => 'default',
@@ -159,6 +272,15 @@ FLBuilder::register_module('FLCountdownModule', array(
 								'sections' => array( 'numbers_style', 'separator_style' ),
 								'fields'   => array( 'horizontal_padding', 'vertical_padding' ),
 							),
+						),
+					),
+					'alignment' => array(
+						'type'       => 'align',
+						'label'      => __( 'Alignment', 'fl-builder' ),
+						'default'    => 'center',
+						'responsive' => true,
+						'preview'    => array(
+							'type' => 'refresh',
 						),
 					),
 				),
@@ -178,6 +300,21 @@ FLBuilder::register_module('FLCountdownModule', array(
 							'property' => 'color',
 						),
 					),
+					'number_typography'  => array(
+						'type'       => 'typography',
+						'label'      => __( 'Number Typography', 'fl-builder' ),
+						'responsive' => true,
+						'default'    => array(
+							'font_size'  => array(
+								'unit'   => 'px',
+								'length' => '24',
+							),
+							'text_align' => 'center',
+						),
+						'preview'    => array(
+							'type' => 'refresh',
+						),
+					),
 					'label_color'        => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
@@ -190,32 +327,19 @@ FLBuilder::register_module('FLCountdownModule', array(
 							'property' => 'color',
 						),
 					),
-					'number_size'        => array(
-						'type'       => 'unit',
-						'label'      => __( 'Number Size', 'fl-builder' ),
-						'default'    => '24',
+					'label_typography'   => array(
+						'type'       => 'typography',
+						'label'      => __( 'Text Typography', 'fl-builder' ),
 						'responsive' => true,
-						'units'      => array( 'px', 'em', 'rem' ),
-						'slider'     => true,
-						'preview'    => array(
-							'type'     => 'css',
-							'selector' => '.fl-countdown .fl-countdown-unit-number',
-							'property' => 'font-size',
-							'unit'     => 'px',
+						'default'    => array(
+							'font_size'  => array(
+								'unit'   => 'px',
+								'length' => '13',
+							),
+							'text_align' => 'center',
 						),
-					),
-					'label_size'         => array(
-						'type'       => 'unit',
-						'label'      => __( 'Text Size', 'fl-builder' ),
-						'default'    => '13',
-						'responsive' => true,
-						'units'      => array( 'px', 'em', 'rem' ),
-						'slider'     => true,
 						'preview'    => array(
-							'type'     => 'css',
-							'selector' => '.fl-countdown .fl-countdown-unit-label',
-							'property' => 'font-size',
-							'unit'     => 'px',
+							'type' => 'refresh',
 						),
 					),
 					'horizontal_padding' => array(

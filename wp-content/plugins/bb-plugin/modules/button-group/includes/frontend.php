@@ -10,7 +10,7 @@
 
 			$button_settings = array(
 				'id'                    => "fl-node-$id-$i",
-				'width'                 => isset( $settings->width ) ? $settings->width : 'full',
+				'width'                 => empty( $settings->width ) ? 'full' : $settings->width,
 				'align'                 => isset( $settings->align ) ? $settings->align : 'left',
 				'text'                  => isset( $settings->items[ $i ]->text ) ? $settings->items[ $i ]->text : '',
 				'icon'                  => isset( $settings->items[ $i ]->icon ) ? $settings->items[ $i ]->icon : '',

@@ -136,6 +136,70 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 			WP_CLI::success( $response->success );
 		}
 	}
+
+	/**
+	 * List all global options.
+	 *
+	 * ## EXAMPLE
+	 *
+	 * 1. wp beaver global list
+	 *      - Returns list of Beaver Builder global options.
+	 * @subcommand global list
+	*/
+	public function global_list( $args, $assoc_args ) {
+
+		$settings = FLBuilderModel::get_global_settings();
+		$results  = array();
+
+		$fields = array(
+			'setting',
+			'value',
+		);
+
+		foreach ( $settings as $k => $setting ) {
+
+			if ( ! is_array( $setting ) ) {
+				$results[] = array(
+					'setting' => $k,
+					'value'   => $setting,
+				);
+			}
+		}
+
+		$formatter = new WP_CLI\Formatter( $assoc_args, $fields );
+		$formatter->display_items( $results );
+	}
+
+	/**
+	 * Update a single global option.
+	 *
+	 * ## EXAMPLE
+	 *
+	 * 1. wp beaver global-update --id=default_heading_selector --value=.fl-post-header
+	 *      - Update a single global option
+	 * @subcommand global-update
+	*/
+	public function global_update( $args, $assoc_args ) {
+
+		if ( ! isset( $assoc_args['id'] ) ) {
+			WP_CLI::error( 'No id use --id=' );
+			exit;
+		}
+		if ( ! isset( $assoc_args['value'] ) ) {
+			WP_CLI::error( 'No value use --value=' );
+			exit;
+		}
+
+		$current_options = get_option( '_fl_builder_settings' );
+
+		$current_options->{$assoc_args['id']} = $assoc_args['value'];
+
+		$result = FLBuilderUtils::update_option( '_fl_builder_settings', $current_options );
+		if ( $result ) {
+			/* translators: %s: global option key */
+			WP_CLI::success( sprintf( __( "Global option '%s' updated", 'fl-builder' ), $assoc_args['id'] ) );
+		}
+	}
 }
 
 /**

@@ -23,6 +23,29 @@ class FLPostCarouselModule extends FLBuilderModule {
 	}
 
 	/**
+	 * @method update
+	 * @param $settings {object}
+	 * @return object
+	 */
+	public function update( $settings ) {
+		// remove old settings values
+		if ( isset( $settings->text_color ) ) {
+			unset( $settings->text_color );
+		}
+
+		if ( isset( $settings->link_color ) ) {
+			unset( $settings->link_color );
+		}
+
+		if ( isset( $settings->link_hover_color ) ) {
+			unset( $settings->link_hover_color );
+		}
+
+		return $settings;
+	}
+
+
+	/**
 	 * Ensure backwards compatibility with old settings.
 	 *
 	 * @since 2.2
@@ -34,6 +57,32 @@ class FLPostCarouselModule extends FLBuilderModule {
 
 		// Handle old opacity inputs.
 		$helper->handle_opacity_inputs( $settings, 'text_bg_opacity', 'text_bg_color' );
+
+		// migrate old color settings
+		if ( isset( $settings->text_color ) && ! empty( $settings->text_color ) ) {
+			$settings->meta_color    = $settings->text_color;
+			$settings->content_color = $settings->text_color;
+		}
+
+		if ( isset( $settings->link_color ) && ! empty( $settings->link_color ) ) {
+			$settings->title_color        = $settings->link_color;
+			$settings->meta_link_color    = $settings->link_color;
+			$settings->content_link_color = $settings->link_color;
+			$settings->more_link_color    = $settings->link_color;
+		}
+
+		if ( isset( $settings->link_hover_color ) && ! empty( $settings->link_hover_color ) ) {
+			$settings->title_hover_color        = $settings->link_hover_color;
+			$settings->meta_link_hover_color    = $settings->link_hover_color;
+			$settings->content_link_hover_color = $settings->link_hover_color;
+			$settings->more_link_hover_color    = $settings->link_hover_color;
+
+			// migrate settings for gallery layout
+			if ( 'gallery' == $settings->layout ) {
+				$settings->title_color = $settings->link_hover_color;
+				$settings->meta_color  = $settings->link_hover_color;
+			}
+		}
 
 		return $settings;
 	}
@@ -171,8 +220,8 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 						),
 						'toggle'  => array(
 							'grid'    => array(
-								'sections' => array( 'content' ),
-								'fields'   => array( 'text_color', 'link_color', 'equal_height' ),
+								'sections' => array( 'content', 'content_style', 'more_link_style' ),
+								'fields'   => array( 'equal_height', 'title_hover_color', 'meta_link_color', 'meta_link_hover_color' ),
 							),
 							'gallery' => array(
 								'sections' => array( 'icons' ),
@@ -450,6 +499,11 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 							'1' => __( 'Show', 'fl-builder' ),
 							'0' => __( 'Hide', 'fl-builder' ),
 						),
+						'toggle'  => array(
+							'1' => array(
+								'sections' => array( 'content_style' ),
+							),
+						),
 					),
 					'show_more_link' => array(
 						'type'    => 'select',
@@ -458,6 +512,12 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 						'options' => array(
 							'1' => __( 'Show', 'fl-builder' ),
 							'0' => __( 'Hide', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'1' => array(
+								'sections' => array( 'more_link_style' ),
+								'fields'   => array( 'more_link_text' ),
+							),
 						),
 					),
 					'more_link_text' => array(
@@ -472,60 +532,26 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 	'style'   => array( // Tab
 		'title'    => __( 'Style', 'fl-builder' ), // Tab title
 		'sections' => array( // Tab Sections
-			'text_style'      => array(
-				'title'  => __( 'Colors', 'fl-builder' ),
+			'item_style'      => array(
+				'title'  => __( 'Carousel Item', 'fl-builder' ),
 				'fields' => array(
-					'text_color'       => array(
+					'text_bg_color'   => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
-						'label'       => __( 'Text Color', 'fl-builder' ),
-						'show_reset'  => true,
-						'show_alpha'  => true,
-						'preview'     => array(
-							'type'     => 'css',
-							'selector' => '.fl-post-carousel',
-							'property' => 'color',
-						),
-					),
-					'link_color'       => array(
-						'type'        => 'color',
-						'connections' => array( 'color' ),
-						'label'       => __( 'Link Color', 'fl-builder' ),
-						'show_reset'  => true,
-						'show_alpha'  => true,
-						'preview'     => array(
-							'type'     => 'css',
-							'selector' => '.fl-post-carousel-text a',
-							'property' => 'color',
-						),
-					),
-					'link_hover_color' => array(
-						'type'        => 'color',
-						'connections' => array( 'color' ),
-						'label'       => __( 'Link Hover Color', 'fl-builder' ),
-						'show_reset'  => true,
-						'show_alpha'  => true,
-						'preview'     => array(
-							'type' => 'none',
-						),
-					),
-					'text_bg_color'    => array(
-						'type'        => 'color',
-						'connections' => array( 'color' ),
-						'label'       => __( 'Text Background Color', 'fl-builder' ),
+						'label'       => __( 'Background Color', 'fl-builder' ),
 						'default'     => 'ffffff',
 						'help'        => __( 'The color applies to the overlay behind text over the background selections.', 'fl-builder' ),
 						'show_reset'  => true,
 						'show_alpha'  => true,
 					),
-					'post_icon_color'  => array(
+					'post_icon_color' => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
-						'label'       => __( 'Post Icon Color', 'fl-builder' ),
+						'label'       => __( 'Icon Color', 'fl-builder' ),
 						'show_reset'  => true,
 						'show_alpha'  => true,
 					),
-					'duo_color1'       => array(
+					'duo_color1'      => array(
 						'label'      => __( 'DuoTone Icon Primary Color', 'fl-builder' ),
 						'type'       => 'color',
 						'default'    => '',
@@ -537,7 +563,7 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 							'important' => true,
 						),
 					),
-					'duo_color2'       => array(
+					'duo_color2'      => array(
 						'label'      => __( 'DuoTone Icon Secondary Color', 'fl-builder' ),
 						'type'       => 'color',
 						'default'    => '',
@@ -547,6 +573,208 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 							'selector'  => '.fl-carousel-icon i.fad:after',
 							'property'  => 'color',
 							'important' => true,
+						),
+					),
+				),
+			),
+			'title_style'     => array(
+				'title'  => __( 'Post Title', 'fl-builder' ),
+				'fields' => array(
+					'title_color'       => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-carousel-title a',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'title_hover_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'title_typography'  => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-post-carousel-title',
+						),
+					),
+				),
+			),
+			'info_style'      => array(
+				'title'  => __( 'Post Info', 'fl-builder' ),
+				'fields' => array(
+					'meta_color'            => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-carousel-meta',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'meta_link_color'       => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => 'cccccc',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-carousel-meta a',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'meta_link_hover_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => 'ffffff',
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'meta_typography'       => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-post-carousel-meta',
+						),
+					),
+				),
+			),
+			'content_style'   => array(
+				'title'  => __( 'Post Content', 'fl-builder' ),
+				'fields' => array(
+					'content_color'            => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-carousel-content',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'content_link_color'       => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-carousel-content a:not(.fl-post-carousel-more)',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'content_link_hover_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Link Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'content_typography'       => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-post-carousel-content :not(.fl-post-carousel-more)',
+						),
+					),
+				),
+			),
+			'more_link_style' => array(
+				'title'  => __( 'More Link', 'fl-builder' ),
+				'fields' => array(
+					'more_link_color'       => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type'  => 'css',
+							'rules' => array(
+								array(
+									'selector' => '{node} .fl-post-carousel-more',
+									'property' => 'color',
+								),
+							),
+						),
+					),
+					'more_link_hover_color' => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'label'       => __( 'Hover Color', 'fl-builder' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'default'     => '',
+						'preview'     => array(
+							'type' => 'none',
+						),
+					),
+					'more_link_typography'  => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-post-carousel-more',
 						),
 					),
 				),
@@ -586,7 +814,6 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 			),
 		),
 	),
-
 	'content' => array(
 		'title' => __( 'Content', 'fl-builder' ),
 		'file'  => FL_BUILDER_DIR . 'includes/loop-settings.php',

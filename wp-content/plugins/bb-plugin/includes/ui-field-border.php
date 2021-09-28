@@ -1,4 +1,10 @@
 <#
+var i18n = {
+	general: '<?php esc_attr_e( 'General', 'fl-builder' ); ?>',
+	radius: '<?php esc_attr_e( 'Radius', 'fl-builder' ); ?>',
+	shadow: '<?php esc_attr_e( 'Shadow', 'fl-builder' ); ?>',
+	separator: '<?php esc_attr_e( '&amp;', 'fl-builder' ); ?>'
+};
 
 var defaults = {
 	style: '',
@@ -24,7 +30,44 @@ var defaults = {
 	},
 };
 
+var disabledDefaults = {
+	default: {},
+	medium: {},
+	responsive: {}
+};
+
+var shadowRadiusLabel = [];
 var value = '' === data.value ? defaults : jQuery.extend( true, defaults, data.value );
+var device = data.device ? data.device : 'default';
+var disabledFields = {};
+var disabled = [];
+
+if (typeof data.field.disabled !== 'undefined') {
+	disabledFields = jQuery.extend( true, disabledDefaults, data.field.disabled )
+} else {
+	disabledFields = disabledDefaults
+}
+
+jQuery.each(disabledFields[device], function(i,v){
+	disabled.push(v)
+})
+
+// Helper function to check if a field is enabled.
+var flBorderControlEnabled = function( field ) {
+	if (jQuery.inArray(field, disabled ) !== -1 ) {
+		return false
+	}
+	return true;
+}
+
+// set label
+if (flBorderControlEnabled('radius')) {
+	shadowRadiusLabel.push(i18n.radius)
+}
+
+if (flBorderControlEnabled('shadow')) {
+	shadowRadiusLabel.push(i18n.shadow)
+}
 
 var style = wp.template( 'fl-builder-field-select' )( {
 	name: data.name + '[][style]',
@@ -91,10 +134,10 @@ var radius = wp.template( 'fl-builder-field-dimension' )( {
 		units: [ 'px' ],
 		slider: true,
 		keys: {
-			top_left: '<?php esc_attr_e( 'Left', 'fl-builder' ); ?>',
-			top_right: '<?php esc_attr_e( 'Right', 'fl-builder' ); ?>',
-			bottom_left: '<?php esc_attr_e( 'Left', 'fl-builder' ); ?>',
-			bottom_right: '<?php esc_attr_e( 'Right', 'fl-builder' ); ?>',
+			top_left: '',
+			top_right: '',
+			bottom_left: '',
+			bottom_right: '',
 		},
 	},
 } );
@@ -110,10 +153,12 @@ var shadow = wp.template( 'fl-builder-field-shadow' )( {
 #>
 <div class="fl-compound-field fl-border-field">
 	<div class="fl-compound-field-section fl-border-field-section-general">
-		<div class="fl-compound-field-section-toggle">
-			<i class="dashicons dashicons-arrow-right-alt2"></i>
-			<?php _e( 'General', 'fl-builder' ); ?>
-		</div>
+		<# if ( shadowRadiusLabel.length > 0 ) { #>
+			<div class="fl-compound-field-section-toggle">
+				<i class="dashicons dashicons-arrow-right-alt2"></i>
+				{{{i18n.general}}}
+			</div>
+		<# } #>
 		<div class="fl-compound-field-row">
 			<div class="fl-compound-field-setting fl-border-field-style" data-property="border-style">
 				<label class="fl-compound-field-label">
@@ -137,26 +182,32 @@ var shadow = wp.template( 'fl-builder-field-shadow' )( {
 			</div>
 		</div>
 	</div>
-	<div class="fl-compound-field-section fl-border-field-section-radius">
-		<div class="fl-compound-field-section-toggle">
-			<i class="dashicons dashicons-arrow-right-alt2"></i>
-			<?php _e( 'Radius &amp; Shadow', 'fl-builder' ); ?>
-		</div>
-		<div class="fl-compound-field-row">
-			<div class="fl-compound-field-setting fl-border-field-radius" data-property="border-radius">
-				<label class="fl-compound-field-label">
-					<?php _e( 'Radius', 'fl-builder' ); ?>
-				</label>
-				{{{radius}}}
+	<# if ( shadowRadiusLabel.length > 0 ) { #>
+		<div class="fl-compound-field-section fl-border-field-section-radius">
+			<div class="fl-compound-field-section-toggle">
+				<i class="dashicons dashicons-arrow-right-alt2"></i>
+				{{{shadowRadiusLabel.join(' ' + i18n.separator + ' ')}}}
 			</div>
+			<# if ( flBorderControlEnabled( 'radius' ) ) { #>
+				<div class="fl-compound-field-row">
+					<div class="fl-compound-field-setting fl-border-field-radius" data-property="border-radius">
+						<label class="fl-compound-field-label">
+							<?php _e( 'Radius', 'fl-builder' ); ?>
+						</label>
+						{{{radius}}}
+					</div>
+				</div>
+			<# } #>
+			<# if ( flBorderControlEnabled( 'shadow' ) ) { #>
+				<div class="fl-compound-field-row">
+					<div class="fl-compound-field-setting fl-border-field-shadow" data-property="box-shadow">
+						<label class="fl-compound-field-label">
+							<?php _e( 'Box Shadow', 'fl-builder' ); ?>
+						</label>
+						{{{shadow}}}
+					</div>
+				</div>
+			<# } #>
 		</div>
-		<div class="fl-compound-field-row">
-			<div class="fl-compound-field-setting fl-border-field-shadow" data-property="box-shadow">
-				<label class="fl-compound-field-label">
-					<?php _e( 'Box Shadow', 'fl-builder' ); ?>
-				</label>
-				{{{shadow}}}
-			</div>
-		</div>
-	</div>
+	<# } #>
 </div>

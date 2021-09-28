@@ -27,7 +27,7 @@ $row_settings = array(
 							),
 							'help'    => __( 'Full width rows span the width of the page from edge to edge. Fixed rows are no wider than the Row Max Width set in the Global Settings.', 'fl-builder' ),
 							'preview' => array(
-								'type' => 'none',
+								'type' => 'refresh',
 							),
 						),
 						'content_width'     => array(
@@ -40,7 +40,7 @@ $row_settings = array(
 							),
 							'help'    => __( 'Full width content spans the width of the page from edge to edge. Fixed content is no wider than the Row Max Width set in the Global Settings.', 'fl-builder' ),
 							'preview' => array(
-								'type' => 'none',
+								'type' => 'refresh',
 							),
 						),
 						'max_content_width' => array(
@@ -61,7 +61,7 @@ $row_settings = array(
 								),
 							),
 							'preview'      => array(
-								'type' => 'none',
+								'type' => 'refresh',
 							),
 						),
 						'full_height'       => array(
@@ -83,7 +83,7 @@ $row_settings = array(
 								),
 							),
 							'preview' => array(
-								'type' => 'none',
+								'type' => 'refresh',
 							),
 						),
 						'min_height'        => array(
@@ -118,7 +118,7 @@ $row_settings = array(
 								'bottom' => __( 'Bottom', 'fl-builder' ),
 							),
 							'preview' => array(
-								'type' => 'none',
+								'type' => 'refresh',
 							),
 						),
 					),
@@ -264,9 +264,7 @@ $row_settings = array(
 							'responsive'  => true,
 							'connections' => array( 'photo' ),
 							'preview'     => array(
-								'type'     => 'css',
-								'selector' => '> .fl-row-content-wrap',
-								'property' => 'background-image',
+								'type' => 'refresh',
 							),
 						),
 						'bg_repeat'       => array(
@@ -408,7 +406,7 @@ $row_settings = array(
 								),
 							),
 							'preview' => array(
-								'type' => 'none',
+								'type' => 'refresh',
 							),
 						),
 						'bg_video'             => array(
@@ -673,7 +671,7 @@ $row_settings = array(
 							'show_reset'  => true,
 							'show_alpha'  => true,
 							'preview'     => array(
-								'type' => 'none',
+								'type' => 'refresh',
 							),
 							'connections' => array( 'color' ),
 						),
@@ -886,6 +884,15 @@ $row_settings = array(
 							'label'   => __( 'Class', 'fl-builder' ),
 							'help'    => __( "A class that will be applied to this row's HTML. Must start with a letter and only contain dashes, underscores, letters or numbers. Separate multiple classes with spaces.", 'fl-builder' ),
 							'preview' => array(
+								'type' => 'none',
+							),
+						),
+						'node_label'        => array(
+							'type'     => 'text',
+							'label'    => __( 'Label', 'fl-builder' ),
+							'help'     => __( 'A label that will applied and used in the UI for easy identification.', 'fl-builder' ),
+							'sanitize' => 'strip_tags',
+							'preview'  => array(
 								'type' => 'none',
 							),
 						),

@@ -1,5 +1,4 @@
 export const shouldShowShortcuts = ( state = false, action ) => {
-
 	switch ( action.type ) {
 	case 'SET_SHOULD_SHOW_SHORTCUTS':
 		return action.value ? true : false
@@ -9,7 +8,6 @@ export const shouldShowShortcuts = ( state = false, action ) => {
 }
 
 export const panels = ( state = {}, action ) => {
-
 	switch ( action.type ) {
 	case 'REGISTER_PANEL':
 		return {
@@ -22,7 +20,6 @@ export const panels = ( state = {}, action ) => {
 }
 
 export const currentPanel = ( state = null, action ) => {
-
 	switch ( action.type ) {
 	case 'SET_CURRENT_PANEL':
 		return action.name

@@ -69,7 +69,7 @@ FLBuilder::register_module('FLRichTextModule', array(
 						'responsive' => true,
 						'preview'    => array(
 							'type'     => 'css',
-							'selector' => '.fl-rich-text, .fl-rich-text *',
+							'selector' => '.fl-rich-text, .fl-rich-text *:not(b, strong)',
 						),
 					),
 				),

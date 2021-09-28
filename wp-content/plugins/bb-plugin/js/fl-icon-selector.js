@@ -47,6 +47,8 @@
 		 */
 		_filterText : '',
 
+		_liveFilterText: '',
+
 		/**
 		 * Opens the icon selector lightbox.
 		 *
@@ -70,6 +72,7 @@
 			}
 			else {
 				FLIconSelector._lightbox.open();
+				$('.fl-icons-filter-text-live').focus();
 			}
 
 			FLIconSelector._lightbox.on('icon-selected', function(event, icon){
@@ -112,12 +115,121 @@
 		{
 			var data = FLBuilder._jsonParse(response);
 
+
 			FLIconSelector._content = data.html;
 			FLIconSelector._lightbox.setContent(data.html);
-			$('.fl-icons-filter-select').on('change', FLIconSelector._filter);
-			$('.fl-icons-filter-text').on('keyup', FLIconSelector._filter);
+
+			$('.fl-icons-filter-text-live').on('keyup', $.debounce( 1000, FLIconSelector.livefilter ));
+			$('.fl-icons-filter-text-live').focus();
 			$('.fl-icons-list i').on('click', FLIconSelector._select);
 			$('.fl-icon-selector-cancel').on('click', $.proxy(FLIconSelector._lightbox.close, FLIconSelector._lightbox));
+			FLIconSelector.renderRecent();
+		},
+
+		renderRecent: function() {
+			var recent   = FLBuilderConfig.recentIcons;
+			if ( recent.length < 1 ) {
+				$('.fl-icons-section.recent h2.recent').hide();
+				return false;
+			}
+			$('.fl-icons-section.recent h2.recent').show();
+			$('.fl-icons-section.recent').show()
+			$('.recent-icons').html('');
+			$.each(recent, function( i, icon ) {
+				$('.recent-icons').append( '<i class="' + icon + '"></i>');
+			});
+			$('.recent-icons').show();
+			$('.recent-icons i').on('click', FLIconSelector._select);
+
+			// check if recent icons have ::before, if they dont the css for set is missing, so hide icon
+			recents = $('.recent-icons i');
+			$.each( recents, function( i,icon ) {
+				var str = window.getComputedStyle($(icon)[0], ':before').getPropertyValue('content');
+				if ( 'none' == str ) {
+					$(icon).hide();
+				}
+			});
+		},
+
+		livefilter: function() {
+			var text    = $( '.fl-icons-filter-text-live' ).val();
+
+			if ( text === FLIconSelector._liveFilterText ) {
+				return false;
+			}
+
+			$('.fl-icons-section.results').html('')
+
+			if ( '' === text ) {
+				FLIconSelector._liveFilterText = '';
+				$( '.fl-icons-section' ).show();
+				FLIconSelector.renderRecent();
+			} else {
+				$('.fl-icons-section.recent').hide();
+				$('.fl-icons-section.all-icons').hide()
+				$('.fl-icons-section.results').html('<i class="fas fa-spinner fa-spin"></i>')
+				FLIconSelector._liveFilterText = text;
+
+				FLBuilder.ajax({
+					action: 'query_icons',
+					text: text
+				}, FLIconSelector._query_result);
+
+			}
+		},
+
+		_query_result: function(result) {
+
+			var results = $('.fl-icons-section.results'),
+						html = '';
+
+			if ( ! result || '[]' === result ) {
+				html = '<h2>No Icons Found</h2>'
+				FLIconSelector.renderRecent();
+				results.html(html);
+				results.show();
+				return false;
+			}
+
+			var data = FLBuilder._jsonParse( result ),
+			prefix = '';
+
+			$.each(data, function(i,section) {
+					html += '<h2>' + section.name + '</h2>';
+					$.each(section.data, function( i, icon ) {
+						$.each(icon.styles, function( i,style) {
+							prefix = '';
+							switch( style ) {
+								case 'solid':
+									prefix = 'fas';
+									break;
+								case 'regular':
+									prefix = 'far';
+									break;
+								case 'light':
+									prefix = 'fal';
+									break;
+								case 'duotone':
+									prefix = 'fad';
+									break;
+								case 'thin':
+									prefix = 'fa-thin' // fa6
+									break;
+								case 'brands':
+									prefix = 'fa-brands fab' // fa6 + fa5
+									break;
+								case 'legacy':
+									prefix = section.prefix;
+							}
+							html += '<i class="' + prefix + ' ' + icon.tag + '" title="' + icon.label + '"></i>';
+						})
+					});
+			})
+
+		//	FLBuilder.hideAjaxLoader()
+			results.html(html);
+			results.show();
+			$('.fl-icons-section.results i').on('click', FLIconSelector._select);
 		},
 
 		/**
@@ -131,7 +243,7 @@
 		_filter: function()
 		{
 			var section = $( '.fl-icons-filter-select' ).val(),
-				text    = $( '.fl-icons-filter-text' ).val();
+				text    = $( '.fl-icons-filter-text' ).val() || '';
 
 			// Filter sections.
 			if ( 'all' == section ) {
@@ -184,7 +296,16 @@
 		{
 			var icon = $(this).attr('class');
 
+			FLBuilder.ajax({
+				action: 'recent_icons',
+				icon: icon
+			}, FLIconSelector._updateRecents);
+
 			FLIconSelector._lightbox.trigger('icon-selected', icon);
+		},
+
+		_updateRecents: function(result) {
+			FLBuilderConfig.recentIcons = FLBuilder._jsonParse(result);
 		}
 	};
 

@@ -240,7 +240,7 @@ FLBuilder::register_module(
 				'info_list_connector' => array( // Section.
 					'title'  => __( 'List Connector', 'uabb' ), // Section Title.
 					'fields' => array( // Section Fields.
-						'list_connector_option' => array(
+						'list_connector_option'    => array(
 							'type'        => 'select',
 							'label'       => __( 'Show Connector', 'uabb' ),
 							'description' => '',
@@ -257,7 +257,7 @@ FLBuilder::register_module(
 							),
 
 						),
-						'list_connector_color'  => array(
+						'list_connector_color'     => array(
 							'type'        => 'color',
 							'label'       => __( 'Connector Line Color', 'uabb' ),
 							'default'     => '',
@@ -270,7 +270,7 @@ FLBuilder::register_module(
 								'property' => 'color',
 							),
 						),
-						'list_connector_style'  => array(
+						'list_connector_style'     => array(
 							'type'        => 'select',
 							'label'       => __( 'Connector Line Style', 'uabb' ),
 							'description' => '',
@@ -285,6 +285,17 @@ FLBuilder::register_module(
 								'selector' => '.uabb-info-list-connector',
 								'property' => 'border-style',
 							),
+						),
+						'list_connector_thickness' => array(
+							'type'      => 'unit',
+							'label'     => __( 'Thickness', 'uabb' ),
+							'default'   => '1',
+							'maxlength' => '2',
+							'size'      => '3',
+							'preview'   => array(
+								'type' => 'refresh',
+							),
+							'units'     => array( 'px' ),
 						),
 					),
 				),

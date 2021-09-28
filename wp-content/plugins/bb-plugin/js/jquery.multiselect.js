@@ -77,7 +77,7 @@
                 thisArg = this;
             }
 
-            return $.isArray( thisArg ) ? $.map( thisArg, callback ) : [];
+            return Array.isArray( thisArg ) ? $.map( thisArg, callback ) : [];
         };
     }
     if( typeof String.prototype.trim !== 'function' ) {

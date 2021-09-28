@@ -102,11 +102,10 @@
 
 					FLBuilderSettingsConfig.nodes[ nodeId ] = merged;
 
-					FLBuilder.ajax( {
-						action          : 'save_settings',
-						node_id         : nodeId,
-						settings        : merged
-					}, FLBuilder._saveSettingsComplete.bind( this, true, null ) );
+					// Dispatch to store
+					const actions = FL.Builder.data.getLayoutActions()
+					const callback = FLBuilder._saveSettingsComplete.bind( this, true, null )
+					actions.updateNodeSettings( nodeId, merged, callback )
 
 					FLBuilder.triggerHook( 'didSaveNodeSettings', {
 						nodeId   : nodeId,

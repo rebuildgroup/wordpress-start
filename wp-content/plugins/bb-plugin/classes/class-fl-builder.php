@@ -68,7 +68,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url     = '';
-	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.15.1/css/all.css';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.15.3/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -604,11 +604,12 @@ final class FLBuilder {
 					if ( 'video_service' == $row->settings->bg_video_source ) {
 
 						$video_data = FLBuilderUtils::get_video_data( do_shortcode( $row->settings->bg_video_service_url ) );
-
-						if ( 'youtube' == $video_data['type'] ) {
-							wp_enqueue_script( 'youtube-player' );
-						} elseif ( 'vimeo' == $video_data['type'] ) {
-							wp_enqueue_script( 'vimeo-player' );
+						if ( isset( $video_data['type'] ) ) {
+							if ( 'youtube' == $video_data['type'] ) {
+								wp_enqueue_script( 'youtube-player' );
+							} elseif ( 'vimeo' == $video_data['type'] ) {
+								wp_enqueue_script( 'vimeo-player' );
+							}
 						}
 					}
 				}
@@ -686,7 +687,7 @@ final class FLBuilder {
 		/**
 		 * Use this filter to add dependencies to the dependency array when the main builder layout CSS file is enqueued using wp_enqueue_style.
 		 * @see fl_builder_layout_style_dependencies
-		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 */
 		$css_deps  = apply_filters( 'fl_builder_layout_style_dependencies', array() );
 		$css_media = apply_filters( 'fl_builder_layout_style_media', 'all' );
@@ -1006,6 +1007,11 @@ final class FLBuilder {
 					wp_enqueue_script( $handle, $props[0], $props[1], $props[2], $props[3] );
 				}
 			}
+
+			/**
+			 * Enqueue the canvas script for handling dom manipulation.
+			 */
+			self::enqueue_canvas();
 		}
 		wp_add_inline_style( 'admin-bar', '#wp-admin-bar-fl-builder-frontend-edit-link .ab-icon:before { content: "\f116" !important; top: 2px; margin-right: 3px; }' );
 		$args = array(
@@ -1025,6 +1031,32 @@ final class FLBuilder {
 		);
 		wp_localize_script( 'fl-builder-min', 'crash_vars', $args );
 		wp_localize_script( 'fl-builder', 'crash_vars', $args );
+	}
+
+	/**
+	 * Enqueue the canvas API
+	 *
+	 * @since 2.5
+	 * @return void
+	 */
+	static public function enqueue_canvas() {
+		global $wp_the_query;
+
+		$ver     = FL_BUILDER_VERSION;
+		$js_url  = plugins_url( '/js/build/', FL_BUILDER_FILE );
+		$post_id = is_object( $wp_the_query->post ) ? $wp_the_query->post->ID : null;
+
+		if ( self::is_debug() ) {
+			wp_enqueue_script( 'fl-builder-canvas', $js_url . 'canvas.bundle.js', array(), $ver, true );
+		} else {
+			wp_enqueue_script( 'fl-builder-canvas', $js_url . 'canvas.bundle.min.js', array(), $ver, true );
+		}
+
+		// FLBuilderCanvasConfig
+		$args = array(
+			'postId' => $post_id,
+		);
+		wp_localize_script( 'fl-builder-canvas', 'FLBuilderCanvasConfig', $args );
 	}
 
 	/**
@@ -1063,6 +1095,7 @@ final class FLBuilder {
 			// Skin
 			$user_settings = FLBuilderUserSettings::get();
 			$classes[]     = 'fl-builder-ui-skin--' . $user_settings['skin'];
+			$classes[]     = 'fluid-color-scheme-' . $user_settings['skin'];
 
 			// Draft changes
 			if ( FLBuilderModel::layout_has_drafted_changes() ) {
@@ -1793,6 +1826,8 @@ final class FLBuilder {
 		// Force the builder to use this post ID.
 		FLBuilderModel::set_post_id( $post_id );
 
+		$layout_type = empty( $attrs['data-type'] ) ? '' : $attrs['data-type'];
+
 		// Build the attributes string.
 		$attr_string = '';
 		/**
@@ -1821,7 +1856,7 @@ final class FLBuilder {
 		 * @see fl_builder_before_render_content
 		 */
 		do_action( 'fl_builder_before_render_content' );
-		echo '<' . $tag . ' class="' . self::render_content_classes() . '" data-post-id="' . $post_id . '"' . $attr_string . '>';
+		echo '<' . $tag . ' class="' . self::render_content_classes( $layout_type ) . '" data-post-id="' . $post_id . '"' . $attr_string . '>';
 		self::render_nodes();
 		echo '</' . $tag . '>';
 		/**
@@ -1928,9 +1963,10 @@ final class FLBuilder {
 	 * Renders the CSS classes for the main content div tag.
 	 *
 	 * @since 1.6.4
+	 * @param string $layout_type
 	 * @return string
 	 */
-	static public function render_content_classes() {
+	static public function render_content_classes( $layout_type = '' ) {
 		global $wp_the_query;
 
 		$post_id = FLBuilderModel::get_post_id();
@@ -1950,7 +1986,7 @@ final class FLBuilder {
 			}
 		}
 
-		return apply_filters( 'fl_builder_content_classes', $classes );
+		return apply_filters( 'fl_builder_content_classes', $classes, $layout_type );
 	}
 
 	/**
@@ -2235,7 +2271,7 @@ final class FLBuilder {
 		/**
 		 * Use this filter to work with the custom class a user adds to a row under Row Settings > Advanced > Class.
 		 * @see fl_builder_row_custom_class
-		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 */
 		$custom_class = apply_filters( 'fl_builder_row_custom_class', $row->settings->class, $row );
 		$overlay_bgs  = array( 'photo', 'parallax', 'slideshow', 'video' );
@@ -2494,7 +2530,7 @@ final class FLBuilder {
 		/**
 		 * Use this filter to work with the custom class a user adds to a column under Column Settings > Advanced > Class.
 		 * @see fl_builder_column_custom_class
-		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 */
 		$custom_class    = apply_filters( 'fl_builder_column_custom_class', $col->settings->class, $col );
 		$overlay_bgs     = array( 'photo' );
@@ -2707,7 +2743,7 @@ final class FLBuilder {
 		/**
 		 * Use this filter to work with the custom class a user adds to a module in the Class field on the Advanced tab.
 		 * @see fl_builder_module_custom_class
-		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 */
 		$custom_class = apply_filters( 'fl_builder_module_custom_class', $module->settings->class, $module );
 		$active       = FLBuilderModel::is_builder_active();
@@ -2977,7 +3013,7 @@ final class FLBuilder {
 		/**
 		 * Use this filter to modify the CSS that is compiled and cached for each builder layout.
 		 * @see fl_builder_render_css
-		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 */
 		$css = apply_filters( 'fl_builder_render_css', $css, $nodes, $global_settings, $include_global );
 
@@ -3136,7 +3172,7 @@ final class FLBuilder {
 	 */
 	static public function rewrite_css_cache_urls( $content ) {
 		if ( FLBuilderModel::is_ssl() ) {
-			$content = str_ireplace( 'http:', 'https:', $content );
+			$content = preg_replace( '#http:\/\/(.*\.(?:png|jpe?g|gif|webp|svg))#', 'https://$1', $content );
 		}
 
 		return $content;
@@ -3468,7 +3504,7 @@ final class FLBuilder {
 		/**
 		 * Use this filter to modify the JavaScript that is compiled and cached for each builder layout.
 		 * @see fl_builder_render_js
-		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/common-beaver-builder-filter-examples
 		 */
 		$js = apply_filters( 'fl_builder_render_js', $js, $nodes, $global_settings, $include_global );
 
@@ -3814,12 +3850,13 @@ final class FLBuilder {
 	}
 
 	static public function get_fa5_version() {
-		$data = glob( FL_BUILDER_DIR . 'fonts/fontawesome/*' );
-		return basename( $data[0] );
+
+		return FLBuilderFontAwesome::latest_supported();
 	}
 
 	static public function fa5_pro_enabled() {
-		$enabled = apply_filters( 'fl_enable_fa5_pro', false );
+		$enabled = FLBuilderFontAwesome::is_pro_enabled( apply_filters( 'fl_enable_fa5_pro', false ) );
+
 		// if filter was set to true return true anyway.
 		if ( $enabled ) {
 			return true;

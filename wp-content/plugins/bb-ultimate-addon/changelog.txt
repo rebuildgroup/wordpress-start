@@ -1,3 +1,16 @@
+Version 1.33.0, Thursday, 9th September 2021
+- New: Introduced Advanced Timeline module.
+- Improvement: Button - Added support for Tablet devices for Alignment setting.
+- Improvement: FAQ Schema - Added functionality to open a specific FAQ Accordion Item from URL.
+- Improvement: Info List - Added option to change the thickness of Connector Line.
+- Improvement: Video - Added Border settings.
+- Fixed: iHover - Effect 13 is not working properly.
+- Fixed: Login Form - Checkbox for Remember Me not working.
+- Fixed: Modal Popup - Close on Overlay click setting is not working when Woo-Mini Cart module is added on same page.
+- Fixed: Woo-Mini Cart - Cart Content is misaligned on archive pages.
+- Fixed: Woo-Products - Add to Cart functionality is not working from Quick View for Variable Product.
+- Fixed: Woo-Products - Columns setting not working on archive pages.
+
 Version 1.32.0, Monday, 2nd August 2021
 - New: Introduced Star Rating module.
 - Improvement: Added WPML integration using wpml-config.xml file.

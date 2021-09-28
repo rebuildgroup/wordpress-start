@@ -110,7 +110,7 @@ class FLBuilderArt {
 		/**
 		 * Trigger registration process for external shapes.
 		 * @see fl_register_art
-		 * @link https://kb.wpbeaverbuilder.com/article/687-add-custom-shape-art
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/add-a-custom-shape-layer/
 		 */
 		do_action( 'fl_register_art' );
 	}

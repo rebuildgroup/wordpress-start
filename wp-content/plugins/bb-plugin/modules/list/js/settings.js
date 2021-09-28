@@ -5,7 +5,7 @@
      * Only Generic List type are allowed to override the icon. 
      * Ordered and unordered lists can only use the predefined icons available in the module settings.
      */
-    FLBuilder._registerModuleHelper('list_item_form', {
+    FLBuilder.registerModuleHelper('list_item_form', {
         
         init: function () {
             var moduleSettingsForm = $('form.fl-builder-list-settings'),

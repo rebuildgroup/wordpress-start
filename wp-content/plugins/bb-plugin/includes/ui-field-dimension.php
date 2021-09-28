@@ -21,10 +21,10 @@ var responsive = data.name.replace( data.rootName, '' );
  */
 if ( 'object' !== typeof keys ) {
 	keys = {
-		top: '<?php _e( 'Top', 'fl-builder' ); ?>',
-		right: '<?php _e( 'Right', 'fl-builder' ); ?>',
-		bottom: '<?php _e( 'Bottom', 'fl-builder' ); ?>',
-		left: '<?php _e( 'Left', 'fl-builder' ); ?>',
+		top: '',
+		right: '',
+		bottom: '',
+		left: '',
 	};
 }
 
@@ -65,6 +65,7 @@ if ( 'object' !== typeof placeholder ) {
 	}
 }
 
+var labelClass = '';
 #>
 <div class="fl-dimension-field-units">
 	<# for ( i = 0; i < keys.length ; i++ ) { #>
@@ -96,8 +97,15 @@ if ( 'object' !== typeof placeholder ) {
 			<div class="fl-field-popup-slider-arrow"></div>
 			<div class="fl-field-popup-slider-input"></div>
 		</div>
-		<# } #>
-		<label>{{{labels[ i ]}}}</label>
+		<# 
+		  } 
+		  
+		  labelClass = keys[ i ];
+		  if ( '' === labels[ i ] ) {
+			labelClass += ' icon';
+		  }
+		#>
+		<label class="{{{labelClass}}}">{{{labels[ i ]}}}</label>
 	</div>
 	<# } #>
 	<# if ( units ) { #>

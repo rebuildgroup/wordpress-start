@@ -41,11 +41,13 @@ final class FLBuilderUserTemplatesAdminList {
 		$slug    = 'fl-builder-user-templates-admin-';
 		$url     = FL_BUILDER_USER_TEMPLATES_URL;
 		$version = FL_BUILDER_VERSION;
+		$js_url  = plugins_url( '/js/', FL_BUILDER_FILE );
 
 		if ( 'edit.php' == $pagenow && 'fl-builder-template' == $screen->post_type ) {
 
 			wp_enqueue_style( $slug . 'list', $url . 'css/' . $slug . 'list.css', array(), $version );
 			wp_enqueue_script( $slug . 'list', $url . 'js/' . $slug . 'list.js', array(), $version );
+			wp_enqueue_script( 'clipboard', $js_url . 'clipboard.min.js', array(), $version );
 
 			wp_localize_script( $slug . 'list', 'FLBuilderConfig', array(
 				'userTemplateType' => isset( $_GET['fl-builder-template-type'] ) ? $_GET['fl-builder-template-type'] : 'layout',
@@ -160,9 +162,18 @@ final class FLBuilderUserTemplatesAdminList {
 		}
 		if ( in_array( $_GET['fl-builder-template-type'], array( 'row', 'column', 'module' ) ) ) {
 			$columns['fl_global'] = __( 'Global', 'fl-builder' );
+			$columns['code']      = __( 'ShortCode', 'fl-builder' );
+		}
+
+		if ( 'layout' === $_GET['fl-builder-template-type'] ) {
+			$columns['code'] = __( 'ShortCode', 'fl-builder' );
 		}
 
 		$columns['taxonomy-fl-builder-template-category'] = __( 'Categories', 'fl-builder' );
+
+		if ( isset( $_GET['post_status'] ) && 'trash' === $_GET['post_status'] ) {
+			unset( $columns['code'] );
+		}
 
 		unset( $columns['date'] );
 
@@ -177,6 +188,12 @@ final class FLBuilderUserTemplatesAdminList {
 	 * @return array
 	 */
 	static public function add_column_content( $column, $post_id ) {
+
+		if ( 'code' === $column ) {
+			$shortcode = sprintf( '[fl_builder_insert_layout id=%s]', $post_id );
+			printf( '<pre class="shortcode" data-clipboard-text="%s">%s</pre>', $shortcode, $shortcode );
+			return;
+		}
 		if ( 'fl_global' != $column ) {
 			return;
 		}

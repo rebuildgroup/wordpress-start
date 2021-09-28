@@ -55,6 +55,17 @@ if ( field.show ) {
 	show = "data-show='" + JSON.stringify( field.show ) + "'";
 }
 
+if ( photo && photo.url && photo.url.endsWith( '.svg' ) ) {
+	photo.sizes = {
+		full: {
+			url: url,
+			filename: url.split( '/' ).pop(),
+			height: '',
+			width: ''
+		}
+	}
+}
+
 #>
 <div class="{{className}}">
 	<a class="fl-photo-select" href="javascript:void(0);" onclick="return false;"><?php _e( 'Select Photo', 'fl-builder' ); ?></a>

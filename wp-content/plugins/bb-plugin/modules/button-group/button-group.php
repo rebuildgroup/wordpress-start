@@ -51,8 +51,9 @@ class FLButtonGroupModule extends FLBuilderModule {
 	 * @return object
 	 */
 	public function filter_settings( $settings, $helper ) {
-		// Convert 'space_between' Unit field to 'button_spacing' Dimension field.
 
+		// Convert 'space_between' Unit field to 'button_spacing' Dimension field.
+		// @since 2.4.1
 		if ( isset( $settings->space_between ) ) {
 
 			// Left and Top Spacing
@@ -80,6 +81,12 @@ class FLButtonGroupModule extends FLBuilderModule {
 				$settings->{'button_spacing' . $unit } = $settings->space_between_unit;
 			}
 			unset( $settings->space_between_unit );
+		}
+
+		// Width changed from Full 'full' to Default ''.
+		// @since 2.4.2
+		if ( 'full' === $settings->width ) {
+			$settings->width = '';
 		}
 
 		return $settings;
@@ -128,24 +135,13 @@ FLBuilder::register_module('FLButtonGroupModule', array(
 							'horizontal' => __( 'Horizontal', 'fl-builder' ),
 							'vertical'   => __( 'Vertical', 'fl-builder' ),
 						),
-						'toggle'  => array(
-							'vertical' => array(
-								'fields' => array( 'width' ),
-							),
-						),
-					),
-					'align'          => array(
-						'type'       => 'align',
-						'label'      => __( 'Align', 'fl-builder' ),
-						'default'    => 'left',
-						'responsive' => true,
 					),
 					'width'          => array(
 						'type'    => 'select',
 						'label'   => __( 'Width', 'fl-builder' ),
-						'default' => 'full',
+						'default' => '',
 						'options' => array(
-							'full'   => __( 'Full Width', 'fl-builder' ),
+							''       => __( 'Default', 'fl-builder' ),
 							'custom' => __( 'Custom', 'fl-builder' ),
 						),
 						'toggle'  => array(
@@ -170,6 +166,12 @@ FLBuilder::register_module('FLButtonGroupModule', array(
 							'vw',
 							'%',
 						),
+					),
+					'align'          => array(
+						'type'       => 'align',
+						'label'      => __( 'Align', 'fl-builder' ),
+						'default'    => 'left',
+						'responsive' => true,
 					),
 					'padding'        => array(
 						'type'       => 'dimension',

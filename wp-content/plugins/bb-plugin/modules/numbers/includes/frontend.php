@@ -20,36 +20,28 @@
 			<span class="fl-number-before-text"><?php echo $settings->before_number_text; ?></span>
 		<?php endif; ?>
 
-		<?php
-		$position = $settings->number_position ? $settings->number_position : 'default';
-		?>
+		<?php $position = $settings->number_position ? $settings->number_position : 'default'; ?>
 
-		<?php if ( 'above' == $position ) : ?>
-
+		<?php if ( 'hidden' == $position ) : ?>
+			<div class="fl-number-bars-container">
+				<div class="fl-number-bar"></div>
+			</div>
+		<?php elseif ( 'above' == $position ) : ?>
 			<?php $module->render_number(); ?>
 			<div class="fl-number-bars-container">
 				<div class="fl-number-bar"></div>
 			</div>
-			<?php
-
-		elseif ( 'below' == $position ) :
-			?>
-
+		<?php elseif ( 'below' == $position ) : ?>
 			<div class="fl-number-bars-container">
 				<div class="fl-number-bar"></div>
 			</div>
-			<?php
-			$module->render_number();
-
-		else :
-			?>
-
+			<?php $module->render_number(); ?>
+		<?php else : ?>
 			<div class="fl-number-bars-container">
 				<div class="fl-number-bar">
 					<?php $module->render_number(); ?>
 				</div>
 			</div>
-
 		<?php endif; ?>
 
 		<?php if ( ! empty( $settings->after_number_text ) ) : ?>

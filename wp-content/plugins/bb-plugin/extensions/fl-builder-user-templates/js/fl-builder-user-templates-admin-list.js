@@ -1,5 +1,5 @@
 ( function( $ ) {
-	
+
 	/**
 	 * Handles logic for the user templates admin list interface.
 	 *
@@ -7,7 +7,7 @@
 	 * @since 1.10
 	 */
 	FLBuilderUserTemplatesAdminList = {
-		
+
 		/**
 		 * Initializes the user templates admin list interface.
 		 *
@@ -20,6 +20,7 @@
 			this._setupAddNewButton();
 			this._setupSearch();
 			this._fixCategories();
+			this._shortCodeCopy();
 		},
 
 		/**
@@ -33,7 +34,7 @@
 		_setupAddNewButton: function()
 		{
 			var url = FLBuilderConfig.addNewURL + '&fl-builder-template-type=' + FLBuilderConfig.userTemplateType;
-				
+
 			$( '.page-title-action' ).attr( 'href', url ).show();
 		},
 
@@ -60,6 +61,16 @@
 				url = el.attr('href') + '&fl-builder-template-type=' + FLBuilderConfig.userTemplateType
 				el.attr('href', url)
 			})
+		},
+		_shortCodeCopy: function() {
+			var that = this;
+			clipboard = new ClipboardJS('pre.shortcode');
+			clipboard.on('success', function(e) {
+				$(e.trigger).html('Copied!').delay(1000).fadeOut(400,function(){
+					$(e.trigger).html(e.text).fadeIn()
+				})
+				e.clearSelection();
+			});
 		}
 	};
 

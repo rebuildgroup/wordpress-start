@@ -20,16 +20,91 @@ class FLNumbersModule extends FLBuilderModule {
 		$this->add_js( 'jquery-waypoints' );
 	}
 
+	/**
+	 * @method update
+	 * @param $settings {object}
+	 * @return object
+	 */
+	public function update( $settings ) {
+		// remove old settings values
+		if ( isset( $settings->number_size ) ) {
+			unset( $settings->number_size );
+			unset( $settings->number_size_unit );
+		}
+
+		if ( isset( $settings->number_size_medium ) ) {
+			unset( $settings->number_size_medium );
+			unset( $settings->number_size_medium_unit );
+		}
+
+		if ( isset( $settings->number_size_responsive ) ) {
+			unset( $settings->number_size_responsive );
+			unset( $settings->number_size_responsive_unit );
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Ensure backwards compatibility with old settings.
+	 *
+	 * @since 2.4.1
+	 * @param object $settings A module settings object.
+	 * @param object $helper A settings compatibility helper.
+	 * @return object
+	 */
+	public function filter_settings( $settings, $helper ) {
+		// migrate old font size
+		if ( isset( $settings->number_size ) && ! empty( $settings->number_size ) && isset( $settings->number_size_unit ) ) {
+			$settings->number_typography = array_merge(
+				is_array( $settings->number_typography ) ? $settings->number_typography : array(),
+				array(
+					'font_size' => array(
+						'unit'   => $settings->number_size_unit,
+						'length' => $settings->number_size,
+					),
+				)
+			);
+		}
+
+		if ( isset( $settings->number_size_medium ) && ! empty( $settings->number_size_medium ) && isset( $settings->number_size_medium_unit ) ) {
+			$settings->number_typography_medium = array_merge(
+				is_array( $settings->number_typography_medium ) ? $settings->number_typography_medium : array(),
+				array(
+					'font_size' => array(
+						'unit'   => $settings->number_size_medium_unit,
+						'length' => $settings->number_size_medium,
+					),
+				)
+			);
+		}
+
+		if ( isset( $settings->number_size_responsive ) && ! empty( $settings->number_size_responsive ) && isset( $settings->number_size_responsive_unit ) ) {
+			$settings->number_typography_responsive = array_merge(
+				is_array( $settings->number_typography_responsive ) ? $settings->number_typography_responsive : array(),
+				array(
+					'font_size' => array(
+						'unit'   => $settings->number_size_responsive_unit,
+						'length' => $settings->number_size_responsive,
+					),
+				)
+			);
+		}
+
+		return $settings;
+	}
+
 	public function render_number() {
 
-		$number = isset( $this->settings->number ) && is_numeric( $this->settings->number ) ? $this->settings->number : 100;
-		$max    = isset( $this->settings->max_number ) && is_numeric( $this->settings->max_number ) ? $this->settings->max_number : $number;
-		$layout = $this->settings->layout ? $this->settings->layout : 'default';
-		$type   = $this->settings->number_type ? $this->settings->number_type : 'percent';
-		$prefix = 'percent' == $type ? '' : $this->settings->number_prefix;
-		$suffix = 'percent' == $type ? '%' : $this->settings->number_suffix;
-		$start  = 'jQuery( ".fl-node-' . $this->node . ' .fl-number-int" ).html( "0" );';
-		$nojs   = '<noscript>' . number_format( $number ) . '</noscript>';
+		$number      = isset( $this->settings->number ) && is_numeric( $this->settings->number ) ? $this->settings->number : 100;
+		$max         = isset( $this->settings->max_number ) && is_numeric( $this->settings->max_number ) ? $this->settings->max_number : $number;
+		$layout      = $this->settings->layout ? $this->settings->layout : 'default';
+		$type        = $this->settings->number_type ? $this->settings->number_type : 'percent';
+		$prefix      = 'percent' == $type ? '' : $this->settings->number_prefix;
+		$suffix      = 'percent' == $type ? '%' : $this->settings->number_suffix;
+		$start       = 'jQuery( ".fl-node-' . $this->node . ' .fl-number-int" ).html( "0" );';
+		$nojs        = '<noscript>' . number_format( $number ) . '</noscript>';
+		$number_data = 'data-number="' . $number . '" data-total="' . $max . '"';
 
 		wp_add_inline_script( 'jquery-waypoints', $start, 'after' );
 		wp_localize_script( 'jquery-waypoints', 'number_module_' . $this->node, array(
@@ -37,7 +112,7 @@ class FLNumbersModule extends FLBuilderModule {
 			'max'    => $max,
 		) );
 
-		echo '<div class="fl-number-string">' . $prefix . '<span class="fl-number-int">' . $nojs . '</span>' . $suffix . '</div>';
+		echo '<div class="fl-number-string">' . $prefix . '<span class="fl-number-int" ' . $number_data . '>' . $nojs . '</span>' . $suffix . '</div>';
 	}
 
 	public function render_circle_bar() {
@@ -128,6 +203,7 @@ FLBuilder::register_module('FLNumbersModule', array(
 							'default' => __( 'Inside Bar', 'fl-builder' ),
 							'above'   => __( 'Above Bar', 'fl-builder' ),
 							'below'   => __( 'Below Bar', 'fl-builder' ),
+							'hidden'  => __( 'Hidden', 'fl-builder' ),
 						),
 					),
 					'number_type'        => array(
@@ -152,8 +228,7 @@ FLBuilder::register_module('FLNumbersModule', array(
 						'placeholder' => '100',
 						'connections' => array( 'custom_field' ),
 						'preview'     => array(
-							'type'     => 'text',
-							'selector' => '.fl-number-int',
+							'type' => 'refresh',
 						),
 					),
 					'max_number'         => array(
@@ -161,6 +236,9 @@ FLBuilder::register_module('FLNumbersModule', array(
 						'label'       => __( 'Total', 'fl-builder' ),
 						'size'        => '5',
 						'connections' => array( 'custom_field' ),
+						'preview'     => array(
+							'type' => 'refresh',
+						),
 						'help'        => __( 'The total number of units for this counter. For example, if the Number is set to 250 and the Total is set to 500, the counter will animate to 50%.', 'fl-builder' ),
 					),
 					'before_number_text' => array(
@@ -225,7 +303,7 @@ FLBuilder::register_module('FLNumbersModule', array(
 		'sections' => array( // Tab Sections
 			'text_style'       => array(
 				'fields' => array(
-					'text_color'   => array(
+					'text_color'        => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
 						'label'       => __( 'Text Color', 'fl-builder' ),
@@ -237,7 +315,16 @@ FLBuilder::register_module('FLNumbersModule', array(
 							'property' => 'color',
 						),
 					),
-					'number_color' => array(
+					'text_typography'   => array(
+						'type'       => 'typography',
+						'label'      => __( 'Text Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '.fl-number .fl-number-text .fl-number-before-text, .fl-number .fl-number-text .fl-number-after-text',
+						),
+					),
+					'number_color'      => array(
 						'type'        => 'color',
 						'connections' => array( 'color' ),
 						'label'       => __( 'Number Color', 'fl-builder' ),
@@ -249,18 +336,19 @@ FLBuilder::register_module('FLNumbersModule', array(
 							'property' => 'color',
 						),
 					),
-					'number_size'  => array(
-						'type'       => 'unit',
-						'label'      => __( 'Number Size', 'fl-builder' ),
-						'default'    => '32',
+					'number_typography' => array(
+						'type'       => 'typography',
+						'label'      => __( 'Number Typography', 'fl-builder' ),
 						'responsive' => true,
-						'units'      => array( 'px', 'em', 'rem' ),
-						'slider'     => true,
+						'default'    => array(
+							'font_size' => array(
+								'unit'   => 'px',
+								'length' => '32',
+							),
+						),
 						'preview'    => array(
 							'type'     => 'css',
-							'selector' => '.fl-number-string',
-							'property' => 'font-size',
-							'unit'     => 'px',
+							'selector' => '.fl-number .fl-number-text .fl-number-string, .fl-number .fl-number-text .fl-number-string span',
 						),
 					),
 				),
@@ -361,6 +449,19 @@ FLBuilder::register_module('FLNumbersModule', array(
 							'type'     => 'css',
 							'selector' => '.fl-number-bars-container',
 							'property' => 'background-color',
+						),
+					),
+					'bar_height'   => array(
+						'type'       => 'unit',
+						'label'      => __( 'Bar Height', 'fl-builder' ),
+						'units'      => array( 'px' ),
+						'default'    => '42',
+						'slider'     => true,
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '{node} .fl-number-bars-container, {node} .fl-number-bar',
+							'property' => 'height',
 						),
 					),
 				),

@@ -413,7 +413,7 @@ if ( 'custom' === $settings->width && '' !== $settings->custom_height ) :
 if ( $global_settings->responsive_enabled ) :
 	?>
 @media ( max-width: <?php echo esc_attr( $global_settings->responsive_breakpoint ); ?>px ) {
-	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-creative-button-wrap.uabb-creative-button-reponsive-<?php echo esc_attr( $settings->mob_align ); ?> {
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-creative-button-wrap.uabb-button-reponsive-<?php echo esc_attr( $settings->mob_align ); ?>.uabb-creative-button-reponsive-<?php echo esc_attr( $settings->mob_align ); ?> {
 		text-align: <?php echo esc_attr( $settings->mob_align ); ?>;
 	}
 }
@@ -427,6 +427,9 @@ if ( $global_settings->responsive_enabled ) { // Global Setting If started.
 		/* Medium Breakpoint media query */
 	?>
 	@media ( max-width: <?php echo esc_attr( $global_settings->medium_breakpoint ) . 'px'; ?> ) {
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-creative-button-wrap.uabb-creative-button-tablet-<?php echo esc_attr( $settings->tab_align ); ?> {
+		text-align: <?php echo esc_attr( $settings->tab_align ); ?>;
+	}
 	<?php if ( 'default' === $settings->style ) { ?>
 		.fl-node-<?php echo esc_attr( $id ); ?> .uabb-creative-button-wrap a,
 		.fl-node-<?php echo esc_attr( $id ); ?> .uabb-creative-button-wrap a:visited {

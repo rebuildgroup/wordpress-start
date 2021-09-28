@@ -7,7 +7,7 @@ function fl_welcome_utm( $campaign ) {
 		'utm_campaign' => $campaign,
 	);
 }
-$blog_post_url   = FLBuilderModel::get_store_url( 'beaver-builder-2-4-oshaughnessy', fl_welcome_utm( 'settings-welcome-blog-post' ) );
+$blog_post_url   = FLBuilderModel::get_store_url( 'beaver-builder-2-5-contra', fl_welcome_utm( 'settings-welcome-blog-post' ) );
 $change_logs_url = FLBuilderModel::get_store_url( 'change-logs', fl_welcome_utm( 'settings-welcome-change-logs' ) );
 $upgrade_url     = FLBuilderModel::get_upgrade_url( fl_welcome_utm( 'settings-welcome-upgrade' ) );
 $support_url     = FLBuilderModel::get_store_url( 'beaver-builder-support', fl_welcome_utm( 'settings-welcome-support' ) );
@@ -15,8 +15,8 @@ $faqs_url        = FLBuilderModel::get_store_url( 'frequently-asked-questions', 
 $forums_url      = FLBuilderModel::get_store_url( 'go/forum', fl_welcome_utm( 'settings-welcome-forums' ) );
 $docs_url        = FLBuilderModel::get_store_url( 'go/docs', fl_welcome_utm( 'settings-welcome-docs' ) );
 $fb_url          = 'https://www.facebook.com/groups/beaverbuilders/';
-$release_ver     = '2.4';
-$release_name    = '&#8220;O&rsquo;Shaughnessy&#8221;';
+$release_ver     = '2.5';
+$release_name    = '&#8220;Contra&#8221;';
 ?>
 <div id="fl-welcome-form" class="fl-settings-form">
 
@@ -41,9 +41,9 @@ $release_name    = '&#8220;O&rsquo;Shaughnessy&#8221;';
 
 			<div class="fl-welcome-col">
 
-				<p><a href="<?php echo admin_url(); ?>post-new.php?post_type=page" class="fl-welcome-big-link"><?php _e( 'Pages → Add New', 'fl-builder' ); ?></a></p>
+				<p><a href="<?php echo admin_url(); ?>post-new.php?post_type=page" class="fl-welcome-big-link"><?php _e( 'Pages &rarr; Add New', 'fl-builder' ); ?></a></p>
 
-				<p><?php _e( 'Ready to start building? Add a new page and jump into Beaver Builder by clicking the Page Builder tab shown on the image.', 'fl-builder' ); ?></p>
+				<p><?php _e( 'Ready to start building? Add a new page and jump into Beaver Builder by clicking the Launch Beaver Builder button shown on the image.', 'fl-builder' ); ?></p>
 
 				<h3><?php _e( 'Join the Community', 'fl-builder' ); ?></h3>
 
@@ -73,7 +73,7 @@ $release_name    = '&#8220;O&rsquo;Shaughnessy&#8221;';
 			</div>
 
 			<div class="fl-welcome-col">
-				<img role="presentation" class="fl-welcome-img" src="<?php echo FL_BUILDER_URL; ?>img/screenshot-getting-started.png" alt="" />
+				<img role="presentation" class="fl-welcome-img" src="<?php echo FL_BUILDER_URL; ?>img/screenshot-getting-started.jpg" alt="" />
 			</div>
 
 		</div>
@@ -91,10 +91,10 @@ $release_name    = '&#8220;O&rsquo;Shaughnessy&#8221;';
 				<p><?php printf( __( 'We\'re thrilled to announce Beaver Builder %1$s %2$s. Beaver Builder %1$s brings a number of workflow enhancements.', 'fl-builder' ), $release_ver, $release_name ); ?></p>
 
 				<ul>
-					<li><?php _e( 'New Modules: Button Group, List, Login and Search modules join the ranks.', 'fl-builder' ); ?></li>
-					<li><?php _e( 'Video Module: now show it in a Lightbox or set it to sticky.', 'fl-builder' ); ?></li>
-					<li><?php _e( 'Icons: Font Awesome Pro subset support added.', 'fl-builder' ); ?></li>
-					<li><?php _e( 'Row Backgrounds: now embed slideshows from slideshow plugins using shortcode.', 'fl-builder' ); ?></li>
+					<li><?php _e( 'NEW: We\'ve added an Outline Panel where you can view and edit the structure of a page from a streamlined interface.', 'fl-builder' ); ?></li>
+					<li><?php _e( 'The Menu Module received new improvements: center logo, add search to the menu and more!', 'fl-builder' ); ?></li>
+					<li><?php _e( 'The Pricing Table Module now has the ability to show dual pricing, ribbons on the boxes and we\'ve added new styling options.', 'fl-builder' ); ?></li>
+					<li><?php _e( 'Icons: Add integration with the FontAwesome plugin.', 'fl-builder' ); ?></li>
 				</ul>
 				<?php /* translators: 1: blog post url: 2: changelog url */ ?>
 				<p><?php printf( __( 'There\'s a whole lot more, too! Read about everything else on our <a href="%1$s" target="_blank">update post</a> or <a href="%2$s" target="_blank">change logs</a>.', 'fl-builder' ), $blog_post_url, $change_logs_url ); ?></p>

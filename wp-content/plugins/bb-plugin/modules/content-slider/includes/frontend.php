@@ -1,9 +1,6 @@
 <div class="fl-content-slider">
 	<div class="fl-content-slider-wrapper">
 		<?php
-		if ( '1' === $settings->shuffle ) {
-			shuffle( $settings->slides );
-		}
 		for ( $i = 0; $i < count( $settings->slides ); $i++ ) :
 
 			if ( ! is_object( $settings->slides[ $i ] ) ) {

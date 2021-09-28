@@ -112,6 +112,32 @@ FLBuilderCSS::rule( array(
 	),
 ) );
 
+// Input hover color
+FLBuilderCSS::rule( array(
+	'selector' => $input_selector . ':hover,' . $input_selector . ':focus,' . $input_selector . ':hover::placeholder, ' . $input_selector . ':focus::placeholder',
+	'enabled'  => ! empty( $settings->input_hover_color ),
+	'props'    => array(
+		'color' => $settings->input_hover_color,
+	),
+) );
+
+// Input background
+FLBuilderCSS::rule( array(
+	'selector' => $input_selector,
+	'enabled'  => ! empty( $settings->input_bg_color ),
+	'props'    => array(
+		'background-color' => $settings->input_bg_color,
+	),
+) );
+
+// Input hover background
+FLBuilderCSS::rule( array(
+	'selector' => $input_selector . ':hover, ' . $input_selector . ':focus',
+	'enabled'  => ! empty( $settings->input_bg_hover_color ),
+	'props'    => array(
+		'background-color' => $settings->input_bg_hover_color,
+	),
+) );
 
 // Input typography
 FLBuilderCSS::typography_field_rule( array(

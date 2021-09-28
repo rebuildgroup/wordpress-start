@@ -122,7 +122,17 @@ final class FLUpdater {
 
 				$plugin = self::get_plugin_file( $this->settings['slug'] );
 
-				if ( isset( $response->new_version ) && version_compare( $response->new_version, self::verify_version( $this->settings['version'] ), '>' ) ) {
+				$plugin_version_check = self::verify_version( $this->settings['version'] );
+				if ( isset( $response->new_version ) ) {
+					if ( false === strpos( $response->new_version, 'alpha' ) ) {
+						$plugin_version_check = rtrim( $plugin_version_check, '-alpha' );
+					}
+					if ( false === strpos( $response->new_version, 'beta' ) ) {
+						$plugin_version_check = rtrim( $plugin_version_check, '-beta' );
+					}
+				}
+
+				if ( isset( $response->new_version ) && version_compare( $response->new_version, $plugin_version_check, '>' ) ) {
 
 					$transient->response[ $plugin ]              = new stdClass();
 					$transient->response[ $plugin ]->slug        = $response->slug;
@@ -143,7 +153,7 @@ final class FLUpdater {
 					);
 
 					if ( empty( $response->package ) ) {
-						$transient->response[ $plugin ]->upgrade_notice = FLUpdater::get_update_error_message();
+						$transient->response[ $plugin ]->upgrade_notice = FLUpdater::get_update_error_message( false, $this->settings );
 					}
 				} else {
 					// no update, for wp 5.5 we have to add a mock item.
@@ -166,8 +176,16 @@ final class FLUpdater {
 					$transient->no_update[ $plugin ] = $item;
 				}
 			} elseif ( 'theme' == $this->settings['type'] ) {
-
-				if ( isset( $response->new_version ) && version_compare( $response->new_version, self::verify_version( $this->settings['version'] ), '>' ) ) {
+				$theme_version_check = self::verify_version( $this->settings['version'] );
+				if ( isset( $response->new_version ) ) {
+					if ( false === strpos( $response->new_version, 'alpha' ) ) {
+						$theme_version_check = rtrim( $theme_version_check, '-alpha' );
+					}
+					if ( false === strpos( $response->new_version, 'beta' ) ) {
+						$theme_version_check = rtrim( $theme_version_check, '-beta' );
+					}
+				}
+				if ( isset( $response->new_version ) && version_compare( $response->new_version, $theme_version_check, '>' ) ) {
 
 					$transient->response[ $this->settings['slug'] ] = array(
 						'new_version' => $response->new_version,
@@ -426,11 +444,12 @@ final class FLUpdater {
 	 * @param array $plugin_data An array of data for this plugin.
 	 * @return string
 	 */
-	static private function get_update_error_message( $plugin_data = null ) {
+	static private function get_update_error_message( $plugin_data = null, $settings = false ) {
 
-		$subscription = FLUpdater::get_subscription_info();
-		$license      = get_site_option( 'fl_themes_subscription_email' );
-		$message      = '';
+		$subscription    = FLUpdater::get_subscription_info();
+		$license         = get_site_option( 'fl_themes_subscription_email' );
+		$message         = '';
+		$check_downloads = self::check_downloads( $subscription, $plugin_data, $settings );
 
 		// updates-core.php
 		if ( ! $plugin_data ) {
@@ -440,6 +459,10 @@ final class FLUpdater {
 
 			} else {
 				$message = __( 'Please subscribe to enable automatic updates for this plugin.', 'fl-builder' );
+				if ( $check_downloads ) {
+					$message = $check_downloads;
+				}
+
 				if ( isset( $subscription->error ) && '' !== $subscription->error ) {
 					$message .= sprintf( ' The following error was encountered: %s', $subscription->error );
 				}
@@ -486,12 +509,65 @@ final class FLUpdater {
 			}
 
 			$message .= '<span style="display:block;padding:10px 20px;margin:10px 0; background: #d54e21; color: #fff;">';
-			$message .= sprintf( '<strong>%s<strong>', __( 'UPDATE UNAVAILABLE!', 'fl-builder' ) );
+			$message .= ( $check_downloads ) ? $check_downloads : sprintf( '<strong>%s<strong>', __( 'UPDATE UNAVAILABLE!', 'fl-builder' ) );
 			$message .= '&nbsp;&nbsp;&nbsp;';
-			$message .= $text;
+			$message .= ( $check_downloads ) ? '' : $text;
 			$message .= '</span>';
+
 		}
 		return $message;
+	}
+
+	static private function check_downloads( $subscription, $plugin_data, $settings ) {
+
+		$plugin_name = ( ! $plugin_data ) ? $settings['name'] : $plugin_data['Name'];
+		$out         = '';
+
+		if ( '{FL_BUILDER_NAME}' !== $plugin_name && isset( $subscription->downloads ) && ! in_array( $plugin_name, $subscription->downloads, true ) ) {
+
+			$show_warning = false;
+			$version      = '';
+
+			// find available plugin Version
+			foreach ( $subscription->downloads as $ver ) {
+				if ( stristr( $ver, 'Beaver Builder Plugin' ) ) {
+					preg_match( '#\((.*)\sVersion\)$#', $ver, $match );
+					$version = ( isset( $match[1] ) ) ? $match[1] : false;
+					break;
+				}
+			}
+
+			switch ( $plugin_name ) {
+				// pro - show warning if standard is pnly available version
+				case 'Beaver Builder Plugin (Pro Version)':
+					$show_warning = ( 'Standard' === $version ) ? true : false;
+					break;
+				// agency show warning if available is NOT agency
+				case 'Beaver Builder Plugin (Agency Version)':
+					$show_warning = ( 'Agency' !== $version ) ? true : false;
+					break;
+				case 'Beaver Themer':
+					$show_warning = true;
+					break;
+			}
+
+			if ( ! $version ) {
+				$show_warning = true;
+			}
+
+			if ( $show_warning ) {
+				if ( ! $version ) {
+					$out .= sprintf( __( 'Updates for Beaver Builder will not work as you appear to have %1$s activated but you have no active subscription.', 'fl-builder' ), '<strong>' . $plugin_name . '</strong>', $version );
+				} else {
+					$out .= sprintf( __( 'Updates for Beaver Builder will not work as you appear to have %1$s activated but your license is for %2$s version.', 'fl-builder' ), '<strong>' . $plugin_name . '</strong>', $version );
+				}
+
+				if ( 'Beaver Themer' === $plugin_name ) {
+					$out = __( 'Updates for Themer will not work as you do not have a valid subscription for this plugin.', 'fl-builder' );
+				}
+			}
+		}
+		return $out;
 	}
 
 	/**
@@ -587,17 +663,20 @@ final class FLUpdater {
 
 		if ( get_option( 'fl_beta_updates', false ) ) {
 			// if version already is beta strip -beta.
-			$version  = rtrim( $version, '-beta' );
-			$version .= '-beta';
+			$version = rtrim( $version, '-beta' );
+			if ( false === strpos( $version, 'beta' ) ) {
+				$version .= '-beta';
+			}
 		}
 
 		if ( get_option( 'fl_alpha_updates', false ) ) {
 			// if version already is beta strip -beta.
-			$version  = rtrim( $version, '-beta' );
-			$version  = rtrim( $version, '-alpha' );
-			$version .= '-alpha';
+			$version = rtrim( $version, '-beta' );
+			$version = rtrim( $version, '-alpha' );
+			if ( false === strpos( $version, 'alpha' ) ) {
+				$version .= '-alpha';
+			}
 		}
-
 		return $version;
 	}
 }

@@ -34,7 +34,7 @@
 }
 .fl-lightbox {
 	background: #F5F7F9;
-	border-radius: 4px;
+	border-radius: 5px;
 	box-shadow: rgba(0,0,0,1) 0 4px 30px;
 	-moz-box-shadow: rgba(0,0,0,1) 0 4px 30px;
 	-webkit-box-shadow: rgba(0,0,0,1) 0 4px 30px;
@@ -46,6 +46,7 @@
 	animation-duration: .25s;
 	pointer-events: auto;
 }
+.fl-form-field-settings .fl-lightbox,
 .fl-lightbox.fl-lightbox-prevent-animation {
 	animation-duration: 0s;
 	-moz-animation-duration: 0s;
@@ -54,7 +55,7 @@
 }
 .fl-lightbox *:not(i) {
 	color: #333;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 12px;
 	line-height: 14px;
 	text-decoration: none;
@@ -169,7 +170,7 @@
 .fl-lightbox-header h1 {
 	color: #333 !important;
 	font-size: 16px !important;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
 	font-weight: 400 !important;
 	margin: 0 !important;
 	padding: 14px 28px 15px !important;
@@ -207,7 +208,7 @@
 	justify-content: flex-end;
 	flex: 0 0;
 	flex-basis: 44px;
-	padding: 4px;
+	padding: 10px;
 	text-align: right;
 }
 .fl-lightbox-footer .fl-builder-button {
@@ -218,7 +219,6 @@
 }
 .fl-lightbox-width-slim .fl-lightbox-footer {
 	justify-content: stretch;
-	padding: 4px 5px;
 }
 .fl-lightbox-width-slim .fl-lightbox-footer .fl-builder-button  {
 	flex: 1 1 100%;

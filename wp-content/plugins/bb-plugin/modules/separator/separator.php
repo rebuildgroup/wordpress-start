@@ -80,56 +80,59 @@ FLBuilder::register_module('FLSeparatorModule', array(
 						),
 					),
 					'height' => array(
-						'type'      => 'unit',
-						'label'     => __( 'Height', 'fl-builder' ),
-						'default'   => '1',
-						'maxlength' => '2',
-						'size'      => '3',
-						'sanitize'  => 'absint',
-						'slider'    => true,
-						'units'     => array(
+						'type'       => 'unit',
+						'label'      => __( 'Height', 'fl-builder' ),
+						'default'    => '1',
+						'maxlength'  => '2',
+						'size'       => '3',
+						'sanitize'   => 'absint',
+						'slider'     => true,
+						'units'      => array(
 							'px',
 						),
-						'preview'   => array(
+						'responsive' => true,
+						'preview'    => array(
 							'type'     => 'css',
 							'selector' => '.fl-separator',
 							'property' => 'border-top-width',
 						),
 					),
 					'width'  => array(
-						'type'      => 'unit',
-						'label'     => __( 'Width', 'fl-builder' ),
-						'default'   => '100',
-						'maxlength' => '3',
-						'size'      => '4',
-						'units'     => array(
+						'type'       => 'unit',
+						'label'      => __( 'Width', 'fl-builder' ),
+						'default'    => '100',
+						'maxlength'  => '3',
+						'size'       => '4',
+						'units'      => array(
 							'%',
 							'px',
 							'vw',
 						),
-						'slider'    => array(
+						'slider'     => array(
 							'px' => array(
 								'min'  => 0,
 								'max'  => 1000,
 								'step' => 10,
 							),
 						),
-						'preview'   => array(
+						'responsive' => true,
+						'preview'    => array(
 							'type'     => 'css',
 							'selector' => '.fl-separator',
 							'property' => 'max-width',
 						),
 					),
 					'align'  => array(
-						'type'    => 'align',
-						'label'   => __( 'Align', 'fl-builder' ),
-						'default' => 'center',
-						'values'  => array(
+						'type'       => 'align',
+						'label'      => __( 'Align', 'fl-builder' ),
+						'default'    => 'center',
+						'values'     => array(
 							'left'   => '0 0 0 0',
 							'center' => 'auto',
 							'right'  => '0 0 0 auto',
 						),
-						'preview' => array(
+						'responsive' => true,
+						'preview'    => array(
 							'type'     => 'css',
 							'selector' => '.fl-separator',
 							'property' => 'margin',

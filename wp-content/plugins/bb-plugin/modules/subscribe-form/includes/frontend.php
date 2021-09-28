@@ -1,17 +1,27 @@
+<?php
+
+$subscribe_form_fields = apply_filters( 'fl_builder_subscribe_form_fields', array(
+	'form_name'   => 'fl-subscribe-form-name',
+	'form_email'  => 'fl-subscribe-form-email',
+	'name_error'  => 'name-error',
+	'email_error' => 'email-error',
+), $settings );
+
+?>
 <div class="fl-subscribe-form fl-subscribe-form-<?php echo $settings->layout; ?> fl-subscribe-form-name-<?php echo $settings->show_name; ?> fl-form fl-clearfix" <?php if ( isset( $module->template_id ) ) { echo 'data-template-id="' . $module->template_id . '" data-template-node-id="' . $module->template_node_id . '"';} ?>><?php // @codingStandardsIgnoreLine ?>
 
 	<?php if ( 'show' == $settings->show_name ) : ?>
 	<div class="fl-form-field">
-		<label for="fl-subscribe-form-name" class="hidden"><?php echo esc_attr( $settings->name_field_text ); ?></label>
-		<input type="text" aria-describedby="name-error" name="fl-subscribe-form-name" placeholder="<?php echo esc_attr( $settings->name_field_text ); ?>" id="fl-subscribe-form-name" />
-		<div class="fl-form-error-message" id="name-error"><?php _e( 'Please enter your name.', 'fl-builder' ); ?></div>
+		<label for="<?php echo esc_attr( $subscribe_form_fields['form_name'] ); ?>" class="hidden"><?php echo esc_attr( $settings->name_field_text ); ?></label>
+		<input type="text" aria-describedby="name-error" name="fl-subscribe-form-name" placeholder="<?php echo esc_attr( $settings->name_field_text ); ?>" id="<?php echo esc_attr( $subscribe_form_fields['form_name'] ); ?>" class="fl-subscribe-form-name" />
+		<div class="fl-form-error-message" id="<?php echo esc_attr( $subscribe_form_fields['name_error'] ); ?>"><?php _e( 'Please enter your name.', 'fl-builder' ); ?></div>
 	</div>
 	<?php endif; ?>
 
 	<div class="fl-form-field">
-		<label for="fl-subscribe-form-email" class="hidden"><?php echo esc_attr( $settings->email_field_text ); ?></label>
-		<input type="email" aria-describedby="email-error" name="fl-subscribe-form-email" placeholder="<?php echo esc_attr( $settings->email_field_text ); ?>" id="fl-subscribe-form-email" />
-		<div class="fl-form-error-message" id="email-error"><?php _e( 'Please enter a valid email address.', 'fl-builder' ); ?></div>
+		<label for="<?php echo esc_attr( $subscribe_form_fields['form_email'] ); ?>" class="hidden"><?php echo esc_attr( $settings->email_field_text ); ?></label>
+		<input type="email" aria-describedby="email-error" name="fl-subscribe-form-email" placeholder="<?php echo esc_attr( $settings->email_field_text ); ?>" id="<?php echo esc_attr( $subscribe_form_fields['form_email'] ); ?>"  class="fl-subscribe-form-email"  />
+		<div class="fl-form-error-message" id="<?php echo esc_attr( $subscribe_form_fields['email_error'] ); ?>"><?php _e( 'Please enter a valid email address.', 'fl-builder' ); ?></div>
 	</div>
 
 	<?php if ( 'stacked' == $settings->layout ) : ?>

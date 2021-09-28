@@ -8,6 +8,7 @@
 	FLBuilderMenu = function( settings ){
 
 		// set params
+		this.nodeId              = settings.id;
 		this.nodeClass           = '.fl-node-' + settings.id;
 		this.wrapperClass        = this.nodeClass + ' .fl-menu';
 		this.type				 = settings.type;
@@ -17,6 +18,8 @@
 		this.breakPoints         = settings.breakPoints;
 		this.mobileBreakpoint	 = settings.mobileBreakpoint;
 		this.currentBrowserWidth = $( window ).width();
+		this.postId              = settings.postId;
+		this.mobileStacked       = settings.mobileStacked;
 
 		// initialize the menu
 		this._initMenu();
@@ -48,6 +51,15 @@
 			$( this.wrapperClass ).find( '.fl-has-submenu' ).removeClass( 'focus' );
 			$( this.wrapperClass ).find( '.fl-has-submenu .sub-menu' ).removeClass( 'focus' );
 
+		}, this ) );
+
+		// Close Mobile menu when tabbing out from the last menu item.
+		$( this.wrapperClass + ' ul.menu > li:last-child' ).on( 'focusout', $.proxy(function (e) {
+			if ( $( this.wrapperClass ).find( '.fl-menu-mobile-toggle' ).hasClass( 'fl-active' ) && ( 'expanded' !== this.mobileToggle ) ) {
+				if ( ! $( e.relatedTarget ).parent().hasClass( 'menu-item' ) ) {
+					$( this.wrapperClass ).find( '.fl-menu-mobile-toggle' ).trigger( 'click' );	
+				}
+			}
 		}, this ) );
 
 	};
@@ -111,6 +123,7 @@
 		 * @return void
 		 */
 		_initMenu: function(){
+			this._setupSubmenu();
 			this._menuOnFocus();
 			this._submenuOnClick();
 			if ( $( this.nodeClass ).length && this.type == 'horizontal' ) {
@@ -132,6 +145,26 @@
 			if( this.mobileToggle != 'expanded' ){
 				this._toggleForMobile();
 			}
+
+			if( $( this.wrapperClass ).find( '.fl-menu-search-item' ).length ){
+				this._toggleMenuSearch();
+			}
+
+			if( $( this.wrapperClass ).find( '.fl-menu-cart-item').length ){
+				this._wooUpdateParams();
+			}
+		},
+
+		/**
+		 * Initializes submenu dropdowns.
+		 *
+		 * @since 3.0
+		 * @return void
+		 */
+		_setupSubmenu: function() {
+			$( this.wrapperClass + ' ul.sub-menu' ).each( function(){
+				$( this ).closest( 'li' ).attr( 'aria-haspopup', 'true' );
+			});
 		},
 
 		/**
@@ -197,7 +230,13 @@
 					$('.sub-menu', this.wrapperClass).not($subMenu).not($subMenuParents).slideUp('normal');
 				}
 
-				$subMenu.slideToggle();
+				if ( ! this.mobileStacked && 'horizontal' == this.type && 'expanded' == this.mobileToggle ) {
+					$( this.wrapperClass ).find( '.fl-active' ).not($link).not($activeParents).removeClass( 'fl-active' );
+				}
+				else {
+					$subMenu.slideToggle();
+				}
+
 				$link.toggleClass( 'fl-active' );
 				e.stopPropagation();
 
@@ -529,8 +568,6 @@
 				wrapper.append( '<div class="fl-menu-mobile-opacity"></div>' );
 			}
 
-			wrapper.find( '.fl-menu-mobile-flyout' ).height( win.height() );
-
 			wrapper.on( 'click', '.fl-menu-mobile-opacity, .fl-menu-mobile-close', function(e){
 				button.trigger( 'click' );
 				e.stopPropagation();
@@ -563,10 +600,17 @@
 				opacity		= wrapper.find( '.fl-menu-mobile-opacity' ),
 				marginPos	= {},
 				posAttr		= {},
-				fixedPos    = {},
-				fixedHeader = $('header, header > div');
+				fixedPos 	= {},
+				winHeight	= $(window).height(),
+				fixedHeader	= $('header, header > div');
 
-			posAttr[ position ] = button.hasClass( 'fl-active' ) ? '0px' : '';
+			if ( button.hasClass( 'fl-active' ) ) {
+				posAttr[ position ]  = '0px';
+				posAttr[ 'height' ]  = winHeight + 'px';
+			} else {
+				posAttr[ position ]  = '-267px';
+			}
+
 			wrapFlyout.css( posAttr );
 
 			// Fix the push menu when builder ui panel is pinned.
@@ -599,6 +643,66 @@
 			}
 			else {
 				opacity.hide();
+			}
+		},
+
+		/**
+		 * Shows or hides the nav search form.
+		 *
+		 * @since 2.5
+		 * @method _toggleMenuSearch
+		 */
+		_toggleMenuSearch: function(){
+			var wrapper = $( this.wrapperClass ).find('.fl-menu-search-item'),
+				button  = wrapper.find('a.fl-button'),
+				form    = wrapper.find('.fl-search-form-input-wrap'),
+				self    = this;
+
+			button.on('click', function(e){
+				e.preventDefault();
+
+				if(form.is(':visible')) {
+					form.stop().fadeOut(200);
+				}
+				else {
+					form.stop().fadeIn(200);
+					$('body').on('click.fl-menu-search', $.proxy(self._hideMenuSearch, self));
+					form.find('.fl-search-text').focus();
+				}
+			});
+		},
+
+		/**
+		 * Hides the nav search form.
+		 *
+		 * @since 2.5
+		 * @method _hideMenuSearch
+		 */
+		_hideMenuSearch: function(e){
+			var form = $( this.wrapperClass ).find('.fl-search-form-input-wrap');
+
+			if(e !== undefined) {
+				if($(e.target).closest('.fl-menu-search-item').length > 0) {
+					return;
+				}
+			}
+
+			form.stop().fadeOut(200);
+			$('body').off('click.fl-menu-search');
+		},
+
+		/**
+		 * Adds menu node and post ID to WooCommerce ajax URL requests.
+		 *
+		 * @since  3.0
+		 * @return void
+		 */
+		_wooUpdateParams: function() {
+			if ( 'undefined' !== typeof wc_cart_fragments_params ) {
+				wc_cart_fragments_params.wc_ajax_url += '&fl-menu-node='+ this.nodeId +'&post-id='+ this.postId;
+			}
+			if ( 'undefined' !== typeof wc_add_to_cart_params ) {
+				wc_add_to_cart_params.wc_ajax_url += '&fl-menu-node='+ this.nodeId +'&post-id='+ this.postId;
 			}
 		},
 	};

@@ -122,7 +122,7 @@ FLBuilder::register_module('FLIconModule', array(
 						'units'      => array( 'px', 'em', 'rem' ),
 						'slider'     => true,
 						'preview'    => array(
-							'type' => 'none',
+							'type' => 'refresh',
 						),
 					),
 					'align' => array(

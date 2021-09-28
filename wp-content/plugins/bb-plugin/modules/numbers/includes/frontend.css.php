@@ -1,10 +1,15 @@
 <?php
 
-FLBuilderCSS::responsive_rule( array(
+FLBuilderCSS::typography_field_rule( array(
 	'settings'     => $settings,
-	'setting_name' => 'number_size',
-	'selector'     => ".fl-node-$id .fl-number-string",
-	'prop'         => 'font-size',
+	'setting_name' => 'text_typography',
+	'selector'     => ".fl-node-$id .fl-number .fl-number-text .fl-number-before-text, .fl-node-$id .fl-number .fl-number-text .fl-number-after-text",
+) );
+
+FLBuilderCSS::typography_field_rule( array(
+	'settings'     => $settings,
+	'setting_name' => 'number_typography',
+	'selector'     => ".fl-node-$id .fl-number .fl-number-text .fl-number-string, .fl-node-$id .fl-number .fl-number-text .fl-number-string span",
 ) );
 
 ?>
@@ -73,17 +78,41 @@ FLBuilderCSS::responsive_rule( array(
 	}
 	?>
 	}
-<?php elseif ( isset( $settings->layout ) && 'bars' == $settings->layout ) : ?>
-	.fl-node-<?php echo $id; ?> .fl-number-bars-container{
-		width: 100%;
-		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->bar_bg_color ); ?>;
-	}
-	.fl-node-<?php echo $id; ?> .fl-number-bar{
-		width: 0;
-		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->bar_color ); ?>;
-		<?php if ( empty( $settings->number ) ) : ?>
-		padding-left: 0px;
-		padding-right: 0px;
-		<?php endif; ?>
-	}
 <?php endif; ?>
+
+<?php
+
+if ( isset( $settings->layout ) && 'bars' == $settings->layout ) {
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-number-bars-container",
+		'enabled'  => ! empty( $settings->bar_bg_color ),
+		'props'    => array(
+			'background-color' => $settings->bar_bg_color,
+		),
+	) );
+
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-number-bar",
+		'enabled'  => ! empty( $settings->bar_color ),
+		'props'    => array(
+			'background-color' => $settings->bar_color,
+		),
+	) );
+
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-number-bar",
+		'enabled'  => empty( $settings->number ),
+		'props'    => array(
+			'padding-left'  => 0,
+			'padding-right' => 0,
+		),
+	) );
+
+	FLBuilderCSS::responsive_rule( array(
+		'settings'     => $settings,
+		'setting_name' => 'bar_height',
+		'selector'     => ".fl-node-$id .fl-number-bars-container, .fl-node-$id .fl-number-bar",
+		'prop'         => 'height',
+		'unit'         => 'px',
+	) );
+}

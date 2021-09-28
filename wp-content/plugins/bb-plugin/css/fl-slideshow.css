@@ -417,6 +417,13 @@
 .fl-slideshow-overlay {
 	background: url('../img/slideshow/transparent-bg-dark.png') repeat;
 }
+.fl-slideshow-overlay iframe {
+	border:none;
+}
+.fl-slideshow-overlay a {
+	display: inline-block;
+	vertical-align: top;
+}
 .fl-slideshow-overlay-close {
 	position: absolute;
 	z-index: 1000;

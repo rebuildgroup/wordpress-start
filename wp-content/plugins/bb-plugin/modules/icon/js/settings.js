@@ -13,7 +13,6 @@
 
 			icon.on( 'change', this._previewIcon );
 			icon.on( 'change', this._flipSettings );
-			size.on( 'input', this._previewSize );
 			text.on( 'keyup', this._previewText );
 
 			if ( 'undefined' !== typeof tinyMCE ) {
@@ -44,38 +43,6 @@
 				$('#fl-field-duo_color2').hide();
 				$('#fl-field-color').show();
 				$('#fl-field-hover_color').show()
-			}
-		},
-
-		_previewSize: function() {
-			var preview = FLBuilder.preview,
-				iconSelector = preview._getPreviewSelector( preview.classes.node, '.fl-icon i' ),
-				beforeSelector = preview._getPreviewSelector( preview.classes.node, '.fl-icon i::before' ),
-				textSelector = preview._getPreviewSelector( preview.classes.node, '.fl-icon-text' ),
-				form = $( '.fl-builder-settings' ),
-				field = form.find( '#fl-field-size .fl-field-responsive-setting:visible' ),
-				size = field.find( 'input[type=number]' ).val(),
-				unit = field.find( 'select' ).val(),
-				bgColor = form.find( 'input[name=bg_color]' ).val(),
-				value = '' === size ? '' : size + unit + ' !important',
-				height = '' === size ? '' : ( size * 1.75 ) + unit + ' !important';
-
-			preview.updateCSSRule( iconSelector, 'font-size', value, true );
-			preview.updateCSSRule( beforeSelector, 'font-size', value, true );
-			preview.updateCSSRule( textSelector, 'height', height, true );
-
-			if ( '' === bgColor ) {
-				preview.updateCSSRule( iconSelector, {
-					'line-height': '1',
-					'height': 'auto !important',
-					'width': 'auto !important',
-				}, undefined, true );
-			} else {
-				preview.updateCSSRule( iconSelector, {
-					'line-height': height,
-					'height': height,
-					'width': height,
-				}, undefined, true );
 			}
 		},
 

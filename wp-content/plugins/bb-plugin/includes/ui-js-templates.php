@@ -913,7 +913,7 @@
 							var background = template.image;
 							var id = _.isNumber( template.postId ) ? template.postId : template.id;
 						#>
-						<div class="fl-builder--template-collection-item" data-id="{{id}}" data-type="{{template.type}}" data-premium="{{template.premium}}">
+						<div class="fl-builder--template-collection-item" data-id="{{id}}" data-type="{{template.type}}" data-subtype="{{template.subtype}}" data-premium="{{template.premium}}">
 							<div class="fl-builder--template-thumbnail" style="background-image:url({{background}})">
 								<# if ( FLBuilderConfig.lite && template.premium ) { #>
 								<span class="fl-builder-pro-badge">PRO</span>

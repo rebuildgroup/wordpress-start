@@ -30,6 +30,9 @@ if ( '' == $settings->heading && 'compact' == $settings->layout ) {
 		</div>
 		<?php endfor; ?>
 	</div>
-	<div class="fl-slider-prev" role="button" aria-pressed="false"></div>
-	<div class="fl-slider-next" role="button" aria-pressed="false"></div>
+	<?php if ( ( 'compact' == $settings->layout && $settings->arrows ) || ( 'wide' == $settings->layout && $settings->dots ) ) : ?>
+	<div class="fl-slider-prev" role="button" aria-pressed="false" aria-label="<?php echo esc_attr( __( 'Previous', 'fl-builder' ) ); ?>"></div>
+	<div class="fl-slider-next" role="button" aria-pressed="false" aria-label="<?php echo esc_attr( __( 'Next', 'fl-builder' ) ); ?>"></div>
+	<?php endif; ?>
 </div>
+<?php

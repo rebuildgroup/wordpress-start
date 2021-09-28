@@ -135,23 +135,23 @@ final class FLBuilderIcons {
 		 */
 		$core_sets = apply_filters( 'fl_builder_core_icon_sets', array(
 			'font-awesome-5-solid'   => array(
-				'name'   => 'Font Awesome 5 Solid',
+				'name'   => 'Font Awesome Solid',
 				'prefix' => 'fas',
 			),
 			'font-awesome-5-regular' => array(
-				'name'   => 'Font Awesome 5 Regular',
+				'name'   => 'Font Awesome Regular',
 				'prefix' => 'far',
 			),
 			'font-awesome-5-light'   => array(
-				'name'   => 'Font Awesome 5 Light (pro only)',
+				'name'   => 'Font Awesome Light (pro only)',
 				'prefix' => 'fal',
 			),
 			'font-awesome-5-duotone' => array(
-				'name'   => 'Font Awesome 5 DuoTone (pro only)',
+				'name'   => 'Font Awesome DuoTone (pro only)',
 				'prefix' => 'fad',
 			),
 			'font-awesome-5-brands'  => array(
-				'name'   => 'Font Awesome 5 Brands',
+				'name'   => 'Font Awesome Brands',
 				'prefix' => 'fab',
 			),
 			'foundation-icons'       => array(
@@ -187,7 +187,7 @@ final class FLBuilderIcons {
 
 		// Loop through core sets and add icons.
 		foreach ( self::$sets as $set_key => $set_data ) {
-			if ( 'core' == $set_data['type'] ) {
+			if ( 'core' == $set_data['type'] && 'font-awesome-kit' !== $set_key ) {
 
 				$key = $set_key;
 
@@ -216,6 +216,7 @@ final class FLBuilderIcons {
 				self::$sets[ $set_key ]['icons'] = $icons;
 			}
 		}
+
 	}
 
 	/**
@@ -230,6 +231,17 @@ final class FLBuilderIcons {
 		$enabled_icons = FLBuilderModel::get_enabled_icons();
 		$upload_info   = FLBuilderModel::get_cache_dir( 'icons' );
 		$folders       = glob( $upload_info['path'] . '*' );
+		$kit           = FLBuilderFontAwesome::get_kit_data();
+
+		// add kit set
+		if ( is_object( $kit ) && ! empty( $kit->data->me->kit->iconUploads ) ) {
+			self::$sets['font-awesome-kit'] = array(
+				'name'   => sprintf( 'FA Custom Kit: %s (%s)', $kit->data->me->kit->name, $kit->data->me->kit->token ),
+				'prefix' => 'fak',
+				'type'   => 'core',
+				'icons'  => FLBuilderFontAwesome::get_kit_icons(),
+			);
+		}
 
 		// Make sure we have an array.
 		if ( ! is_array( $folders ) ) {
@@ -425,7 +437,13 @@ final class FLBuilderIcons {
 			if ( 'icon' == $field['type'] && ! empty( $module->settings->$setting ) ) {
 				foreach ( $module->settings->$setting as $key => $val ) {
 					if ( isset( $val->$name ) ) {
-						self::enqueue_styles_for_icon( $val->$name );
+						if ( 'array' === gettype( $val->$name ) ) {
+							foreach ( $val->$name as $v ) {
+								self::enqueue_styles_for_icon( $v );
+							}
+						} else {
+							self::enqueue_styles_for_icon( $val->$name );
+						}
 					} elseif ( $name == $key && ! empty( $val ) ) {
 						self::enqueue_styles_for_icon( $val );
 					}

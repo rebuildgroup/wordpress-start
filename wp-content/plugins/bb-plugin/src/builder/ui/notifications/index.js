@@ -112,13 +112,13 @@ export class NotificationsManager extends Component {
 		const { hideCurrentPanel } = getSystemActions()
 		this.setState( { shouldShowNotifications: ! this.state.shouldShowNotifications } )
 		hideCurrentPanel()
+		if( true === this.state.shouldShowNotifications ) {
+			FLBuilder.triggerHook( 'notificationsLoaded' )
+		}
 	}
 
 	render() {
 		const { shouldShowNotifications, posts } = this.state
-
-		FLBuilder.triggerHook( 'notificationsLoaded' )
-
 		return shouldShowNotifications && <NotificationsPanel posts={ posts } />
 	}
 }

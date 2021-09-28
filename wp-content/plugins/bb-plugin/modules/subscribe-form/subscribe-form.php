@@ -159,6 +159,10 @@ class FLSubscribeFormModule extends FLBuilderModule {
 				);
 			}
 
+			if ( ! isset( $settings->service ) ) {
+				$result['error'] = __( 'There was an error subscribing. Please try again.', 'fl-builder' );
+			}
+
 			// Validate reCAPTCHA first if enabled
 			if ( $recaptcha && ! $result['error'] ) {
 

@@ -85,12 +85,13 @@ var FLBuilderNumber;
 
 			var $number = $( this.wrapperClass ).find( '.fl-number-string' ),
 				$string = $number.find( '.fl-number-int' ),
+				number  = $string.data( 'number' ),
 				current = 0,
 				self    = this;
 
 			if ( ! this.animated ) {
 				$string.prop( 'Counter',0 ).animate({
-					Counter: this.number
+					Counter: number
 				}, {
 					duration: this.speed,
 					easing: 'swing',
@@ -106,12 +107,14 @@ var FLBuilderNumber;
 
 		_triggerCircle: function(){
 
-			var $bar = $( this.wrapperClass ).find( '.fl-bar' ),
-				r      = $bar.attr('r'),
-				circle = Math.PI*(r*2),
-				val    = this.number,
-				max    = this.type == 'percent' ? 100 : this.max;
-
+			var $bar   = $(this.wrapperClass).find('.fl-bar'),
+				r 	   = $bar.attr('r'),
+				circle = Math.PI * (r * 2),
+				number = $(this.wrapperClass).find('.fl-number-int').data('number'),
+				total  = $(this.wrapperClass).find('.fl-number-int').data('total'),
+				val    = parseInt( number ),
+				max    = this.type == 'percent' ? 100 : parseInt( total );
+				
 			if (val < 0) { val = 0;}
 			if (val > max) { val = max;}
 
@@ -135,12 +138,15 @@ var FLBuilderNumber;
 
 		_triggerBar: function(){
 
-			var $bar = $( this.wrapperClass ).find( '.fl-number-bar' );
+			var $bar   = $( this.wrapperClass ).find( '.fl-number-bar' ),
+				number = $(this.wrapperClass).find('.fl-number-int').data('number'),
+				total  = $(this.wrapperClass).find('.fl-number-int').data('total');
 
 			if( this.type == 'percent' ){
-				var number = this.number > 100 ? 100 : this.number;
+				number = number > 100 ? 100 : number;
 			} else {
-				var number = Math.ceil( ( this.number / this.max ) * 100 );
+				total = total <= 0 ? number : total;
+				number = Math.ceil((number / total) * 100);
 			}
 
 			if( ! this.animated ) {

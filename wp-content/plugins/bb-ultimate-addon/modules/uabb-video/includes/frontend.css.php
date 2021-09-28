@@ -19,7 +19,18 @@ $settings->sticky_close_icon_color    = UABB_Helper::uabb_colorpicker( $settings
 $settings->sticky_info_bar_color      = UABB_Helper::uabb_colorpicker( $settings, 'sticky_info_bar_color', true );
 $settings->sticky_info_bar_bgcolor    = UABB_Helper::uabb_colorpicker( $settings, 'sticky_info_bar_bgcolor', true );
 ?>
-<?php if ( isset( $settings->play_icon_size ) ) { ?>
+<?php
+if ( isset( $settings->play_icon_size ) ) {
+	if ( class_exists( 'FLBuilderCSS' ) && isset( $settings->video_border ) ) {
+		FLBuilderCSS::border_field_rule(
+			array(
+				'settings'     => $settings,
+				'setting_name' => 'video_border',
+				'selector'     => ".fl-node-$id .uabb-video__outer-wrap",
+			)
+		);
+	}
+	?>
 	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-video__play-icon:before {
 		font-size:<?php echo esc_attr( ( '' !== $settings->play_icon_size ) ? $settings->play_icon_size . 'px;' : '75px;' ); ?>
 		line-height:<?php echo esc_attr( ( '' !== $settings->play_icon_size ) ? $settings->play_icon_size . 'px;' : '75px;' ); ?>

@@ -218,7 +218,8 @@ class FLContactFormModule extends FLBuilderModule {
 				$site_name = apply_filters( 'fl_contact_form_from', $site_name, $_POST['name'] );
 			}
 
-			$headers = array(
+			$site_name = str_replace( '&amp;', '&', $site_name );
+			$headers   = array(
 				'From: ' . $site_name . ' <' . $admin_email . '>',
 				'Reply-To: ' . $fl_contact_from_name . ' <' . $fl_contact_from_email . '>',
 			);
@@ -227,13 +228,13 @@ class FLContactFormModule extends FLBuilderModule {
 			$template = '';
 
 			if ( isset( $_POST['name'] ) ) {
-				$template .= sprintf( "Name: %s \r\n", stripslashes( $_POST['name'] ) );
+				$template .= __( 'Name', 'fl-builder' ) . ': ' . stripslashes( $_POST['name'] ) . "\r\n";
 			}
 			if ( isset( $_POST['email'] ) ) {
-				$template .= sprintf( "Email: %s \r\n", stripslashes( $_POST['email'] ) );
+				$template .= __( 'Email', 'fl-builder' ) . ': ' . stripslashes( $_POST['email'] ) . "\r\n";
 			}
 			if ( isset( $_POST['phone'] ) ) {
-				$template .= sprintf( "Phone: %s \r\n", stripslashes( $_POST['phone'] ) );
+				$template .= __( 'Phone', 'fl-builder' ) . ': ' . stripslashes( $_POST['phone'] ) . "\r\n";
 			}
 
 			$template .= __( 'Message', 'fl-builder' ) . ": \r\n" . stripslashes( $_POST['message'] );

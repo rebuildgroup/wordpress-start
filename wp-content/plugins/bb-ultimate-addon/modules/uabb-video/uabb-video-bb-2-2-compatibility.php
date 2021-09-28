@@ -367,6 +367,23 @@ FLBuilder::register_module(
 						),
 					),
 				),
+				'style'                  => array(
+					'title'  => __( 'Style', 'uabb' ),
+					'fields' => array(
+						'video_border' => array(
+							'type'    => 'border',
+							'label'   => __( 'Video Border', 'uabb' ),
+							'slider'  => true,
+							'units'   => array( 'px' ),
+							'preview' => array(
+								'type'     => 'css',
+								'selector' => '.uabb-video__outer-wrap',
+								'property' => 'border',
+								'unit'     => 'px',
+							),
+						),
+					),
+				),
 			),
 		),
 		'thumbnail'        => array(

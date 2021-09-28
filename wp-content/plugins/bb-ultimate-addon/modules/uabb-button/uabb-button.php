@@ -285,6 +285,10 @@ class UABBButtonModule extends FLBuilderModule {
 				$classname .= ' uabb-button-' . $this->settings->new_align;
 				$classname .= ' uabb-creative-button-' . $this->settings->new_align;
 			}
+			if ( ! empty( $this->settings->tab_align ) ) {
+				$classname .= ' uabb-button-tablet-' . $this->settings->tab_align;
+				$classname .= ' uabb-creative-button-tablet-' . $this->settings->tab_align;
+			}
 			if ( ! empty( $this->settings->mob_align ) ) {
 				$classname .= ' uabb-button-reponsive-' . $this->settings->mob_align;
 				$classname .= ' uabb-creative-button-reponsive-' . $this->settings->mob_align;

@@ -224,34 +224,34 @@
 	margin-left: 0;
 }
 
-.uabb-woo-products-grid .uabb-woo-product__column-1 li.product,
-.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-1 li.product,
-.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-1 li.product {
+.uabb-woo-products-grid .uabb-woo-product__column-1 ul.products li.product,
+.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-1 ul.products li.product,
+.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-1 ul.products li.product {
 	width: 100%;
 	margin-right: 0;
 }
 
-.uabb-woo-products-grid .uabb-woo-product__column-2 li.product,
-.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-2 li.product,
-.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-2 li.product {
+.uabb-woo-products-grid .uabb-woo-product__column-2 ul.products li.product,
+.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-2 ul.products li.product,
+.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-2 ul.products li.product {
 	width: 50%;
 }
 
-.uabb-woo-products-grid .uabb-woo-product__column-3 li.product,
-.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-3 li.product,
-.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-3 li.product {
+.uabb-woo-products-grid .uabb-woo-product__column-3 ul.products li.product,
+.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-3 ul.products li.product,
+.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-3 ul.products li.product {
 	width: 33.33%;
 }
 
-.uabb-woo-products-grid .uabb-woo-product__column-4 li.product,
-.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-4 li.product,
-.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-4 li.product {
+.uabb-woo-products-grid .uabb-woo-product__column-4 ul.products li.product,
+.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-4 ul.products li.product,
+.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-4 ul.products li.product {
 	width: 25%;
 }
 
-.uabb-woo-products-grid .uabb-woo-product__column-5 li.product,
-.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-5 li.product,
-.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-5 li.product {
+.uabb-woo-products-grid .uabb-woo-product__column-5 ul.products li.product,
+.woocommerce .uabb-woo-products-grid .uabb-woo-product__column-5 ul.products li.product,
+.woocommerce-page .uabb-woo-products-grid .uabb-woo-product__column-5 ul.products li.product {
 	width: 20%;
 }
 

@@ -2,17 +2,51 @@
 
 FLBuilderCSS::responsive_rule( array(
 	'settings'     => $settings,
-	'setting_name' => 'number_size',
-	'selector'     => ".fl-node-$id .fl-countdown .fl-countdown-unit-number",
-	'prop'         => 'font-size',
+	'setting_name' => 'alignment',
+	'selector'     => ".fl-node-$id .fl-countdown",
+	'prop'         => 'text-align',
 ) );
 
-FLBuilderCSS::responsive_rule( array(
+// Number Typography
+FLBuilderCSS::typography_field_rule( array(
 	'settings'     => $settings,
-	'setting_name' => 'label_size',
-	'selector'     => ".fl-node-$id .fl-countdown .fl-countdown-unit-label",
-	'prop'         => 'font-size',
+	'setting_name' => 'number_typography',
+	'selector'     => ".fl-node-$id .fl-countdown .fl-countdown-unit-number",
 ) );
+
+// Label Typography
+FLBuilderCSS::typography_field_rule( array(
+	'settings'     => $settings,
+	'setting_name' => 'label_typography',
+	'selector'     => ".fl-node-$id .fl-countdown .fl-countdown-unit-label",
+) );
+
+// Set Text Alignment ( default to 'center' ) for Number and Label Typography fields.
+foreach ( array( 'default', 'medium', 'responsive' ) as $media ) :
+	$suffix = ( 'default' === $media ) ? '' : ( '_' . $media );
+
+	// Number Typography
+	$prop       = 'number_typography' . $suffix;
+	$text_align = empty( $settings->{ $prop }['text_align'] ) ? 'center' : $settings->{ $prop }['text_align'];
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-countdown .fl-countdown-unit-number",
+		'media'    => $media,
+		'props'    => array(
+			'text-align' => $text_align,
+		),
+	) );
+
+	// Label Typography
+	$prop       = 'label_typography' . $suffix;
+	$text_align = empty( $settings->{ $prop }['text_align'] ) ? 'center' : $settings->{ $prop }['text_align'];
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-countdown .fl-countdown-unit-label",
+		'media'    => $media,
+		'props'    => array(
+			'text-align' => $text_align,
+		),
+	) );
+endforeach;
 
 ?>
 
@@ -24,22 +58,17 @@ FLBuilderCSS::responsive_rule( array(
 	}
 <?php endif; ?>
 
+<?php if ( ! empty( $settings->number_color ) ) { ?>
 	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-countdown .fl-countdown-unit-number {
-	<?php
-	if ( ! empty( $settings->number_color ) ) {
-		echo 'color: ' . FLBuilderColor::hex_or_rgb( $settings->number_color ) . ';';
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->number_color ); ?>;
 	}
-	?>
-}
+<?php } ?>
 
+<?php if ( ! empty( $settings->label_color ) ) { ?>
 	.fl-builder-content .fl-node-<?php echo $id; ?> .fl-countdown .fl-countdown-unit-label {
-
-	<?php
-	if ( ! empty( $settings->label_color ) ) {
-		echo 'color: ' . FLBuilderColor::hex_or_rgb( $settings->label_color ) . ';';
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->label_color ); ?>;
 	}
-	?>
-}
+<?php } ?>
 
 <?php if ( isset( $settings->layout ) && 'default' == $settings->layout ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-countdown .fl-countdown-unit {
@@ -91,6 +120,9 @@ FLBuilderCSS::responsive_rule( array(
 	<?php endif; ?>
 
 <?php elseif ( isset( $settings->layout ) && 'circle' == $settings->layout ) : ?>
+	.fl-node-<?php echo $id; ?> .svg {
+		overflow: overlay;
+	}
 	.fl-node-<?php echo $id; ?> .fl-countdown-unit{
 		position: absolute;
 		top: 50%;

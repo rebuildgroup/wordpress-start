@@ -6,7 +6,8 @@
 	}
 	#>
 	<# if ( data.isMultiple && data.supportsMultiple && data.template.length ) {
-		var values = data.value,
+		var origValues = data.value,
+			values = origValues,
 			button = FLBuilderStrings.addField.replace( '%s', data.field.label ),
 			i	   = 0;
 
@@ -15,7 +16,16 @@
 		var limit = 0;
 		if ( 'undefined' !== typeof data.field.limit ) {
 			limit = data.field.limit
-		} #>
+		} 
+
+		if ( undefined === origValues.length ) {
+			var tempValues = [];
+			for ( index in origValues ) {
+				tempValues.push( origValues[ index ] );
+			}
+			values = tempValues;
+		}
+	#>
 	<tbody id="fl-field-{{data.rootName}}" class="fl-field fl-builder-field-multiples" data-limit="{{limit}}" data-type="form" data-preview='{{{data.preview}}}' data-connections="{{{connections}}}">
 		<# for( ; i < values.length; i++ ) {
 			data.index = i;

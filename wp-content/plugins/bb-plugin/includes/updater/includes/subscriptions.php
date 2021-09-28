@@ -29,6 +29,10 @@ if ( '{FL_BUILDER_NAME}' !== $plugin_data['Name'] && ! in_array( $plugin_name, $
 			break;
 	}
 
+	if ( ! $version ) {
+		$show_warning = true;
+	}
+
 	if ( $show_warning ) {
 		$header_txt = __( 'Beaver Builder updates issue!!', 'fl-builder' );
 		// translators: %s: Product name

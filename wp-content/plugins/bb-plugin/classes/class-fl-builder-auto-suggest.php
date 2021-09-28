@@ -195,7 +195,7 @@ final class FLBuilderAutoSuggest {
 
 		foreach ( $cats as $cat ) {
 			$data[] = array(
-				'name'  => $cat->name,
+				'name'  => htmlspecialchars_decode( $cat->name ),
 				'value' => $cat->term_id,
 			);
 		}
@@ -224,7 +224,7 @@ final class FLBuilderAutoSuggest {
 
 			foreach ( $cats as $cat ) {
 				$data[] = array(
-					'name'  => $cat->name,
+					'name'  => htmlspecialchars_decode( $cat->name ),
 					'value' => $cat->term_id,
 				);
 			}

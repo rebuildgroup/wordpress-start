@@ -57,16 +57,8 @@
 				moduleType = data.moduleType
 			}
 
-			FLBuilder.ajax( {
-				action: 'save_history_state',
-				label: label,
-				module_type: moduleType,
-			}, function( response ) {
-				var data = JSON.parse( response )
-				self.states = data.states
-				self.position = parseInt( data.position )
-				self.setupMainMenuData()
-			} )
+			const actions = FL.Builder.data.getLayoutActions()
+			actions.saveHistoryState( label, moduleType )
 		},
 
 		/**
@@ -92,14 +84,8 @@
 			this.position = 0
 			this.setupMainMenuData()
 
-			FLBuilder.ajax( {
-				action: 'clear_history_states',
-				post_id: FLBuilderConfig.postId,
-			}, function() {
-				if ( ! data.shouldExit ) {
-					self.saveCurrentState( 'draft_created' )
-				}
-			} )
+			const actions = FL.Builder.data.getLayoutActions()
+			actions.clearHistoryStates( FLBuilderConfig.postId, data.shouldExit )
 		},
 
 		/**
@@ -119,10 +105,8 @@
 			var timeout = setTimeout( FLBuilder.showAjaxLoader, 2000 )
 			this.rendering = true
 
-			FLBuilder.ajax( {
-				action: 'render_history_state',
-				position: position,
-			}, function( response ) {
+			const actions = FL.Builder.data.getLayoutActions()
+			const callback = function( response ) {
 				var data = JSON.parse( response )
 				if ( ! data.error ) {
 					self.position = parseInt( data.position )
@@ -132,21 +116,24 @@
 				}
 				clearTimeout( timeout )
 				self.rendering = false
-			} )
+			}
+			actions.renderHistoryState( position, callback )
 		},
 
 		/**
 		 * Renders the previous state.
 		 */
 		onUndo: function() {
-			this.renderState( 'prev' )
+			const actions = FL.Builder.data.getLayoutActions()
+			actions.undo()
 		},
 
 		/**
 		 * Renders the next state.
 		 */
 		onRedo: function() {
-			this.renderState( 'next' )
+			const actions = FL.Builder.data.getLayoutActions()
+			actions.redo()
 		},
 
 		/**
@@ -157,37 +144,37 @@
 			var label = ''
 			FLBuilderConfig.mainMenu.history.items = []
 
-			for ( var i = this.states.length - 1; i >= 0; i-- ) {
+			for ( var i = this.states.length - 1; 0 <= i; i-- ) {
 
 				if ( 'string' === typeof this.states[ i ] ) {
 					label = labels[ this.states[ i ] ] ? labels[ this.states[ i ] ] : this.states[ i ]
 				} else {
 					label = labels[ this.states[ i ].label ] ? labels[ this.states[ i ].label ] : this.states[ i ].label
 
-					if ( this.states[ i ].moduleType || this.states[ i ].label.indexOf( 'module' ) > -1 ) {
+					if ( this.states[ i ].moduleType || -1 < this.states[ i ].label.indexOf( 'module' ) ) {
 						label = label.replace( '%s', this.getModuleName( this.states[ i ].moduleType ) )
 					}
 				}
 
 				FLBuilderConfig.mainMenu.history.items.push( {
-					eventName : 'historyItemClicked',
-					type      : 'event',
-					label     : wp.template( 'fl-history-list-item' )( {
-						label 		: label,
-						current		: i === this.position ? 1 : 0,
-						position    : i,
+					eventName: 'historyItemClicked',
+					type: 'event',
+					label: wp.template( 'fl-history-list-item' )( {
+						label: label,
+						current: i === this.position ? 1 : 0,
+						position: i,
 					} )
 				} )
 			}
 
 			if ( ! FLBuilderConfig.history.enabled ) {
 				FLBuilderConfig.mainMenu.history.items.push( {
-					eventName : 'historyItemClicked',
-					type      : 'event',
-					label     : wp.template( 'fl-history-list-item' )( {
-						label 		: FLBuilderConfig.history.labels.history_disabled,
-						current		: 0,
-						position    : 0,
+					eventName: 'historyItemClicked',
+					type: 'event',
+					label: wp.template( 'fl-history-list-item' )( {
+						label: FLBuilderConfig.history.labels.history_disabled,
+						current: 0,
+						position: 0,
 					} )
 				} )
 			}
@@ -241,6 +228,8 @@
 		},
 	}
 
-	$( function() { FLBuilderHistoryManager.init() } )
+	$( function() {
+		FLBuilderHistoryManager.init()
+	} )
 
-} )( jQuery );
+} ( jQuery ) );

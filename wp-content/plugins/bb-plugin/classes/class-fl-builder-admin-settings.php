@@ -484,12 +484,23 @@ final class FLBuilderAdminSettings {
 
 			// Enable pro?
 			$enable_fa_pro = isset( $_POST['fl-enable-fa-pro'] ) ? true : false;
-			update_option( '_fl_builder_enable_fa_pro', $enable_fa_pro );
+			FLBuilderUtils::update_option( '_fl_builder_enable_fa_pro', $enable_fa_pro );
 			do_action( 'fl_builder_fa_pro_save', $enable_fa_pro );
 			// Update KIT url
 			$kit_url = isset( $_POST['fl-fa-pro-kit'] ) ? $_POST['fl-fa-pro-kit'] : '';
 
-			update_option( '_fl_builder_kit_fa_pro', $kit_url );
+			preg_match( '#https:\/\/.+\.js#', $kit_url, $match );
+
+			if ( $kit_url && isset( $match[0] ) ) {
+				FLBuilderUtils::update_option( '_fl_builder_kit_fa_pro', $match[0] );
+			} else {
+				if ( ! $kit_url ) {
+					FLBuilderUtils::update_option( '_fl_builder_kit_fa_pro', '' );
+				} else {
+					/* translators: %s: KIT url */
+					self::add_error( sprintf( __( 'Invalid Kit Url: we were unable to determine the URL, code entered was %s', 'fl-builder' ), '<code>' . esc_html( $kit_url ) . '</code>' ) );
+				}
+			}
 
 			// Delete a set?
 			if ( ! empty( $_POST['fl-delete-icon-set'] ) ) {
@@ -719,7 +730,7 @@ final class FLBuilderAdminSettings {
 				$options      = get_option( '_fl_builder_settings' );
 				$options->css = $css;
 				$options->js  = $js;
-				update_option( '_fl_builder_settings', $options );
+				FLBuilderUtils::update_option( '_fl_builder_settings', $options );
 			}
 		}
 	}
@@ -798,13 +809,13 @@ final class FLBuilderAdminSettings {
 		} elseif ( isset( $_POST['fl-beta-nonce'] ) && wp_verify_nonce( $_POST['fl-beta-nonce'], 'beta' ) ) {
 
 			if ( isset( $_POST['beta-checkbox'] ) ) {
-				update_option( 'fl_beta_updates', true );
+				FLBuilderUtils::update_option( 'fl_beta_updates', true );
 			} else {
 				delete_option( 'fl_beta_updates' );
 			}
 
 			if ( isset( $_POST['alpha-checkbox'] ) ) {
-				update_option( 'fl_alpha_updates', true );
+				FLBuilderUtils::update_option( 'fl_alpha_updates', true );
 			} else {
 				delete_option( 'fl_alpha_updates' );
 			}

@@ -467,5 +467,15 @@
                 <field type="Table of Contents: Title Text" editor_type="LINE">heading_title</field>
             </fields>
         </widget>
+        <widget name="uabb-timeline">
+            <fields-in-item items_of="items">
+                <field type="UABB Advanced Timeline : Heading" editor_type="LINE">heading</field>
+                <field type="UABB Advanced Timeline : Description" editor_type="VISUAL">description</field>
+                <field type="UABB Advanced Timeline : Link" editor_type="LINK">link</field>
+            </fields-in-item>
+            <field type="UABB Advanced Timeline : Link Text" editor_type="LINE">link_text</field>
+            <field type="UABB Advanced Timeline : Custom Meta Key" editor_type="LINE">custom_meta_key</field>
+            <field type="UABB Advanced Timeline : No Results Message" editor_type="LINE">no_results_message</field>
+        </widget>
     </beaver-builder-widgets>
 </wpml-config>

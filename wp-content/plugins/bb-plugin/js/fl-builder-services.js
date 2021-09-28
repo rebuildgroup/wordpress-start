@@ -18,19 +18,19 @@
 			var body = $('body');
 
 			// Standard Events
-			body.delegate( '.fl-builder-service-select', 'change', this._serviceChange );
-			body.delegate( '.fl-builder-service-connect-button', 'click', this._connectClicked );
-			body.delegate( '.fl-builder-service-account-select', 'change', this._accountChange );
-			body.delegate( '.fl-builder-service-account-delete', 'click', this._accountDeleteClicked );
+			body.on( 'change', '.fl-builder-service-select', this._serviceChange );
+			body.on( 'click', '.fl-builder-service-connect-button', this._connectClicked );
+			body.on( 'change', '.fl-builder-service-account-select', this._accountChange );
+			body.on( 'click', '.fl-builder-service-account-delete', this._accountDeleteClicked );
 
 			// Campaign Monitor Events
-			body.delegate( '.fl-builder-campaign-monitor-client-select', 'change', this._campaignMonitorClientChange );
+			body.on( 'change', '.fl-builder-campaign-monitor-client-select', this._campaignMonitorClientChange );
 
 			// MailChimp Events
-			body.delegate( '.fl-builder-mailchimp-list-select', 'change', this._mailChimpListChange );
+			body.on( 'change', '.fl-builder-mailchimp-list-select', this._mailChimpListChange );
 
 			// ActiveCampaign Events
-			body.delegate( '.fl-builder-activecampaign-list_type-select', 'change', this._activeCampaignChange );
+			body.on( 'change', '.fl-builder-activecampaign-list_type-select', this._activeCampaignChange );
 		},
 
 		/**

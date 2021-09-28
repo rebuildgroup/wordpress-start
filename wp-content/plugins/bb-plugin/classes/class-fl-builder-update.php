@@ -336,7 +336,7 @@ final class FLBuilderUpdate {
 		$settings = get_option( '_fl_builder_settings' );
 
 		if ( $settings && is_string( $settings ) ) {
-			update_option( '_fl_builder_settings', json_decode( $settings ) );
+			FLBuilderUtils::update_option( '_fl_builder_settings', json_decode( $settings ) );
 		}
 	}
 
@@ -493,7 +493,7 @@ final class FLBuilderUpdate {
 			if ( $network ) {
 				update_site_option( '_fl_builder_user_access', $user_access );
 			} else {
-				update_option( '_fl_builder_user_access', $user_access );
+				FLBuilderUtils::update_option( '_fl_builder_user_access', $user_access );
 			}
 		}
 	}

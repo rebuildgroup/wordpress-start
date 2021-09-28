@@ -307,7 +307,7 @@ final class FLBuilderCSS {
 				$props['font-size'] = $setting['font_size']['length'] . $setting['font_size']['unit'];
 			}
 		}
-		if ( isset( $setting['line_height'] ) && ! empty( $setting['line_height']['length'] ) ) {
+		if ( isset( $setting['line_height'] ) && ! empty( $setting['line_height']['length'] ) && is_numeric( $setting['line_height']['length'] ) ) {
 			$props['line-height'] = $setting['line_height']['length'];
 			if ( isset( $setting['line_height']['unit'] ) && ! empty( $setting['line_height']['unit'] ) ) {
 				$props['line-height'] .= $setting['line_height']['unit'];
@@ -453,8 +453,12 @@ final class FLBuilderCSS {
 				case 'color':
 					if ( strstr( $value, 'rgb' ) || strstr( $value, 'url' ) ) {
 						$css .= "\t$name: $value;\n";
+					} elseif ( 'inherit' === $value ) {
+						$css .= "\t$name: inherit;\n";
+					} elseif ( 'transparent' === $value ) {
+						$css .= "\t$name: transparent;\n";
 					} else {
-						$css .= "\t$name: #$value;\n";
+						$css .= sprintf( "\t%s: #%s;\n", $name, ltrim( $value, '#' ) );
 						if ( isset( $args['opacity'] ) && '' !== $args['opacity'] ) {
 							$rgb  = implode( ',', FLBuilderColor::hex_to_rgb( $value ) );
 							$a    = $args['opacity'] / 100;

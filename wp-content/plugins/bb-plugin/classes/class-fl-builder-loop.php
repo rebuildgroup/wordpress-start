@@ -361,7 +361,7 @@ final class FLBuilderLoop {
 		/**
 		 * Filter all the args passed to WP_Query.
 		 * @see fl_builder_loop_query_args
-		 * @link https://kb.wpbeaverbuilder.com/article/591-create-a-filter-to-customize-the-display-of-post-data
+		 * @link https://docs.wpbeaverbuilder.com/beaver-builder/developer/tutorials-guides/create-a-filter-to-customize-the-display-of-post-data
 		 */
 		$args = apply_filters( 'fl_builder_loop_query_args', $args );
 
@@ -719,6 +719,7 @@ final class FLBuilderLoop {
 	 */
 	static public function pre_404_pagination( $prevent_404, $query ) {
 		global $wp_actions;
+		global $wp_the_query;
 
 		if ( ! class_exists( 'FLThemeBuilder' ) ) {
 			return $prevent_404;
@@ -760,7 +761,7 @@ final class FLBuilderLoop {
 			$is_global_hack = true;
 		}
 
-		if ( FLThemeBuilder::has_layout() ) {
+		if ( count( $wp_the_query->posts ) && FLThemeBuilder::has_layout() ) {
 
 			// Reset the hacks.
 			if ( $is_global_hack ) {

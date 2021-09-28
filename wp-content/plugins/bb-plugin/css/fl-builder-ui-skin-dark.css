@@ -264,14 +264,15 @@ body.fl-builder-ui-skin--dark .fl-builder-bar .fl-builder-bar-content,
 .fl-builder-ui-skin--dark .fl-lightbox .fl-builder-button.fl-builder-button-primary {
     color: #ffffff !important;
 }
+.fl-builder-ui-skin--dark .fl-color-picker,
 .fl-builder-ui-skin--dark .fl-color-picker-color.fl-color-picker-empty {
-    background: #1a1b22;
+    background: #1a1b22 !important;
 }
 .fl-color-picker-color.fl-color-picker-empty .fl-color-picker-icon {
     fill:#6f7881;
 }
 .fl-builder-ui-skin--dark .fl-color-picker-clear {
-    background-color: #121a23;
+    background-color: #121a23 !important;
 }
 .fl-builder-ui-skin--dark .fl-color-picker-clear:hover {
     background-color: #373f46;

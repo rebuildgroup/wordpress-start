@@ -50,7 +50,6 @@ class LayoutBlockEdit extends Component {
 			<Placeholder
 				key='placeholder'
 				instructions={ description }
-				icon='welcome-widgets-menus'
 				label={ strings.title }
 				className='fl-builder-layout-launch-view'
 			>

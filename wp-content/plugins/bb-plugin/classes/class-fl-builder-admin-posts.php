@@ -27,6 +27,7 @@ final class FLBuilderAdminPosts {
 		add_filter( 'page_row_actions', __CLASS__ . '::render_row_actions_link' );
 		add_filter( 'post_row_actions', __CLASS__ . '::render_row_actions_link' );
 		add_action( 'pre_get_posts', __CLASS__ . '::sort_builder_enabled' );
+		add_action( 'admin_init', __CLASS__ . '::duplicate_layout' );
 	}
 
 	/**
@@ -333,7 +334,6 @@ final class FLBuilderAdminPosts {
 	 */
 	static public function render_row_actions_link( $actions = array() ) {
 		global $post;
-
 		if ( 'trash' != $post->post_status && current_user_can( 'edit_post', $post->ID ) && wp_check_post_lock( $post->ID ) === false ) {
 
 			/**
@@ -343,15 +343,46 @@ final class FLBuilderAdminPosts {
 			$is_post_editable = (bool) apply_filters( 'fl_builder_is_post_editable', true, $post );
 			$user_access      = FLBuilderUserAccess::current_user_can( 'builder_access' );
 			$post_types       = FLBuilderModel::get_post_types();
-
+			$typeobj          = get_post_type_object( $post->post_type );
+			$singular_name    = ( isset( $_GET['fl-builder-template-type'] ) ) ? ucfirst( $_GET['fl-builder-template-type'] ) : $typeobj->labels->singular_name;
+			$singular_name    = ( 'Layout' === $singular_name ) ? 'Template' : $singular_name;
 			if ( in_array( $post->post_type, $post_types ) && $is_post_editable && $user_access ) {
 				$enabled               = get_post_meta( $post->ID, '_fl_builder_enabled', true );
-				$dot                   = ' <span style="color:' . ( $enabled ? '#6bc373' : '#d9d9d9' ) . '; font-size:18px;">&bull;</span>';
+				$dot                   = '&nbsp;<span style="color:' . ( $enabled ? '#6bc373' : '#d9d9d9' ) . '; font-size:18px;">&bull;</span>';
 				$actions['fl-builder'] = '<a href="' . FLBuilderModel::get_edit_url() . '">' . FLBuilderModel::get_branding() . $dot . '</a>';
+				if ( $enabled ) {
+					$url = add_query_arg( array(
+						'post_type'        => $post->post_type,
+						'post_id'          => $post->ID,
+						'duplicate_layout' => true,
+						'duplicate_nonce'  => wp_create_nonce( 'duplicate_nonce' ),
+					), admin_url() );
+					/* translators: %s: post type being duplicated */
+					$duplicate_text = sprintf( __( 'Duplicate %s', 'fl-builder' ), $singular_name );
+					/* translators: %1$s: post type being duplicated: %2$s: Branding name */
+					$duplicate_alt                   = esc_attr( sprintf( __( 'Duplicate %1$s with %2$s', 'fl-builder' ), $singular_name, FLBuilderModel::get_branding() ) );
+					$actions['fl-builder-duplicate'] = sprintf( '<a title="%s" href="%s">%s</a>%s', $duplicate_alt, $url, $duplicate_text, $dot );
+				}
 			}
 		}
 
 		return $actions;
+	}
+
+	static public function duplicate_layout() {
+		if ( isset( $_GET['duplicate_layout'] ) ) {
+			$id    = $_GET['post_id'];
+			$nonce = $_GET['duplicate_nonce'];
+
+			if ( wp_verify_nonce( $nonce, 'duplicate_nonce' ) ) {
+				$post_id = FLBuilderModel::duplicate_post( $id );
+				$url     = FLBuilderModel::get_edit_url( $post_id );
+				wp_redirect( $url );
+				exit;
+			} else {
+				wp_die( 'Unauthorized' );
+			}
+		}
 	}
 
 	/**
