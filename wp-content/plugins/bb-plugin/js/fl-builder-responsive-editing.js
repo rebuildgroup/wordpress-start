@@ -266,6 +266,22 @@
 							$( 'html, body' ).scrollTop( element.offset().top - 100 );
 						}
 				}
+
+				$('.fl-row-bg-parallax').each(function(){
+					var row = $(this),
+						content = row.find('> .fl-row-content-wrap'),
+						rowImages = {
+							'default': row.data('parallax-image'),
+							'medium': row.data('parallax-image-medium'),
+							'responsive': row.data('parallax-image-responsive'),
+						};
+						
+					if ( undefined !== rowImages[mode] ) {
+						content.css('background-image', 'url(' + rowImages[mode] + ')');
+					}
+
+				});
+				
 			} );
 		},
 

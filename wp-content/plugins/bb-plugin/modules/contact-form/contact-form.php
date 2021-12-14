@@ -6,6 +6,15 @@
 class FLContactFormModule extends FLBuilderModule {
 
 	/**
+	 * Holds any errors that may arise from
+	 * wp_mail.
+	 *
+	 * @since 2.5
+	 * @var array $errors
+	 */
+	static public $errors = array();
+
+	/**
 	 * @method __construct
 	 */
 	public function __construct() {
@@ -17,10 +26,22 @@ class FLContactFormModule extends FLBuilderModule {
 			'partial_refresh' => true,
 			'icon'            => 'editor-table.svg',
 		));
-
+		add_action( 'wp_mail_failed', array( $this, 'mail_failed' ) );
 		add_action( 'wp_ajax_fl_builder_email', array( $this, 'send_mail' ) );
 		add_action( 'wp_ajax_nopriv_fl_builder_email', array( $this, 'send_mail' ) );
 		add_filter( 'script_loader_tag', array( $this, 'add_async_attribute' ), 10, 2 );
+	}
+
+	/**
+	 *
+	 * @since 2.5
+	 * @param object $wp_error object with the PHPMailerException message.
+	 */
+	public function mail_failed( $wp_error ) {
+
+		if ( is_wp_error( $wp_error ) && ! empty( $wp_error->errors['wp_mail_failed'] ) ) {
+			self::$errors = $wp_error->errors['wp_mail_failed'][0];
+		}
 	}
 
 	/**
@@ -250,15 +271,20 @@ class FLContactFormModule extends FLBuilderModule {
 				 */
 				do_action( 'fl_module_contact_form_before_send', $mailto, $subject, $template, $headers, $settings );
 				$result = wp_mail( $mailto, $subject, $template, $headers );
-
 				/**
 				 * After sending with wp_mail()
 				 * @see fl_module_contact_form_after_send
 				 */
 				do_action( 'fl_module_contact_form_after_send', $mailto, $subject, $template, $headers, $settings, $result );
 				$response['message'] = __( 'Sent!', 'fl-builder' );
+				if ( ! empty( self::$errors ) ) {
+					$response = array(
+						'error'     => true,
+						'message'   => __( 'Message failed. Please check the console for possible error message.', 'fl-builder' ),
+						'errorInfo' => self::$errors,
+					);
+				}
 			}
-
 			wp_send_json( $response );
 		}
 	}

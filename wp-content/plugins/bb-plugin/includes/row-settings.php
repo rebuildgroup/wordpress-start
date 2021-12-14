@@ -593,16 +593,17 @@ $row_settings = array(
 				'bg_parallax'      => array(
 					'title'  => __( 'Background Parallax', 'fl-builder' ),
 					'fields' => array(
-						'bg_parallax_image' => array(
+						'bg_parallax_image'  => array(
 							'type'        => 'photo',
 							'show_remove' => true,
 							'label'       => __( 'Photo', 'fl-builder' ),
+							'responsive'  => true,
 							'preview'     => array(
-								'type' => 'none',
+								'type' => 'refresh',
 							),
 							'connections' => array( 'photo' ),
 						),
-						'bg_parallax_speed' => array(
+						'bg_parallax_speed'  => array(
 							'type'    => 'select',
 							'label'   => __( 'Speed', 'fl-builder' ),
 							'default' => 'fast',
@@ -613,6 +614,21 @@ $row_settings = array(
 							),
 							'preview' => array(
 								'type' => 'none',
+							),
+						),
+						'bg_parallax_offset' => array(
+							'type'        => 'unit',
+							'label'       => __( 'Image Offset', 'fl-builder' ),
+							'responsive'  => true,
+							'placeholder' => '0',
+							'default'     => 0,
+							'slider'      => array(
+								'min'  => 0,
+								'max'  => 1000,
+								'step' => 10,
+							),
+							'preview'     => array(
+								'type' => 'refresh',
 							),
 						),
 					),

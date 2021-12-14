@@ -796,7 +796,7 @@ final class FLBuilderModel {
 		$preview = self::is_builder_draft_preview();
 
 		if ( $active || $preview ) {
-			return md5( uniqid() );
+			return md5( FLBuilderModel::uniqid() );
 		} else {
 			return $path ? md5( file_get_contents( $path ) ) : md5( get_post_modified_time( 'U', false, $post_id ) );
 		}
@@ -972,7 +972,7 @@ final class FLBuilderModel {
 	 * @return string
 	 */
 	static public function generate_node_id() {
-		$node_id = uniqid();
+		$node_id = FLBuilderModel::uniqid();
 
 		if ( $node_id == self::$last_generated_node_id ) {
 			return self::generate_node_id();
@@ -3249,7 +3249,7 @@ final class FLBuilderModel {
 				$data->id          = $widget->id;
 				$data->name        = $widget->name;
 				$data->class       = $widget->class;
-				$data->category    = $widget->category;
+				$data->category    = $widget->fl_category;
 				$data->kind        = 'module';
 				$data->isWidget = true; // @codingStandardsIgnoreLine
 				$data->isAlias = false; // @codingStandardsIgnoreLine
@@ -3682,7 +3682,7 @@ final class FLBuilderModel {
 			}
 			$widget->class            = $class;
 			$widget->isWidget         = true; // @codingStandardsIgnoreLine
-			$widget->category         = __( 'WordPress Widgets', 'fl-builder' );
+			$widget->fl_category    = __( 'WordPress Widgets', 'fl-builder' );
 			$widgets[ $widget->name ] = $widget;
 		}
 
@@ -5141,7 +5141,11 @@ final class FLBuilderModel {
 		// Loop through templates and build the categorized array.
 		foreach ( $templates as $i => $template ) {
 
-			$cats = wp_get_post_terms( $template['postId'], 'fl-builder-template-category' );
+			$cats = get_the_terms( $template['postId'], 'fl-builder-template-category' );
+
+			if ( ! $cats ) {
+				$cats = array();
+			}
 
 			if ( 0 === count( $cats ) || is_wp_error( $cats ) ) {
 				$template['category']                        = array(
@@ -5200,7 +5204,11 @@ final class FLBuilderModel {
 			return '';
 		} else {
 
-			$terms = wp_get_post_terms( $post->ID, 'fl-builder-template-type' );
+			$terms = get_the_terms( $post->ID, 'fl-builder-template-type' );
+
+			if ( ! $terms ) {
+				$terms = array();
+			}
 
 			$type = ( is_wp_error( $terms ) || 0 === count( $terms ) ) ? 'layout' : $terms[0]->slug;
 
@@ -6336,9 +6344,8 @@ final class FLBuilderModel {
 							if ( isset( $template->nodes ) ) {
 								$template_data[ $key ]->nodes = serialize( $template_data[ $key ]->nodes );
 							}
-
-							self::$template_data[ $template_type ] = array_merge( self::$template_data[ $template_type ], $template_data );
 						}
+						self::$template_data[ $template_type ] = array_merge( self::$template_data[ $template_type ], $template_data );
 					}
 				}
 			}
@@ -6986,6 +6993,18 @@ final class FLBuilderModel {
 
 			exit;
 		}
+	}
+
+	/**
+	 * Be sure to return a unique string
+	 * @since 2.5
+	 */
+	static public function uniqid( $prefix = '', $length = 12 ) {
+		$id = substr( str_shuffle( '0123456789abcdefghijklmnopqrstuvwxyz' ), 0, $length );
+		if ( preg_match( '/^[0-9]+$/', $id ) ) {
+			$id = self::uniqid( $prefix, $length );
+		}
+		return ( $prefix ) ? $prefix . '-' . $id : $id;
 	}
 
 	/**

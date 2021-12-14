@@ -27,8 +27,10 @@ class Plugin {
 	 * @since 2.4.1
 	 */
 	public function check_urls() {
-		$current = get_option( 'siteurl' );
-		$saved   = get_option( 'fl_site_url' );
+		$replace = array( 'https://', 'http://' );
+		$current = str_replace( $replace, '', get_option( 'siteurl' ) );
+		$saved   = str_replace( $replace, '', get_option( 'fl_site_url' ) );
+
 		if ( $current !== $saved ) {
 			\FLBuilderModel::delete_asset_cache_for_all_posts();
 			if ( class_exists( '\FLCustomizer' ) && method_exists( '\FLCustomizer', 'clear_all_css_cache' ) ) {

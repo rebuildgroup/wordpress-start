@@ -21,7 +21,7 @@
 
 					<?php if ( $settings->show_content ) : ?>
 					<div class="fl-search-post-content">
-						<?php the_excerpt(); ?>
+						<?php FLBuilderLoop::the_excerpt(); ?>
 					</div>
 					<?php endif; ?>
 

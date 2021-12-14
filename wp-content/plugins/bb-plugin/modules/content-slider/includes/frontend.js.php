@@ -32,7 +32,9 @@
 				this.stopAuto( true );
 				$('.fl-node-<?php echo $id; ?> .fl-content-slider-navigation a').addClass('disabled');
 				$('.fl-node-<?php echo $id; ?> .bx-controls .bx-pager-link').addClass('disabled');
+				<?php if ( $settings->auto_play ) : ?>
 				this.startAuto( true );
+				<?php endif; ?>
 			},
 			onSlideAfter: function( ele, oldIndex, newIndex ) {
 				var prevSlide = $( '.fl-node-<?php echo $id; ?> .fl-slide-' + oldIndex + ':not(.bx-clone)'),
@@ -74,14 +76,18 @@
 				e.preventDefault();
 				slider.stopAuto( true );
 				slider.goToPrevSlide();
+				<?php if ( $settings->auto_play ) : ?>
 				slider.startAuto( true );
+				<?php endif; ?>
 			} );
 
 			$('.fl-node-<?php echo $id; ?> .slider-next').on( 'click', function( e ){
 				e.preventDefault();
 				slider.stopAuto( true );
 				slider.goToNextSlide();
+				<?php if ( $settings->auto_play ) : ?>
 				slider.startAuto( true );
+				<?php endif; ?>
 			} );
 
 		<?php endif; ?>

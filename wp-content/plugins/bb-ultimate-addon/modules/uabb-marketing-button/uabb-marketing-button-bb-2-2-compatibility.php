@@ -14,6 +14,29 @@ FLBuilder::register_module(
 		'general'             => array(
 			'title'    => __( 'General', 'uabb' ),
 			'sections' => array(
+				'preset_section'   => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'default' => 'none',
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'class'   => 'uabb-preset-select',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
 				'general'          => array(
 					'title'  => '',
 					'fields' => array(
@@ -288,6 +311,15 @@ FLBuilder::register_module(
 								'bounce-in'       => __( 'Bounce', 'uabb' ),
 							),
 						),
+						'flare_animation' => array(
+							'type'    => 'select',
+							'label'   => __( 'Flare Animation', 'uabb' ),
+							'default' => 'no',
+							'options' => array(
+								'yes' => __( 'Yes', 'uabb' ),
+								'no'  => __( 'No', 'uabb' ),
+							),
+						),
 					),
 				),
 				'icon'       => array(
@@ -296,7 +328,7 @@ FLBuilder::register_module(
 						'icon'                => array(
 							'type'        => 'icon',
 							'label'       => __( 'Icon', 'uabb' ),
-							'default'     => 'fas fa-external-link-alt',
+							'default'     => 'fa fa-arrow-right',
 							'show_remove' => true,
 						),
 						'icon_width'          => array(
@@ -355,6 +387,7 @@ FLBuilder::register_module(
 						'icon_color'          => array(
 							'type'        => 'color',
 							'label'       => __( 'Icon Color', 'uabb' ),
+							'default'     => 'ffffff',
 							'show_reset'  => true,
 							'connections' => array( 'color' ),
 							'show_alpha'  => true,

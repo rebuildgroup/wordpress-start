@@ -377,11 +377,13 @@ class FLPricingTableModule extends FLBuilderModule {
 			$icon = '';
 			// Default feature icon
 			if ( ! empty( $settings->default_feature_icon ) ) {
+				FLBuilderIcons::enqueue_styles_for_icon( $settings->default_feature_icon );
 				$icon = '<div class="fl-feature-icon-wrapper"><i class="fl-feature-icon ' . $settings->default_feature_icon . '" aria-hidden="true"></i></div>';
 			}
 
 			// Override default feature icon?
 			if ( ! empty( $feature['icon'] ) ) {
+				FLBuilderIcons::enqueue_styles_for_icon( $feature['icon'] );
 				$icon = '<div class="fl-feature-icon-wrapper"><i class="fl-feature-icon ' . $feature['icon'] . '" aria-hidden="true"></i></div>';
 			}
 
@@ -394,6 +396,7 @@ class FLPricingTableModule extends FLBuilderModule {
 
 			$tooltip = '';
 			if ( ! empty( $feature['tooltip'] ) ) {
+				FLBuilderIcons::enqueue_styles_for_icon( $feature['tooltip'] );
 				$tooltip  = '<div class="fl-builder-tooltip"><i class="fl-builder-tooltip-icon ' . esc_attr( $tooltip_icon ) . '" aria-hidden="true"></i>';
 				$tooltip .= '<div class="fl-builder-tooltip-text" style="display: none;">';
 				$tooltip .= esc_html( $feature['tooltip'] );
@@ -535,12 +538,13 @@ FLBuilder::register_module('FLPricingTableModule', array(
 						'help'    => __( 'Use this to normalize the height of your boxes when they have different numbers of features.', 'fl-builder' ),
 					),
 					'advanced_spacing' => array(
-						'type'    => 'dimension',
-						'label'   => __( 'Advanced Spacing', 'fl-builder' ),
-						'default' => '12',
-						'units'   => array( 'px' ),
-						'slider'  => true,
-						'preview' => array(
+						'type'       => 'dimension',
+						'label'      => __( 'Advanced Spacing', 'fl-builder' ),
+						'default'    => '12',
+						'units'      => array( 'px' ),
+						'slider'     => true,
+						'responsive' => true,
+						'preview'    => array(
 							'type' => 'refresh',
 						),
 					),
@@ -637,28 +641,26 @@ FLBuilder::register_module('FLPricingTableModule', array(
 						'show_alpha' => true,
 					),
 					'feature_icon_size'         => array(
-						'type'      => 'unit',
-						'label'     => __( 'Feature Icon Size', 'fl-builder' ),
-						'default'   => '',
-						'maxlength' => '2',
-						'size'      => '3',
-						'sanitize'  => 'absint',
-						'slider'    => true,
-						'units'     => array(
+						'type'       => 'unit',
+						'label'      => __( 'Feature Icon Size', 'fl-builder' ),
+						'default'    => '',
+						'maxlength'  => '2',
+						'size'       => '3',
+						'sanitize'   => 'absint',
+						'slider'     => true,
+						'units'      => array(
 							'px',
 						),
-						'slider'    => array(
+						'slider'     => array(
 							'px' => array(
 								'min'  => 10,
 								'max'  => 100,
 								'step' => 1,
 							),
 						),
-						'preview'   => array(
-							'type'      => 'css',
-							'selector'  => '{node}.fl-module-pricing-table .fl-feature-icon',
-							'property'  => 'font-size',
-							'important' => true,
+						'responsive' => true,
+						'preview'    => array(
+							'type' => 'refresh',
 						),
 					),
 					'feature_icon_color'        => array(
@@ -687,37 +689,36 @@ FLBuilder::register_module('FLPricingTableModule', array(
 						),
 					),
 					'feature_text_typography'   => array(
-						'type'     => 'typography',
-						'label'    => __( 'Feature List Text Typography', 'fl-builder' ),
-						'preview'  => array(
+						'type'       => 'typography',
+						'label'      => __( 'Feature List Text Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
 							'type'     => 'css',
-							'selector' => '{node}.fl-module-pricing-table .fl-pricing-table-features .fl-pricing-table-feature-item .fl-feature-text',
+							'selector' => '{node} .fl-feature-text',
 						),
-						'disabled' => array( 'default' => array( 'text_align' ) ),
+						'disabled'   => array( 'default' => array( 'text_align' ) ),
 					),
 					'tooltip_icon_size'         => array(
-						'type'      => 'unit',
-						'label'     => __( 'Tooltip Icon Size', 'fl-builder' ),
-						'default'   => '',
-						'maxlength' => '2',
-						'size'      => '3',
-						'sanitize'  => 'absint',
-						'slider'    => true,
-						'units'     => array(
+						'type'       => 'unit',
+						'label'      => __( 'Tooltip Icon Size', 'fl-builder' ),
+						'default'    => '',
+						'maxlength'  => '2',
+						'size'       => '3',
+						'sanitize'   => 'absint',
+						'slider'     => true,
+						'units'      => array(
 							'px',
 						),
-						'slider'    => array(
+						'slider'     => array(
 							'px' => array(
 								'min'  => 10,
 								'max'  => 100,
 								'step' => 1,
 							),
 						),
-						'preview'   => array(
-							'type'      => 'css',
-							'selector'  => '{node}.fl-module-pricing-table .fl-builder-tooltip-icon',
-							'property'  => 'font-size',
-							'important' => true,
+						'responsive' => true,
+						'preview'    => array(
+							'type' => 'refresh',
 						),
 					),
 					'tooltip_icon_color'        => array(
@@ -727,10 +728,9 @@ FLBuilder::register_module('FLPricingTableModule', array(
 						'show_reset' => true,
 						'show_alpha' => true,
 						'preview'    => array(
-							'type'      => 'css',
-							'selector'  => '{node}.fl-module-pricing-table .fl-pricing-table-features .fl-pricing-table-feature-item .fl-builder-tooltip-icon',
-							'property'  => 'color',
-							'important' => true,
+							'type'     => 'css',
+							'selector' => '{node} .fl-pricing-table-features .fl-pricing-table-feature-item .fl-builder-tooltip-icon',
+							'property' => 'color',
 						),
 					),
 					'tooltip_text_color'        => array(
@@ -788,11 +788,12 @@ FLBuilder::register_module('FLPricingTableModule', array(
 						'show_alpha' => true,
 					),
 					'switch_typography'          => array(
-						'type'    => 'typography',
-						'label'   => __( 'Toggle Price Button Typography', 'fl-builder' ),
-						'preview' => array(
+						'type'       => 'typography',
+						'label'      => __( 'Toggle Price Button Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
 							'type'     => 'css',
-							'selector' => 'span.first_option, span.second_option',
+							'selector' => '{node} span.first_option, {node} span.second_option',
 						),
 					),
 				),
@@ -1190,11 +1191,12 @@ FLBuilder::register_settings_form('pricing_column_form', array(
 							'show_alpha'  => true,
 						),
 						'margin'            => array(
-							'type'    => 'unit',
-							'label'   => __( 'Box Top Margin', 'fl-builder' ),
-							'default' => '0',
-							'units'   => array( 'px' ),
-							'slider'  => true,
+							'type'       => 'unit',
+							'label'      => __( 'Box Top Margin', 'fl-builder' ),
+							'default'    => '0',
+							'units'      => array( 'px' ),
+							'slider'     => true,
+							'responsive' => true,
 						),
 					),
 				),

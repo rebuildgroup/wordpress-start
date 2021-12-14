@@ -317,6 +317,7 @@
 			if($('.fl-row-bg-parallax').length > 0 && !FLBuilderLayout._isMobile()) {
 				FLBuilderLayout._scrollParallaxBackgrounds();
 				FLBuilderLayout._initParallaxBackgrounds();
+				win.on('resize.fl-bg-parallax', FLBuilderLayout._initParallaxBackgrounds);
 				win.on('scroll.fl-bg-parallax', FLBuilderLayout._scrollParallaxBackgrounds);
 			}
 
@@ -351,22 +352,29 @@
 		{
 			var row     = $(this),
 				content = row.find('> .fl-row-content-wrap'),
-				src     = row.data('parallax-image'),
-				loaded  = row.data('parallax-loaded'),
-				img     = new Image();
+				winWidth = $(window).width(),
+				screenSize = '',
+				imageSrc = {
+					default: '',
+					medium: '',
+					responsive: '',
+				};
 
-			if(loaded) {
-				return;
+			imageSrc.default = row.data('parallax-image') || '';
+			imageSrc.medium = row.data('parallax-image-medium') || imageSrc.default;
+			imageSrc.responsive = row.data('parallax-image-responsive') || imageSrc.medium;
+
+			if (winWidth > FLBuilderLayoutConfig.breakpoints.medium) {
+				screenSize = 'default';
+			} else if (winWidth > FLBuilderLayoutConfig.breakpoints.small && winWidth <= FLBuilderLayoutConfig.breakpoints.medium ) {
+				screenSize = 'medium';
+			} else if (winWidth <= FLBuilderLayoutConfig.breakpoints.small) {
+				screenSize = 'responsive';
 			}
-			else if(typeof src != 'undefined') {
 
-				$(img).on('load', function() {
-					content.css('background-image', 'url(' + src + ')');
-					row.data('parallax-loaded', true);
-				});
-
-				img.src = src;
-			}
+			content.css('background-image', 'url(' + imageSrc[screenSize] + ')');
+			row.data('current-image-loaded', screenSize );
+			
 		},
 
 		/**
@@ -392,14 +400,16 @@
 		 */
 		_scrollParallaxBackground: function()
 		{
-			var win     = $(window),
-				row     = $(this),
-				content = row.find('> .fl-row-content-wrap'),
-				speed   = row.data('parallax-speed'),
-				offset  = content.offset(),
-				yPos    = -((win.scrollTop() - offset.top) / speed);
+			var win     	  = $(window),
+				row     	  = $(this),
+				content 	  = row.find('> .fl-row-content-wrap'),
+				speed   	  = row.data('parallax-speed'),
+				offset  	  = content.offset(),
+				yPos		  = -((win.scrollTop() - offset.top) / speed),
+				initialOffset = ( row.data('parallax-offset') != null ) ? row.data('parallax-offset') : 0,
+				totalOffset   = yPos - initialOffset;
 
-			content.css('background-position', 'center ' + yPos + 'px');
+			content.css('background-position', 'center ' + totalOffset + 'px');
 		},
 
 		/**

@@ -43,7 +43,7 @@
 		<?php if ( $settings->show_content || $settings->show_more_link ) : ?>
 		<div class="fl-post-carousel-content">
 			<?php if ( $settings->show_content ) : ?>
-				<?php the_excerpt(); ?>
+				<?php FLBuilderLoop::the_excerpt(); ?>
 			<?php endif; ?>
 			<?php if ( $settings->show_more_link ) : ?>
 			<a class="fl-post-carousel-more" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php echo $settings->more_link_text; ?></a>

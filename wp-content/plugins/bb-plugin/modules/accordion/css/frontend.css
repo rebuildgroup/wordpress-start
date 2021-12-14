@@ -1,3 +1,7 @@
+.fl-accordion-item-active .fl-accordion-content {
+	display: block;
+}
+
 .fl-accordion-button {
 	cursor: pointer;
 	display: table;

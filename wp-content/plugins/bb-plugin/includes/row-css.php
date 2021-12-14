@@ -232,9 +232,33 @@ FLBuilderCSS::rule( array(
 
 FLBuilderCSS::rule( array(
 	'selector' => ".fl-builder-mobile .fl-node-$id > .fl-row-content-wrap",
-	'enabled'  => 'parallax' === $settings->bg_type,
+	'enabled'  => 'parallax' === $settings->bg_type && ! empty( $settings->bg_parallax_image_src ),
 	'props'    => array(
 		'background-image'      => $settings->bg_parallax_image_src,
+		'background-position'   => 'center center',
+		'background-attachment' => 'scroll',
+	),
+) );
+
+// Parallax BG Medium
+FLBuilderCSS::rule( array(
+	'media'    => 'medium',
+	'selector' => ".fl-builder-mobile .fl-node-$id > .fl-row-content-wrap",
+	'enabled'  => 'parallax' === $settings->bg_type && ! empty( $settings->bg_parallax_image_medium_src ),
+	'props'    => array(
+		'background-image'      => $settings->bg_parallax_image_medium_src,
+		'background-position'   => 'center center',
+		'background-attachment' => 'scroll',
+	),
+) );
+
+// Parallax BG Small
+FLBuilderCSS::rule( array(
+	'media'    => 'responsive',
+	'selector' => ".fl-builder-mobile .fl-node-$id > .fl-row-content-wrap",
+	'enabled'  => 'parallax' === $settings->bg_type && ! empty( $settings->bg_parallax_image_responsive_src ),
+	'props'    => array(
+		'background-image'      => $settings->bg_parallax_image_responsive_src,
 		'background-position'   => 'center center',
 		'background-attachment' => 'scroll',
 	),

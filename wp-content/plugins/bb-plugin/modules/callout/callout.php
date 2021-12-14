@@ -119,14 +119,12 @@ class FLCalloutModule extends FLBuilderModule {
 	public function render_title() {
 		echo '<' . $this->settings->title_tag . ' class="fl-callout-title">';
 
-		$nofollow = ( ( 'yes' === $this->settings->link_nofollow ) ? 'rel="nofollow"' : '' );
-
 		if ( ! empty( $this->settings->link ) && 'icon' === $this->settings->image_type ) {
-			echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" ' . $nofollow . '  class="fl-callout-title-link fl-callout-title-text">';
+			echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" ' . $this->get_rel() . ' class="fl-callout-title-link fl-callout-title-text">';
 		}
 
 		if ( ! empty( $this->settings->link ) && 'icon' !== $this->settings->image_type ) {
-			echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" ' . $nofollow . ' class="fl-callout-title-link fl-callout-title-text">';
+			echo '<a href="' . $this->settings->link . '" target="' . $this->settings->link_target . '" ' . $this->get_rel() . ' class="fl-callout-title-link fl-callout-title-text">';
 		}
 
 		if ( 'left-title' === $this->settings->icon_position ) {
@@ -158,17 +156,31 @@ class FLCalloutModule extends FLBuilderModule {
 	}
 
 	/**
+	 * Returns link rel based on settings.
+	 * @since 2.5
+	 * @return string
+	 */
+	public function get_rel() {
+		$rel = array();
+		if ( '_blank' == $this->settings->link_target ) {
+			$rel[] = 'noopener';
+		}
+		if ( isset( $this->settings->link_nofollow ) && 'yes' == $this->settings->link_nofollow ) {
+			$rel[] = 'nofollow';
+		}
+		$rel = implode( ' ', $rel );
+		if ( $rel ) {
+			$rel = ' rel="' . $rel . '" ';
+		}
+		return $rel;
+	}
+
+	/**
 	 * @method render_link
 	 */
 	public function render_link() {
 		if ( 'link' == $this->settings->cta_type ) {
-			$nofollow = '';
-
-			if ( 'yes' == $this->settings->link_nofollow ) {
-				$nofollow = 'rel="nofollow"';
-			}
-
-			echo '<a href="' . $this->settings->link . '" ' . $nofollow . ' target="' . $this->settings->link_target . '" class="fl-callout-cta-link">' . $this->settings->cta_text . '</a>';
+			echo '<a href="' . $this->settings->link . '" ' . $this->get_rel() . ' target="' . $this->settings->link_target . '" class="fl-callout-cta-link">' . $this->settings->cta_text . '</a>';
 		}
 	}
 
@@ -224,6 +236,7 @@ class FLCalloutModule extends FLBuilderModule {
 			'sr_text'         => $this->settings->sr_text,
 			'link'            => $this->settings->link,
 			'link_target'     => $this->settings->link_target,
+			'link_nofollow'   => $this->settings->link_nofollow,
 		);
 
 		if ( isset( $this->settings->icon_position ) && ( 'left-title' === $this->settings->icon_position || 'right-title' === $this->settings->icon_position ) ) {

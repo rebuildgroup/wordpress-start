@@ -200,6 +200,16 @@ if ( 'button' === $settings->cta_type ) {
 	}
 	/* CSS Render Function */
 	FLBuilder::render_module_css( 'uabb-button', $id, $btn_settings );
+	if ( 'gradient' === $settings->btn_style ) {
+		if ( isset( $settings->btn_gradient ) ) {
+			?>
+			.fl-node-<?php echo esc_attr( $id ); ?> .uabb-creative-button-wrap a,
+			.fl-node-<?php echo esc_attr( $id ); ?> .uabb-creative-button-wrap a:visited {
+				background: <?php echo esc_attr( FLBuilderColor::gradient( $settings->btn_gradient ) ); ?>;
+			}
+			<?php
+		}
+	}
 }
 /* Render Separator */
 if ( 'block' === $settings->enable_separator ) {
@@ -517,7 +527,7 @@ if ( 'custom' === $settings->min_height_switch && '' !== $settings->min_height )
 		}
 
 		.fl-node-<?php echo esc_attr( $id ); ?> .infobox-<?php echo esc_attr( $settings->align ); ?> {
-			justify-content: 
+			justify-content:
 			<?php echo esc_attr( ( 'center' === $settings->align ) ? 'center' : ( ( 'left' === $settings->align ) ? 'flex-start' : 'flex-end' ) ); ?>;
 		}
 <?php } ?>
@@ -564,7 +574,7 @@ if ( 'custom' === $settings->min_height_switch && '' !== $settings->min_height )
 /* Description Color */
 
 .fl-node-<?php echo esc_attr( $id ); ?> .uabb-infobox-text {
-	color: 
+	color:
 	<?php echo esc_attr( uabb_theme_text_color( $settings->subhead_color ) ); ?>;
 }
 <?php if ( isset( $settings->subhead_color_hover ) && '' !== $settings->subhead_color_hover ) { ?>
@@ -643,14 +653,14 @@ if ( 'custom' === $settings->min_height_switch && '' !== $settings->min_height )
 .fl-builder-content .fl-node-<?php echo esc_attr( $id ); ?> a,
 .fl-builder-content .fl-node-<?php echo esc_attr( $id ); ?> a *,
 .fl-builder-content .fl-node-<?php echo esc_attr( $id ); ?> a:visited {
-	color: 
+	color:
 	<?php echo esc_attr( uabb_theme_text_color( $settings->link_color ) ); ?>;
 }
 <?php endif; ?>
 <?php if ( ! empty( $settings->link_color_hover ) ) : ?>
 .fl-builder-content .fl-node-<?php echo esc_attr( $id ); ?> a:hover,
 .fl-builder-content .fl-node-<?php echo esc_attr( $id ); ?> a *:hover{
-	color: 
+	color:
 	<?php echo esc_attr( uabb_theme_text_color( $settings->link_color_hover ) ); ?>;
 }
 <?php endif; ?>
@@ -963,8 +973,10 @@ if ( 'icon' === $settings->image_type ) {
 		$cal_width = $cal_width + 20;
 	}
 }
-if ( 'left-title' === $settings->img_icon_position || 'left' === $settings->img_icon_position || 'right-title' === $settings->img_icon_position || 'right' === $settings->img_icon_position ) {
-	$cal_width = $cal_width + intval( $settings->icon_spacing );
+if ( 'none' !== $settings->image_type ) {
+	if ( 'left-title' === $settings->img_icon_position || 'left' === $settings->img_icon_position || 'right-title' === $settings->img_icon_position || 'right' === $settings->img_icon_position ) {
+		$cal_width = $cal_width + intval( $settings->icon_spacing );
+	}
 }
 ?>
 

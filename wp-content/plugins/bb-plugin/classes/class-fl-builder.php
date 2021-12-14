@@ -68,7 +68,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url     = '';
-	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.15.3/css/all.css';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.15.4/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -207,6 +207,9 @@ final class FLBuilder {
 			),
 			'pricing-table'  => array(
 				'button',
+			),
+			'menu'           => array(
+				'search',
 			),
 		);
 		return apply_filters( 'fl_module_dependencies', $deps );
@@ -938,6 +941,7 @@ final class FLBuilder {
 			wp_enqueue_script( 'jquery-ui-widget' );
 			wp_enqueue_script( 'jquery-ui-position' );
 			wp_enqueue_script( 'jquery-touch-punch' );
+			wp_enqueue_script( 'jquery-throttle' );
 
 			/**
 			 * Before jquery.ui.sortable.js is enqueued.
@@ -1263,7 +1267,7 @@ final class FLBuilder {
 			'label'     => __( 'Publish Layout', 'fl-builder' ),
 			'type'      => 'event',
 			'eventName' => 'publishAndRemain',
-			'accessory' => $key_shortcuts['publishAndRemain']['keyLabel'],
+			'accessory' => isset( $key_shortcuts['publishAndRemain'] ) ? $key_shortcuts['publishAndRemain']['keyLabel'] : null,
 		);
 
 		$tools_view['items'][05] = array(
@@ -1289,14 +1293,14 @@ final class FLBuilder {
 			'label'     => __( 'Preview Layout', 'fl-builder' ),
 			'type'      => 'event',
 			'eventName' => 'previewLayout',
-			'accessory' => $key_shortcuts['previewLayout']['keyLabel'],
+			'accessory' => isset( $key_shortcuts['previewLayout'] ) ? $key_shortcuts['previewLayout']['keyLabel'] : null,
 		);
 
 		$tools_view['items'][31] = array(
 			'label'     => __( 'Responsive Editing', 'fl-builder' ),
 			'type'      => 'event',
 			'eventName' => 'responsiveEditing',
-			'accessory' => $key_shortcuts['responsiveEditing']['keyLabel'],
+			'accessory' => isset( $key_shortcuts['responsiveEditing'] ) ? $key_shortcuts['responsiveEditing']['keyLabel'] : null,
 		);
 
 		$tools_view['items'][40] = array(
@@ -1307,14 +1311,14 @@ final class FLBuilder {
 			'label'     => __( 'Layout CSS & Javascript', 'fl-builder' ),
 			'type'      => 'event',
 			'eventName' => 'showLayoutSettings',
-			'accessory' => $key_shortcuts['showLayoutSettings']['keyLabel'],
+			'accessory' => isset( $key_shortcuts['showLayoutSettings'] ) ? $key_shortcuts['showLayoutSettings']['keyLabel'] : null,
 		);
 
 		$tools_view['items'][60] = array(
 			'label'     => __( 'Global Settings', 'fl-builder' ),
 			'type'      => 'event',
 			'eventName' => 'showGlobalSettings',
-			'accessory' => $key_shortcuts['showGlobalSettings']['keyLabel'],
+			'accessory' => isset( $key_shortcuts['showGlobalSettings'] ) ? $key_shortcuts['showGlobalSettings']['keyLabel'] : null,
 		);
 
 		if ( $is_lite || defined( 'FL_THEME_BUILDER_VERSION' ) ) {
@@ -1916,6 +1920,7 @@ final class FLBuilder {
 	 * @return string
 	 */
 	static public function render_content( $content ) {
+		global $render_content_forced;
 		$post_id   = FLBuilderModel::get_post_id( true );
 		$enabled   = FLBuilderModel::is_builder_enabled( $post_id );
 		$rendering = $post_id === self::$post_rendering;
@@ -1923,8 +1928,7 @@ final class FLBuilder {
 		$in_loop   = in_the_loop();
 		$is_global = in_array( $post_id, FLBuilderModel::get_global_posts() );
 
-		if ( $enabled && ! $rendering && $do_render && ( $in_loop || $is_global ) ) {
-
+		if ( $enabled && ! $rendering && $do_render && ( $in_loop || $is_global || true === $render_content_forced ) ) {
 			// Set the post rendering ID.
 			self::$post_rendering = $post_id;
 
@@ -2352,10 +2356,27 @@ final class FLBuilder {
 
 		// Data
 		if ( 'parallax' == $row->settings->bg_type && ! empty( $row->settings->bg_parallax_image_src ) ) {
-			$attrs['data-parallax-speed'] = $row->settings->bg_parallax_speed;
-			$attrs['data-parallax-image'] = $row->settings->bg_parallax_image_src;
+			$attrs['data-parallax-speed']  = $row->settings->bg_parallax_speed;
+			$attrs['data-parallax-image']  = $row->settings->bg_parallax_image_src;
+			$attrs['data-parallax-offset'] = $row->settings->bg_parallax_offset;
 		}
 
+		// Row Parallax Data
+		if ( 'parallax' == $row->settings->bg_type ) {
+			$attrs['data-parallax-speed'] = $row->settings->bg_parallax_speed;
+
+			if ( ! empty( $row->settings->bg_parallax_image_src ) ) {
+				$attrs['data-parallax-image'] = $row->settings->bg_parallax_image_src;
+			}
+
+			if ( ! empty( $row->settings->bg_parallax_image_medium_src ) ) {
+				$attrs['data-parallax-image-medium'] = $row->settings->bg_parallax_image_medium_src;
+			}
+
+			if ( ! empty( $row->settings->bg_parallax_image_responsive_src ) ) {
+				$attrs['data-parallax-image-responsive'] = $row->settings->bg_parallax_image_responsive_src;
+			}
+		}
 		self::render_node_attributes( apply_filters( 'fl_builder_row_attributes', $attrs, $row ) );
 	}
 
@@ -2903,48 +2924,67 @@ final class FLBuilder {
 		// Loop through rows
 		foreach ( $nodes['rows'] as $row ) {
 
+			$row_css = '';
 			// Instance row css
 			$settings = $row->settings;
 			$id       = $row->node;
 			ob_start();
 			include FL_BUILDER_DIR . 'includes/row-css.php';
 			FLBuilderCSS::render();
-			$css .= ob_get_clean();
+			$row_css .= ob_get_clean();
 
 			// Instance row margins
-			$css .= self::render_row_margins( $row );
+			$row_css .= self::render_row_margins( $row );
 
 			// Instance row padding
-			$css .= self::render_row_padding( $row );
+			$row_css .= self::render_row_padding( $row );
 
 			// Instance row animation
-			$css .= self::render_node_animation_css( $row->settings );
+			$row_css .= self::render_node_animation_css( $row->settings );
+
+			/**
+			 * Filter each rows CSS in render_css
+			 * @since 2.5
+			 * @see fl_builder_render_css_row
+			 */
+			$row_css = apply_filters( 'fl_builder_render_css_row', $row_css, $row, $settings );
+			$css    .= $row_css;
 		}
 
 		// Loop through the columns.
 		foreach ( $nodes['columns'] as $col ) {
 
+			$col_css = '';
 			// Instance column css
 			$settings = $col->settings;
 			$id       = $col->node;
 			ob_start();
 			include FL_BUILDER_DIR . 'includes/column-css.php';
 			FLBuilderCSS::render();
-			$css .= ob_get_clean();
+			$col_css .= ob_get_clean();
 
 			// Instance column margins
-			$css .= self::render_column_margins( $col );
+			$col_css .= self::render_column_margins( $col );
 
 			// Instance column padding
-			$css .= self::render_column_padding( $col );
+			$col_css .= self::render_column_padding( $col );
 
 			// Instance column animation
-			$css .= self::render_node_animation_css( $col->settings );
+			$col_css .= self::render_node_animation_css( $settings );
+
+			/**
+			 * Filter each cols CSS in render_css
+			 * @since 2.5
+			 * @see fl_builder_render_css_col
+			 */
+			$col_css = apply_filters( 'fl_builder_render_css_col', $col_css, $col, $settings );
+			$css    .= $col_css;
 		}
 
 		// Loop through the modules.
 		foreach ( $nodes['modules'] as $module ) {
 
+			$module_css = '';
 			// Global module css
 			$file            = $module->dir . 'css/frontend.css';
 			$file_responsive = $module->dir . 'css/frontend.responsive.css';
@@ -2957,14 +2997,14 @@ final class FLBuilder {
 
 				// Get the standard module css.
 				if ( fl_builder_filesystem()->file_exists( $file ) ) {
-					$css .= fl_builder_filesystem()->file_get_contents( $file );
+					$module_css .= fl_builder_filesystem()->file_get_contents( $file );
 				}
 
 				// Get the responsive module css.
 				if ( $global_settings->responsive_enabled && fl_builder_filesystem()->file_exists( $file_responsive ) ) {
-					$css .= '@media (max-width: ' . $global_settings->responsive_breakpoint . 'px) { ';
-					$css .= fl_builder_filesystem()->file_get_contents( $file_responsive );
-					$css .= ' }';
+					$module_css .= '@media (max-width: ' . $global_settings->responsive_breakpoint . 'px) { ';
+					$module_css .= fl_builder_filesystem()->file_get_contents( $file_responsive );
+					$module_css .= ' }';
 				}
 			}
 
@@ -2978,18 +3018,33 @@ final class FLBuilder {
 				ob_start();
 				include $file;
 				FLBuilderCSS::render();
-				$css .= ob_get_clean();
+				$module_css .= ob_get_clean();
 			}
 
 			// Instance module margins
-			$css .= self::render_module_margins( $module );
+			$module_css .= self::render_module_margins( $module );
 
 			if ( ! isset( $global_settings->auto_spacing ) || $global_settings->auto_spacing ) {
-				$css .= self::render_responsive_module_margins( $module );
+				$module_css .= self::render_responsive_module_margins( $module );
 			}
 
 			// Instance module animation
-			$css .= self::render_node_animation_css( $module->settings );
+			$module_css .= self::render_node_animation_css( $settings );
+
+			/**
+			 * Filter each modules CSS in render_css
+			 * @since 2.5
+			 * @see fl_builder_render_css_module
+			 */
+			$module_css = apply_filters( 'fl_builder_render_css_module', $module_css, $module, $settings );
+
+			/**
+			 * Dynamic Filter to target modules with slug in render_css
+			 * @since 2.5
+			 * @see fl_builder_render_css_module_
+			 */
+			$module_css = apply_filters( "fl_builder_render_css_module_{$module->slug}", $module_css, $module, $settings );
+			$css       .= $module_css;
 		}
 
 		// Render all animation CSS when the builder is active.

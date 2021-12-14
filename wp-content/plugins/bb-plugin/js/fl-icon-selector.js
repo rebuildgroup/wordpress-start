@@ -221,7 +221,10 @@
 								case 'legacy':
 									prefix = section.prefix;
 							}
-							html += '<i class="' + prefix + ' ' + icon.tag + '" title="' + icon.label + '"></i>';
+							if ( prefix.length > 0 ) {
+								prefix += ' ';
+							}
+							html += '<i class="' + prefix + icon.tag + '" title="' + icon.label + '"></i>';
 						})
 					});
 			})

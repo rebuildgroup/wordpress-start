@@ -253,6 +253,9 @@
 					$(this.nodeClass + ' .fl-send-error').html(response.message);
 				}
 				$(this.nodeClass + ' .fl-send-error').fadeIn();
+				if ( typeof response.errorInfo !== 'undefined' ) {
+					console.log('Contact Form:',response.errorInfo);
+				}
 				return false;
 			}
 		}

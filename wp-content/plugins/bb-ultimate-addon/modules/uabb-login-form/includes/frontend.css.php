@@ -13,12 +13,16 @@ $settings->wp_login_btn_background_hover_color = UABB_Helper::uabb_colorpicker( 
 $settings->form_bg_color                       = UABB_Helper::uabb_colorpicker( $settings, 'form_bg_color', true );
 $settings->input_text_color                    = UABB_Helper::uabb_colorpicker( $settings, 'input_text_color', true );
 $settings->input_background_color              = UABB_Helper::uabb_colorpicker( $settings, 'input_background_color', true );
+$settings->input_border_active_color           = UABB_Helper::uabb_colorpicker( $settings, 'input_border_active_color', true );
 $settings->label_color                         = UABB_Helper::uabb_colorpicker( $settings, 'label_color', true );
 $settings->lost_your_pass_color                = UABB_Helper::uabb_colorpicker( $settings, 'lost_your_pass_color', true );
 $settings->errormsg_bgcolor                    = UABB_Helper::uabb_colorpicker( $settings, 'errormsg_bgcolor', true );
 $settings->errormsg_text_color                 = UABB_Helper::uabb_colorpicker( $settings, 'errormsg_text_color', true );
 $settings->checkbox_bgcolor                    = UABB_Helper::uabb_colorpicker( $settings, 'checkbox_bgcolor', true );
 $settings->eye_icon_color                      = UABB_Helper::uabb_colorpicker( $settings, 'eye_icon_color', true );
+$settings->fields_icon_color                   = UABB_Helper::uabb_colorpicker( $settings, 'fields_icon_color', true );
+$settings->divider_color                       = UABB_Helper::uabb_colorpicker( $settings, 'divider_color', true );
+$settings->btn_icon_color                      = UABB_Helper::uabb_colorpicker( $settings, 'btn_icon_color', true );
 /* Render Separator CSS */
 if ( 'enable' === esc_attr( $settings->separator_select ) ) {
 
@@ -392,32 +396,15 @@ if ( 'enable' === esc_attr( $settings->separator_select ) ) {
 	?>
 }
 	<?php if ( isset( $settings->input_border_active_color ) ) { ?>
-		<?php if ( '' !== esc_attr( $settings->input_border_active_color ) ) { ?>
-			.fl-node-$id .uabb-lf-form-wrap .uabb-lf-form-input input:active,
-			.fl-node-$id .uabb-lf-form-wrap .uabb-lf-form-input input:focus {
+		<?php if ( '' !== $settings->input_border_active_color ) { ?>
+			.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap input.uabb-lf-form-input:active,
+			.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap input.uabb-lf-form-input:focus {
 				border-color: <?php echo esc_attr( $settings->input_border_active_color ); ?>;
 			}
 			<?php
 		}
 	}
 	?>
-<?php
-// Eye icon feild settings.
-
-if ( 'enable' === $settings->eye_icon ) {
-	?>
-	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-icon.toggle-password {
-		display:block;
-}
-	<?php
-} else {
-	?>
-	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-icon.toggle-password {
-		display:none;
-}
-	<?php
-}
-?>
 <?php
 if ( isset( $settings->eye_icon_color ) ) {
 	?>
@@ -430,13 +417,69 @@ if ( isset( $settings->eye_icon_color ) ) {
 }
 
 ?>
+
+<?php
+// Eye icon field settings.
+
+if ( 'enable' === $settings->fields_icon ) {
+	?>
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-username-input,
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-password-input {
+		position: relative;
+	}
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-username,
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-password {
+		padding-left: 40px;
+	}
+	[dir='rtl'] .fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-username,
+	[dir='rtl'] .fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-password {
+		padding-right: 40px;
+		padding-left: unset;
+	}
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-field-icon i {
+		<?php
+		if ( isset( $settings->fields_icon_color ) ) {
+			echo ( '' !== $settings->fields_icon_color ) ? 'color:' . esc_attr( $settings->fields_icon_color ) . ';' : '';
+		}
+		if ( isset( $settings->fields_icon_size ) ) {
+			echo ( '' !== $settings->fields_icon_size ) ? 'font-size: calc( ' . esc_attr( $settings->fields_icon_size ) . 'px / 4 );' : '';
+		}
+		?>
+	}
+	<?php
+	if ( 'enable' === $settings->fields_icon_divider ) {
+		?>
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-field-icon {
+		border-right-style: <?php echo esc_attr( $settings->divider_style ); ?>;
+		border-right-color: <?php echo esc_attr( $settings->divider_color ); ?>;
+		border-right-width: <?php echo esc_attr( $settings->divider_weight ); ?>px;
+		padding-right: 10px;
+	}
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-field-icon {
+		border-left-style: <?php echo esc_attr( $settings->divider_style ); ?>;
+		border-left-color: <?php echo esc_attr( $settings->divider_color ); ?>;
+		border-left-width: <?php echo esc_attr( $settings->divider_weight ); ?>px;
+		border-right-style: unset;
+		border-right-color: unset;
+		border-right-width: unset;
+		padding-left: 10px;
+	}
+		<?php
+	}
+}
+?>
+
 	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-input-group .uabb-lf-icon {
 		right: calc( 100% - <?php echo esc_attr( intval( $settings->input_field_width ) ); ?>% );
+	}
+	[dir='rtl'] .fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-input-group .uabb-lf-icon {
+		left: calc( 100% - <?php echo esc_attr( intval( $settings->input_field_width ) ); ?>% );
+		right: unset;
 	}
 
 <!-- Eye icon feild settings End -->
 
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap .uabb-lf-google-button-wrap { 
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap .uabb-lf-google-button-wrap {
 	<?php
 
 	if ( isset( $settings->social_buttons_spacing ) ) {
@@ -448,7 +491,7 @@ if ( isset( $settings->eye_icon_color ) ) {
 
 	?>
 }
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap .uabb-google-content-wrapper { 
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap .uabb-google-content-wrapper {
 	<?php
 
 	if ( isset( $settings->social_buttons_border_radius ) ) {
@@ -456,7 +499,7 @@ if ( isset( $settings->eye_icon_color ) ) {
 	}
 	?>
 }
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap {		
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap {
 		<?php
 		if ( isset( $settings->social_buttons_align ) && isset( $settings->social_buttons_layout ) ) {
 
@@ -485,7 +528,7 @@ if ( isset( $settings->eye_icon_color ) ) {
 		?>
 
 }
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap .uabb-lf-facebook-button-wrap { 
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap .uabb-lf-facebook-button-wrap {
 	<?php
 
 	if ( isset( $settings->social_buttons_spacing ) ) {
@@ -497,7 +540,7 @@ if ( isset( $settings->eye_icon_color ) ) {
 
 	?>
 }
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap .uabb-facebook-content-wrapper { 
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-social-login-wrap .uabb-facebook-content-wrapper {
 	<?php
 
 	if ( isset( $settings->social_buttons_border_radius ) ) {
@@ -505,7 +548,7 @@ if ( isset( $settings->eye_icon_color ) ) {
 	}
 	?>
 }
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-login-form .uabb-lf-submit-button-wrap {	
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-login-form .uabb-lf-submit-button-wrap {
 		<?php
 
 		if ( isset( $settings->wp_login_btn_align ) ) {
@@ -518,7 +561,14 @@ if ( isset( $settings->eye_icon_color ) ) {
 			}
 		}
 		?>
-} 
+}
+
+<?php if ( ! empty( $settings->btn_icon_color ) ) { ?>
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-submit-button .uabb-login-form-submit-button-icon {
+		color: <?php echo esc_attr( $settings->btn_icon_color ); ?>;
+	}
+<?php } ?>
+
 
 .fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-lost-your-pass-label {
 		<?php if ( ! $version_bb_check ) { ?>
@@ -550,7 +600,7 @@ if ( isset( $settings->eye_icon_color ) ) {
 			}
 		}
 		?>
-		<?php if ( isset( $settings->lost_your_pass_color ) ) { ?>	
+		<?php if ( isset( $settings->lost_your_pass_color ) ) { ?>
 			<?php
 			echo ( ! empty( $settings->lost_your_pass_color ) ) ? 'color:' . esc_attr( $settings->lost_your_pass_color ) . ';' : '';
 
@@ -624,14 +674,14 @@ if ( isset( $settings->eye_icon_color ) ) {
 			}
 		}
 		?>
-		<?php if ( isset( $settings->input_text_color ) ) { ?>	
+		<?php if ( isset( $settings->input_text_color ) ) { ?>
 			<?php
 			echo ( ! empty( $settings->input_text_color ) ) ? 'color:' . esc_attr( $settings->input_text_color ) . ';' : '';
 
 		}
 		?>
 }
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-end-text-wrap {		
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-end-text-wrap {
 		<?php
 
 		if ( isset( $settings->form_end_text_align ) ) {
@@ -646,7 +696,7 @@ if ( isset( $settings->eye_icon_color ) ) {
 		?>
 
 }
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-end-text-wrap .uabb-lf-lost-password { 
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-end-text-wrap .uabb-lf-lost-password {
 	<?php
 
 	if ( isset( $settings->form_end_text_spacing ) ) {
@@ -655,7 +705,7 @@ if ( isset( $settings->eye_icon_color ) ) {
 
 	?>
 }
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-end-text-wrap .uabb-lf-custom-link { 
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-end-text-wrap .uabb-lf-custom-link {
 	<?php
 
 
@@ -665,6 +715,18 @@ if ( isset( $settings->eye_icon_color ) ) {
 
 	?>
 }
+
+<?php if ( 'yes' === $settings->inline_login_remember_me && 'enable' === $settings->remember_me_select ) { ?>
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-input-group.uabb-lf-row.uabb-lf-checkbox {
+		width: 50%;
+		display: inline-block;
+		<?php echo ( ! empty( $settings->wp_login_btn_top_margin ) ) ? 'margin-top:' . esc_attr( $settings->wp_login_btn_top_margin ) . 'px;' : ''; ?>
+	}
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-login-form .uabb-lf-submit-button-wrap {
+		width: 50%;
+		float: right;
+	}
+<?php } ?>
 
 
 .fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-error-message-wrap {
@@ -769,11 +831,11 @@ $font_size     = intval( esc_attr( $settings->checkbox_size ) );
 $checked_width = $font_size - intval( esc_attr( $settings->checkbox_border['width']['top'] ) );
 
 ?>
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-input-group .uabb-lf-checkbox-label input[type='checkbox'] + span:before {	
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-lf-form-wrap .uabb-lf-input-group .uabb-lf-checkbox-label input[type='checkbox'] + span:before {
 	font-size: <?php echo esc_attr( $checked_width ); ?>px;
 	line-height: <?php echo esc_attr( $checked_width ); ?>px;
 	color: #<?php echo esc_attr( $settings->checkbox_selected_color ); ?>;
-	<?php if ( isset( $settings->checkbox_bgcolor ) && '' !== $settings->checkbox_bgcolor ) : ?>	
+	<?php if ( isset( $settings->checkbox_bgcolor ) && '' !== $settings->checkbox_bgcolor ) : ?>
 	background-color: <?php echo esc_attr( $settings->checkbox_bgcolor ); ?>;
 	<?php endif; ?>
 	width: <?php echo esc_attr( $settings->checkbox_size ); ?>px;

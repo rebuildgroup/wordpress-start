@@ -13,7 +13,30 @@ FLBuilder::register_module(
 		'social_shares' => array( // Tab.
 			'title'    => __( 'Social Share', 'uabb' ), // Tab title.
 			'sections' => array( // Tab Sections.
-				'title'   => array( // Section.
+				'preset_section' => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'default' => 'none',
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'class'   => 'uabb-preset-select',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
+				'title'          => array( // Section.
 					'title'  => '', // Section Title.
 					'fields' => array( // Section Fields.
 						'social_icons' => array(
@@ -22,16 +45,30 @@ FLBuilder::register_module(
 							'form'         => 'uabb_social_share_form',
 							'preview_text' => 'social_share_type',
 							'multiple'     => true,
+							'default'      => array(
+								array(
+									'social_share_type' => 'facebook',
+									'icon'              => 'fab fa-facebook',
+								),
+								array(
+									'social_share_type' => 'twitter',
+									'icon'              => 'fab fa-twitter',
+								),
+								array(
+									'social_share_type' => 'linkedin',
+									'icon'              => 'fab fa-linkedin',
+								),
+							),
 						),
 					),
 				),
-				'general' => array(
+				'general'        => array(
 					'title'  => __( 'General', 'uabb' ),
 					'fields' => array(
 						'skins'              => array(
 							'type'    => 'select',
 							'label'   => __( 'Style', 'uabb' ),
-							'default' => 'default',
+							'default' => 'flat',
 							'options' => array(
 								'default'  => __( 'Default', 'uabb' ),
 								'gradient' => __( 'Gradient', 'uabb' ),

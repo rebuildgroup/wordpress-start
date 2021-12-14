@@ -456,16 +456,20 @@ final class FLBuilderIcons {
 	 * Enqueue the stylesheet for an icon.
 	 *
 	 * @since 1.4.6
-	 * @access private
+	 * @access public
 	 * @param string $icon The icon CSS classname.
 	 * @return void
 	 */
-	static private function enqueue_styles_for_icon( $icon ) {
+	static public function enqueue_styles_for_icon( $icon ) {
 		/**
 		 * Enqueue the stylesheet for an icon.
 		 * @see fl_builder_enqueue_styles_for_icon
 		 */
 		do_action( 'fl_builder_enqueue_styles_for_icon', $icon );
+
+		// Make sure there is no whitespace
+		// Fixes broken uabb icons
+		$icon = ltrim( $icon );
 
 		// Is this a core icon?
 		if ( stristr( $icon, 'fa fa-' ) ) {

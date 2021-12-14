@@ -35,25 +35,43 @@ if ( ! is_user_logged_in() || FLBuilderModel::is_builder_active() ) {
 						<label class="uabb-lf-error-message"></label>
 					</div>
 				</div>
-			<?php } ?>
+				<?php
+			}
+			if ( 'yes' === $settings->enable_label ) {
+				?>
 				<div class="uabb-lf-input-group uabb-lf-label">
 					<label for="uabb-lf-name"><?php echo $settings->username_label; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></label>
 				</div>
+				<?php } ?>
 				<div class="uabb-lf-input-group uabb-lf-row uabb-lf-username-input">
-					<input type="text" name="uabb-lf-name" aria-label="username" class="uabb-lf-username uabb-lf-form-input <?php echo esc_attr( $input_field_width_class ); ?>" value="" placeholder="<?php echo esc_attr( $settings->username_placeholder ); ?>" required />
+					<input type="text" name="uabb-lf-name" aria-label="username" class="uabb-lf-username uabb-lf-form-input <?php echo esc_attr( $input_field_width_class ); ?>" value="" 
+					<?php if ( 'yes' === $settings->enable_placeholder ) { ?>
+						placeholder="<?php echo esc_attr( $settings->username_placeholder ); ?>" <?php } ?> required />
+					<?php if ( 'enable' === $settings->fields_icon ) { ?>
+						<span class="uabb-field-icon"><i class="fa fa-user"></i></span>
+					<?php } ?>
 				</div>
+				<?php if ( 'yes' === $settings->enable_label ) { ?>
 				<div class="uabb-lf-input-group uabb-lf-label">
 					<label for="uabb-lf-password"> <?php echo $settings->password_label; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></label>
 				</div>
+				<?php } ?>
 				<div class="uabb-lf-input-group uabb-lf-row uabb-lf-password-input">
-					<input type="password" id="uabb-password-field" name="uabb-lf-password" aria-label="password" class="uabb-lf-password uabb-lf-form-input <?php echo esc_attr( $input_field_width_class ); ?> " value="" placeholder="<?php echo esc_attr( $settings->password_placeholder ); ?>" required />
+					<input type="password" id="uabb-password-field" name="uabb-lf-password" aria-label="password" class="uabb-lf-password uabb-lf-form-input <?php echo esc_attr( $input_field_width_class ); ?> " value="" 
+					<?php if ( 'yes' === $settings->enable_placeholder ) { ?>
+						placeholder="<?php echo esc_attr( $settings->password_placeholder ); ?>" <?php } ?> required />
+					<?php if ( 'enable' === $settings->fields_icon ) { ?>
+						<span class="uabb-field-icon"><i class="fa fa-lock"></i></span>
+					<?php } ?>
+					<?php if ( 'enable' === $settings->eye_icon ) { ?>
 							<span toggle="#uabb-password-field" aria-hidden="true" class="fa fa-fw fa-eye uabb-lf-icon toggle-password"></span>
+						<?php } ?>
 				</div>
 				<?php if ( 'enable' === $settings->remember_me_select ) { ?>
 					<div class="uabb-lf-input-group uabb-lf-row uabb-lf-checkbox">
 						<div class="uabb-lf-outter">
 							<label class="uabb-lf-checkbox-label" for="uabb-lf-checkbox-<?php echo esc_attr( $id ); ?>">
-								<input type="checkbox" class="checkbox-inline" id="uabb-lf-checkbox-<?php echo esc_attr( $id ); ?>" name="uabb-lf-checkbox" value="1" />
+								<input type="checkbox" class="uabb-lf-remember-me-checkbox checkbox-inline" id="uabb-lf-checkbox-<?php echo esc_attr( $id ); ?>" name="uabb-lf-checkbox" value="1" />
 								<span class="checkbox-label">
 									<?php echo $settings->remember_me_text; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								</span>
@@ -64,7 +82,18 @@ if ( ! is_user_logged_in() || FLBuilderModel::is_builder_active() ) {
 
 				<div class="uabb-lf-input-group uabb-lf-row uabb-lf-submit-button-wrap">
 					<div class="uabb-lf-submit-button-align">
-						<button type="submit" class="uabb-lf-submit-button <?php echo esc_attr( $button_width_class ); ?>" name="uabb-lf-login-submit"><span class="uabb-login-form-button-text"><?php echo $settings->wp_login_btn_text; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span></button>
+					<button type="submit" class="uabb-lf-submit-button <?php echo esc_attr( $button_width_class ); ?>" name="uabb-lf-login-submit">
+						<?php
+						if ( isset( $settings->btn_icon ) && isset( $settings->btn_icon_position ) ) {
+
+							echo ( '' !== $settings->btn_icon && 'before' === $settings->btn_icon_position ) ? '<i class="' . esc_attr( $settings->btn_icon ) . ' uabb-login-form-submit-button-icon "></i>' : ''; }
+						?>
+						<span class="uabb-login-form-button-text"><?php echo $settings->wp_login_btn_text; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						<?php
+						if ( isset( $settings->btn_icon ) && isset( $settings->btn_icon_position ) ) {
+							echo ( '' !== $settings->btn_icon && 'after' === $settings->btn_icon_position ) ? '<i class="' . esc_attr( $settings->btn_icon ) . ' uabb-login-form-submit-button-icon"></i>' : ''; }
+						?>
+					</button>
 					</div>
 				</div>
 				<div class="uabb-lf-end-text-wrap">

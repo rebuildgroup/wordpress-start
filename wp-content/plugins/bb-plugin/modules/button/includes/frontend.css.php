@@ -109,6 +109,7 @@ FLBuilderCSS::border_field_rule( array(
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button,
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button:visited,
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button *,
+.fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button span.fl-button-text,
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button:visited * {
 	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 }
@@ -144,6 +145,7 @@ FLBuilderCSS::border_field_rule( array(
 <?php if ( ! empty( $settings->text_hover_color ) ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button:hover,
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button:focus,
+.fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button span.fl-button-text:hover,
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button:hover *,
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button:focus * {
 	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_hover_color ); ?>;

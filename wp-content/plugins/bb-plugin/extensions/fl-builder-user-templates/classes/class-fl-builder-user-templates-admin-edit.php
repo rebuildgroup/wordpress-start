@@ -22,6 +22,22 @@ final class FLBuilderUserTemplatesAdminEdit {
 
 		/* Filters */
 		add_filter( 'fl_builder_render_admin_edit_ui', __CLASS__ . '::remove_builder_edit_ui' );
+		add_filter( 'redirect_post_location', __CLASS__ . '::redirect_template_location' );
+	}
+
+	/**
+	 * Redirect template to the Page Builder editor when the 'Launch Beaver Builder' button is clicked.
+	 *
+	 * @since 2.4.3
+	 * @param string $location
+	 * @return string The location to redirect this template on save.
+	 */
+	static function redirect_template_location( $location ) {
+		if ( isset( $_POST['fl-builder-template-save'] ) ) {
+			$location = FLBuilderModel::get_edit_url( absint( $_POST['fl-builder-template-redirect'] ) );
+		}
+
+		return $location;
 	}
 
 	/**

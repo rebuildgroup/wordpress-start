@@ -21,7 +21,6 @@
 
 			FLBuilderLayout.preloadAudio( this.nodeClass + ' .fl-accordion-content' );
 
-			this._openDefaultItem();
 		},
 
 		_buttonClick: function( e )
@@ -141,17 +140,6 @@
 			}
 
 			accordion.trigger( 'fl-builder.fl-accordion-toggle-complete' );
-		},
-
-		_openDefaultItem: function()
-		{
-			if(typeof this.settings.defaultItem !== 'undefined') {
-				var item = $.isNumeric(this.settings.defaultItem) ? (this.settings.defaultItem - 1) : null;
-
-				if(item !== null) {
-					$( this.nodeClass + ' .fl-accordion-button' ).eq(item).trigger('click');
-				}
-			}
 		},
 
 		_validClick: function(e)

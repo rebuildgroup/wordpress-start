@@ -60,13 +60,14 @@ FLBuilder::register_module('FLIconGroupModule', array(
 						),
 					),
 					'spacing' => array(
-						'type'     => 'unit',
-						'label'    => __( 'Spacing', 'fl-builder' ),
-						'default'  => '10',
-						'sanitize' => 'absint',
-						'units'    => array( 'px', 'pt', '%' ),
-						'slider'   => true,
-						'preview'  => array(
+						'type'       => 'unit',
+						'label'      => __( 'Spacing', 'fl-builder' ),
+						'default'    => '10',
+						'sanitize'   => 'absint',
+						'units'      => array( 'px', 'pt', '%' ),
+						'responsive' => true,
+						'slider'     => true,
+						'preview'    => array(
 							'type'     => 'css',
 							'selector' => '{node} .fl-icon + .fl-icon',
 							'property' => 'margin-left',

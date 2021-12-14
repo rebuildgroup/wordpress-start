@@ -62,10 +62,50 @@ jQuery(document).ready(function( $ ) {
 
 	/* Tab Click Trigger */
 	UABBTrigger.addHook( 'uabb-tab-click', function( argument, selector ) {
-		if( $(selector).find('.uabb-masonary-content') ){
+		var selector = $(selector).find('.uabb-masonary-content');
+		if( selector ){
 			setTimeout(function() {
-				var el_masonary = $(selector).find('.uabb-masonary-content');
-				el_masonary.masonry( 'reload' );
+				var el_masonary = selector;
+				var $grid = el_masonary.imagesLoaded( function() {
+					$grid.masonry({
+						columnWidth: '.uabb-grid-sizer',
+						itemSelector: '.uabb-masonary-item'
+					});
+				});
+
+			}, 100);
+		}
+	});
+
+	/* Accordion Click Trigger */
+		UABBTrigger.addHook( 'uabb-accordion-click', function( argument, selector ) {
+			var selector = $(selector).find('.uabb-masonary-content');
+			if( selector ){
+			setTimeout(function() {
+				var el_masonary = selector;
+				var $grid = el_masonary.imagesLoaded( function() {
+					$grid.masonry({
+						columnWidth: '.uabb-grid-sizer',
+						itemSelector: '.uabb-masonary-item'
+					});
+				});
+
+			}, 100);
+		}
+		});
+
+	/* Content Toggle Trigger */
+	UABBTrigger.addHook( 'uabb-toggle-click', function( argument, selector ) {
+		var selector = $(selector).find('.uabb-masonary-content');
+		if( selector ){
+			setTimeout(function() {
+				var el_masonary = selector;
+				var $grid = el_masonary.imagesLoaded( function() {
+					$grid.masonry({
+						columnWidth: '.uabb-grid-sizer',
+						itemSelector: '.uabb-masonary-item'
+					});
+				});
 
 			}, 100);
 		}

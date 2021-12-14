@@ -423,11 +423,14 @@
 				// Hide active menu when click on anchor link ID that exists on a page.
 				$menu.on( 'click', '.menu-item > a[href*="#"]:not([href="#"])', function(e){
 					var $href = $(this).attr('href'),
-						$targetID = $href.split('#')[1];
-
-					if ( $('body').find('#'+  $targetID).length > 0 ) {
+						$targetID = $href.split('#')[1],
+						element = $('#' + $targetID);
+					if ( $('body').find(element).length > 0 ) {
 						$( this ).toggleClass( 'fl-active' );
-						$menu.slideToggle();
+						FLBuilderLayout._scrollToElement( element );
+						if ( ! self._isMenuToggle() ) {
+							$menu.slideToggle();
+						}
 					}
 				});
 			}

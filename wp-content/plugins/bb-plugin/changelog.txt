@@ -1,3 +1,70 @@
+<h4>2.5.1 - 12/9/2021</h4>
+<p><strong>Enhancements</strong></p>
+
+<ul>
+		<li>Add new shortcode <code>[fl-safe]</code> to wrap code in that is known to break the UI</li>
+		<li>Tweak the way we generate our unique node IDs to ensure that they always will be a string</li>
+		<li>Add offset option to Row Parallax background image</li>
+		<li>Allow user to choose images for different breakpoints when row is set to parallax background</li>
+		<li>Add support for Query Monitor to be used while inside the UI</li>
+		<li>Contact Form & Subscribe Form Modules: Show any WP_Error detected so it's easier to debug issues</li>
+		<li>Update Ace Editor to latest version</li>
+		<li>Update FontAwesome to latest version</li>
+		<li>Icon Group Module: Make spacing option responsive</li>
+		<li>Reduce number of queries for Saved nodes by switching from using <code>get_terms</code> function to <code>get_the_terms</code> since it's cached</li>
+		<li>Pricing Table Module: Make Advanced Spacing, Tooltip Icon Size, Feature Icon Size, Box Top Margin and Typography responsive</li>
+		<li>Fix conflict with Signify theme when adding media in UI</li>
+		<li>Add new filters <code>fl_builder_render_css_row</code> <code>fl_builder_render_css_col</code> <code>fl_builder_render_css_module</code> <code>fl_builder_render_css_module_{$module->slug}</code></li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+		<li>Fix issue with Slide Right animation</li>
+		<li>Fixed Saved nodes not retaining categories when published in BB UI</li>
+		<li>Button Group Module: Fix background animation not working</li>
+		<li>Video Module: Fixed flash on loading when set to loop</li>
+		<li>Accordion Module: Fix "Expand first item" option issue with anchor links</li>
+		<li>Content Slider Module: Fix module autoplaying when clicking on the arrows</li>
+		<li>Menu Module: Fix no smooth scrolling on mobile and not closing properly after clicking an anchor link</li>
+		<li>Button Module: Fix column text color overriding module color</li>
+		<li>Subscribe Module: Fix Mailjet integration only showing 10 lists</li>
+		<li>Callout Module: Fix issues with rel attribute</li>
+		<li>Fix UI being broken when removing some keyboard shortcuts with <code>fl_builder_keyboard_shortcuts</code> hook</li>
+		<li>Add select2 text color for UI Dark Mode</li>
+		<li>Fix issue with get_excerpt function showing wrong data when using visibility options</li>
+		<li>Pricing Table Module: Fix custom icons not working in feature list</li>
+		<li>WPML: Fix cache clear issue when switching domains</li>
+		<li>Menu Module: Fix missing closing li tags</li>
+		<li>Fix fatal error in UI in certain circumstances when plugins add widgets</li>
+		<li>Menu Module: Logo option now correctly outputs alt attribute</li>
+		<li>Fix fatal error if search enabled in Menu Module but Search module is disabled in settings and <code>is_module_disable_enabled</code>
+		is set to true</li>
+</ul>
+
+
+<h4>2.5.0.3 - 10/19/2021</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+		<li>BB Lite: Fix icon picker not working in some setups when jquery-throttle is not enqueued</li>
+</ul>
+
+<h4>2.5.0.2 - 10/7/2021</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+		<li>Ignore http/https in URL check to automatically clear cache when URL changes</li>
+		<li>Subscribe Module: Update cacert for Infusionsoft and Campaign Monitor</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+		<li>Fix templates registered with <code>FLBuilder::register_templates</code> being duplicated in content panel</li>
+		<li>Fix fatal error when saving Posts module with custom layout or when BigCommerce is active</li>
+		<li>Fix modules not being greyed out until ready after being duplicated in the BB UI</li>
+		<li>Fix not being able to import settings to modules with uppercase characters in class name</li>
+		<li>Fix some icons in some icon sets not displaying due to a space being added to the class when prefix is missing for that icon</li>
+		<li>Menu Module: Fix menu opening and closing when anchor links are used on a hamburger menu</li>
+</ul>
+
 <h4>2.5.0.1 - 09/21/2021</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

@@ -1393,7 +1393,7 @@ FLBuilder::register_module(
 									'fields' => array( 'button_padding_dimension', 'button_border', 'border_hover_color' ),
 								),
 								'gradient'    => array(
-									'fields' => array( 'btn_width', 'btn_border_radius' ),
+									'fields' => array( 'btn_width', 'btn_border_radius', 'btn_gradient' ),
 								),
 								'transparent' => array(
 									'fields' => array( 'btn_width', 'btn_border_radius' ),
@@ -1529,7 +1529,16 @@ FLBuilder::register_module(
 								),
 							),
 						),
-
+						'btn_gradient'         => array(
+							'type'    => 'gradient',
+							'label'   => __( 'Gradient', 'uabb' ),
+							'default' => array(
+								'color_one' => '',
+								'color_two' => '',
+								'direction' => 'left_right',
+								'angle'     => '0',
+							),
+						),
 						'btn_bg_hover_color'   => array(
 							'type'        => 'color',
 							'connections' => array( 'color' ),

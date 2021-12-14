@@ -172,7 +172,7 @@ class UABBTimelineModule extends FLBuilderModule {
 										</div>
 									<?php } ?>
 									<div class="uabb-content">
-										<?php do_action( 'uabb_timeline_above_heading', $settings->items[ $i ] ); ?>	
+										<?php do_action( 'uabb_timeline_above_heading', $settings->items[ $i ] ); ?>
 										<?php
 										if ( '' !== $settings->items[ $i ]->heading ) {
 											?>
@@ -287,9 +287,7 @@ class UABBTimelineModule extends FLBuilderModule {
 								<div class="uabb-events-inner-new">
 									<?php if ( 'yes' === $settings->show_image && '' !== get_the_post_thumbnail_url( $post_id ) ) { ?>
 										<div class="uabb-timeline-featured-img">
-											<a href="<?php get_permalink( $post_id ); ?>">
 												<?php echo ( get_the_post_thumbnail( $post_id, $settings->image_size ) ); ?>
-											</a>
 										</div>
 										<?php
 									}

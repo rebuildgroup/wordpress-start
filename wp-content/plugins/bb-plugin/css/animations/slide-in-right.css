@@ -1,3 +1,7 @@
+body.fl-builder {
+	overflow-x: hidden;
+}
+
 .fl-animated.fl-slide-in-right {
   	animation: fl-slide-in-right 1s ease;
   	-webkit-animation: fl-slide-in-right 1s ease;

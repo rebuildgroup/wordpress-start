@@ -1130,6 +1130,37 @@ final class FLBuilderLoop {
 
 		include FL_BUILDER_DIR . 'includes/loop-settings-matching.php';
 	}
+
+	/**
+	 * Helper function to get the_excerpt
+	 */
+	static public function the_excerpt( $post_id = false ) {
+		echo self::get_the_excerpt( $post_id );
+	}
+
+	/**
+	 * Helper function for get_the_excerpt
+	 */
+	static public function get_the_excerpt( $post_id = false ) {
+		global $post;
+		if ( ! $post_id && isset( $post->ID ) ) {
+			$post_id = $post->ID;
+		}
+		if ( ! $post_id || ! is_object( $post ) ) {
+			return '';
+		}
+		if ( ! isset( $_GET['fl_builder'] ) && ! has_excerpt( $post_id ) && get_post_meta( $post_id, '_fl_builder_enabled', true ) ) {
+			/**
+			 * Replace WP excerpt with our layout data.
+			 */
+			ob_start();
+			FLBuilder::render_content_by_id( $post_id );
+			$post->post_content = ob_get_clean();
+		}
+		ob_start();
+		the_excerpt();
+		return ob_get_clean();
+	}
 }
 
 FLBuilderLoop::init();

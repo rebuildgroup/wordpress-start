@@ -172,7 +172,11 @@ final class FLBuilderServiceMailjet extends FLBuilderService {
 			$account_data = $this->get_account_data( $account );
 			$api          = $this->get_api( $account_data['api_key'], $account_data['secret_key'] );
 			// phpcs:disable
-			$mj_response  = $api->get( \Mailjet\Resources::$Contactslist );
+			$mj_response  = $api->get( \Mailjet\Resources::$Contactslist, array(
+				'filters' => array(
+					'Limit' => '100',
+				),
+			));
 			// phpcs:enable
 
 			if ( $mj_response->success() ) {

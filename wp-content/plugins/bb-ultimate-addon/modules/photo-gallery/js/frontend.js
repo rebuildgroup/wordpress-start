@@ -74,6 +74,9 @@
 
 					if ( select_filter.length > 0 ) {
 						def_cat 	= '.' + id.toLowerCase();
+						jQuery('html, body').animate({
+						    scrollTop: jQuery( filters ).offset().top - 250
+						}, 1000);
 						select_filter.siblings().removeClass('uabb-filter__current');
 						select_filter.addClass('uabb-filter__current');
 					}

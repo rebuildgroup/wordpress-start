@@ -15,7 +15,7 @@
 				flag 			= false,
 				enable_first_data = $(node + ' .uabb-adv-accordion').data('enable_first');
 
-				
+
 
 			if ( enable_first_data == 'no' ) {
 				contentTab.on( 'click', this._previewContentTab );
@@ -24,9 +24,9 @@
 			}
 			$('body').delegate( '.fl-builder-settings select[name="content_type"]', 'change', $.proxy(this._contentTypeChange, this) );
 		},
-		
+
 		_previewContentTab: function()
-		{	
+		{
 			var form    = $('.fl-builder-settings'),
 				node	= '.fl-node-' + form.data('node'),
 				button 	= $(  node + ' .uabb-adv-accordion-button'),
@@ -43,7 +43,7 @@
 				}
 			};
 		},
-		_previewRenderContentTab: function() 
+		_previewRenderContentTab: function()
 		{
 			var active_tab = jQuery('.fl-builder-settings-tabs a.fl-active');
 
@@ -68,7 +68,7 @@
 				}
 			};
 		},
-		_formButton: function() 
+		_formButton: function()
 		{
 		    var form    = $('.fl-builder-settings'),
 				node	= '.fl-node-' + form.data('node'),
@@ -76,7 +76,7 @@
 				flag	= button.eq(0).parent('.uabb-adv-accordion-item').hasClass('uabb-adv-accordion-item-active');
 
 		    if( $(this).hasClass('fl-builder-settings-cancel') ){
-		        
+
 		        if ( flag ) {
 					button[0].click();
 				}
@@ -140,7 +140,6 @@
 		_setTemplates: function(type)
 		{
 			var form = $('.fl-builder-settings'),
-					
 				select = form.find( 'select[name="ct_' + type + '"]' ),
 				value = '', self = this;
 

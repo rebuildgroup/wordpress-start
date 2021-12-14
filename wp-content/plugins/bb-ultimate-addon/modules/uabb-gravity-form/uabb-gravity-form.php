@@ -33,6 +33,7 @@ class UABBGravityFormModule extends FLBuilderModule {
 		);
 
 		add_filter( 'fl_builder_render_settings_field', array( $this, 'uabb_gravity_form_render_settings_field' ), 10, 3 );
+		add_filter( 'gform_force_hooks_js_output', '__return_true' );
 	}
 
 	/**

@@ -557,8 +557,10 @@ final class FLUpdater {
 
 			if ( $show_warning ) {
 				if ( ! $version ) {
+					// translators: %1$s: Plugin name
 					$out .= sprintf( __( 'Updates for Beaver Builder will not work as you appear to have %1$s activated but you have no active subscription.', 'fl-builder' ), '<strong>' . $plugin_name . '</strong>', $version );
 				} else {
+					// translators: %2$s: Plugin name
 					$out .= sprintf( __( 'Updates for Beaver Builder will not work as you appear to have %1$s activated but your license is for %2$s version.', 'fl-builder' ), '<strong>' . $plugin_name . '</strong>', $version );
 				}
 

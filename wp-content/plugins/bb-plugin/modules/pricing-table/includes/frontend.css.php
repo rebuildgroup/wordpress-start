@@ -38,33 +38,33 @@
 	endif;
 
 	// Tooltip Icon Style - Size
-	if ( ! empty( $settings->tooltip_icon_size ) ) :
-		?>
-		.fl-node-<?php echo $id; ?> .fl-pricing-table-features .fl-pricing-table-feature-item .fl-builder-tooltip-icon {
-			font-size: <?php echo $settings->tooltip_icon_size . 'px'; ?>;
-		}
-		<?php
-	endif;
+	FLBuilderCSS::responsive_rule( array(
+		'settings'     => $settings,
+		'setting_name' => 'tooltip_icon_size',
+		'enabled'      => ! empty( $settings->tooltip_icon_size ),
+		'selector'     => ".fl-node-$id .fl-pricing-table-features .fl-pricing-table-feature-item .fl-builder-tooltip-icon",
+		'prop'         => 'font-size',
+		'unit'         => 'px',
+	) );
 
 	// Tooltip Icon Style - Color
-	if ( ! empty( $settings->tooltip_icon_color ) ) :
-		FLBuilderCSS::rule( array(
-			'selector' => ".fl-node-$id .fl-pricing-table-features .fl-pricing-table-feature-item .fl-builder-tooltip-icon",
-			// 'important' => true,
-			'props'    => array(
-				'color' => $settings->tooltip_icon_color,
-			),
-		));
-	endif;
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-pricing-table-features .fl-pricing-table-feature-item .fl-builder-tooltip-icon",
+		'enabled'  => ! empty( $settings->tooltip_icon_color ),
+		'props'    => array(
+			'color' => $settings->tooltip_icon_color,
+		),
+	));
 
 	// Feature Icon Style - Size
-	if ( ! empty( $settings->feature_icon_size ) ) :
-		?>
-		.fl-node-<?php echo $id; ?> .fl-feature-icon {
-			font-size: <?php echo $settings->feature_icon_size . 'px'; ?>;
-		}
-		<?php
-	endif;
+	FLBuilderCSS::responsive_rule( array(
+		'settings'     => $settings,
+		'setting_name' => 'feature_icon_size',
+		'enabled'      => ! empty( $settings->feature_icon_size ),
+		'selector'     => ".fl-node-$id .fl-feature-icon",
+		'prop'         => 'font-size',
+		'unit'         => 'px',
+	) );
 
 	// Feature Icon Style - Color
 	if ( ! empty( $settings->feature_icon_color ) ) :
@@ -112,18 +112,42 @@
 	endif;
 
 	// Spacing
-	$advanced_spacing           = array();
-	$advanced_spacing['top']    = empty( $settings->advanced_spacing_top ) ? '0' : $settings->advanced_spacing_top;
-	$advanced_spacing['bottom'] = empty( $settings->advanced_spacing_bottom ) ? '0' : $settings->advanced_spacing_bottom;
-	$advanced_spacing['left']   = empty( $settings->advanced_spacing_left ) ? '0' : $settings->advanced_spacing_left;
-	$advanced_spacing['right']  = empty( $settings->advanced_spacing_right ) ? '0' : $settings->advanced_spacing_right;
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-pricing-table .fl-pricing-table-wrap",
+		'media'    => 'default',
+		'enabled'  => ! empty( $settings->advanced_spacing_right ) || ! empty( $settings->advanced_spacing_left ),
+		'props'    => array(
+			'padding-top'    => '0',
+			'padding-right'  => ! empty( $settings->advanced_spacing_right ) ? $settings->advanced_spacing_right . 'px' : '0',
+			'padding-bottom' => '0',
+			'padding-left'   => ! empty( $settings->advanced_spacing_left ) ? $settings->advanced_spacing_left . 'px' : '0',
+		),
+	) );
+
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-pricing-table .fl-pricing-table-wrap",
+		'media'    => 'medium',
+		'enabled'  => ! empty( $settings->advanced_spacing_right_medium ) || ! empty( $settings->advanced_spacing_left_medium ),
+		'props'    => array(
+			'padding-top'    => '0',
+			'padding-right'  => ! empty( $settings->advanced_spacing_right_medium ) ? $settings->advanced_spacing_right_medium . 'px' : '0',
+			'padding-bottom' => '0',
+			'padding-left'   => ! empty( $settings->advanced_spacing_left_medium ) ? $settings->advanced_spacing_left_medium . 'px' : '0',
+		),
+	) );
+
+	FLBuilderCSS::rule( array(
+		'selector' => ".fl-node-$id .fl-pricing-table .fl-pricing-table-wrap",
+		'media'    => 'responsive',
+		'enabled'  => ! empty( $settings->advanced_spacing_right_responsive ) || ! empty( $settings->advanced_spacing_left_responsive ),
+		'props'    => array(
+			'padding-top'    => '0',
+			'padding-right'  => ! empty( $settings->advanced_spacing_right_responsive ) ? $settings->advanced_spacing_right_responsive . 'px' : '0',
+			'padding-bottom' => '0',
+			'padding-left'   => ! empty( $settings->advanced_spacing_left_responsive ) ? $settings->advanced_spacing_left_responsive . 'px' : '0',
+		),
+	) );
 	?>
-	.fl-node-<?php echo $id; ?> .fl-pricing-table .fl-pricing-table-wrap {
-		padding-top: 0px;
-		padding-bottom: 0px;
-		padding-left: <?php echo $advanced_spacing['left'] . 'px'; ?>;
-		padding-right: <?php echo $advanced_spacing['right'] . 'px'; ?>;
-	}
 	<?php
 	// Legacy Border
 	if ( empty( $settings->border_type ) || 'legacy' === $settings->border_type ) :
@@ -143,7 +167,6 @@
 
 		/*Large*/
 		.fl-node-<?php echo $id; ?> .fl-pricing-table.fl-pricing-table-border-large .fl-pricing-table-inner-wrap {
-			/* margin: 0;*/
 			margin: 12px;
 		}
 		.fl-node-<?php echo $id; ?> .fl-pricing-table.fl-pricing-table-border-large.fl-pricing-table-column-height-equalize .fl-pricing-table-column {
@@ -267,14 +290,12 @@
 }
 <?php endif; ?>
 <?php
-
-if ( 'no' !== $settings->dual_billing ) :
-	FLBuilderCSS::typography_field_rule( array(
-		'settings'     => $settings,
-		'setting_name' => 'switch_typography',
-		'selector'     => ".fl-node-$id span.first_option, .fl-node-$id span.second_option",
-	) );
-endif;
+FLBuilderCSS::typography_field_rule( array(
+	'settings'     => $settings,
+	'setting_name' => 'switch_typography',
+	'enabled'      => 'no' !== $settings->dual_billing,
+	'selector'     => ".fl-node-$id span.first_option, .fl-node-$id span.second_option",
+) );
 ?>
 <?php if ( 'no' !== $settings->dual_billing && ! empty( $settings->switch_label_color ) ) : ?>
 	.fl-node-<?php echo $id; ?> span.first_option,
@@ -302,11 +323,18 @@ for ( $i = 0; $i < $total_pricing_cols; $i++ ) :
 	$box_border_color = empty( $pricing_column->background ) ? '#f2f2f2' : $pricing_column->background;
 	if ( ! empty( $settings->border_type ) && 'legacy' === $settings->border_type ) :
 		$box_border_color = empty( $pricing_column->background ) ? '#f2f2f2' : $pricing_column->background;
+
+		FLBuilderCSS::responsive_rule( array(
+			'settings'     => $pricing_column,
+			'setting_name' => 'margin',
+			'selector'     => ".fl-node-$id .fl-pricing-table-column-$i",
+			'prop'         => 'margin-top',
+			'unit'         => 'px',
+		) );
 		?>
 		.fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> {
 			border: 1px solid <?php echo FLBuilderColor::hex_or_rgb( FLBuilderColor::adjust_brightness( $box_border_color, 30, 'darken' ) ); ?>;
 			background: <?php echo FLBuilderColor::hex_or_rgb( $box_border_color ); ?>;
-			margin-top: <?php echo $pricing_column->margin; ?>px;
 		}
 		.fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-inner-wrap {
 			border-width: 1px;

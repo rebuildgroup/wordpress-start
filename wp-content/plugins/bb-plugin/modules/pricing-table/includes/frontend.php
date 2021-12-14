@@ -28,7 +28,7 @@ $pricing_table_class = $module->get_pricing_table_class();
 
 		<div class="fl-pricing-table-col-<?php echo $columns; ?> fl-pricing-table-wrap">
 			<div class="fl-pricing-table-column fl-pricing-table-column-<?php echo $i; ?>">
-				<div class="fl-pricing-table-inner-wrap fl-module-content fl-pricing-ribbon-box">
+				<div class="fl-pricing-table-inner-wrap fl-pricing-ribbon-box">
 					<?php
 						echo $pricing_box_start;
 						$module->render_ribbon( $i );

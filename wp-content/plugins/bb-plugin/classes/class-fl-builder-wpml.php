@@ -19,6 +19,7 @@ final class FLBuilderWPML {
 		add_filter( 'fl_get_wp_widgets_exclude', __CLASS__ . '::filter_wp_widgets_exclude' );
 		add_filter( 'fl_builder_node_template_post_id', __CLASS__ . '::filter_node_template_post_id' );
 		add_filter( 'fl_builder_parent_template_node_id', __CLASS__ . '::filter_parent_template_node_id', 10, 3 );
+		add_filter( 'option_fl_site_url', __CLASS__ . '::fix_url_check' );
 	}
 
 	/**
@@ -80,6 +81,20 @@ final class FLBuilderWPML {
 		}
 
 		return $template_node_id;
+	}
+
+	/**
+	 * WPML fudges the siteurl when in domain mode so our url detection feature
+	 * thinks the url has changed, so lets just give it the
+	 * siteurl as the saved url so it bypasses it.
+	 */
+	static public function fix_url_check( $url ) {
+		global $sitepress;
+		$settings = $sitepress->get_settings();
+		if ( '2' === $settings['language_negotiation_type'] ) {
+			return get_option( 'siteurl' );
+		}
+		return $url;
 	}
 }
 

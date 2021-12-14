@@ -142,9 +142,6 @@
 			}, function( response ) {
 				config.settings = FLBuilder._jsonParse( response );
 
-				const actions = FL.Builder.data.getLayoutActions()
-				actions.updateNodeSettings( config.nodeId, config.settings )
-
 				FLBuilderSettingsConfig.nodes[ config.nodeId ] = config.settings;
 				FLBuilderSettingsForms.render( config, callback );
 				FLBuilder.hideAjaxLoader();

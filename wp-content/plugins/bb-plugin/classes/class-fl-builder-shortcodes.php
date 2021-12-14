@@ -15,6 +15,7 @@ final class FLBuilderShortcodes {
 	 */
 	static public function init() {
 		add_shortcode( 'fl_builder_insert_layout', 'FLBuilderShortcodes::insert_layout' );
+		add_shortcode( 'fl-safe', array( __CLASS__, 'safe_shortcode' ) );
 	}
 
 	/**
@@ -72,6 +73,21 @@ final class FLBuilderShortcodes {
 		}
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Allow users to wrap code that breaks the builder in a shortcode.
+	 * @since 2.4.2
+	 */
+	static public function safe_shortcode( $atts, $content ) {
+		if ( $content ) {
+			if ( ! FLBuilderModel::is_builder_active() ) {
+				return do_shortcode( $content );
+			} else {
+				$refresh = '<script>jQuery(function(){window.FLBuilderConfig.shouldRefreshOnPublish=true;});</script>';
+				return __( 'Content not rendered while builder is active', 'fl-builder' ) . $refresh;
+			}
+		}
 	}
 }
 

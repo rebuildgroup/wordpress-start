@@ -49,17 +49,17 @@ FLBuilder::register_module(
 							'default'      => array(
 								array(
 									'label'      => 'Tab One',
-									'tab_icon'   => ' ua-icon ua-icon-icon-3-mail-envelope-closed2',
+									'tab_icon'   => 'ua-icon ua-icon-icon-3-mail-envelope-closed2',
 									'ct_content' => __( 'This is tab content. Click to edit this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'uabb' ),
 								),
 								array(
 									'label'      => 'Tab Two',
-									'tab_icon'   => ' ua-icon ua-icon-cog',
+									'tab_icon'   => 'ua-icon ua-icon-cog',
 									'ct_content' => __( 'This is tab content. Click to edit this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'uabb' ),
 								),
 								array(
 									'label'      => 'Tab Three',
-									'tab_icon'   => ' ua-icon ua-icon-globe2',
+									'tab_icon'   => 'ua-icon ua-icon-globe2',
 									'ct_content' => __( 'This is tab content. Click to edit this text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'uabb' ),
 								),
 							),
@@ -244,7 +244,7 @@ FLBuilder::register_module(
 						),
 						'hori_tab_spacing'      => array(
 							'type'      => 'unit',
-							'label'     => __( 'Horizental Spacing', 'uabb' ),
+							'label'     => __( 'Horizontal Spacing', 'uabb' ),
 							'default'   => '5',
 							'units'     => array( 'px' ),
 							'maxlength' => '3',

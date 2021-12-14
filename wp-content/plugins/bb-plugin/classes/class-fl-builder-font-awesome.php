@@ -240,7 +240,7 @@ final class FLBuilderFontAwesome {
 	 * Latest supported version.
 	 */
 	public static function latest_supported() {
-		return '5.15.3';
+		return '5.15.4';
 	}
 
 	public static function get_kit_icons() {

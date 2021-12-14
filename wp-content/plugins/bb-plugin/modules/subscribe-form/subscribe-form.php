@@ -9,6 +9,15 @@
 class FLSubscribeFormModule extends FLBuilderModule {
 
 	/**
+	 * Holds any errors that may arise from
+	 * wp_mail.
+	 *
+	 * @since 2.5
+	 * @var array $errors
+	 */
+	static public $errors = array();
+
+	/**
 	 * @since 1.5.2
 	 * @return void
 	 */
@@ -21,7 +30,7 @@ class FLSubscribeFormModule extends FLBuilderModule {
 			'partial_refresh' => true,
 			'icon'            => 'editor-table.svg',
 		));
-
+		add_action( 'wp_mail_failed', array( $this, 'mail_failed' ) );
 		add_action( 'wp_ajax_fl_builder_subscribe_form_submit', array( $this, 'submit' ) );
 		add_action( 'wp_ajax_nopriv_fl_builder_subscribe_form_submit', array( $this, 'submit' ) );
 		add_filter( 'script_loader_tag', array( $this, 'add_async_attribute' ), 10, 2 );
@@ -63,6 +72,18 @@ class FLSubscribeFormModule extends FLBuilderModule {
 
 		// Return the filtered settings.
 		return $settings;
+	}
+
+	/**
+	 *
+	 * @since 2.5
+	 * @param object $wp_error object with the PHPMailerException message.
+	 */
+	public function mail_failed( $wp_error ) {
+
+		if ( is_wp_error( $wp_error ) && ! empty( $wp_error->errors['wp_mail_failed'] ) ) {
+			self::$errors = $wp_error->errors['wp_mail_failed'][0];
+		}
 	}
 
 	/**
@@ -202,6 +223,13 @@ class FLSubscribeFormModule extends FLBuilderModule {
 
 					if ( 'redirect' == $settings->success_action ) {
 						$result['url'] = $success_url;
+					}
+				}
+
+				if ( 'email-address' == $settings->service ) {
+					if ( ! empty( self::$errors ) ) {
+						$result['error']     = __( 'There was an error subscribing. Please check the console for possible error message.', 'fl-builder' );
+						$result['errorInfo'] = self::$errors;
 					}
 				}
 

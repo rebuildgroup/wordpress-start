@@ -7,7 +7,7 @@
  * frontend using FLBuilderSettingsForms.render.
  */
 
-$id = uniqid( 'fl-lightbox-content-placeholder' );
+$id = FLBuilderModel::uniqid( 'fl-lightbox-content-placeholder' );
 
 ?>
 <div id="<?php echo $id; ?>"></div>

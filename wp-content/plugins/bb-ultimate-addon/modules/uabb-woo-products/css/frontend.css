@@ -529,6 +529,7 @@
 
 .uabb-woo-products-modern .uabb-onsale,
 .uabb-woo-products-modern .uabb-featured {
+	display: inline-block;
 	margin: 9px 0 0 9px;
 }
 

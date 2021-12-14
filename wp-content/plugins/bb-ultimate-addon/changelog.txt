@@ -1,3 +1,31 @@
+Version 1.34.1, Thursday, 9th December 2021
+- Fixed: Advanced Timeline - Link to Complete Box setting not working for Posts Content Type.
+- Fixed: Conflict with BB Assistant in some UABB modules.
+- Fixed: Image Carousel - Layout issue when used as saved module in Content Toggle/Advanced Accordion/ Advanced Tabs content.
+- Fixed: Info Box - PHP error with v8 in some cases.
+- Fixed: Photo Gallery - Layout issue when used as saved module in Content Toggle/Advanced Accordion/ Advanced Tabs content.
+
+Version 1.34.0, Wednesday, 6th October 2021
+- New: Login Form - Added preset designs.
+- New: Marketing Button - Added preset designs.
+- New: Social Share - Added preset designs.
+- New: User Registration Form - Added preset designs.
+- Improvement: Info Box - Added gradient field options for Gradient Button Style.
+- Improvement: Login Form - Added icon support to the Login button.
+- Improvement: Login Form - Added option to make Remember Me text and Login button inline.
+- Improvement: Login Form - Added icon support to Username and Password fields.
+- Improvement: Marketing Button - Added option for Flare Animation.
+- Improvement: Photo Gallery - Added functionality to scroll to the filter tabs when opening specific tab using URL.
+- Improvement: User Registration Form - Added icon support to form fields.
+- Improvement: User Registration Form - Added option Show/Hide Terms and Conditions Text.
+- Fixed: Advanced Tabs - Accordion toggle icons in responsive layout don't load in some cases.
+- Fixed: Advanced Tabs - Default Tab icons are not visible on the front end.
+- Fixed: Testimonials - Fatal error with PHP v8 in some cases.
+- Fixed: Gravity Forms Styler - JS error with the Gravity Forms v2.5 onwards.
+- Fixed: Login Form - Remember Me functionality not working.
+- Fixed: User Registration Form - Column Gap setting not working.
+- Fixed: Woo-Products - Sale flash layout issue in modern skin.
+
 Version 1.33.0, Thursday, 9th September 2021
 - New: Introduced Advanced Timeline module.
 - Improvement: Button - Added support for Tablet devices for Alignment setting.
@@ -291,7 +319,7 @@ Version 1.26.5 Tuesday, 12th May 2020
 - Improvement: Image Carousel - Added option to enable/disable on-hover-pause for slider
 - Improvement: Image Carousel - Added option to disable arrows on small devices
 - Improvement: Registration Form - Added Password match functionality for Confirm Password
-- Improvement: Video gallery - Added an option to display Caption Always 
+- Improvement: Video gallery - Added an option to display Caption Always
 - Improvement: Woo-Products - Added Main Query option for Source
 - Fixed: Button - HTML rendering issue in the settings field
 - Fixed: Off-canvas - Off-canvas won't trigger on Firefox version less than 65

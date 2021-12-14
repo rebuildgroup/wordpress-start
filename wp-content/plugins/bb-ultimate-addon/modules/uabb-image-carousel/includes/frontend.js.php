@@ -42,6 +42,104 @@ jQuery(document).ready(function( $ ) {
 		UABBImageCarouselResize_<?php echo esc_attr( $id ); ?> = setTimeout( UABBImageCarousel_<?php echo esc_attr( $id ); ?>._adaptiveImageHeight, 500);
 	});
 
+	/* Content Toggle Trigger */
+	UABBTrigger.addHook( 'uabb-toggle-click', function( argument, selector ) {
+		var child_id = jQuery(selector+' .fl-module-uabb-image-carousel').data('node');
+			if( null !== child_id ) {
+				jQuery( '.fl-node-' + child_id ).find( '.uabb-image-carousel' ).uabbslick('unslick');
+				var child_args = {
+					id: child_id,
+					infinite: <?php echo esc_attr( ( 'yes' === $settings->infinite_loop ) ? 'true' : 'false' ); ?>,
+					arrows: <?php echo esc_attr( ( 'yes' === $settings->enable_arrow ) ? 'true' : 'false' ); ?>,
+
+					desktop: <?php echo esc_attr( ( 'slide' === $settings->scroll_effect ) ? $settings->grid_column : 1 ); ?>,
+					medium: <?php echo esc_attr( ( 'slide' === $settings->scroll_effect ) ? $settings->medium_grid_column : 1 ); ?>,
+					small: <?php echo esc_attr( ( 'slide' === $settings->scroll_effect ) ? $settings->responsive_grid_column : 1 ); ?>,
+
+					slidesToScroll: <?php echo esc_attr( ( '' !== $settings->slides_to_scroll && 'slide' === $settings->scroll_effect ) ? $settings->slides_to_scroll : 1 ); ?>,
+					autoplay: <?php echo esc_attr( ( 'yes' === $settings->autoplay ) ? 'true' : 'false' ); ?>,
+					onhover: <?php echo esc_attr( ( 'yes' === $settings->pause_on_hover ) ? 'true' : 'false' ); ?>,
+					autoplaySpeed: <?php echo esc_attr( ( '' !== $settings->animation_speed ) ? $settings->animation_speed : '1000' ); ?>,
+					small_breakpoint: <?php echo esc_attr( $global_settings->responsive_breakpoint ); ?>,
+					medium_breakpoint: <?php echo esc_attr( $global_settings->medium_breakpoint ); ?>,
+					next_arrow: '<?php echo esc_attr( apply_filters( 'uabb_image_carousel_next_arrow_icon', 'fas fa-angle-right' ) ); ?>',
+					prev_arrow: '<?php echo esc_attr( apply_filters( 'uabb_image_carousel_previous_arrow_icon', 'fas fa-angle-left' ) ); ?>',
+					enable_fade: <?php echo esc_attr( ( 'fade' === $settings->scroll_effect ) ? 'true' : 'false' ); ?>,
+					enable_dots: <?php echo esc_attr( ( 'yes' === $settings->enable_dots ) ? 'true' : 'false' ); ?>
+				};
+				new UABBImageCarousel( child_args );
+			}
+	});
+
+	/* Tab Click Trigger */
+	UABBTrigger.addHook( 'uabb-tab-click', function( argument, selector ) {
+		var child_id = jQuery(selector+' .fl-module-uabb-image-carousel').data('node');
+			if( null !== child_id ) {
+				jQuery( '.fl-node-' + child_id ).find( '.uabb-image-carousel' ).uabbslick('unslick');
+				var child_args = {
+					id: child_id,
+					infinite: <?php echo esc_attr( ( 'yes' === $settings->infinite_loop ) ? 'true' : 'false' ); ?>,
+					arrows: <?php echo esc_attr( ( 'yes' === $settings->enable_arrow ) ? 'true' : 'false' ); ?>,
+
+					desktop: <?php echo esc_attr( ( 'slide' === $settings->scroll_effect ) ? $settings->grid_column : 1 ); ?>,
+					medium: <?php echo esc_attr( ( 'slide' === $settings->scroll_effect ) ? $settings->medium_grid_column : 1 ); ?>,
+					small: <?php echo esc_attr( ( 'slide' === $settings->scroll_effect ) ? $settings->responsive_grid_column : 1 ); ?>,
+
+					slidesToScroll: <?php echo esc_attr( ( '' !== $settings->slides_to_scroll && 'slide' === $settings->scroll_effect ) ? $settings->slides_to_scroll : 1 ); ?>,
+					autoplay: <?php echo esc_attr( ( 'yes' === $settings->autoplay ) ? 'true' : 'false' ); ?>,
+					onhover: <?php echo esc_attr( ( 'yes' === $settings->pause_on_hover ) ? 'true' : 'false' ); ?>,
+					autoplaySpeed: <?php echo esc_attr( ( '' !== $settings->animation_speed ) ? $settings->animation_speed : '1000' ); ?>,
+					small_breakpoint: <?php echo esc_attr( $global_settings->responsive_breakpoint ); ?>,
+					medium_breakpoint: <?php echo esc_attr( $global_settings->medium_breakpoint ); ?>,
+					next_arrow: '<?php echo esc_attr( apply_filters( 'uabb_image_carousel_next_arrow_icon', 'fas fa-angle-right' ) ); ?>',
+					prev_arrow: '<?php echo esc_attr( apply_filters( 'uabb_image_carousel_previous_arrow_icon', 'fas fa-angle-left' ) ); ?>',
+					enable_fade: <?php echo esc_attr( ( 'fade' === $settings->scroll_effect ) ? 'true' : 'false' ); ?>,
+					enable_dots: <?php echo esc_attr( ( 'yes' === $settings->enable_dots ) ? 'true' : 'false' ); ?>
+				};
+				new UABBImageCarousel( child_args );
+			}
+	});
+
+	/* Accordion Click Trigger */
+		UABBTrigger.addHook( 'uabb-accordion-click', function( argument, selector ) {
+			var child_id = jQuery(selector+' .fl-module-uabb-image-carousel').data('node');
+			if( child_id !== null ) {
+				jQuery( '.fl-node-' + child_id ).find( '.uabb-image-carousel' ).uabbslick('unslick');
+				var child_args = {
+					id: child_id,
+					infinite: <?php echo esc_attr( ( 'yes' === $settings->infinite_loop ) ? 'true' : 'false' ); ?>,
+					arrows: <?php echo esc_attr( ( 'yes' === $settings->enable_arrow ) ? 'true' : 'false' ); ?>,
+
+					desktop: <?php echo esc_attr( ( 'slide' === $settings->scroll_effect ) ? $settings->grid_column : 1 ); ?>,
+					medium: <?php echo esc_attr( ( 'slide' === $settings->scroll_effect ) ? $settings->medium_grid_column : 1 ); ?>,
+					small: <?php echo esc_attr( ( 'slide' === $settings->scroll_effect ) ? $settings->responsive_grid_column : 1 ); ?>,
+
+					slidesToScroll: <?php echo esc_attr( ( '' !== $settings->slides_to_scroll && 'slide' === $settings->scroll_effect ) ? $settings->slides_to_scroll : 1 ); ?>,
+					autoplay: <?php echo esc_attr( ( 'yes' === $settings->autoplay ) ? 'true' : 'false' ); ?>,
+					onhover: <?php echo esc_attr( ( 'yes' === $settings->pause_on_hover ) ? 'true' : 'false' ); ?>,
+					autoplaySpeed: <?php echo esc_attr( ( '' !== $settings->animation_speed ) ? $settings->animation_speed : '1000' ); ?>,
+					small_breakpoint: <?php echo esc_attr( $global_settings->responsive_breakpoint ); ?>,
+					medium_breakpoint: <?php echo esc_attr( $global_settings->medium_breakpoint ); ?>,
+					next_arrow: '<?php echo esc_attr( apply_filters( 'uabb_image_carousel_next_arrow_icon', 'fas fa-angle-right' ) ); ?>',
+					prev_arrow: '<?php echo esc_attr( apply_filters( 'uabb_image_carousel_previous_arrow_icon', 'fas fa-angle-left' ) ); ?>',
+					enable_fade: <?php echo esc_attr( ( 'fade' === $settings->scroll_effect ) ? 'true' : 'false' ); ?>,
+					enable_dots: <?php echo esc_attr( ( 'yes' === $settings->enable_dots ) ? 'true' : 'false' ); ?>
+				};
+				obj = new UABBImageCarousel( child_args );
+				jQuery(window).trigger('resize');
+
+				var selector = $(selector).find('.slick-track');
+				if( selector ){
+					setTimeout(function() {
+						selector.imagesLoaded( function() {
+							obj._adaptiveImageHeight();
+						});
+
+					}, 100);
+				}
+			}
+		});
+
 	<?php if ( 'lightbox' === $settings->click_action ) : ?>
 	$('.fl-node-<?php echo esc_attr( $id ); ?> .uabb-image-carousel').magnificPopup({
 		delegate: '.uabb-image-carousel-content a',

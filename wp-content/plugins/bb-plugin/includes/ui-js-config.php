@@ -52,6 +52,11 @@ echo 'FLBuilderConfig              = ' . FLBuilderUtils::json_encode( apply_filt
 	'keyboardShortcuts'          => FLBuilder::get_keyboard_shortcuts(),
 	'isCustomizer'               => is_customize_preview(),
 	'showToolbar'                => is_customize_preview() ? false : true,
+	/**
+	 * Disable outline panel
+	 * @since 2.5
+	 * @see fl_builder_outline_panel_enabled
+	 */
 	'showOutlinePanel'           => apply_filters( 'fl_builder_outline_panel_enabled', true ),
 	'shouldRefreshOnPublish'     => FLBuilder::should_refresh_on_publish(),
 	'googleFontsUrl'             => apply_filters( 'fl_builder_google_fonts_domain', '//fonts.googleapis.com/' ) . 'css?family=',
@@ -65,19 +70,39 @@ echo 'FLBuilderConfig              = ' . FLBuilderUtils::json_encode( apply_filt
 	'optionSets'                 => apply_filters( 'fl_builder_shared_option_sets', array() ),
 	'presets'                    => FLBuilderSettingsPresets::get_presets(),
 	'FontWeights'                => FLBuilderFonts::get_font_weight_strings(),
+	/**
+	 * Enable/disable usage stats collection
+	 * @see fl_builder_usage_enabled
+	 */
 	'statsEnabled'               => get_site_option( 'fl_builder_usage_enabled', false ),
+	/**
+	 * @see fl_remember_settings_tabs_enabled
+	 */
 	'rememberTab'                => apply_filters( 'fl_remember_settings_tabs_enabled', true ),
+	/**
+	 * @see fl_select2_enabled
+	 */
 	'select2Enabled'             => apply_filters( 'fl_select2_enabled', true ),
+	/**
+	 * @see fl_media_modal_types
+	 */
 	'uploadTypes'                => apply_filters( 'fl_media_modal_types', array(
 		'image' => 'image',
 		'video' => 'video',
 	) ),
+	/**
+	 * @see fl_builder_recent_icons
+	 */
 	'recentIcons'                => apply_filters( 'fl_builder_recent_icons', get_option( 'fl_plugin_recent_icons', array() ) ),
 	'themerLayoutsUrl'           => admin_url( '/edit.php?post_type=fl-theme-layout' ),
 	'userCaps'                   => array(
 		'unfiltered_html'        => current_user_can( 'unfiltered_html' ),
 		'global_unfiltered_html' => defined( 'DISALLOW_UNFILTERED_HTML' ) && DISALLOW_UNFILTERED_HTML ? true : false,
 	),
+	/**
+	 * CSS to ignore during responsive preview
+	 * @see fl_builder_responsive_ignore
+	 */
 	'responsiveIgnore'           => apply_filters( 'fl_builder_responsive_ignore', array(
 		'fl-builder-preview',
 		'fl-theme-builder',
@@ -88,6 +113,9 @@ echo 'FLBuilderConfig              = ' . FLBuilderUtils::json_encode( apply_filt
 		'ace_editor.css',
 	)),
 	'wooActive'                  => class_exists( 'WooCommerce' ) ? true : false,
+	/**
+	 * @see fl_builder_default_image_select_size
+	 */
 	'defaultImageSize'           => apply_filters( 'fl_builder_default_image_select_size', 'full' ),
 ) ) ) . ';';
 

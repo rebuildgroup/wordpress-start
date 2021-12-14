@@ -8,7 +8,10 @@
 		<exclude name="WordPress.DateTime.CurrentTimeTimestamp.Requested" />
 	</rule>
 	<rule ref="WordPress-Docs" />
-	<rule ref="WordPress-Extra" />
+	<rule ref="WordPress-Extra" >
+		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning" />
+		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned" />
+	</rule>
 
 	<!-- Check all PHP files in directory tree by default. -->
 	<arg name="extensions" value="php"/>

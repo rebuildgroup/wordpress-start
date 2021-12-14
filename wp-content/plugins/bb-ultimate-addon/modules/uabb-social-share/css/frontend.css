@@ -294,6 +294,10 @@
 	padding-left: .2em;
 }
 
+.uabb-social-share-wrap .uabb-ss-boxed .uabb-ss-button-twitter .uabb-ss-icon {
+	margin-left: -.2em;
+}
+
 .uabb-ss-minimal.uabb-ss-shape-rounded .uabb-ss-icon {
 	border-radius: .5em;
 }

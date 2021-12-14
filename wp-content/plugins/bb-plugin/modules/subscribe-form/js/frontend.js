@@ -190,6 +190,9 @@
 				form.find( '> .fl-form-error-message' ).show();
 				button.removeClass( 'fl-form-button-disabled' );
 				button.find( '.fl-button-text' ).text( buttonText );
+				if ( typeof data.errorInfo !== 'undefined' ) {
+					console.log('Subscribe Form:',data.errorInfo);
+				}
 			}
 			else if ( 'message' == data.action ) {
 				form.find( '> *' ).hide();

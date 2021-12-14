@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "composer/installers": "^1.11"
+    "composer/installers": "^2.0"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
@@ -20,7 +20,7 @@
   },
   "minimum-stability": "stable",
   "scripts": {
-    "format": "vendor/bin/phpcbf --standard=phpcs.xml.dist --report-summary --report-source",
-    "lint": "vendor/bin/phpcs --standard=phpcs.xml.dist --report-summary --report-source"
+    "format": "vendor/bin/phpcbf --standard=phpcs.xml.dist",
+    "lint": "vendor/bin/phpcs --standard=phpcs.xml.dist"
   }
 }

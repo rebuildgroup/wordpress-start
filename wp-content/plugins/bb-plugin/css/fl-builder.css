@@ -6348,14 +6348,39 @@ Rules to ensure compatibility with v2.0.
 .fl-builder-ui-skin--light .select2-search__field::-webkit-input-placeholder {
 	color: #808080 !important;
 }
-.fl-builder-ui-skin--light .select2-search__field::-moz-placeholder{
+.fl-builder-ui-skin--light .select2-search__field::-moz-placeholder {
 	color: #808080 !important;
 }
-.fl-builder-ui-skin--light .select2-search__field:-ms-input-placeholder{
+.fl-builder-ui-skin--light .select2-search__field:-ms-input-placeholder {
 	color: #808080 !important;
 }
 .fl-builder-ui-skin--light .select2-search__field:-moz-placeholder {
 	color: #808080 !important;
+}
+
+.fl-builder-ui-skin--dark .fl-lightbox .select2-selection__rendered {
+	color: #a7b1bb !important;
+}
+.fl-builder-ui-skin--dark .select2-dropdown {
+	color: #a7b1bb !important;
+}
+.fl-builder-ui-skin--dark .select2-search__field {
+	color: #a7b1bb !important;
+}
+.fl-builder-ui-skin--dark .select2-search__field::placeholder {
+	color: #a7b1bb !important;
+}
+.fl-builder-ui-skin--dark .select2-search__field::-webkit-input-placeholder {
+	color: #a7b1bb !important;
+}
+.fl-builder-ui-skin--dark .select2-search__field::-moz-placeholder {
+	color: #a7b1bb !important;
+}
+.fl-builder-ui-skin--dark .select2-search__field:-ms-input-placeholder {
+	color: #a7b1bb !important;
+}
+.fl-builder-ui-skin--dark .select2-search__field:-moz-placeholder {
+	color: #a7b1bb !important;
 }
 
 .fl-diff td.diff-addedline,

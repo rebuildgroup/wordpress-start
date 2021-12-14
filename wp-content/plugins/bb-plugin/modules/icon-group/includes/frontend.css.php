@@ -19,19 +19,21 @@ FLBuilder::render_module_css('icon', $id, array(
 	'three_d'              => $settings->three_d,
 ));
 
+// Alignment
 FLBuilderCSS::responsive_rule( array(
 	'settings'     => $settings,
 	'setting_name' => 'align',
 	'selector'     => ".fl-node-$id .fl-icon-group",
 	'prop'         => 'text-align',
 ) );
-?>
 
-.fl-node-<?php echo $id; ?> .fl-icon + .fl-icon {
-	margin-left: <?php echo $settings->spacing . $settings->spacing_unit; ?>;
-}
-
-<?php
+// Spacing
+FLBuilderCSS::responsive_rule( array(
+	'settings'     => $settings,
+	'setting_name' => 'spacing',
+	'selector'     => ".fl-node-$id .fl-icon + .fl-icon",
+	'prop'         => 'margin-left',
+) );
 
 foreach ( $settings->icons as $i => $icon ) :
 	$index = $i + 1;

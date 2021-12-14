@@ -23,6 +23,29 @@ FLBuilder::register_module(
 		'general'    => array(
 			'title'    => __( 'General', 'uabb' ),
 			'sections' => array(
+				'preset_section'       => array(
+					'title'  => __( 'Presets', 'uabb' ),
+					'fields' => array(
+						'preset_select' => array(
+							'type'    => 'select',
+							'label'   => __( 'Preset', 'uabb' ),
+							'default' => 'none',
+							'help'    => __( 'Before changing presets, save the content you added to the module. Otherwise, your content will be overwritten with the default one.', 'uabb' ),
+							'class'   => 'uabb-preset-select',
+							'options' => array(
+								'none'     => __( 'Default', 'uabb' ),
+								'preset-1' => __( 'Preset 1', 'uabb' ),
+								'preset-2' => __( 'Preset 2', 'uabb' ),
+								'preset-3' => __( 'Preset 3', 'uabb' ),
+								'preset-4' => __( 'Preset 4', 'uabb' ),
+								'preset-5' => __( 'Preset 5', 'uabb' ),
+							),
+							'preview' => array(
+								'type' => 'none',
+							),
+						),
+					),
+				),
 				'name_section'         => array(
 					'title'  => __( 'Form Fields', 'uabb' ),
 					'fields' => array(
@@ -34,19 +57,22 @@ FLBuilder::register_module(
 							'preview_text' => 'field_type',
 							'default'      => array(
 								array(
-									'field_type'     => 'user_login',
-									'field_label'    => 'Username ',
-									'field_required' => 'yes',
+									'field_type'        => 'user_login',
+									'field_label'       => __( 'Username ', 'uabb' ),
+									'field_placeholder' => __( 'Username', 'uabb' ),
+									'field_required'    => 'yes',
 								),
 								array(
-									'field_type'     => 'user_email',
-									'field_label'    => 'Email ',
-									'field_required' => 'yes',
+									'field_type'        => 'user_email',
+									'field_label'       => __( 'Email ', 'uabb' ),
+									'field_placeholder' => __( 'Email', 'uabb' ),
+									'field_required'    => 'yes',
 								),
 								array(
-									'field_type'     => 'user_pass',
-									'field_label'    => 'Password ',
-									'field_required' => 'yes',
+									'field_type'        => 'user_pass',
+									'field_label'       => __( 'Password ', 'uabb' ),
+									'field_placeholder' => __( 'Password', 'uabb' ),
+									'field_required'    => 'yes',
 								),
 							),
 						),
@@ -55,6 +81,36 @@ FLBuilder::register_module(
 				'general_section'      => array(
 					'title'  => __( 'General Form Settings', 'uabb' ),
 					'fields' => array(
+						'fields_icon'             => array(
+							'type'    => 'select',
+							'label'   => __( 'Fields Icon', 'uabb' ),
+							'default' => 'hide',
+							'options' => array(
+								'show' => __( 'Show', 'uabb' ),
+								'hide' => __( 'Hide', 'uabb' ),
+							),
+							'toggle'  => array(
+								'show' => array(
+									'fields' => array( 'enable_divider', 'fields_icon_color', 'fields_icon_size' ),
+								),
+							),
+							'help'    => __( 'Enable this option to add icon for fields.', 'uabb' ),
+						),
+						'enable_divider'          => array(
+							'type'    => 'select',
+							'label'   => __( 'Divider', 'uabb' ),
+							'default' => 'hide',
+							'options' => array(
+								'show' => __( 'Show', 'uabb' ),
+								'hide' => __( 'Hide', 'uabb' ),
+							),
+							'toggle'  => array(
+								'show' => array(
+									'fields' => array( 'divider_style', 'divider_color', 'divider_thickness' ),
+								),
+							),
+							'help'    => __( 'Enable divider between Icon and Content.', 'uabb' ),
+						),
 						'required_mark_label'     => array(
 							'type'    => 'select',
 							'label'   => __( 'Display Required Mark', 'uabb' ),
@@ -247,6 +303,20 @@ FLBuilder::register_module(
 							'label'   => __( 'Checkbox Text', 'uabb' ),
 							'default' => __( 'I Accept the Terms and Conditions', 'uabb' ),
 						),
+						'enable_terms_text'   => array(
+							'type'    => 'select',
+							'label'   => __( 'Show Terms and Conditions Text', 'uabb' ),
+							'default' => 'yes',
+							'options' => array(
+								'yes' => __( 'Yes', 'uabb' ),
+								'no'  => __( 'No', 'uabb' ),
+							),
+							'toggle'  => array(
+								'yes' => array(
+									'fields' => array( 'terms_text' ),
+								),
+							),
+						),
 						'terms_text'          => array(
 							'type'          => 'editor',
 							'label'         => 'Terms and Conditions',
@@ -333,7 +403,7 @@ FLBuilder::register_module(
 			'title'    => __( 'Style', 'uabb' ),
 			'sections' => array(
 				'form-style'           => array(
-					'title'  => 'Form Style',
+					'title'  => 'Form',
 					'fields' => array(
 						'form_bg_type'           => array(
 							'type'    => 'select',
@@ -428,7 +498,7 @@ FLBuilder::register_module(
 					),
 				),
 				'input-border-style'   => array(
-					'title'  => __( 'Input Style', 'uabb' ),
+					'title'  => __( 'Input', 'uabb' ),
 					'fields' => array(
 						'input_padding'             => array(
 							'type'       => 'dimension',
@@ -462,6 +532,7 @@ FLBuilder::register_module(
 							'type'        => 'color',
 							'connections' => array( 'color' ),
 							'label'       => __( 'Background Color', 'uabb' ),
+							'default'     => 'ffffff',
 							'show_alpha'  => true,
 							'show_reset'  => true,
 							'preview'     => array(
@@ -509,10 +580,74 @@ FLBuilder::register_module(
 								'type' => 'none',
 							),
 						),
+						'fields_icon_color'         => array(
+							'type'        => 'color',
+							'connections' => array( 'color' ),
+							'label'       => __( 'Fields Icon Color', 'uabb' ),
+							'connections' => array( 'color' ),
+							'show_alpha'  => true,
+							'show_reset'  => true,
+							'preview'     => array(
+								'type'     => 'css',
+								'selector' => '.uabb-registration-form .uabb-fields-icon i',
+								'property' => 'color',
+							),
+						),
+						'fields_icon_size'          => array(
+							'type'    => 'unit',
+							'label'   => __( 'Fields Icon Size', 'uabb' ),
+							'slider'  => true,
+							'units'   => array( 'px' ),
+							'preview' => array(
+								'type' => 'refresh',
+							),
+						),
+						'divider_style'             => array(
+							'type'    => 'select',
+							'label'   => __( 'Divider Style', 'uabb' ),
+							'default' => 'solid',
+							'options' => array(
+								'solid'  => __( 'Solid', 'uabb' ),
+								'dotted' => __( 'Dotted', 'uabb' ),
+								'dashed' => __( 'Dashed', 'uabb' ),
+							),
+							'preview' => array(
+								'type'     => 'css',
+								'selector' => '.uabb-registration-form .uabb-fields-icon',
+								'property' => 'border-right-style',
+							),
+						),
+						'divider_color'             => array(
+							'type'        => 'color',
+							'connections' => array( 'color' ),
+							'label'       => __( 'Divider Color', 'uabb' ),
+							'default'     => 'd4d4d4',
+							'connections' => array( 'color' ),
+							'show_alpha'  => true,
+							'show_reset'  => true,
+							'preview'     => array(
+								'type'     => 'css',
+								'selector' => '.uabb-registration-form .uabb-fields-icon',
+								'property' => 'color',
+							),
+						),
+						'divider_thickness'         => array(
+							'type'    => 'unit',
+							'label'   => __( 'Divider Thickness', 'uabb' ),
+							'default' => '1',
+							'slider'  => true,
+							'units'   => array( 'px' ),
+							'preview' => array(
+								'type'     => 'css',
+								'selector' => '.uabb-registration-form .uabb-fields-icon',
+								'property' => 'border-right-width',
+								'unit'     => 'px',
+							),
+						),
 					),
 				),
 				'error-style'          => array(
-					'title'  => __( 'Validation Style', 'uabb' ),
+					'title'  => __( 'Validation', 'uabb' ),
 					'fields' => array(
 						'success_msg_color'   => array(
 							'type'        => 'color',
@@ -616,7 +751,7 @@ FLBuilder::register_module(
 					),
 				),
 				'login_link_style'     => array(
-					'title'  => __( 'Password/Login Link Style', 'uabb' ),
+					'title'  => __( 'Password/Login Link', 'uabb' ),
 					'fields' => array(
 						'login_link_color'       => array(
 							'type'       => 'color',
@@ -644,7 +779,7 @@ FLBuilder::register_module(
 					),
 				),
 				'terms-checkbox-style' => array(
-					'title'  => __( 'Terms Checkbox Style', 'uabb' ),
+					'title'  => __( 'Terms Checkbox', 'uabb' ),
 					'fields' => array(
 						'checkbox_size'           => array(
 							'type'    => 'unit',

@@ -340,3 +340,15 @@ for ( $i = 0; $i < count( $settings->items ); $i++ ) :
 	}
 
 endfor;
+
+// Transition
+if ( 'enable' == $settings->button_transition ) :
+	?>
+.fl-builder-content .fl-node-<?php echo $id; ?> .fl-button,
+.fl-builder-content .fl-node-<?php echo $id; ?> .fl-button * {
+	transition: all 0.2s linear !important;
+	-moz-transition: all 0.2s linear !important;
+	-webkit-transition: all 0.2s linear !important;
+	-o-transition: all 0.2s linear !important;
+}
+<?php endif; ?>

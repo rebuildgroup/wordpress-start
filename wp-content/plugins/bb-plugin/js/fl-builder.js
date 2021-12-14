@@ -5416,11 +5416,9 @@
 		{
 			var module   = FLBuilder._getJQueryElement( id ),
 				clone    = module.clone(),
+				parent   = module.parent(),
 				form	 = $( '.fl-builder-module-settings[data-node=' + id + ']' ),
 				settings = {};
-
-			// Show Loader
-			FLBuilder._showNodeLoading( id + '-clone' );
 
 			if ( form.length ) {
 				settings = FLBuilder._getSettings( form );
@@ -5431,6 +5429,8 @@
 			clone.addClass( 'fl-node-' + id + '-clone fl-builder-node-clone' );
 			clone.find( '.fl-block-overlay' ).remove();
 			module.after( clone );
+			// Show Loader
+			FLBuilder._showNodeLoading( id + '-clone' );
 
 			// Animate scroll to new element
 			const el  = clone.get(0);
@@ -5442,7 +5442,6 @@
 			const actions = FL.Builder.data.getLayoutActions()
 			const callback = function( response ) {
 				var data = FLBuilder._jsonParse( response );
-				var parent = module.parent();
 				data.nodeParent   = parent;
 				data.nodePosition = parent.find( ' > .fl-col-group, > .fl-module' ).index( clone );
 				data.duplicatedModule = id;

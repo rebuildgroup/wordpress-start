@@ -2937,6 +2937,76 @@ root.classList.add('fluid', 'fl', 'uid');
 
 /***/ }),
 
+/***/ "./src/builder/ui/3rd-party/index.js":
+/*!*******************************************!*\
+  !*** ./src/builder/ui/3rd-party/index.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _query_monitor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./query-monitor */ "./src/builder/ui/3rd-party/query-monitor/index.js");
+
+(0,_query_monitor__WEBPACK_IMPORTED_MODULE_0__.querymonitor)();
+
+/***/ }),
+
+/***/ "./src/builder/ui/3rd-party/query-monitor/index.js":
+/*!*********************************************************!*\
+  !*** ./src/builder/ui/3rd-party/query-monitor/index.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "querymonitor": () => (/* binding */ querymonitor)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/builder/ui/3rd-party/query-monitor/style.scss");
+
+
+var querymonitor = function querymonitor() {
+  FLBuilder.addHook('didInitUI', function () {
+    var actions = document.querySelector('.fl-builder-bar-actions');
+    var saving = actions.querySelector('.fl-builder--saving-indicator');
+    var btn = document.createElement('button');
+    btn.classList.add('fl-builder-button', 'fl-builder-button-silent');
+    btn.innerHTML = '<svg width="20px" x="0px" y="0px" viewBox="0 0 238 238" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><g id="EMF-by-Xara-X" serif:id="EMF by Xara X"><path d="M170.734,183.655l-32.623,-35.483c-19.089,5.332 -40.624,6.6 -61.992,2.707c-54.118,-9.858 -86.793,-49.103 -72.935,-87.598c13.859,-38.494 69.029,-61.737 123.148,-51.878c7.553,1.375 14.687,3.324 21.334,5.762l-6.462,12.195c-5.266,-1.731 -10.922,-3.111 -16.913,-4.082c-42.267,-6.842 -85.356,9.291 -96.18,36.014c-10.824,26.722 14.695,53.963 56.963,60.808c41.535,6.724 83.865,-8.739 95.589,-34.637l13.176,22.511l0.064,0.113c-4.574,7.429 -10.792,14.102 -18.26,19.85l27.897,25.151c15.605,14.906 -15.073,47.906 -32.806,28.567Zm9.595,-26.401l-34.191,-30.641c-36.604,14.182 -70.685,6.876 -98.296,-5.59c23.399,17.456 58.534,24.774 94.542,14.959l30.526,29.179c1.989,-3.304 4.559,-6.305 7.419,-7.907Z"/><path d="M42.292,90.276l27.528,0l16.45,-26.827l34.049,52.376l44.83,-68.557l34.474,58.905l37.878,0l-29.225,-7.239l-43.694,-98.934l-43.696,82.469l-33.055,-51.241l-24.826,54.79l-20.713,4.258Z" style="fill:#1195d0;"/></g></svg>';
+
+    btn.onclick = function () {
+      return onClick();
+    };
+
+    btn.title = 'Query Monitor';
+
+    if (jQuery('#query-monitor-main').length > 0) {
+      actions.insertBefore(btn, saving);
+    }
+  });
+
+  var onClick = function onClick() {
+    var el = document.getElementById("query-monitor-main");
+
+    if (!isHidden(el)) {
+      var elem = document.getElementsByClassName("qm-button-container-close");
+      elem[0].click();
+    } else {
+      var menu = document.getElementById("wp-admin-bar-query-monitor");
+      elem = menu.getElementsByTagName('a');
+      elem[0].click();
+    }
+  };
+
+  var isHidden = function isHidden(el) {
+    var style = window.getComputedStyle(el);
+    return style.display === 'none';
+  };
+};
+
+/***/ }),
+
 /***/ "./src/builder/ui/art/index.js":
 /*!*************************************!*\
   !*** ./src/builder/ui/art/index.js ***!
@@ -3232,8 +3302,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _art__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./art */ "./src/builder/ui/art/index.js");
 /* harmony import */ var _outline_panel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./outline-panel */ "./src/builder/ui/outline-panel/index.js");
 /* harmony import */ var _panel_manager__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./panel-manager */ "./src/builder/ui/panel-manager/index.js");
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./style.scss */ "./src/builder/ui/style.scss");
+/* harmony import */ var _3rd_party__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./3rd-party */ "./src/builder/ui/3rd-party/index.js");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./style.scss */ "./src/builder/ui/style.scss");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -6857,6 +6929,19 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 }));
 //# sourceMappingURL=purify.js.map
+
+
+/***/ }),
+
+/***/ "./src/builder/ui/3rd-party/query-monitor/style.scss":
+/*!***********************************************************!*\
+  !*** ./src/builder/ui/3rd-party/query-monitor/style.scss ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
 
 
 /***/ }),

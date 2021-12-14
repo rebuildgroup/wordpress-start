@@ -32,14 +32,20 @@
 		},
 
 		_limitAdvancedSpacing: function ( form ) {
-			var spacingTop = form.find('input[name=advanced_spacing_top]'),
-				spacingBottom = form.find('input[name=advanced_spacing_bottom]');
+			var spacingTop              = form.find('input[name=advanced_spacing_top]'),
+				spacingTopMedium        = form.find('input[name=advanced_spacing_top_medium]'),
+				spacingTopResponsive    = form.find('input[name=advanced_spacing_top_responsive]'),
+				spacingBottom           = form.find('input[name=advanced_spacing_bottom]'),
+				spacingBottomMedium     = form.find('input[name=advanced_spacing_bottom_medium]'),
+				spacingBottomResponsive = form.find('input[name=advanced_spacing_bottom_responsive]');
 
 			spacingTop.closest('.fl-dimension-field-unit ').hide();
+			spacingTopMedium.closest('.fl-dimension-field-unit ').hide();
+			spacingTopResponsive.closest('.fl-dimension-field-unit ').hide();
 			spacingBottom.closest('.fl-dimension-field-unit ').hide();
-
+			spacingBottomMedium.closest('.fl-dimension-field-unit ').hide();
+			spacingBottomResponsive.closest('.fl-dimension-field-unit ').hide();
 		},
-
 	});
 
 	FLBuilder.registerModuleHelper('pricing_column_form', {

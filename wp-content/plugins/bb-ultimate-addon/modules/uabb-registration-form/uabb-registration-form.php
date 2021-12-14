@@ -72,6 +72,9 @@ class UABBRegistrationFormModule extends FLBuilderModule {
 		if ( isset( $settings->check_password_strength ) && 'yes' === $settings->check_password_strength ) {
 			$this->add_js( 'password-strength-meter' );
 		}
+		if ( isset( $settings->fields_icon ) && 'show' === $settings->fields_icon ) {
+			$this->add_css( 'font-awesome-5' );
+		}
 	}
 	/**
 	 * Function that adds async attribute
@@ -414,6 +417,20 @@ class UABBRegistrationFormModule extends FLBuilderModule {
 
 		$required_class = '';
 
+		$field_icon_list = array();
+
+		if ( 'show' === $this->settings->fields_icon ) {
+			$field_icon_list = array(
+				'user_login'   => 'fa fa-user',
+				'user_email'   => 'fas fa-envelope',
+				'user_pass'    => 'fa fa-lock',
+				'first_name'   => 'fa fa-user',
+				'last_name'    => 'fa fa-user',
+				'confirm_pass' => 'fa fa-lock',
+				'phone'        => 'fas fa-phone-alt',
+			);
+		}
+
 		if ( 'yes' === $this->settings->required_mark_label ) {
 			$required_class = 'uabb-rform-requried-' . $error_class;
 		}
@@ -427,7 +444,12 @@ class UABBRegistrationFormModule extends FLBuilderModule {
 			<?php } ?>
 			<div class="uabb-form-outter">
 				<input type="<?php echo esc_attr( $type ); ?>" aria-label="<?php echo esc_attr( $field_name ); ?>" name="uabb_<?php echo esc_attr( $field_name ); ?>" value="" class="uabb-registration-form-requried-<?php echo esc_attr( $error_class ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>">
-				<?php if ( 'email' === $type ) { ?>
+				<?php
+				if ( 'show' === $this->settings->fields_icon ) {
+					echo '<span class="uabb-fields-icon"><i class="' . wp_kses_post( $field_icon_list[ $field_name ] ) . '"></i></span>';
+				}
+				if ( 'email' === $type ) {
+					?>
 					<div class="uabb-registration_form-error-message uabb-registration_form-error-message-required"><span class="uabb-registration-form-invalid-field"></div>
 				<?php } else { ?>
 					<div class="uabb-registration_form-error-message uabb-registration_form-error-message-required"></div>

@@ -59,6 +59,12 @@
 	display: <?php echo ( 'yes' === $settings->video_lightbox ? 'block' : 'none' ); ?>;
 }
 
+<?php if ( 'media_library' === $settings->video_type ) : ?>
+	.fl-node-<?php echo $id; ?> .fl-wp-video .mejs-overlay-loading {
+		display: none;
+	}
+<?php endif; ?>
+
 <?php
 // Click action - lightbox
 if ( isset( $settings->video_lightbox ) && 'yes' == $settings->video_lightbox ) :

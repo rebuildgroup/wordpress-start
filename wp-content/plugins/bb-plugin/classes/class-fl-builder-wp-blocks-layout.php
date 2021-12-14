@@ -80,7 +80,7 @@ final class FLBuilderWPBlocksLayout {
 	static public function update_legacy_post( $paths, $context ) {
 
 		if ( is_object( $context ) ) {
-			$post    = ( $context instanceof WP_Block_Editor_Context ) ? $context->post : $context;
+			$post = ( $context instanceof WP_Block_Editor_Context ) ? $context->post : $context;
 
 			/**
 			 * Fix for widgets page.

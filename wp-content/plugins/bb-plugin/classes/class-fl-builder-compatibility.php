@@ -53,6 +53,8 @@ final class FLBuilderCompatibility {
 		add_action( 'fl_builder_menu_module_after_render', array( __CLASS__, 'fix_menu_module_after_render' ) );
 		add_action( 'wp_before_admin_bar_render', array( __CLASS__, 'fix_dulicate_page' ), 11 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'fix_3cx_live_chat' ) );
+		add_action( 'rest_api_init', array( __CLASS__, 'fix_rest_content' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'fix_signify_theme_media' ), 11 );
 
 		// Filters
 		add_filter( 'fl_builder_is_post_editable', array( __CLASS__, 'bp_pages_support' ), 11, 2 );
@@ -85,6 +87,7 @@ final class FLBuilderCompatibility {
 		add_filter( 'fl_builder_photo_crop_path', array( __CLASS__, 'fix_flywheel_crop_path' ), 10, 2 );
 		add_filter( 'post_row_actions', array( __CLASS__, 'fix_duplicate_post_admin_link' ), 12, 2 );
 		add_filter( 'page_row_actions', array( __CLASS__, 'fix_duplicate_post_admin_link' ), 12, 2 );
+		add_filter( 'get_the_excerpt', array( __CLASS__, 'fix_rest_excerpt_filter' ), 10, 2 );
 	}
 
 	/**
@@ -1132,6 +1135,36 @@ final class FLBuilderCompatibility {
 			return trailingslashit( WP_CONTENT_DIR ) . ltrim( str_replace( basename( WP_CONTENT_DIR ), '', wp_make_link_relative( $original ) ), '/' );
 		}
 		return $url_path;
+	}
+
+	/**
+	 * When in Rest, if its a BB layout use that data of wp_content
+	 */
+	public static function fix_rest_content() {
+		global $render_content_forced;
+		$render_content_forced = true;
+		add_filter( 'get_the_excerpt', 'FLBuilderCompatibility::fix_rest_excerpt_filter', 10, 2 );
+		add_filter( 'the_content', 'FLBuilder::render_content' );
+	}
+
+	public static function fix_rest_excerpt_filter( $excerpt, $post ) {
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			remove_filter( 'get_the_excerpt', 'FLBuilderCompatibility::fix_rest_excerpt_filter' );
+			return FLBuilderLoop::get_the_excerpt( $post->ID );
+		}
+		return $excerpt;
+	}
+
+	/**
+	 * Fix compatibility issue with Signify Theme
+	 *
+	 * @since 2.5.1
+	 */
+	public static function fix_signify_theme_media() {
+		if ( function_exists( 'signify_setup' )
+		&& ( FLBuilderModel::is_builder_active() ) ) {
+			wp_enqueue_style( 'wp-mediaelement', includes_url( '/js/mediaelement/wp-mediaelement.min.css' ) );
+		}
 	}
 }
 FLBuilderCompatibility::init();

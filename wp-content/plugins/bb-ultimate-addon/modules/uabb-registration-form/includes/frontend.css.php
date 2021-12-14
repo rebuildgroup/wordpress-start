@@ -9,6 +9,8 @@ $version_bb_check                     = UABB_Compatibility::$version_bb_check;
 $settings->form_bg_color              = UABB_Helper::uabb_colorpicker( $settings, 'form_bg_color', true );
 $settings->input_background_color     = UABB_Helper::uabb_colorpicker( $settings, 'input_background_color', true );
 $settings->input_text_color           = UABB_Helper::uabb_colorpicker( $settings, 'input_text_color', true );
+$settings->fields_icon_color          = UABB_Helper::uabb_colorpicker( $settings, 'fields_icon_color', true );
+$settings->divider_color              = UABB_Helper::uabb_colorpicker( $settings, 'divider_color', true );
 $settings->error_msg_color            = UABB_Helper::uabb_colorpicker( $settings, 'error_msg_color', true );
 $settings->btn_text_color             = UABB_Helper::uabb_colorpicker( $settings, 'btn_text_color', true );
 $settings->btn_background_color       = UABB_Helper::uabb_colorpicker( $settings, 'btn_background_color', true );
@@ -74,23 +76,19 @@ if ( ! $version_bb_check ) {
 <?php
 if ( isset( $settings->columns_gap ) ) {
 	?>
-	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-input-group-wrap .uabb-input-group:nth-child(even):not(.uabb-rf-column-desktop_100):not( .uabb-rf-column-medium_100 ):not(.uabb-rf-column-responsive_100):not(.uabb-recaptcha):not(.uabb-rf-success-message-wrap) {
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-input-group {
 		<?php
 			echo ( '' !== $settings->columns_gap ) ? 'padding-left: calc(' . esc_attr( $settings->columns_gap ) . 'px/2);' : '';
-		?>
-	}
-<?php } ?>
-<?php
-if ( isset( $settings->columns_gap ) ) {
-	?>
-	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-input-group-wrap .uabb-input-group:nth-child(odd):not(.uabb-rf-column-desktop_100):not( .uabb-rf-column-medium_100 ):not(.uabb-rf-column-responsive_100):not(.uabb-recaptcha):not(.uabb-rf-success-message-wrap) {
-		<?php
 			echo ( '' !== $settings->columns_gap ) ? 'padding-right: calc(' . esc_attr( $settings->columns_gap ) . 'px/2);' : '';
 		?>
 	}
-	<?php
-}
-?>
+	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-input-group-wrap {
+		<?php
+			echo ( '' !== $settings->columns_gap ) ? 'margin-left: calc(-' . esc_attr( $settings->columns_gap ) . 'px/2);' : '';
+			echo ( '' !== $settings->columns_gap ) ? 'margin-right: calc(-' . esc_attr( $settings->columns_gap ) . 'px/2);' : '';
+		?>
+	}
+<?php } ?>
 <?php
 if ( isset( $settings->row_gap ) ) {
 	?>
@@ -237,7 +235,7 @@ if ( isset( $settings->btn_top_margin ) ) {
 			echo ( '' !== $settings->btn_background_hover_color ) ? 'background:' . esc_attr( $settings->btn_background_hover_color ) . ';' : '';
 		}
 		?>
-	}	
+	}
 <?php } else { ?>
 		.fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form .uabb-submit-btn.uabb-registration-form-submit {
 			<?php
@@ -444,9 +442,68 @@ if ( isset( $settings->invalid_border_color ) ) {
 	if ( isset( $settings->input_background_color ) ) {
 		echo ( '' !== $settings->input_background_color ) ? 'background:' . esc_attr( $settings->input_background_color ) . ';' : '';
 	}
+	if ( 'show' === $settings->fields_icon ) {
+		echo 'padding-left: 40px;';
+	}
 	?>
 }
-.fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form { 
+[dir='rtl'] .fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form .uabb-input-group input {
+	<?php
+	if ( 'show' === $settings->fields_icon ) {
+		echo 'padding-right: 40px;
+		padding-left:unset;';
+	}
+	?>
+}
+<?php
+if ( 'show' === $settings->fields_icon ) {
+	?>
+		.fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form .uabb-fields-icon i {
+			<?php
+			if ( isset( $settings->fields_icon_color ) ) {
+				echo ( '' !== $settings->fields_icon_color ) ? 'color:' . esc_attr( $settings->fields_icon_color ) . ';' : '';
+			}
+			if ( isset( $settings->fields_icon_size ) ) {
+				echo ( '' !== $settings->fields_icon_size ) ? 'font-size: calc( ' . esc_attr( $settings->fields_icon_size ) . 'px / 4 );' : '';
+			}
+			?>
+		}
+		<?php if ( 'show' === $settings->enable_divider ) { ?>
+		.fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form .uabb-fields-icon {
+			<?php
+			if ( isset( $settings->divider_color ) ) {
+				echo ( '' !== $settings->divider_color ) ? 'border-right-color:' . esc_attr( $settings->divider_color ) . ';' : '';
+			}
+			if ( isset( $settings->divider_style ) ) {
+				echo ( '' !== $settings->divider_style ) ? 'border-right-style:' . esc_attr( $settings->divider_style ) . ';' : '';
+			}
+			if ( isset( $settings->divider_thickness ) ) {
+				echo ( '' !== $settings->divider_thickness ) ? 'border-right-width:' . esc_attr( $settings->divider_thickness ) . 'px;' : '';
+			}
+			?>
+		}
+		[dir='rtl'] .fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form .uabb-fields-icon {
+			border-right-color: unset;
+			border-right-style: unset;
+			border-right-width: unset;
+			<?php
+			if ( isset( $settings->divider_color ) ) {
+				echo ( '' !== $settings->divider_color ) ? 'border-left-color:' . esc_attr( $settings->divider_color ) . ';' : '';
+			}
+			if ( isset( $settings->divider_style ) ) {
+				echo ( '' !== $settings->divider_style ) ? 'border-left-style:' . esc_attr( $settings->divider_style ) . ';' : '';
+			}
+			if ( isset( $settings->divider_thickness ) ) {
+				echo ( '' !== $settings->divider_thickness ) ? 'border-left-width:' . esc_attr( $settings->divider_thickness ) . 'px;' : '';
+			}
+			?>
+		}
+			<?php
+		}
+}
+?>
+?>
+.fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form {
 	<?php
 	if ( isset( $settings->form_spacing_dimension_top ) ) {
 		echo ( '' !== $settings->form_spacing_dimension_top ) ? 'padding-top:' . esc_attr( $settings->form_spacing_dimension_top ) . 'px;' : '';
@@ -778,7 +835,7 @@ if ( ! $version_bb_check ) {
 			array(
 				'settings'     => $settings,
 				'setting_name' => 'label_typo',
-				'selector'     => ".fl-node-$id .uabb-registration-form label,.fl-node-$id .uabb-registration-form input::placeholder",
+				'selector'     => ".fl-node-$id .uabb-registration-form label",
 			)
 		);
 	}
@@ -848,7 +905,7 @@ if ( ! $version_bb_check ) {
 			}
 			?>
 		}
-		.fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form { 
+		.fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form {
 			<?php
 			if ( isset( $settings->form_spacing_dimension_top_medium ) ) {
 				echo ( '' !== $settings->form_spacing_dimension_top_medium ) ? 'padding-top:' . esc_attr( $settings->form_spacing_dimension_top_medium ) . 'px;' : '';
@@ -957,7 +1014,7 @@ if ( ! $version_bb_check ) {
 			}
 			?>
 		}
-		.fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form { 
+		.fl-node-<?php echo esc_attr( $id ); ?> .uabb-registration-form {
 			<?php
 			if ( isset( $settings->form_spacing_dimension_top_responsive ) ) {
 				echo ( '' !== $settings->form_spacing_dimension_top_responsive ) ? 'padding-top:' . esc_attr( $settings->form_spacing_dimension_top_responsive ) . 'px;' : '';

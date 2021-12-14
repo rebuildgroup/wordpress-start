@@ -1413,12 +1413,15 @@ class FL_Menu_Module_Walker extends Walker_Nav_Menu {
 			}
 
 			if ( $this->walk_counter == $logo_position ) {
+				$alt = $args->menu_logo_image_alt ? "alt='$args->menu_logo_image_alt' " : '';
 				$output .= "</li><li class='fl-menu-logo'><a href='$args->menu_logo_link' itemprop='url'>";
-				$output .= "<img data-no-lazy='1' class='fl-logo-img' src='$args->menu_logo_image_src' />";
+				$output .= "<img data-no-lazy='1' class='fl-logo-img' src='$args->menu_logo_image_src' $alt/>";
 				$output .= '</a></li>';
 			} else {
 				$output .= '</li>';
 			}
+		} else {
+			$output .= '</li>';
 		}
 	}
 

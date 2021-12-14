@@ -294,7 +294,7 @@ class UABBLoginForm extends FLBuilderModule {
 			$user_email = $user_data->user_email;
 
 			if ( wp_check_password( $password, $user_data->user_pass, $user_data->ID ) ) {
-				if ( 'yes' === $rememberme ) {
+				if ( '1' === $rememberme ) {
 
 					wp_set_auth_cookie( $user_ID, true );
 				} else {

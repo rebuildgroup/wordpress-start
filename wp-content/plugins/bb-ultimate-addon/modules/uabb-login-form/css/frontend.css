@@ -149,17 +149,53 @@
 }
 
 .uabb-lf-input-group .uabb-lf-icon {
-	display: inline-flex;
+	-js-display: inline-flex;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -moz-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    position: absolute;
+    cursor: pointer;
+    height: 100%;
+    right: 0px;
+    margin-right: 10px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+[dir='rtl'] .uabb-lf-input-group .uabb-lf-icon {
+	left: 0px;
+	right: unset;
+}
+
+.uabb-lf-form-wrap .uabb-field-icon {
 	position: absolute;
-	cursor: pointer;
-	-webkit-transform: translateY(20%);
-	-ms-transform: translateY(20%);
-	transform: translateY(20%);
-	margin-right: 10px;
-	bottom: 20px;
-	right: 0;
-	z-index: 2;
+	-js-display: inline-flex;
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -moz-inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	height: 100%;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	margin-left: 10px;
+	left: 0px;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
 	align-items: center;
+}
+
+[dir='rtl'] .uabb-lf-form-wrap .uabb-field-icon {
+	right: 0px;
+	left: unset;
 }
 
 .uabb-google-content-wrapper {
@@ -235,6 +271,10 @@
 	border-radius: 50%;
 	animation: 1s uabb-loader linear infinite;
 	position: relative;
+}
+
+.uabb-lf-form-wrap input.uabb-lf-form-input:focus-visible {
+	outline: none;
 }
 
 .uabb-lf-form-wrap,

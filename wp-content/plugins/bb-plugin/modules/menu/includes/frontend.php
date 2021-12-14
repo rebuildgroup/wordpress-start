@@ -54,6 +54,7 @@ if ( isset( $settings->menu_search ) && 'show' == $settings->menu_search ) {
 				'menu_logo_image_src'    => $settings->menu_logo_image_src,
 				'menu_logo_odd_position' => $settings->menu_logo_odd_position,
 				'menu_logo_link'         => esc_url( home_url( '/' ) ),
+				'menu_logo_image_alt'    => get_post_meta( $settings->menu_logo_image, '_wp_attachment_image_alt', true ),
 			), $defaults );
 		}
 

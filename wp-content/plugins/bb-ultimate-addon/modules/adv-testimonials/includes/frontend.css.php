@@ -208,7 +208,7 @@ if ( '' === ( $settings->responsive_img_size_slider ) ) {
 						$extra_padding = $settings->testimonial_icon_bg_size * 2;
 					}
 					?>
-					width: <?php echo esc_attr( $settings->testimonial_icon_image_size ) + $extra_padding; ?>px;
+					width: <?php echo esc_attr( intval( $settings->testimonial_icon_image_size ) ) + $extra_padding; ?>px;
 				}
 				.fl-node-<?php echo esc_attr( $id ); ?> .uabb-testimonials .uabb-testimonial<?php echo esc_attr( $testimonial_list_counter ); ?> .uabb-testimonial-photo {
 					<?php if ( 'center' === $settings->content_alignment ) : ?>
@@ -223,7 +223,7 @@ if ( '' === ( $settings->responsive_img_size_slider ) ) {
 				<?php } else { ?>
 					<?php
 					if ( 'custom' === $settings->testimonial_icon_style ) {
-						$extra_padding = $settings->testimonial_icon_bg_size * 2 + 5;
+						$extra_padding = intval( $settings->testimonial_icon_bg_size ) * 2 + 5;
 					} else {
 						$extra_padding = 0;
 					}
@@ -394,7 +394,7 @@ if ( isset( $settings->rating_align ) && $version_bb_check ) {
 			$extra_padding = $settings->testimonial_icon_bg_size_noslider * 2;
 		}
 		?>
-		width: <?php echo esc_attr( $settings->testimonial_icon_image_size_noslider ) + $extra_padding; ?>px;
+		width: <?php echo esc_attr( intval( $settings->testimonial_icon_image_size_noslider ) ) + $extra_padding; ?>px;
 	}
 		<?php if ( 'center' === $settings->content_alignment ) : ?>
 	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-testimonials .uabb-testimonial-photo.uabb-testimonial-<?php echo esc_attr( $settings->testimonial_image_position ); ?> {
@@ -430,7 +430,7 @@ if ( isset( $settings->rating_align ) && $version_bb_check ) {
 		left: 50%;
 	}
 	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-testimonial-info {
-		padding-top: <?php echo esc_attr( $settings->testimonial_icon_image_size_noslider ) / 2 + 20; ?>px;
+		padding-top: <?php echo esc_attr( intval( $settings->testimonial_icon_image_size_noslider ) ) / 2 + 20; ?>px;
 	}
 	.fl-node-<?php echo esc_attr( $id ); ?> .uabb-testimonial.uabb_half_top{
 		padding-top: 0;

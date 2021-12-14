@@ -135,7 +135,7 @@
 				}
 
 				if( 'carousel' === layout && selector.hasClass( 'uabb-vg__layout-carousel' )) {
-						self = this;
+						var self = this;
 					nodeClass.find('.uabb-video-gallery-wrap').find( '.uabb-video__gallery-iframe' )
 						.imagesLoaded( { background: true } )
 						.done( function( e ) {
@@ -223,7 +223,7 @@
 		},
 		_openOnLink : function() {
 			var nodeClass  		= jQuery(this.nodeClass);
-			
+
 			// Regexp for validating user input as ID : https://regex101.com/r/KGj6I6/1
 			var pattern = new RegExp('^[\\w\\-]+$');
 

@@ -156,7 +156,7 @@ if ( 'yes' === $settings->hide_form_logged && is_user_logged_in() && ! FLBuilder
 						if ( 'show' === $settings->terms_checkbox ) {
 							?>
 							<div class="uabb-input-group uabb-terms-checkbox">
-									<?php if ( isset( $settings->terms_text ) && ! empty( $settings->terms_text ) ) : ?>
+									<?php if ( 'yes' === $settings->enable_terms_text && isset( $settings->terms_text ) && ! empty( $settings->terms_text ) ) : ?>
 									<div class="uabb-terms-text"><?php echo $settings->terms_text; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 								<?php endif; ?>
 								<div class="uabb-form-outter">

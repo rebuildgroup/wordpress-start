@@ -439,7 +439,7 @@ class FLPhotoModule extends FLBuilderModule {
 		$cache_dir = FLBuilderModel::get_cache_dir();
 
 		if ( empty( $url ) ) {
-			$filename = uniqid(); // Return a file that doesn't exist.
+			$filename = FLBuilderModel::uniqid(); // Return a file that doesn't exist.
 		} else {
 
 			if ( stristr( $url, '?' ) ) {

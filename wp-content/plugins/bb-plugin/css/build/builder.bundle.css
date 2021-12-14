@@ -470,6 +470,9 @@ ul.fl-builder-node-outline {
   overflow: auto;
   overscroll-behavior: contain; }
 
+#query-monitor-main {
+  z-index: 999999 !important; }
+
 /* !Assistant Styles */
 .fl-asst-pinned-right {
   margin-right: 60px; }
