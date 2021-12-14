@@ -18,6 +18,7 @@ $sage_includes = [
   'lib/customizer.php',     // Theme customizer
   'lib/head-cleaner.php',   // Removes Junk from head
   'lib/wp-navwalker.php',   // WP Bootstrap Navwalker
+  'lib/post-navigation.php',// Post Pagination
   'lib/beaverbuilder.php'   // Beaver Builder specific add ons: color & Font Awesome 5 cdn
 ];
 

@@ -1,0 +1,13 @@
+.single {
+    .w-800 { max-width: 800px; }
+
+    .post {
+        p { font-size: 18px; }
+        .wp-block-image {
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    }
+}
