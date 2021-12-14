@@ -1,2 +1,51 @@
 header.site-header {
+
+    @media (max-width: 576px) {
+        .col-sm-4 {
+            flex: 0 0 33.33333333%;
+            max-width: 33.33333333%;
+        }
+        .col-sm-8 {
+            flex: 0 0 66.66666666%;
+            max-width: 66.66666666%;
+        }
+    }
+
+    /** Logo */
+    .logo-container {
+        display: flex;
+        align-items: center;
+    }
+
+    /** Utility Nav */
+    .navbar-utility {
+        .nav {
+            .menu-item {
+                padding-left: 15px;
+                padding-right: 15px;
+                &:last-of-type { padding-right: 0; }
+
+                a {}
+            }
+        }
+    }
+
+     /** Main Nav */
+     .navbar-main {
+        display: flex;
+        justify-content: end;
+
+        .nav {
+            .menu-item {
+                padding-left: 15px;
+                padding-right: 15px;
+                &:last-of-type { padding-right: 0; }
+
+                a { font-size: 18px; }
+            }
+        }
+    }
+
+    /** Hamburger Nav */
+    .hamburger {}
 }
