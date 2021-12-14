@@ -2,10 +2,10 @@
 <header class="site-header shadow">
   <div class="container">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <?php get_template_part('templates/header/logo'); ?>
       </div>
-      <div class="col-md-8">
+      <div class="col-sm-8">
         <?php get_template_part('templates/header/nav' , 'utility'); ?>
         <?php get_template_part('templates/header/nav' , 'primary'); ?>
         <?php get_template_part('templates/header/toggle' , 'button'); ?>
