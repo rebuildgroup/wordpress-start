@@ -1,5 +1,4 @@
-<?php get_template_part('templates/header/nav' , 'mobile'); ?>
-<header class="site-header shadow">
+<header class="site-header">
   <div class="container">
     <div class="row">
       <div class="col-sm-4 logo-container">

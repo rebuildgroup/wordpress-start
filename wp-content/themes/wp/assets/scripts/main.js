@@ -22,6 +22,25 @@
       },
       finalize: function() {
         // JavaScript to be fired on all pages, after page specific JS is fired
+        
+        /** START - OffCanvas Nav */
+        var toggleOpen = $('#openNav');
+        var toggleClose = $('#closeNav');
+
+        toggleOpen.click(function() {
+          toggleOpen.hide();
+          toggleClose.show();
+          document.getElementById("offcanvas").style.right = "0";
+          document.getElementById("mainContainer").style.left = "-280px";
+        });
+
+        toggleClose.click(function() {
+          toggleOpen.show();
+          toggleClose.hide();
+          document.getElementById("offcanvas").style.right = "-280px";
+          document.getElementById("mainContainer").style.left = "0";
+        });
+        /** END - OffCanvas Nav */
       }
     },
     // Home page

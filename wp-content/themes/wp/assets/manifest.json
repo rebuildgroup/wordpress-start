@@ -3,9 +3,7 @@
     "main.js": {
       "files": [
         "scripts/main.js",
-        "scripts/lib/hamburger.js",
         "scripts/lib/match-height.js"
-
       ],
       "main": true
     },
@@ -15,13 +13,10 @@
       ],
       "main": true
     },
-    "customizer.js": {
-      "files": [
-        "scripts/customizer.js"
-      ]
-    },
     "jquery.js": {
-      "bower": ["jquery"]
+      "bower": [
+        "jquery"
+      ]
     }
   },
   "config": {

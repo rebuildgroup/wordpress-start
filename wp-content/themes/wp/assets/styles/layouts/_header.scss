@@ -48,4 +48,36 @@ header.site-header {
 
     /** Hamburger Nav */
     .hamburger {}
+
+    .close-sidebar { 
+        display: none; 
+
+        padding: 15px;
+        cursor: pointer;
+        transition-property: opacity,filter;
+        transition-duration: .15s;
+        transition-timing-function: linear;
+        font: inherit;
+        color: inherit;
+        text-transform: none;
+        background-color: transparent;
+        border: 0;
+        margin: 0;
+        overflow: visible;
+    }
+}
+
+/** Off-Canvas Nav */
+.offcanvas {
+    width: 280px; 
+    height: 100%;
+    position: fixed; 
+    z-index: 1;
+    top: 0;
+    right: -280px;
+    overflow-x: hidden; 
+    padding-top: 60px; 
+    transition: 0.135s;
+
+    background-color: silver;
 }
